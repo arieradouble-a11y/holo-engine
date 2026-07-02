@@ -1,9 +1,51 @@
-# ComfyUI → голограмма: интеграция (скелет)
+# ComfyUI → голограмма: интеграция
 
-Конвейер: **референс-картинка → ComfyUI (TRELLIS.2 / PartPacker) → GLB на диске → `build.js` → голограмма**.
+Конвейер: **референс-картинка → ComfyUI (TRELLIS.2) → GLB на диске → `build.js` → голограмма**.
 
-MCP-сервер служит «спусковым крючком» (запустить граф, дождаться, узнать имя файла).
-Сам `.glb` Claude Code читает **прямо с диска** (всё локально) и передаёт в сборщик.
+## Быстрый старт (драйвер, без MCP)
+
+Рабочий путь — прямой драйвер `tools/image-to-3d.js` (zero-dep Node, HTTP API ComfyUI):
+
+```bash
+# 1. поднять ComfyUI (портативная сборка на Desktop):
+#    Desktop\ComfyUI_cu128_50XX\ComfyUI_cu128_50XX\run_nvidia_gpu.bat
+# 2. из папки engine:
+node tools/image-to-3d.js --image "../Картинки/объект.jpg" --name kotel
+# 3. результат: ../kotel.glb  →  дальше обычная сборка:
+node build.js --config configs/kotel.json --model "../kotel.glb"
+#    (или сразу: --config configs/kotel.json --build)
+```
+
+Драйвер сам: загружает картинку, конвертирует UI-воркфлоу в API-формат по
+`/object_info`, включает вырезание фона для JPEG (`--no-rembg` — выключить),
+подменяет отсутствующие attention-бэкенды, ставит префикс `holo_<имя>`, ждёт
+и скачивает GLB. Опции: `--workflow`, `--seed`, `--timeout`, `--out`, `--comfy`.
+
+## ВАЖНО: бэкенды внимания на RTX 50XX (Blackwell)
+
+- `flash_attn` под Windows-портативку не собран → полное внимание переводится
+  на **sdpa** (нативный torch, работает).
+- `xformers` на Blackwell **роняет CUDA намертво** (внутри зовёт Hopper-ядра
+  flash-attention: `invalid argument`) — не использовать.
+- Sparse-код TRELLIS.2 умеет sdpa из коробки (фолбэк-ветка), но в combo ноды
+  его не было — **мы добавили `"sdpa"`** в `nodes.py` строка ~348:
+  `"sparse_backend": (["xformers","flash_attn","sdpa"], …)`.
+  ⚠ Патч затрётся при обновлении ноды ComfyUI-Trellis2 — повторить одной строкой.
+- Драйвер подменяет оба бэкенда на sdpa автоматически.
+
+## VRAM (16 ГБ): что влезает
+
+- **Дефолт драйвера — `MeshOnly_HighQuality_NoCascade`** (база 1024, без
+  HR-каскада): HR-этап 1536³ на sdpa не помещается в 16 ГБ и убивает сервер.
+- Перед генерацией **освободите GPU**: локальный llama-server (`-ngl 99` ≈ 13 ГБ)
+  или другие CUDA-процессы не оставляют TRELLIS места — проверka: `nvidia-smi`.
+- Если всё равно тесно: воркфлоу `MeshOnly.json` (база 512) или FP8-веса
+  (`visualbruno/TRELLIS.2-4B-FP8` в ноде LoadModel; потребует докачки).
+
+Проверено на пайплайне (RTX 5080): препроцесс+rembg ✓, sparse structure 50/50 ✓,
+shape SLat на sdpa ✓ (до 92% при занятой VRAM — нужен свободный GPU для полного
+прохода). xformers 0.0.32.post2 установлен в python_embeded (не используется
+для sparse, оставлен на будущее).
 
 ---
 
