@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "holo",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["engine/serve.js"],
+      "port": 8777,
+      "autoPort": true
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "__NOTE__": "ЭТО ШАБЛОН-ЗАГЛУШКА, НЕ РАБОЧИЙ ГРАФ. class_type ниже — выдуманные.",
+  "__HOWTO__": "В ComfyUI соберите свой граф (TRELLIS.2 или PartPacker), затем меню -> Save (API Format). Полученный JSON положите в папку workflows/ сервера comfyui-mcp-server. В нём: (1) значение входного изображения замените на строку PARAM_IMAGE; (2) убедитесь, что нода сохранения пишет .glb в output/ с предсказуемым именем (напр. holo_%date%). Имя файла-графа станет именем инструмента (trellis2.json -> инструмент trellis2).",
+
+  "10": {
+    "class_type": "REPLACE_WITH_LoadImage",
+    "inputs": { "image": "PARAM_IMAGE" }
+  },
+  "20": {
+    "class_type": "REPLACE_WITH_Trellis2_OR_PartPacker",
+    "inputs": {
+      "image": ["10", 0],
+      "seed": 0,
+      "steps": 25,
+      "cpu_offload": true,
+      "__comment__": "для PartPacker включите сохранение частей по путям (path saving), а не склейку в единое тело"
+    }
+  },
+  "30": {
+    "class_type": "REPLACE_WITH_SaveGLB",
+    "inputs": {
+      "mesh": ["20", 0],
+      "filename_prefix": "holo/out"
+    }
+  }
+}

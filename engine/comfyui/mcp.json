@@ -1,0 +1,9 @@
+{
+  "_comment": "Скопируйте блок mcpServers в корневой .mcp.json проекта (или выполните команду из README) КОГДА comfyui-mcp-server уже запущен. Пока сервер не поднят, Claude Code будет показывать ошибку подключения — это нормально.",
+  "mcpServers": {
+    "comfyui": {
+      "type": "http",
+      "url": "http://127.0.0.1:9000/mcp"
+    }
+  }
+}

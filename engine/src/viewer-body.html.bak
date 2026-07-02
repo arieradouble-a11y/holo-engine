@@ -1,0 +1,1403 @@
+<div style="position:absolute;inset:0;overflow:hidden;background:radial-gradient(120% 90% at 50% 80%, rgba(20,96,128,0.28), rgba(2,6,13,0) 55%), radial-gradient(100% 100% at 50% 44%, #061320 0%, #02060d 72%);font-family:'IBM Plex Sans',sans-serif;">
+  <canvas ref="{{ onCanvas }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+  <div ref="{{ onLabels }}" style="position:absolute;inset:0;pointer-events:none;z-index:7;"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;z-index:6;opacity:.35;background:repeating-linear-gradient(to bottom, rgba(150,230,255,0.05) 0px, rgba(150,230,255,0.05) 1px, transparent 1px, transparent 3px);"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;z-index:6;box-shadow:inset 0 0 240px 50px rgba(0,0,0,0.7);"></div>
+
+  <div style="position:absolute;top:26px;left:30px;z-index:8;max-width:48vw;">
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#38e8ff;box-shadow:0 0 12px #38e8ff;animation:hpulse 2.4s ease-in-out infinite;"></span>
+      <span style="font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;">{{ badge }}</span>
+    </div>
+    <div style="font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#5d93a8;margin-bottom:4px;">{{ category }}</div>
+    <div style="font:700 30px/1.05 'IBM Plex Sans',sans-serif;color:#f1fbff;letter-spacing:-0.01em;text-shadow:0 0 22px rgba(56,232,255,0.25);">{{ title }}</div>
+    <div style="margin-top:7px;font:400 14px 'IBM Plex Sans';color:#8fb6c8;max-width:440px;text-wrap:pretty;">{{ subtitle }}</div>
+    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
+      <sc-for list="{{ controls }}" as="c" hint-placeholder-count="2">
+        <button onclick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
+      <span style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#5d93a8;">ПЛОТНОСТЬ КАРКАСА</span>
+      <div style="display:flex;gap:4px;background:rgba(6,18,30,0.5);border:1px solid rgba(56,232,255,0.18);border-radius:9px;padding:3px;">
+        <sc-for list="{{ densBtns }}" as="d" hint-placeholder-count="3">
+          <button onclick="{{ d.onClick }}" style="{{ d.style }}">{{ d.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <aside style="position:absolute;top:26px;right:24px;z-index:8;width:312px;max-width:42vw;max-height:calc(100vh - 52px);overflow-y:auto;background:rgba(6,18,30,0.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(56,232,255,0.22);border-radius:16px;padding:16px;box-shadow:0 0 40px rgba(0,0,0,0.4), inset 0 0 30px rgba(56,232,255,0.04);">
+    <div style="{{ partsHeadStyle }}">СИСТЕМЫ И УЗЛЫ</div>
+    <div style="{{ partsListStyle }}">
+      <sc-for list="{{ parts }}" as="p" hint-placeholder-count="5">
+        <button onclick="{{ p.onClick }}" onmouseenter="{{ p.onEnter }}" onmouseleave="{{ p.onLeave }}" style="{{ p.style }}">
+          <span style="{{ p.numStyle }}">{{ p.num }}</span>
+          <span>{{ p.name }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="{{ legendHeadStyle }}">ОСНОВНЫЕ УЗЛЫ</div>
+    <div style="{{ legendListStyle }}">
+      <sc-for list="{{ markersList }}" as="m" hint-placeholder-count="6">
+        <button onclick="{{ m.onClick }}" onmouseenter="{{ m.onEnter }}" onmouseleave="{{ m.onLeave }}" style="{{ m.style }}">
+          <span style="{{ m.numStyle }}">{{ m.num }}</span>
+          <span>{{ m.name }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="{{ infoWrapStyle }}">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#5fa9c0;margin-bottom:7px;">{{ infoTag }}</div>
+      <div style="font:600 16px 'IBM Plex Sans';color:#eafaff;margin-bottom:7px;">{{ infoTitle }}</div>
+      <div style="font:400 13.5px/1.5 'IBM Plex Sans';color:#a6cddd;text-wrap:pretty;">{{ infoDesc }}</div>
+    </div>
+    <div style="{{ specWrapStyle }}">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#5fa9c0;margin-bottom:8px;">{{ specTitle }}</div>
+      <sc-for list="{{ specRows }}" as="r" hint-placeholder-count="8">
+        <div style="display:flex;justify-content:space-between;gap:12px;padding:3.5px 0;border-bottom:1px solid rgba(56,232,255,0.08);">
+          <span style="font:400 12px 'IBM Plex Sans';color:#7fa8bb;">{{ r.k }}</span>
+          <span style="font:600 12px 'IBM Plex Sans';color:#dff1f8;text-align:right;">{{ r.v }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </aside>
+
+  <div style="position:absolute;bottom:24px;left:30px;z-index:8;display:flex;align-items:center;gap:14px;">
+    <div style="font:600 13px 'IBM Plex Mono',monospace;color:#dff6ff;">{{ counter }}</div>
+    <div style="width:1px;height:26px;background:rgba(56,232,255,0.2);"></div>
+    <div style="font:400 11.5px 'IBM Plex Mono',monospace;color:#5d8497;">{{ hint }}</div>
+  </div>
+
+  <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#02060d;">
+      <div style="width:42px;height:42px;border-radius:50%;border:2px solid rgba(56,232,255,0.2);border-top-color:#38e8ff;animation:spin .9s linear infinite;"></div>
+      <div style="font:500 13px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7fd6ec;">{{ loadingText }}</div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+// ============================================================================
+//  HOLO ENGINE — config-driven holographic wireframe viewer
+//  Generalized from the "Суперкар" reference. Renders any GLB as a cyan
+//  hologram with edge extraction, scan band, bloom and assemble animation.
+//  Two modes (auto-detected):
+//    structured  — multi-material model split into named systems (explode + pick)
+//    whole       — single fused mesh (TRELLIS / scan): one solid hologram
+//  The build pipeline injects CONFIG below.
+// ============================================================================
+class Component extends DCLogic {
+  CONFIG = "__ENGINE_CONFIG__";
+
+  state = { loading:true, loadingText:'ЗАГРУЗКА МОДЕЛИ…', selected:-1, exploded:false, density:'med', selMarker:-1, hovMarker:-1, calib:false, plan:false, planFloor:0, cut:false, flow:true };
+
+  // accent palette (a = primary lines, b = inner/highlight pass)
+  ACCENTS = {
+    cyan:   { a:[0.18,0.85,1.0], b:[1.0,0.60,0.23] },
+    amber:  { a:[1.0,0.69,0.30], b:[0.30,0.85,1.0] },
+    green:  { a:[0.27,0.91,0.63], b:[1.0,0.78,0.30] },
+    violet: { a:[0.69,0.55,1.0],  b:[1.0,0.70,0.40] },
+  };
+  // structured models are clean -> fine angles reveal panel/part detail.
+  densMap = { low:{angle:18,label:'НИЗ'}, med:{angle:8,label:'СРЕД'}, high:{angle:3,label:'ВЫС'} };
+  // single-mesh scans (TRELLIS/photogrammetry) are noisy -> much coarser angles
+  // keep only true structural creases, so the wireframe reads clean, not "crumpled".
+  wholeDensMap = { low:{angle:48,label:'НИЗ'}, med:{angle:32,label:'СРЕД'}, high:{angle:20,label:'ВЫС'} };
+  boldAngle = 34; // coarse threshold -> only the strong structural contours
+  angleFor(d){ return (this.wholeMode?this.wholeDensMap:this.densMap)[d].angle; }
+
+  get PARTDEF(){ return this.CONFIG.parts || []; }
+  get wholeMode(){ return !!this._wholeMode; }
+
+  onCanvas=(el)=>{ if(el) this.canvas=el; };
+  onLabels=(el)=>{ this.labelBox=el; };
+
+  componentDidMount(){
+    this.state.density = this.CONFIG.density || 'med';
+    this.az=0.6; this.azTarget=0.6; this.el=0.42; this.elTarget=0.42;
+    this.dist=9; this.distTarget=9; this.fovTarget=42;
+    this.tgt={x:0,y:1,z:0}; this.tgtGoal={x:0,y:1,z:0};
+    this.explode=0; this.explodeTarget=0; this.progress=0;
+    this.selectedPart=-1; this.hovered=-1; this.frame=0;
+    this.selMarker=-1; this.hovMarker=-1;
+    this.lastInteract=performance.now();
+    this.init();
+  }
+  componentWillUnmount(){ this.stopped=true; window.removeEventListener('resize',this.onResize); }
+
+  // -- drop helper geometry the source file carried (backdrops, stray nodes) --
+  isExcl(name, mat){
+    const n=(name||'').toLowerCase(), m=(mat||'').toLowerCase();
+    const ex=this.CONFIG.exclude||[];
+    for(const r of ex){
+      if(r.name && n.indexOf(r.name.toLowerCase())>=0) return true;
+      if(r.mat  && m.indexOf(r.mat.toLowerCase())>=0)  return true;
+    }
+    return false;
+  }
+  // classify a mesh into a system by its material name, via CONFIG.matRules
+  matToPart(mat){
+    if(this.PARTDEF.length<2) return 0;
+    const m=(mat||'').toLowerCase();
+    const rules=this.CONFIG.matRules||[];
+    for(const r of rules){
+      for(const sub of (r.match||[])){
+        if(sub && (sub[0]==='^'? new RegExp(sub).test(m) : m.indexOf(sub.toLowerCase())>=0)) return r.part;
+      }
+    }
+    return this.CONFIG.defaultPart||0;
+  }
+
+  async init(){
+    try{
+      const THREE=window.THREE; if(!THREE){ throw new Error('three.js global not found'); }
+      const GLTFLoader=THREE.GLTFLoader, DRACOLoader=THREE.DRACOLoader, EffectComposer=THREE.EffectComposer, RenderPass=THREE.RenderPass, UnrealBloomPass=THREE.UnrealBloomPass;
+      this.THREE=THREE;
+      const canvas=this.canvas; if(!canvas) return;
+      canvas.style.touchAction='none'; canvas.style.cursor='grab';
+
+      const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance',preserveDrawingBuffer:true});
+      renderer.setClearColor(0x000000,0); if('outputColorSpace' in renderer && THREE.SRGBColorSpace){ renderer.outputColorSpace=THREE.SRGBColorSpace; } else { renderer.outputEncoding=THREE.sRGBEncoding; } this.renderer=renderer;
+      const scene=new THREE.Scene(); this.scene=scene; scene.background=this.bgTexture(THREE);
+      const camera=new THREE.PerspectiveCamera(42,1,0.1,500); this.camera=camera;
+      this.pivot=new THREE.Group(); scene.add(this.pivot);
+
+      const acc=this.ACCENTS[this.CONFIG.accent]||this.ACCENTS.cyan;
+      this.uniforms={
+        uTime:{value:0}, uScan:{value:0}, uGround:{value:-0.05},
+        uExplode:{value:0}, uProgress:{value:0}, uSelected:{value:-1}, uInner:{value:-1},
+        uHotInt:{value: this.CONFIG.hotIntensity!=null?this.CONFIG.hotIntensity:1.0 }, // red/hot systems brightness
+        uShellOp:{value: this.CONFIG.shellOpacity!=null?this.CONFIG.shellOpacity:1.0 }, // body-shell opacity multiplier
+        uPlan:{value:0}, uPlanY:{value:0}, uPlanH:{value:1}, // floor-plan isolation (band around uPlanY)
+        uCut:{value:0}, uCutZ:{value:0}, // facade cutaway (discard model-z beyond uCutZ)
+        uBold:{value:1}, uFill:{value:1},   // contour brightness / interior-fill dimming
+        uBTint:{value:new THREE.Color(0.05,0.45,1.0)}, uBAmt:{value:0.5}, // contour tint (mode-aware)
+        uColor:{value:new THREE.Color().setRGB(acc.a[0],acc.a[1],acc.a[2])},
+        uColor2:{value:new THREE.Color().setRGB(acc.b[0],acc.b[1],acc.b[2])}
+      };
+      this.mat=new THREE.ShaderMaterial({uniforms:this.uniforms,vertexShader:this.vShader,fragmentShader:this.fShader(false),transparent:true,depthTest:true,depthWrite:false,blending:THREE.AdditiveBlending});
+      this.matRefl=new THREE.ShaderMaterial({uniforms:this.uniforms,vertexShader:this.vShader,fragmentShader:this.fShader(true),transparent:true,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending});
+      this.matShell=new THREE.ShaderMaterial({uniforms:this.uniforms,vertexShader:this.vShellShader,fragmentShader:this.fShellShader,transparent:true,depthTest:true,depthWrite:true,blending:THREE.NormalBlending,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
+      this.matBold=new THREE.ShaderMaterial({uniforms:this.uniforms,vertexShader:this.vShader,fragmentShader:this.fShaderBold,transparent:true,depthTest:true,depthWrite:false,blending:THREE.AdditiveBlending});
+      this.matInner=new THREE.ShaderMaterial({uniforms:this.uniforms,vertexShader:this.vShader,fragmentShader:this.fShaderInner,transparent:true,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending});
+
+      // draco: harmless if the model isn't draco-compressed
+      this.meshData=[];
+      if(this.CONFIG.source==='procedural'){
+        // no GLB — generate the geometry from parameters (buildings/stations)
+        this.buildProceduralModel(THREE);
+      } else {
+        const draco=new DRACOLoader();
+        const R=window.__resources||{};
+        if(R.dracoWrapper && R.dracoWasm){
+          draco.setDecoderConfig({type:'wasm'});
+          draco._loadLibrary=(url,responseType)=>fetch(url.indexOf('.wasm')>=0?R.dracoWasm:R.dracoWrapper).then(r=>responseType==='arraybuffer'?r.arrayBuffer():r.text());
+        } else {
+          draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/libs/draco/');
+        }
+        const loader=new GLTFLoader(); loader.setDRACOLoader(draco);
+        // load one GLB into meshData. forceMat!=null tags every mesh with a synthetic
+        // material name — used by part-aware imports (PartCrafter/PartPacker), where each
+        // file is one part, so CONFIG.matRules can segment them like authored materials.
+        const loadGLB=async(url, forceMat)=>{
+          const gltf=await loader.loadAsync(url);
+          // some exports carry no default scene -> assemble from node dependencies
+          let rootObj;
+          if(gltf.scene && gltf.scene.children && gltf.scene.children.length){
+            rootObj=gltf.scene;
+          } else {
+            const nodes=await gltf.parser.getDependencies('node');
+            const grp=new THREE.Group(); nodes.forEach(o=>{ if(o && !o.parent) grp.add(o); }); rootObj=grp;
+          }
+          rootObj.updateWorldMatrix(true,true);
+          rootObj.traverse(ch=>{ if(ch.isMesh&&ch.geometry){
+            const mn=forceMat!=null?forceMat:((ch.material&&ch.material.name)||'');
+            if(forceMat==null && this.isExcl(ch.name, mn)) return;
+            this.meshData.push({ name:ch.name||'', mat:mn, geometry:ch.geometry, matrixWorld:ch.matrixWorld.clone() });
+          }});
+        };
+        if(this.CONFIG.partAssets && this.CONFIG.partAssets.length){
+          // part-aware import: one GLB per part, each tagged with its part key
+          for(const key of this.CONFIG.partAssets){ const url=R[key]; if(url) await loadGLB(url, key); }
+        } else {
+          await loadGLB(R[this.CONFIG.modelKey]||this.CONFIG.modelUrl, null);
+        }
+      }
+      if(!this.meshData.length) throw new Error('нет геометрии модели');
+
+      // hybrid auto-mode: decide structured vs whole by how many systems actually populate
+      this.resolveMode();
+      this.applyLook();             // contour/fill intensity once mode is known
+      this.prepGeometries(THREE);   // weld + denoise scan meshes before edge extraction
+
+      this.computeNorm(THREE);
+      this.buildEdges(THREE, this.angleFor(this.state.density));
+      this.buildShell(THREE);
+      this.raycaster=new THREE.Raycaster(); this.raycaster.params.Line={threshold:0.05};
+      this.mouseNDC=new THREE.Vector2(-2,-2); this.pointerScreen={x:0,y:0};
+
+      const composer=new EffectComposer(renderer); this.composer=composer;
+      composer.addPass(new RenderPass(scene,camera));
+      const bl=this.CONFIG.bloom||{};
+      const bloom=new UnrealBloomPass(new THREE.Vector2(1,1), bl.strength!=null?bl.strength:0.34, bl.radius!=null?bl.radius:0.6, bl.threshold!=null?bl.threshold:0.18); this.bloom=bloom;
+      composer.addPass(bloom);
+      this.addGradePass(THREE, composer);   // ACES tone-map + subtle colour grade (final pass)
+      this.buildOutline(THREE);
+
+      this.onResize(); window.addEventListener('resize',this.onResize);
+      this.attachPointer();
+      this.setState({loading:false});
+      this.animate();
+    }catch(e){ console.error('init failed:', e&&(e.stack||e.message), e); this.setState({loadingText:'ОШИБКА: '+(e&&(e.message||e.stack)||e)}); }
+  }
+
+  // ---- procedural buildings (no GLB) ---------------------------------------
+  // Generate a multi-storey apartment block (МКД) from parameters into meshData.
+  // Every element is a thin box so the shared EdgesGeometry pipeline yields clean
+  // architectural lines; material names map to systems via CONFIG.matRules, and
+  // the engineering risers are flagged "hot" so they glow in the inner colour.
+  buildProceduralModel(THREE){
+    const b=this.CONFIG.building||{};
+    const floors=b.floors||9, fh=b.floorHeight||2.75, sections=b.sections||3,
+          sw=b.sectionWidth||21.0, D=b.depth||12.0, winCols=b.windowsPerSection||7;
+    const W=sections*sw, H=floors*fh;
+    const md=this.meshData;
+    this.planRooms=[]; this.planFloors=floors; this.planFloorH=fh;
+    const box=(sx,sy,sz,cx,cy,cz,mat)=>{ const g=new THREE.BoxGeometry(sx,sy,sz); md.push({name:mat,mat,geometry:g,matrixWorld:new THREE.Matrix4().makeTranslation(cx,cy,cz)}); };
+    // cylinder helper (axis 'y'|'x'|'z') — for tanks, boilers, chimney, manifolds
+    const cyl=(r,h,cx,cy,cz,mat,axis)=>{ const g=new THREE.CylinderGeometry(r,r,h,14,1); const m=new THREE.Matrix4().makeTranslation(cx,cy,cz);
+      if(axis==='x') m.multiply(new THREE.Matrix4().makeRotationZ(Math.PI/2)); else if(axis==='z') m.multiply(new THREE.Matrix4().makeRotationX(Math.PI/2));
+      md.push({name:mat,mat,geometry:g,matrixWorld:m}); };
+    // truncated cone (radiusTop != radiusBottom) — for cooling-tower silhouette
+    const frustum=(rT,rB,h,cx,cy,cz,mat)=>{ const g=new THREE.CylinderGeometry(rT,rB,h,16,1); md.push({name:mat,mat,geometry:g,matrixWorld:new THREE.Matrix4().makeTranslation(cx,cy,cz)}); };
+
+    // Declarative geometry: the object is described as DATA in the config
+    // (list of primitives / repeat-groups) — new facilities need no engine code.
+    if(Array.isArray(this.CONFIG.geometry) && this.CONFIG.geometry.length){ this.genDeclarative(box,cyl,frustum,this.CONFIG.geometry,0,0,0); return; }
+    if(b.type==='power'){ this.genPowerPlant(box,cyl,frustum,b); return; }
+    if(b.type==='boiler'){ this.genBoilerHouse(box,cyl,b); return; }
+    if(b.type==='ctp'){ this.genCTP(box,cyl,b); return; }
+
+    box(W*1.03, 0.5, D*1.04, 0, -0.25, 0, 'base');                                 // цоколь / плита
+    box(W, H, D, 0, H/2, 0, 'shell');                                              // несущая оболочка
+    for(let f=1; f<floors; f++) box(W*1.002, 0.10, D*1.002, 0, f*fh, 0, 'slab');   // междуэтажные перекрытия
+    for(let s=1; s<sections; s++) box(0.14, H, D, -W/2 + s*sw, H/2, 0, 'wall');    // межсекционные стены
+    box(W, 0.5, D, 0, H+0.25, 0, 'roof'); box(W*1.02, 0.7, D*1.02, 0, H+0.35, 0, 'roof'); // кровля + парапет
+
+    const winW=Math.min(1.4, sw/(winCols+1.2)), winH=fh*0.5, step=sw/(winCols+0.4);
+    for(let s=0; s<sections; s++){
+      const scx=-W/2 + (s+0.5)*sw;
+      box(3.0, H, 4.4, scx, H/2, -D*0.20, 'core');         // лестнично-лифтовой узел (лифт + лестница)
+      const loggiaCol=winCols-1;                            // правый ряд секции — стояк лоджий (характерно для 121)
+      for(let f=0; f<floors; f++){
+        const cy=f*fh + fh*0.55;
+        for(let c=0; c<winCols; c++){
+          const cx=scx + (c-(winCols-1)/2)*step;
+          if(f===0 && c===((winCols-1)/2|0)){
+            box(1.4, 2.3, 0.18, cx, 1.15, D/2, 'entrance');     // дверь подъезда
+            box(2.1, 0.14, 1.1, cx, 2.4, D/2+0.5, 'entrance');  // козырёк
+            continue;
+          }
+          if(c===loggiaCol){
+            if(f>=1){ box(step*0.92, winH*1.5, 0.10, cx, f*fh+fh*0.5, D/2, 'balcony');   // проём лоджии
+                      box(step*0.92, 0.10, 1.2,  cx, f*fh+0.08, D/2-0.4, 'balcony'); }   // утопленная плита лоджии
+            else box(winW, winH, 0.14, cx, cy, D/2, 'window');
+            box(winW, winH, 0.14, cx, cy, -D/2, 'window');
+            continue;
+          }
+          box(winW, winH, 0.14, cx, cy, D/2,  'window');  // лицевой фасад
+          box(winW, winH, 0.14, cx, cy, -D/2, 'window');  // тыльный фасад
+        }
+      }
+    }
+
+    // ---- внутренние планировки квартир (схема состава 1Б-2Б-3Б-3Б на секцию) ----
+    const pHalf=1.6, svc=2.4, labelSec=Math.floor(sections/2), labelFloor=Math.min(floors-1,4);
+    const wallX=(ax0,ax1,z,y)=>box(Math.abs(ax1-ax0),fh*0.94,0.10,(ax0+ax1)/2,y+fh*0.5,z,'partition');
+    const wallZ=(az0,az1,x,y)=>box(0.10,fh*0.94,Math.abs(az1-az0),x,y+fh*0.5,(az0+az1)/2,'partition');
+    const apt=(x0,x1,zc,zf,name,nLiv,y,lbl)=>{
+      const sgn=Math.sign(zf-zc), sb=zc+sgn*svc;
+      wallX(x0,x1,sb,y);                                              // служебная зона | жилые комнаты
+      for(let k=1;k<nLiv;k++) wallZ(sb,zf,x0+k*(x1-x0)/nLiv,y);       // деление жилой зоны на комнаты
+      const sm1=x0+(x1-x0)*0.42, sm2=x0+(x1-x0)*0.72;
+      wallZ(zc,sb,sm1,y); wallZ(zc,sb,sm2,y);                         // кухня | с/у | прихожая
+      if(lbl){ const lw=(x1-x0)/nLiv;
+        for(let k=0;k<nLiv;k++) this.planRooms.push({x:x0+(k+0.5)*lw,z:(sb+zf)/2,name:'Комната'});
+        this.planRooms.push({x:(x0+sm1)/2,z:(zc+sb)/2,name:'Кухня'});
+        this.planRooms.push({x:(sm1+sm2)/2,z:(zc+sb)/2,name:'С/у'});
+        this.planRooms.push({x:(sm2+x1)/2,z:(zc+sb)/2,name:'Прихож.'});
+        this.planRooms.push({x:(x0+x1)/2,z:(zc+zf)/2,name:name,apt:true});
+      }
+    };
+    for(let s=0;s<sections;s++){
+      const scx=-W/2+(s+0.5)*sw, lbl=(s===labelSec);
+      for(let f=0;f<floors;f++){
+        const y=f*fh, L=lbl&&(f===labelFloor);
+        wallX(scx-sw/2,scx-pHalf,0,y); wallX(scx+pHalf,scx+sw/2,0,y);                 // коридор: фронт|тыл
+        wallZ(-D/2,1.2,scx-pHalf,y); wallZ(-D/2,1.2,scx+pHalf,y); wallX(scx-pHalf,scx+pHalf,1.2,y); // стены ядра
+        apt(scx-sw/2,scx-pHalf, 0, D/2,  '3Б',3,y,L);   // фронт-лево
+        apt(scx+pHalf,scx+sw/2, 0, D/2,  '3Б',3,y,L);   // фронт-право
+        apt(scx-sw/2,scx-pHalf, 0,-D/2,  '2Б',2,y,L);   // тыл-лево
+        apt(scx+pHalf,scx+sw/2, 0,-D/2,  '1Б',1,y,L);   // тыл-право
+      }
+    }
+
+    // инженерные стояки (горячие): ХВС/ГВС, отопление, канализация, электрика, мусоропровод
+    const risers=b.risers||['water','heat','sewer','electric','trash'];
+    risers.forEach((sys,i)=>{ const x=-W/2 + (i+1)*W/(risers.length+1); box(0.22, H, 0.22, x, H/2, -D*0.16, sys);
+      if(sys==='trash'||sys==='sewer') box(0.32, 1.2, 0.32, x, H+0.6, -D*0.16, sys); }); // вытяжка над кровлей
+  }
+
+  // Водогрейная котельная (БМК) — компоновка по реальному тепломеханическому залу:
+  // котлы КВ-ГМ-типа (рама, корпус, верхний коллектор, газовый короб, горелка РГМГ
+  // с улиткой дутьевого вентилятора и газовой рампой), индивидуальные газоходы и
+  // дымовые трубы-«сэндвич» сквозь кровлю, распределительные гребёнки (подающий/
+  // обратный коллекторы со стойками и отводами), ряд сетевых насосов «улитка+мотор»,
+  // пластинчатые теплообменники ГВС, водоподготовка (Na-фильтры, солевой бак,
+  // деаэратор с баком-аккумулятором, расширительный бак), щиты КИПиА и ГРУ, а также
+  // магистральные трубопроводы под кровлей. Котлы у тыльной стены, вспомогательное
+  // оборудование — у фронта; ХВО слева, автоматика/газ справа.
+  genBoilerHouse(box, cyl, b){
+    const W=b.width||26, H=b.height||9, D=b.depth||13, nB=b.boilers||3, chH=b.chimneyHeight||20;
+    const bz=-D*0.20;          // ось ряда котлов (тыльная треть зала), горелки смотрят в зал (+Z)
+    const fz=D*0.40;           // фронтальная зона: насосы у входной стены
+    const mz=D*0.02;           // ось распределительных гребёнок (центр зала)
+
+    // ---- ограждающие конструкции -------------------------------------------
+    box(W*1.03,0.5,D*1.04, 0,-0.25,0,'base');           // фундаментная плита
+    box(W,H,D, 0,H/2,0,'shell');                        // тепляк (блок-модуль)
+    box(W,0.5,D, 0,H+0.25,0,'roof');                    // кровля
+    box(W*1.02,0.55,D*1.02, 0,H+0.45,0,'roof');         // парапет
+    box(2.2,2.5,0.16, W*0.30,1.25,D/2,'base');          // распашные ворота (фронт)
+
+    // ---- котлы КВ-ГМ-типа ---------------------------------------------------
+    const bxs=[];
+    for(let i=0;i<nB;i++){ const x=-W/2+(i+1)*W/(nB+1); bxs.push(x);
+      box(3.8,0.5,5.2, x,0.25,bz,'base');               // опорная рама котла
+      box(3.4,2.8,4.6, x,1.9,bz,'boiler');              // корпус (топка + конвективная часть)
+      cyl(0.5,4.4, x,3.5,bz,'boiler','z');              // верхний коллектор (барабан)
+      const ff=bz+2.5;                                  // плоскость фронта котла
+      box(1.8,1.8,0.5, x,1.7,ff,'boiler');              // воздушный короб
+      cyl(0.45,1.1, x,1.7,ff+0.7,'boiler','z');         // ствол горелки РГМГ
+      cyl(0.6,0.95, x+1.15,1.7,ff+0.15,'boiler','x');   // улитка дутьевого вентилятора
+      box(0.95,1.1,0.9, x+1.55,1.5,ff+0.15,'boiler');   // эл.двигатель вентилятора
+      cyl(0.13,1.5, x-1.25,1.0,ff+0.4,'boiler','y');    // стойка газовой рампы
+      cyl(0.13,1.6, x-1.25,1.7,ff+0.7,'boiler','z');    // газовая рампа к горелке
+      box(0.42,0.42,0.42, x-0.6,1.7,ff+0.85,'boiler');  // газовый клапан
+      const cz=bz-1.85;                                 // ось газохода/трубы (за котлом)
+      cyl(0.38,(H-3.4), x,(3.4+H)/2,cz,'flue','y');     // газоход вверх к трубе
+      cyl(0.42,(chH-H), x,(H+chH)/2,cz,'chimney','y');  // дымовая труба-«сэндвич» над кровлей
+      cyl(0.52,0.4, x,chH-0.15,cz,'chimney','y');       // оголовок (зонт) трубы
+    }
+    // газовый ввод (общий коллектор низкого давления) вдоль фронта котлов
+    cyl(0.18, (bxs[nB-1]-bxs[0])+2.4, (bxs[0]+bxs[nB-1])/2, 2.7, bz+3.1, 'boiler','x');
+
+    // ---- распределительные гребёнки (подающий / обратный коллекторы) --------
+    const colLen=W*0.60;
+    cyl(0.5, colLen, 0, 2.7, mz,      'pipes','x');      // подающий коллектор
+    cyl(0.5, colLen, 0, 1.8, mz+0.95, 'pipes','x');      // обратный коллектор
+    [-1,0,1].forEach(s=>box(0.3,2.7,0.3, s*colLen*0.34,1.35,mz+0.45,'pipes')); // опорные стойки
+    const pxs=[-3.6,-1.2,1.2,3.6];
+    pxs.forEach(px=>cyl(0.2,1.5, px,1.55,mz,'pipes','y'));  // отводы с фланцами вниз к насосам
+
+    // ---- сетевые / подпиточные насосы (ряд «улитка + мотор») ----------------
+    box(W*0.46,0.4,1.6, 0,0.2,fz,'base');               // общий фундамент насосной группы
+    pxs.forEach(px=>{ box(0.95,0.85,0.8, px,0.75,fz,'pump');  // корпус-улитка насоса
+      cyl(0.32,1.3, px,1.15,fz+0.25,'pump','z');        // эл.двигатель
+      cyl(0.16,1.1, px,1.7,fz-0.45,'pump','y'); });     // напорный патрубок к гребёнке
+
+    // ---- пластинчатые теплообменники ГВС (пакет пластин в раме) -------------
+    [5.3,6.6].forEach(x=>{ box(0.65,2.2,1.4, x,1.35,fz-0.6,'pipes');   // пакет пластин
+      box(0.12,2.45,1.65, x-0.42,1.45,fz-0.6,'pipes');  // неподвижная плита
+      box(0.12,2.45,1.65, x+0.42,1.45,fz-0.6,'pipes');  // прижимная плита
+      cyl(0.05,1.05, x,2.45,fz-0.6,'pipes','x'); });    // стяжная шпилька
+
+    // ---- водоподготовка (ХВО) у левого торца --------------------------------
+    cyl(0.55,2.8, -12.0,1.6,2.0,'water','y');           // Na-катионитовый фильтр 1
+    cyl(0.55,2.8, -10.4,1.6,2.0,'water','y');           // Na-катионитовый фильтр 2
+    cyl(0.4,0.5,  -12.0,3.25,2.0,'water','y'); cyl(0.4,0.5, -10.4,3.25,2.0,'water','y'); // крышки фильтров
+    box(1.4,1.4,1.4, -11.2,0.7,4.4,'water');            // солевой бак
+    cyl(0.7,2.6, -9.0,1.5,4.7,'water','y');             // расширительный (мембранный) бак
+    cyl(1.0,4.0, -10.5,4.4,-3.4,'water','x');           // деаэратор: бак-аккумулятор (на отметке)
+    cyl(0.45,1.8, -10.5,6.1,-3.4,'water','y');          // деаэрационная колонка
+    box(0.3,4.2,0.3, -12.2,2.1,-3.4,'water'); box(0.3,4.2,0.3, -8.8,2.1,-3.4,'water'); // опоры деаэратора
+
+    // ---- автоматика (КИПиА) + узел учёта газа (ГРУ) у правого торца ----------
+    [-1.2,0,1.2].forEach(z=>box(0.5,2.0,0.95, 12.4,1.3,z,'panel')); // шкафы КИПиА
+    box(1.7,1.9,1.1, 10.9,0.95,3.6,'panel');            // ГРУ (учёт/редуцирование газа)
+
+    // ---- магистральные трубопроводы под кровлей -----------------------------
+    cyl(0.22, W*0.8, 0, H-0.9, mz+0.5,'pipes','x');     // главная магистраль под потолком
+    cyl(0.22, 4.6, -W*0.30, H-0.9, fz*0.4,'pipes','z'); // спуск к насосам/ХВО
+    cyl(0.22, 3.6,  W*0.30, H-0.9, fz*0.4,'pipes','z'); // спуск к теплообменникам
+  }
+
+  // Теплоэлектроцентраль (ТЭЦ): главный корпус (котлы + турбоагрегаты),
+  // дымовая труба, башенные градирни, трансформаторы и ОРУ. Красным светится
+  // паротепловой контур (котлы → турбины → труба), голубым — электрика/охлаждение.
+  genPowerPlant(box, cyl, frustum, b){
+    const hx=b.hallX!=null?b.hallX:-8, hW=b.hallW||30, hH=b.hallHeight||12, hD=b.hallDepth||15;
+    const chH=b.chimneyHeight||40, nB=b.boilers||2;
+    // главный корпус (машинный зал + котельное отделение)
+    box(hW+1,0.5,hD+1, hx,-0.25,0,'base');
+    box(hW,hH,hD, hx,hH/2,0,'shell');
+    box(hW,0.5,hD, hx,hH+0.25,0,'roof');
+    // котлоагрегаты + барабан + горелка (тыл зала)
+    const bX=[]; for(let i=0;i<nB;i++){ const x=hx-hW*0.28 + i*hW*0.40; bX.push(x);
+      box(4.6,8,4.6, x,4,-hD*0.28,'boiler'); cyl(1.0,4.2, x,8.6,-hD*0.28,'boiler','x'); box(1.2,1.2,1.0, x,3.4,-hD*0.28+2.6,'boiler'); }
+    // турбоагрегаты: паровая турбина + генератор + конденсатор (фронт зала)
+    bX.forEach(x=>{ cyl(1.4,5.0, x-1.2,2.3,hD*0.22,'turbine','x'); cyl(1.1,3.2, x+2.4,2.3,hD*0.22,'generator','x'); box(2.6,1.6,4.2, x-1.2,0.9,hD*0.22,'cooling'); });
+    // дымовая труба (за корпусом)
+    cyl(1.2, chH, hx-3, chH/2, -hD*0.6, 'chimney','y'); cyl(1.35,0.6, hx-3, chH-0.3, -hD*0.6,'chimney','y');
+    // башенные градирни (гиперболоид ≈ два усечённых конуса)
+    (b.towers||[24,36]).forEach(x=>{ frustum(3.6,6.2,18, x,9,-1,'cooling'); frustum(4.8,3.6,10, x,23,-1,'cooling'); });
+    // трансформаторы (блочные) + вводы-изоляторы (фронт)
+    [hx-9,hx-3,hx+3].forEach(x=>{ box(2.4,2.4,2.6, x,1.4,hD*0.62,'elec'); [-0.7,0,0.7].forEach(o=>cyl(0.16,1.3, x+o,3.1,hD*0.62,'elec','y')); });
+    // ОРУ — порталы (стойки + ригель) и сборные шины
+    const oz=hD*0.66; [hx+8,hx+14,hx+20].forEach(x=>{ box(0.3,8,0.3, x-1.7,4,oz,'elec'); box(0.3,8,0.3, x+1.7,4,oz,'elec'); box(3.8,0.3,0.3, x,8,oz,'elec'); });
+    [6.6,7.3,8.0].forEach((y,i)=>cyl(0.15, 16, hx+14, y, oz+ (i-1)*0.0, 'elec','x'));
+  }
+
+  // Центральный тепловой пункт (ЦТП) — независимая схема присоединения квартала:
+  // ввод теплосети (первичный контур) с грязевиками, задвижками и узлом учёта →
+  // пластинчатые теплообменники (отопление + ГВС двухступенчатые) → распределительные
+  // коллекторы вторичного контура → потребители; насосные группы (циркуляционные
+  // отопления/ГВС, повысительные ХВС), ХВС и подпитка (мембранные баки), автоматика
+  // и регуляторы. Красным светится тепловой контур (ввод сети, теплообменники,
+  // подающие коллекторы), голубым — насосы, ХВС и КИПиА.
+  genCTP(box, cyl, b){
+    const W=b.width||20, H=b.height||6, D=b.depth||12;
+    const back=-D*0.30, mid=-D*0.02, front=D*0.32;
+
+    // ---- ограждающие конструкции -------------------------------------------
+    box(W*1.03,0.5,D*1.04, 0,-0.25,0,'base');            // фундаментная плита
+    box(W,H,D, 0,H/2,0,'shell');                          // здание ЦТП (отдельно стоящее)
+    box(W,0.5,D, 0,H+0.25,0,'roof');                      // кровля
+    box(W*1.02,0.55,D*1.02, 0,H+0.45,0,'roof');           // парапет
+    box(2.0,2.3,0.16, W*0.34,1.15,D/2,'base');            // ворота/дверь (фронт)
+
+    // ---- ввод теплосети (первичный контур) — задняя стена, левый торец -------
+    const ix=-W*0.40;
+    cyl(0.4,4.4, -W/2+2.2,1.7,back-1.1,'input','x');      // подающий T1 из теплосети
+    cyl(0.4,4.4, -W/2+2.2,1.7,back+1.1,'input','x');      // обратный T2 в теплосеть
+    [-1.1,1.1].forEach(dz=>{                              // грязевики + задвижки на вводе
+      cyl(0.5,1.9, ix,1.35,back+dz,'input','y');          // грязевик (шламоуловитель)
+      cyl(0.32,0.5, ix,2.4,back+dz,'input','y');          // фланец грязевика
+      box(0.5,0.5,0.5, ix+1.5,1.7,back+dz,'input');       // задвижка
+      cyl(0.34,0.12, ix+1.5,2.25,back+dz,'input','y'); });// штурвал задвижки
+    box(0.75,1.7,0.55, ix+2.7,1.05,back,'input');         // шкаф узла учёта тепла (теплосчётчик)
+    cyl(0.17,1.0, ix+3.4,1.45,back+1.1,'input','x');      // расходомер на обратном трубопроводе
+
+    // ---- пластинчатые теплообменники (пакеты пластин в раме) ----------------
+    // отопление (большой) + ГВС двухступенчатые (I и II ступень)
+    [[-2.0,2.8,2.6],[1.4,2.2,2.1],[3.9,2.2,2.1]].forEach(([x,ht,w])=>{
+      box(1.2,ht,w, x,ht/2+0.3,back+0.3,'hx');            // пакет пластин
+      box(0.14,ht+0.3,w+0.25, x-0.66,ht/2+0.35,back+0.3,'hx');  // неподвижная плита
+      box(0.14,ht+0.3,w+0.25, x+0.66,ht/2+0.35,back+0.3,'hx');  // прижимная плита
+      cyl(0.05,1.6, x,ht+0.55,back+0.3,'hx','x'); });     // верхняя стяжная шпилька
+
+    // ---- распределительные коллекторы (гребёнки вторичного контура) — центр --
+    const cLen=W*0.6;
+    cyl(0.42,cLen, 0,2.4,mid,      'manif','x');          // подающий коллектор (в здания)
+    cyl(0.42,cLen, 0,1.5,mid+0.95, 'manif','x');          // обратный коллектор
+    [-1,0,1].forEach(s=>box(0.28,2.4,0.28, s*cLen*0.32,1.2,mid+0.45,'manif')); // опорные стойки
+    const pxs=[-3.0,-0.6,1.8,4.2];
+    pxs.forEach(px=>cyl(0.16,1.4, px,1.35,mid,'manif','y'));  // отводы к насосам/потребителям
+
+    // ---- насосные группы (циркуляц. отопления/ГВС, повысительные) — фронт ----
+    box(W*0.5,0.4,1.6, 0,0.2,front,'base');              // общий фундамент насосной группы
+    pxs.forEach(px=>{ box(0.85,0.8,0.75, px,0.7,front,'pump');   // корпус-улитка насоса
+      cyl(0.3,1.2, px,1.05,front+0.25,'pump','z');       // эл.двигатель насоса
+      cyl(0.15,1.0, px,1.55,front-0.4,'pump','y'); });   // напорный патрубок к коллектору
+
+    // ---- ХВС и подпитка (холодный контур) — левый фронт ----------------------
+    cyl(0.5,2.6, -W*0.40,    1.5,front-0.4,'cold','y');   // мембранный расширительный бак 1
+    cyl(0.5,2.6, -W*0.40+1.3,1.5,front-0.4,'cold','y');   // мембранный расширительный бак 2
+    box(0.6,1.3,0.5, -W*0.40+2.6,0.85,front-0.4,'cold');  // водомерный узел ХВС
+    cyl(0.14,3.0, -W*0.40+1.3,2.9,front-0.4,'cold','x');  // ввод холодной воды (коллектор ХВС)
+    box(0.8,0.7,0.7, -W*0.40+0.6,0.55,front+0.9,'cold');  // подпиточный насос
+
+    // ---- автоматика и регуляторы — правый торец ------------------------------
+    [-1.2,0,1.2].forEach(z=>box(0.45,1.9,0.9, W*0.42,1.15,z,'auto')); // шкафы АСУ/АИТП
+    box(0.4,0.4,0.4, 1.4,2.65,back+0.3,'auto');          // регулятор перепада давления
+    [1.4,3.9].forEach(x=>box(0.32,0.55,0.32, x,2.75,back+0.3,'auto')); // регулирующие клапаны с эл.приводами
+
+    // ---- магистральные трубопроводы под кровлей -----------------------------
+    cyl(0.2,W*0.82, 0,H-0.8,mid+0.4,'manif','x');        // главная подающая магистраль
+    cyl(0.2,3.2, -W*0.30,H-0.8,0,'input','z');           // спуск от ввода к теплообменникам
+    cyl(0.2,3.0,  W*0.30,H-0.8,0,'cold','z');            // трасса ХВС/подпитки
+  }
+
+  // Declarative-geometry interpreter. CONFIG.geometry items (model coords, metres):
+  //   { "box":     [sx,sy,sz, cx,cy,cz, "mat"] }
+  //   { "cyl":     [r,h, cx,cy,cz, "mat", "x"|"y"|"z"?] }      (axis default "y")
+  //   { "frustum": [rT,rB,h, cx,cy,cz, "mat"] }
+  //   { "at":[dx,dy,dz]?, "repeat":n?, "step":[sx,sy,sz]?, "items":[…] }  — group,
+  //     items repeated n times with the offset advancing by step; groups nest.
+  // Material names map to systems via matRules, exactly like the named generators.
+  genDeclarative(box, cyl, frustum, items, ox, oy, oz){
+    items.forEach(it=>{
+      if(Array.isArray(it.items)){
+        const at=it.at||[0,0,0], n=it.repeat||1, st=it.step||[0,0,0];
+        for(let i=0;i<n;i++) this.genDeclarative(box,cyl,frustum,it.items, ox+at[0]+st[0]*i, oy+at[1]+st[1]*i, oz+at[2]+st[2]*i);
+      }
+      else if(it.box){ const a=it.box; box(a[0],a[1],a[2], ox+a[3],oy+a[4],oz+a[5], a[6]); }
+      else if(it.cyl){ const a=it.cyl; cyl(a[0],a[1], ox+a[2],oy+a[3],oz+a[4], a[5], a[6]||'y'); }
+      else if(it.frustum){ const a=it.frustum; frustum(a[0],a[1],a[2], ox+a[3],oy+a[4],oz+a[5], a[6]); }
+    });
+  }
+
+  // hybrid mode resolution: even a "structured" config collapses to whole-mode
+  // if the material rules end up classifying everything into one bucket.
+  resolveMode(){
+    if(this.CONFIG.mode==='whole' || this.PARTDEF.length<2){ this._wholeMode=true; this.uniforms.uInner.value=-1; return; }
+    const seen=new Set();
+    for(const md of this.meshData){ seen.add(this.matToPart(md.mat)); if(seen.size>1) break; }
+    this._wholeMode = (this.CONFIG.mode!=='structured') && seen.size<2;
+    // amber inner pass: index of the part flagged as "internals" (engine etc.)
+    const ik=this.CONFIG.innerPartKey;
+    let ii=-1; if(ik && !this._wholeMode){ ii=this.PARTDEF.findIndex(p=>p.key===ik); }
+    this.uniforms.uInner.value=ii;
+    this.innerIdx=ii;
+  }
+
+  // single-mesh scans read as a cyan haze -> push bright structural contours and
+  // dim the faint interior fill so the silhouette stays crisp. Tunable per object.
+  applyLook(){
+    const cfg=this.CONFIG;
+    // whole/scan: the crisp lines now come from the screen-space contour pass, so
+    // the noisy 3D bold wireframe is dropped (uBold≈0) and the interior wireframe
+    // is kept only as a faint holographic ghost (uFill low).
+    this.uniforms.uBold.value = cfg.contour!=null ? cfg.contour : (this.wholeMode?0.0:1.0);
+    this.uniforms.uFill.value = cfg.fill!=null    ? cfg.fill    : (this.wholeMode?0.15:1.0);
+    // whole/scan: whiter, crisper contour; structured: original blue-cyan (reference)
+    if(this.wholeMode){ this.uniforms.uBTint.value.setRGB(0.85,0.97,1.0); this.uniforms.uBAmt.value=0.35; }
+    else { this.uniforms.uBTint.value.setRGB(0.05,0.45,1.0); this.uniforms.uBAmt.value=0.5; }
+    // colour of the "hot" internal systems (red/orange, like an x-ray of the drivetrain)
+    if(cfg.hotColor && cfg.hotColor.length===3) this.uniforms.uColor2.value.setRGB(cfg.hotColor[0],cfg.hotColor[1],cfg.hotColor[2]);
+  }
+
+  // ---- scan-mesh cleanup ----------------------------------------------------
+  // TRELLIS / photogrammetry meshes are noisy and often unwelded, which makes
+  // EdgesGeometry draw nearly every triangle edge -> a "crumpled" wireframe.
+  // We weld coincident vertices (-> real adjacency) then Laplacian-smooth the
+  // positions a few passes to relax surface noise, so only true structure
+  // survives the (coarser) edge angle. Defaults on for whole-mode; tunable via
+  // CONFIG.smooth (iterations), CONFIG.smoothLambda, CONFIG.weldPrecision.
+  prepGeometries(THREE){
+    const cfg=this.CONFIG;
+    const iters = (cfg.smooth!=null) ? cfg.smooth : (this.wholeMode? 4 : 0);
+    const doWeld = this.wholeMode || iters>0 || cfg.weld;
+    if(!doWeld) return;
+    const prec = cfg.weldPrecision!=null ? cfg.weldPrecision : 4;
+    const lambda = cfg.smoothLambda!=null ? cfg.smoothLambda : 0.5;
+    this.meshData.forEach(md=>{
+      let g=this.weldGeometry(THREE, md.geometry, prec);
+      if(iters>0) this.smoothGeometry(g, iters, lambda);
+      g.computeVertexNormals(); g.computeBoundingBox();
+      md.geometry=g;
+    });
+  }
+
+  weldGeometry(THREE, geo, prec){
+    const src=geo.attributes.position.array, n=src.length/3;
+    const f=Math.pow(10,prec), map=new Map(), out=[], remap=new Int32Array(n);
+    for(let i=0;i<n;i++){
+      const x=src[i*3],y=src[i*3+1],z=src[i*3+2];
+      const key=Math.round(x*f)+'|'+Math.round(y*f)+'|'+Math.round(z*f);
+      let idx=map.get(key);
+      if(idx===undefined){ idx=out.length/3; map.set(key,idx); out.push(x,y,z); }
+      remap[i]=idx;
+    }
+    const srcIdx=geo.index?geo.index.array:null;
+    const cnt=srcIdx?srcIdx.length:n;
+    const Idx=(out.length/3)>65535?new Uint32Array(cnt):new Uint16Array(cnt);
+    for(let i=0;i<cnt;i++){ const oi=srcIdx?srcIdx[i]:i; Idx[i]=remap[oi]; }
+    const g=new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(out),3));
+    g.setIndex(new THREE.BufferAttribute(Idx,1));
+    return g;
+  }
+
+  // uniform-weight Laplacian smoothing over welded adjacency (in place)
+  smoothGeometry(geo, iters, lambda){
+    const pos=geo.attributes.position.array, n=pos.length/3, idx=geo.index.array;
+    for(let it=0; it<iters; it++){
+      const sum=new Float32Array(n*3), cnt=new Uint32Array(n);
+      const add=(u,w)=>{ sum[u*3]+=pos[w*3]; sum[u*3+1]+=pos[w*3+1]; sum[u*3+2]+=pos[w*3+2]; cnt[u]++; };
+      for(let i=0;i<idx.length;i+=3){
+        const a=idx[i],b=idx[i+1],c=idx[i+2];
+        add(a,b); add(b,a); add(b,c); add(c,b); add(c,a); add(a,c);
+      }
+      for(let i=0;i<n;i++){ const c=cnt[i]; if(!c) continue;
+        pos[i*3]   += lambda*(sum[i*3]/c   - pos[i*3]);
+        pos[i*3+1] += lambda*(sum[i*3+1]/c - pos[i*3+1]);
+        pos[i*3+2] += lambda*(sum[i*3+2]/c - pos[i*3+2]);
+      }
+    }
+    geo.attributes.position.needsUpdate=true;
+  }
+
+  // ---- crisp contour pass (screen-space normal + depth edges) ---------------
+  // EdgesGeometry on a noisy scan mesh either speckles or breaks up. Instead we
+  // render the solid shell's view-space normal (rgb) + depth (a) to an offscreen
+  // buffer, then draw a bright line where the normal breaks or depth jumps,
+  // thresholded so micro surface-noise is ignored. Gives clean feature contours
+  // AND the outer silhouette (depth jump to background) in one pass, view-stable
+  // regardless of triangle density.
+  buildOutline(THREE){
+    const cfg=this.CONFIG;
+    this.outlineOn = cfg.outline!=null ? !!cfg.outline : this.wholeMode;
+    if(!this.outlineOn) return;
+    const acc=this.ACCENTS[cfg.accent]||this.ACCENTS.cyan;
+    this.geoRT=new THREE.WebGLRenderTarget(2,2,{depthBuffer:true, minFilter:THREE.NearestFilter, magFilter:THREE.NearestFilter});
+    this.geoMat=new THREE.ShaderMaterial({ side:THREE.DoubleSide,
+      vertexShader:`varying vec3 vN; varying float vZ; void main(){ vec4 mv=modelViewMatrix*vec4(position,1.0); vN=normalize(normalMatrix*normal); vZ=-mv.z; gl_Position=projectionMatrix*mv; }`,
+      fragmentShader:`varying vec3 vN; varying float vZ; void main(){ gl_FragColor=vec4(normalize(vN)*0.5+0.5, clamp(vZ/40.0,0.0,1.0)); }`
+    });
+    this.outUniforms={
+      tGeo:{value:this.geoRT.texture}, uRes:{value:new THREE.Vector2(2,2)},
+      uThick:{value: cfg.outlineWidth!=null?cfg.outlineWidth:1.4 },
+      uNorm:{value: cfg.contourNormal!=null?cfg.contourNormal:0.9 },   // normal-break threshold (sum of 4 neighbours)
+      uDepth:{value: cfg.contourDepth!=null?cfg.contourDepth:0.012 },  // depth-jump threshold (silhouette/overlap)
+      uColor:{value:new THREE.Color().setRGB(Math.min(1,acc.a[0]*1.1+0.15),Math.min(1,acc.a[1]*1.05+0.05),1.0)},
+      uInt:{value: cfg.outlineIntensity!=null?cfg.outlineIntensity:1.0 }, uProgress:{value:0}
+    };
+    const quadMat=new THREE.ShaderMaterial({
+      uniforms:this.outUniforms, transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending,
+      vertexShader:`varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.0,1.0); }`,
+      fragmentShader:`
+        uniform sampler2D tGeo; uniform vec2 uRes; uniform float uThick,uNorm,uDepth,uInt,uProgress; uniform vec3 uColor;
+        varying vec2 vUv;
+        float nd(vec3 a, vec4 s){ return 1.0-clamp(dot(a,s.rgb*2.0-1.0),0.0,1.0); }
+        void main(){
+          vec2 px=uThick/uRes;
+          vec4 c=texture2D(tGeo,vUv); vec3 nC=c.rgb*2.0-1.0; float dC=c.a;
+          vec4 sR=texture2D(tGeo,vUv+vec2(px.x,0.0)),  sL=texture2D(tGeo,vUv+vec2(-px.x,0.0));
+          vec4 sU=texture2D(tGeo,vUv+vec2(0.0,px.y)),  sD=texture2D(tGeo,vUv+vec2(0.0,-px.y));
+          vec4 sA=texture2D(tGeo,vUv+vec2(px.x,px.y)), sB=texture2D(tGeo,vUv+vec2(-px.x,px.y));
+          vec4 sC=texture2D(tGeo,vUv+vec2(px.x,-px.y)),sE=texture2D(tGeo,vUv+vec2(-px.x,-px.y));
+          // 8-tap, averaged so thresholds stay intuitive
+          float ne=(nd(nC,sR)+nd(nC,sL)+nd(nC,sU)+nd(nC,sD)+nd(nC,sA)+nd(nC,sB)+nd(nC,sC)+nd(nC,sE))*0.5;
+          float de=(abs(dC-sR.a)+abs(dC-sL.a)+abs(dC-sU.a)+abs(dC-sD.a)+abs(dC-sA.a)+abs(dC-sB.a)+abs(dC-sC.a)+abs(dC-sE.a))*0.5;
+          float onObj=step(0.0001, dC+sR.a+sL.a+sU.a+sD.a+sA.a+sB.a+sC.a+sE.a); // skip pure background
+          float nEdge=smoothstep(uNorm, uNorm*1.7, ne);
+          float dEdge=smoothstep(uDepth, uDepth*2.5, de);
+          float edge=max(nEdge,dEdge)*onObj;
+          float a=edge*uInt*smoothstep(0.0,1.0,uProgress);
+          if(a<=0.004) discard;
+          gl_FragColor=vec4(uColor,a);
+        }`
+    });
+    this.outlineScene=new THREE.Scene();
+    this.outlineCam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+    this.outlineQuad=new THREE.Mesh(new THREE.PlaneGeometry(2,2),quadMat);
+    this.outlineQuad.frustumCulled=false; this.outlineScene.add(this.outlineQuad);
+  }
+
+  renderOutline(){
+    if(!this.outlineOn||!this.geoRT) return;
+    const r=this.renderer, sc=this.scene, cam=this.camera;
+    // 1) render the solid shell's normal+depth to the offscreen buffer
+    const bg=sc.background; sc.background=null;
+    const hide=[this.lines,this.boldLines,this.innerLines,this.reflect,this.groundPlane];
+    const vis=hide.map(o=>o&&o.visible); hide.forEach(o=>{ if(o) o.visible=false; });
+    sc.overrideMaterial=this.geoMat;
+    r.setRenderTarget(this.geoRT); r.setClearColor(0x808080,0); r.clear();   // bg: normal 0, depth 0
+    r.render(sc,cam);
+    r.setRenderTarget(null);
+    sc.overrideMaterial=null; sc.background=bg; hide.forEach((o,i)=>{ if(o) o.visible=vis[i]; });
+    r.setClearColor(0x000000,0);
+    // 2) draw detected edges over the already-composited frame
+    this.outUniforms.uProgress.value=this.progress;
+    const ac=r.autoClear; r.autoClear=false; r.render(this.outlineScene,this.outlineCam); r.autoClear=ac;
+  }
+
+  // final image pass: ACES filmic tone-map (rolls off the additive highlights so
+  // bright cores read as light instead of pure white) + a subtle cool colour grade.
+  addGradePass(THREE, composer){
+    const SP=THREE.ShaderPass; if(!SP) return;
+    const g=this.CONFIG.grade||{};
+    this.gradePass=new SP({
+      uniforms:{ tDiffuse:{value:null},
+        uExp:{value: g.exposure!=null?g.exposure:1.06 },
+        uContrast:{value: g.contrast!=null?g.contrast:1.06 },
+        uSat:{value: g.saturation!=null?g.saturation:1.12 } },
+      vertexShader:`varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+      fragmentShader:`
+        uniform sampler2D tDiffuse; uniform float uExp,uContrast,uSat; varying vec2 vUv;
+        vec3 aces(vec3 x){ return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14), 0.0, 1.0); }
+        void main(){
+          vec3 c=texture2D(tDiffuse,vUv).rgb*uExp;
+          c=aces(c);
+          c=(c-0.5)*uContrast+0.5;
+          float l=dot(c, vec3(0.2126,0.7152,0.0722));
+          c=mix(vec3(l), c, uSat);
+          c.b+=0.012; c.g+=0.004;            // gentle cool lift -> holographic blue
+          gl_FragColor=vec4(clamp(c,0.0,1.0), 1.0);
+        }`
+    });
+    composer.addPass(this.gradePass);
+  }
+
+  computeNorm(THREE){
+    const box=new THREE.Box3(), tmp=new THREE.Box3();
+    this.meshData.forEach(md=>{ if(!md.geometry.boundingBox) md.geometry.computeBoundingBox(); tmp.copy(md.geometry.boundingBox).applyMatrix4(md.matrixWorld); box.union(tmp); });
+    const size=new THREE.Vector3(); box.getSize(size);
+    const center=new THREE.Vector3(); box.getCenter(center);
+    const maxDim=Math.max(size.x,size.y,size.z)||1;
+    const scl=5.5/maxDim;
+    this.norm={ center, minY:box.min.y, scl, height:size.y*scl, size:size.clone() };
+    this.uniforms.uGround.value=-0.05;
+    this.scanMin=0; this.scanMax=size.y*scl+0.3;
+  }
+
+  buildShell(THREE){
+    const {center,minY,scl}=this.norm;
+    const N=new THREE.Matrix4().makeTranslation(-scl*center.x,-scl*minY,-scl*center.z).multiply(new THREE.Matrix4().makeScale(scl,scl,scl));
+    if(this.shellGroup){ this.pivot.remove(this.shellGroup); }
+    this.shellGroup=new THREE.Group();
+    this.meshData.forEach(md=>{
+      if(!md.geometry.attributes.normal){ md.geometry.computeVertexNormals(); }
+      const m=new THREE.Mesh(md.geometry, this.matShell);
+      m.matrixAutoUpdate=false; m.matrix.copy(N).multiply(md.matrixWorld); m.matrixWorldNeedsUpdate=true;
+      m.frustumCulled=false; m.renderOrder=0; this.shellGroup.add(m);
+    });
+    this.pivot.add(this.shellGroup);
+  }
+
+  buildEdgeGeo(THREE, angle, dirs, accum){
+    const {center,minY,scl}=this.norm;
+    const pos=[], mats=[];
+    const v=new THREE.Vector3();
+    this.meshData.forEach(md=>{
+      const eg=new THREE.EdgesGeometry(md.geometry, angle);
+      const arr=eg.attributes.position.array;
+      const m=md.matrixWorld;
+      for(let i=0;i<arr.length;i+=3){ v.set(arr[i],arr[i+1],arr[i+2]).applyMatrix4(m); pos.push(v.x,v.y,v.z); mats.push(md.mat); }
+      eg.dispose();
+    });
+    const N=pos.length/3;
+    const part=new Float32Array(N), seed=new Float32Array(N), expl=new Float32Array(pos.length), hot=new Float32Array(N);
+    const hotSet=this.hotSet;
+    const norm=new Float32Array(pos.length);
+    for(let i=0;i<pos.length;i+=3){ norm[i]=(pos[i]-center.x)*scl; norm[i+1]=(pos[i+1]-minY)*scl; norm[i+2]=(pos[i+2]-center.z)*scl; }
+    for(let i=0;i<N;i+=2){
+      const pi=this.matToPart(mats[i]); const s=Math.random(); const d=dirs[pi]||[0,1,0]; const hv=(hotSet&&hotSet.has(pi))?1:0;
+      for(const j of [i,i+1]){ if(j>=N) break; part[j]=pi; seed[j]=s; hot[j]=hv; const o=j*3; expl[o]=d[0]; expl[o+1]=d[1]; expl[o+2]=d[2]; if(accum){ const a=accum[pi]; if(a){ a.x+=norm[o]; a.y+=norm[o+1]; a.z+=norm[o+2]; a.n++; } } }
+    }
+    const g=new THREE.BufferGeometry();
+    g.setAttribute('position',new THREE.BufferAttribute(norm,3));
+    g.setAttribute('aSeed',new THREE.BufferAttribute(seed,1));
+    g.setAttribute('aPart',new THREE.BufferAttribute(part,1));
+    g.setAttribute('aHot',new THREE.BufferAttribute(hot,1));
+    g.setAttribute('aExplode',new THREE.BufferAttribute(expl,3));
+    g.computeBoundingSphere();
+    return g;
+  }
+
+  buildEdges(THREE, angle){
+    if(this.lines){ this.pivot.remove(this.lines); this.lines.geometry.dispose(); }
+    if(this.boldLines){ this.pivot.remove(this.boldLines); this.boldLines.geometry.dispose(); }
+    if(this.innerLines){ this.pivot.remove(this.innerLines); if(this.hotGeo){ this.hotGeo.dispose(); this.hotGeo=null; } }
+    if(this.reflect){ this.pivot.remove(this.reflect); }
+    if(this.groundPlane){ this.pivot.remove(this.groundPlane); }
+
+    // explosion directions per part (normalized space). CONFIG.explodeDirs keyed
+    // by part.key; default = radial fan so even unconfigured parts separate.
+    const ed=this.CONFIG.explodeDirs||{};
+    const n=Math.max(1,this.PARTDEF.length);
+    const dirs=this.PARTDEF.map((p,i)=>{
+      if(ed[p.key]) return ed[p.key].slice();
+      const a=(i/n)*Math.PI*2; return [Math.cos(a)*1.6, 0.6, Math.sin(a)*1.6];
+    });
+    if(!dirs.length) dirs.push([0,1,0]);
+    this.partDirs=dirs;
+
+    // "hot" systems (engine/drivetrain/wheels…) render in the red inner colour
+    this.hotSet=new Set((this.CONFIG.hotParts||[]).map(k=>this.PARTDEF.findIndex(p=>p.key===k)).filter(i=>i>=0));
+
+    const accum=this.PARTDEF.map(()=>({x:0,y:0,z:0,n:0}));
+    const denseGeo=this.buildEdgeGeo(THREE, angle, dirs, accum);
+    const boldGeo=this.buildEdgeGeo(THREE, this.wholeMode?44:this.boldAngle, dirs, null);
+    // hot/internal systems get their OWN coarse-angle edges so dense wheels/engine
+    // read as clean red rings (not a saturated white disc under additive blending).
+    const hotAngle=this.CONFIG.hotAngle!=null?this.CONFIG.hotAngle:30;
+    const hotGeo=(this.hotSet&&this.hotSet.size)? this.buildEdgeGeo(THREE, hotAngle, dirs, null) : denseGeo;
+    this.hotGeo=(hotGeo!==denseGeo)?hotGeo:null;
+    this.geometry=denseGeo;
+
+    const H=this.norm.height;
+    this.partCents=accum.map(a=> a.n? [a.x/a.n,a.y/a.n,a.z/a.n] : [0,H*0.5,0]);
+
+    window.__holo=this;
+    this.lines=new THREE.LineSegments(denseGeo,this.mat); this.lines.renderOrder=2; this.pivot.add(this.lines);
+    this.boldLines=new THREE.LineSegments(boldGeo,this.matBold); this.boldLines.renderOrder=3; this.pivot.add(this.boldLines);
+    this.innerLines=new THREE.LineSegments(hotGeo,this.matInner); this.innerLines.renderOrder=5; this.pivot.add(this.innerLines);
+    this.reflect=new THREE.LineSegments(denseGeo,this.matRefl); this.reflect.scale.y=-1; this.reflect.position.y=-0.1; this.reflect.renderOrder=-1; this.pivot.add(this.reflect);
+    this.addGround(THREE);
+    this.target=new THREE.Vector3(0,H*0.5,0);
+    this.dist=this.distTarget=Math.max(8.5, H*2.4);
+    this.tgt={x:0,y:H*0.5,z:0}; this.tgtGoal={x:0,y:H*0.5,z:0};
+    this.buildLabels();
+    this.buildMarkers();
+    this.buildRoomLabels();
+    this.buildFlows(THREE); this.buildFlowLegend();   // guide-tube arrows once; legend re-attaches after labelBox clear
+    this.progress=0; this.uniforms.uProgress.value=0; this.startTime=performance.now();
+  }
+
+  // ---- numbered callout markers (educational "stand" mode) ------------------
+  // Markers are 3D points authored as fractional bbox coords {at:[fx,fy,fz]},
+  // so they work even on a single fused mesh that can't be segmented into parts.
+  get standMode(){ return this.wholeMode && (this.CONFIG.markers||[]).length>0; }
+  markerNorm(at){ const {size,scl}=this.norm; return [ (at[0]-0.5)*size.x*scl, at[1]*size.y*scl, (at[2]-0.5)*size.z*scl ]; }
+  // Surface normal for a marker (model-local), used for occlusion facing. Explicit
+  // config `nrm` wins; otherwise radial-from-bbox-center — a good proxy for the
+  // exterior callouts of vehicles/units, so legacy `at`-only configs occlude too.
+  markerNrm(m,pos){
+    const {size,scl}=this.norm, T=this.THREE, n=new T.Vector3();
+    if(m.nrm && m.nrm.length===3){ n.set(m.nrm[0],m.nrm[1],m.nrm[2]); }
+    else { n.set(pos[0], pos[1]-size.y*scl*0.5, pos[2]); }
+    if(n.lengthSq()<1e-9) n.set(0,1,0);
+    n.normalize(); return [n.x,n.y,n.z];
+  }
+
+  buildMarkers(){
+    if(!this.labelBox) return;
+    const M=this.CONFIG.markers||[]; this.markerEls=[];
+    if(!M.length) return;
+    M.forEach((m,i)=>{
+      const pos=this.markerNorm(m.at||[0.5,0.5,0.5]);
+      const nrm=this.markerNrm(m,pos);
+      const line=document.createElement('div');
+      line.style.cssText='position:absolute;height:1px;transform-origin:left center;background:linear-gradient(to right, rgba(56,232,255,0.85), rgba(56,232,255,0.1));pointer-events:none;opacity:0;transition:opacity .15s;z-index:8;';
+      const box=document.createElement('div');
+      box.style.cssText="position:absolute;transform:translateY(-50%);white-space:nowrap;font:600 11.5px 'IBM Plex Mono',monospace;color:#eafaff;background:rgba(4,16,26,0.88);border:1px solid rgba(56,232,255,0.45);border-radius:6px;padding:3px 8px;pointer-events:none;opacity:0;transition:opacity .15s;backdrop-filter:blur(4px);z-index:9;";
+      box.textContent=String(m.n!=null?m.n:i+1).padStart(2,'0')+'  '+(m.name||'');
+      const dot=document.createElement('button');
+      dot.textContent=String(m.n!=null?m.n:i+1);
+      dot.style.cssText="position:absolute;width:21px;height:21px;border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;font:700 10.5px 'IBM Plex Mono',monospace;color:#04141f;background:rgba(56,232,255,0.9);border:1.5px solid #bff3ff;box-shadow:0 0 9px rgba(56,232,255,0.6);cursor:pointer;pointer-events:auto;z-index:10;transition:transform .1s,background .1s;";
+      dot.onclick=(e)=>{ e.stopPropagation(); this.selectMarker(i); };
+      dot.onmouseenter=()=>this.hoverMarker(i);
+      dot.onmouseleave=()=>this.hoverMarker(-1);
+      this.labelBox.appendChild(line); this.labelBox.appendChild(box); this.labelBox.appendChild(dot);
+      this.markerEls.push({line,box,dot,pos,nrm});
+    });
+  }
+
+  updateMarkers(cam){
+    if(!this.markerEls||!this.markerEls.length) return;
+    if(this.state.plan||this.state.cut){ this.markerEls.forEach(L=>{ L.dot.style.opacity='0'; L.dot.style.pointerEvents='none'; L.line.style.opacity='0'; L.box.style.opacity='0'; }); return; }
+    const THREE=this.THREE, w=this.canvas.clientWidth, h=this.canvas.clientHeight;
+    const Y=new THREE.Vector3(0,1,0), wp=new THREE.Vector3(), wn=new THREE.Vector3(), vd=new THREE.Vector3(), v=new THREE.Vector3();
+    const showAll=this.state.calib, sm=THREE.MathUtils.smoothstep;
+    this.markerEls.forEach((L,i)=>{
+      const sel=this.selMarker===i, hov=this.hovMarker===i, active=sel||hov;
+      wp.set(L.pos[0],L.pos[1],L.pos[2]).applyAxisAngle(Y,this.az);
+      wn.set(L.nrm[0],L.nrm[1],L.nrm[2]).applyAxisAngle(Y,this.az);
+      v.copy(wp).project(cam);
+      if(v.z>1){ L.dot.style.opacity='0'; L.dot.style.pointerEvents='none'; L.line.style.opacity='0'; L.box.style.opacity='0'; return; }
+      // model-viewer-style occlusion: a marker whose surface normal faces away from
+      // the camera sits on the far side of the body -> fade it. Selected/hovered and
+      // calibration mode stay fully visible so the leader line is always reachable.
+      vd.copy(cam.position).sub(wp).normalize();
+      const visK = (showAll||active) ? 1 : sm(wn.dot(vd), -0.12, 0.25);
+      const sx=(v.x*0.5+0.5)*w, sy=(-v.y*0.5+0.5)*h;
+      L.dot.style.left=sx+'px'; L.dot.style.top=sy+'px';
+      L.dot.style.opacity=String((active?1:0.82)*visK);
+      L.dot.style.pointerEvents= visK>0.15?'auto':'none';
+      L.dot.style.transform='translate(-50%,-50%) scale('+(active?1.28:1)*(0.62+0.38*visK)+')';
+      L.dot.style.background=sel?'#bff3ff':(hov?'#7fe6ff':'rgba(56,232,255,0.9)');
+      if((active||showAll) && visK>0.05){
+        const side=sx>w*0.55?-1:1, len=38, lx=sx+side*len, ly=sy-(active?20:14*(1+(i%3)));
+        const ang=Math.atan2(ly-sy,lx-sx)*180/Math.PI, dl=Math.hypot(lx-sx,ly-sy);
+        L.line.style.left=sx+'px'; L.line.style.top=sy+'px'; L.line.style.width=dl+'px'; L.line.style.transform='rotate('+ang+'deg)'; L.line.style.opacity=String((active?0.95:0.4)*visK);
+        L.box.style.left=(lx+side*6)+'px'; L.box.style.top=ly+'px'; L.box.style.transform=side<0?'translate(-100%,-50%)':'translateY(-50%)'; L.box.style.opacity=String((active?1:0.6)*visK);
+      } else { L.line.style.opacity='0'; L.box.style.opacity='0'; }
+    });
+  }
+
+  selectMarker=(i)=>{ this.selMarker=(this.selMarker===i?-1:i); this.selectedPart=-1; this.setState({selMarker:this.selMarker, selected:-1}); this.lastInteract=performance.now(); };
+  hoverMarker=(i)=>{ this.hovMarker=i; this.setState({hovMarker:i}); };
+  toggleCalib=()=>{ this.setState({calib:!this.state.calib}); };
+  // convert a clicked surface point back to fractional bbox coords for authoring markers
+  reportCalib(p,n){
+    const THREE=this.THREE, {size,scl}=this.norm, Y=new THREE.Vector3(0,1,0);
+    const v=p.clone().applyAxisAngle(Y, -this.az);
+    const f=(x)=>Math.round(x*1000)/1000;
+    const fx=f(v.x/(size.x*scl)+0.5), fy=f(v.y/(size.y*scl)), fz=f(v.z/(size.z*scl)+0.5);
+    const at='['+fx+', '+fy+', '+fz+']';
+    let nrmStr='';
+    if(n){ const nl=n.clone().applyAxisAngle(Y, -this.az).normalize(); nrmStr=', "nrm": ['+f(nl.x)+', '+f(nl.y)+', '+f(nl.z)+']'; }
+    const next=(this.CONFIG.markers||[]).length+1;
+    // model-viewer "editor" pattern: emit a paste-ready hotspot (position + normal)
+    console.log('[calib] { "n": '+next+', "name": "", "desc": "", "at": '+at+nrmStr+' },');
+    const s=fx+', '+fy+', '+fz; this.calibText=s; this.setState({calibText:s});
+  }
+
+  // ---- floor-plan mode (top-down, single floor isolated) -------------------
+  get planMode(){ return !!(this.CONFIG.building) && (this.planRooms&&this.planRooms.length>0); }
+  buildRoomLabels(){
+    if(!this.labelBox || !this.planRooms || !this.planRooms.length) return;
+    this.roomEls=this.planRooms.map(r=>{
+      const el=document.createElement('div');
+      el.style.cssText="position:absolute;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:9;"+
+        (r.apt? "font:700 12px 'IBM Plex Mono',monospace;color:#04141f;background:rgba(56,232,255,0.92);border-radius:6px;padding:2px 7px;box-shadow:0 0 8px rgba(56,232,255,0.5);"
+              : "font:500 10px 'IBM Plex Sans',sans-serif;color:#cdeefc;");
+      el.textContent=r.name;
+      this.labelBox.appendChild(el); return el;
+    });
+  }
+  updateRoomLabels(cam){
+    if(!this.roomEls) return;
+    const on=this.state.plan, THREE=this.THREE;
+    if(!on){ this.roomEls.forEach(e=>e.style.opacity='0'); return; }
+    const w=this.canvas.clientWidth, h=this.canvas.clientHeight, {center,minY,scl}=this.norm;
+    const yM=(this.state.planFloor*this.planFloorH + this.planFloorH*0.5);
+    const ny=(yM-minY)*scl, v=new THREE.Vector3(), Y=new THREE.Vector3(0,1,0);
+    this.planRooms.forEach((r,i)=>{
+      const e=this.roomEls[i]; if(!e) return;
+      v.set((r.x-center.x)*scl, ny, (r.z-center.z)*scl).applyAxisAngle(Y,this.az).project(cam);
+      if(v.z>1){ e.style.opacity='0'; return; }
+      e.style.left=((v.x*0.5+0.5)*w)+'px'; e.style.top=((-v.y*0.5+0.5)*h)+'px'; e.style.opacity= r.apt?'1':'0.9';
+    });
+  }
+  applyPlan(){
+    const on=this.state.plan;
+    this.uniforms.uPlan.value=on?1:0;
+    if(on) this.uniforms.uCut.value=0;   // plan and cutaway are mutually exclusive
+    // hide filled/мешающие слои в плане: оболочка перекрывает вид сверху, отражение
+    // и «пол» только мешают. Остаётся чистый каркас перегородок.
+    if(this.shellGroup) this.shellGroup.visible=!on;
+    if(this.reflect) this.reflect.visible=!on;
+    if(this.groundPlane) this.groundPlane.visible=!on;
+    const {minY,scl}=this.norm, fh=this.planFloorH;
+    const yM=(this.state.planFloor*fh + fh*0.5);
+    this.uniforms.uPlanY.value=(yM-minY)*scl;
+    this.uniforms.uPlanH.value=fh*0.5*scl;
+    if(on){
+      // near-ortho top-down (narrow fov from far), eased in cinematically. el just shy
+      // of vertical (86°) keeps up=+Y (no gimbal/roll), so the whole move — az→0, tilt
+      // to top, fov→10, dolly — glides smoothly into a clean floor plan.
+      this.fovTarget=10;
+      this.azTarget=0; this.elTarget=1.50; const b=this.CONFIG.building||{};
+      const sw=(b.sectionWidth||21);
+      const vt=Math.tan(10*Math.PI/360), asp=this.camera.aspect||1.6;
+      const nW=sw*scl, nD=(b.depth||12)*scl;
+      this.distTarget=Math.max((nW*0.5)/(vt*asp), (nD*0.5)/vt)*1.12;
+      this.tgtGoal={x:0, y:(yM-minY)*scl, z:0};
+      this.explodeTarget=0;
+    } else { this.fovTarget=42; this.resetView(); }
+    this.lastInteract=performance.now();
+  }
+  // ---- facade cutaway ("dollhouse": front wall removed, rooms in 3D) -------
+  applyCut(){
+    const on=this.state.cut, {center,scl}=this.norm, b=this.CONFIG.building||{};
+    if(this.cutZ==null){ const frontN=((b.depth||12)/2 - center.z)*scl; this.cutZ=frontN*0.18; } // peel ~front 40%
+    // entering cut implies plan off — clear any plan camera/uniform state
+    this.uniforms.uPlan.value=0; this.camera.up.set(0,1,0); this.fovTarget=42;
+    this.uniforms.uCut.value=on?1:0; this.uniforms.uCutZ.value=this.cutZ;
+    if(this.shellGroup) this.shellGroup.visible=!on;   // оболочка мешает заглянуть внутрь
+    if(this.reflect) this.reflect.visible=!on;
+    if(on){
+      this.azTarget=0.32; this.elTarget=0.55; this.explodeTarget=0; this.selectedPart=-1;
+      this.distTarget=Math.max(8.5, this.norm.height*2.3);
+      this.tgtGoal={x:0,y:this.norm.height*0.5,z:0};
+    } else { this.resetView(); }
+    this.lastInteract=performance.now();
+  }
+  toggleCut=()=>{ const c=!this.state.cut; this.selectedPart=-1; this.selMarker=-1; this.setState({cut:c, plan:false, selected:-1, selMarker:-1, exploded:false}); this.applyCut(); };
+  cutStep=(d)=>{ if(!this.state.cut) return; const {center,scl}=this.norm, b=this.CONFIG.building||{}; const frontN=((b.depth||12)/2 - center.z)*scl;
+    this.cutZ=Math.max(-frontN*0.7, Math.min(frontN*0.95, (this.cutZ||0)+d*frontN*0.18)); this.uniforms.uCutZ.value=this.cutZ; this.lastInteract=performance.now(); };
+
+  togglePlan=()=>{ const p=!this.state.plan; this.selectedPart=-1; this.selMarker=-1;
+    const pf = (p && !this._planSeen) ? Math.min(4,(this.planFloors||9)-1) : this.state.planFloor;
+    if(p) this._planSeen=true;
+    this.setState({plan:p, planFloor:pf, selected:-1, selMarker:-1, exploded:false, cut:false}); this.applyPlan(); };
+  planStep=(d)=>{ if(!this.state.plan) return; const n=this.planFloors||9; let f=this.state.planFloor+d; if(f<0)f=0; if(f>=n)f=n-1; this.setState({planFloor:f}); this.applyPlan(); };
+
+  // ---- animated medium-flow arrows (теплоноситель / ГВС / ХВС) --------------
+  // CONFIG.flows: [{ kind, color:[r,g,b], speed, count, at:[[fx,fy,fz],…] }].
+  // Points are fractional bbox coords (like markers) → model-local via markerNorm,
+  // added to this.pivot so they orbit with the model. Bright additive cones follow
+  // a Catmull-Rom curve along a faint guide-tube and bloom into glowing flow.
+  get hasFlows(){ return !!(this.CONFIG.flows && this.CONFIG.flows.length); }
+  buildFlows(THREE){
+    if(this.flowGroup || !this.hasFlows) return;
+    const g=new THREE.Group(); g.renderOrder=6; this.pivot.add(g); this.flowGroup=g;
+    const H=this.norm.height, aLen=Math.max(0.16,H*0.05), aR=Math.max(0.06,H*0.019);
+    const kindCol={ heat:[1.0,0.34,0.12], hot:[1.0,0.34,0.12], primary:[1.0,0.34,0.12],
+      secondary:[1.0,0.6,0.2], gvs:[1.0,0.6,0.2], heating:[1.0,0.6,0.2],
+      cold:[0.4,0.82,1.0], hvs:[0.4,0.82,1.0], water:[0.4,0.82,1.0] };
+    this.flows=(this.CONFIG.flows||[]).map(f=>{
+      const pts=(f.at||[]).map(a=>{ const p=this.markerNorm(a); return new THREE.Vector3(p[0],p[1],p[2]); });
+      if(pts.length<2) return null;
+      const curve=new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
+      const col=(f.color&&f.color.length===3)? f.color : (kindCol[(f.kind||'heat').toLowerCase()]||[1.0,0.5,0.2]);
+      const c3=new THREE.Color(col[0],col[1],col[2]);
+      // faint guide tube so the route reads even between arrows
+      const tube=new THREE.Mesh(new THREE.TubeGeometry(curve, Math.max(28,pts.length*10), aR*0.3, 6, false),
+        new THREE.MeshBasicMaterial({color:c3, transparent:true, opacity:0.18, blending:THREE.AdditiveBlending, depthTest:false, depthWrite:false}));
+      tube.renderOrder=5; g.add(tube);
+      const count=f.count||Math.max(4, Math.round(curve.getLength()/(H*0.7)));
+      const geo=new THREE.ConeGeometry(aR, aLen, 10);
+      const arrows=[];
+      for(let i=0;i<count;i++){
+        const m=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:c3, transparent:true, opacity:0.9, blending:THREE.AdditiveBlending, depthTest:false, depthWrite:false}));
+        m.renderOrder=6; g.add(m); arrows.push(m);
+      }
+      return { curve, arrows, count, speed:(f.speed!=null?f.speed:0.09), kind:f.kind||'', color:col };
+    }).filter(Boolean);
+  }
+  buildFlowLegend(){
+    if(this.flowLegendEl){ this.flowLegendEl.remove(); this.flowLegendEl=null; }
+    if(!this.labelBox || !this.flows || !this.flows.length) return;
+    const box=document.createElement('div');
+    box.style.cssText="position:absolute;left:16px;bottom:16px;display:flex;flex-direction:column;gap:5px;padding:9px 11px;border-radius:9px;background:rgba(4,16,26,0.72);border:1px solid rgba(56,232,255,0.22);backdrop-filter:blur(6px);pointer-events:none;opacity:0;transition:opacity .25s;z-index:8;";
+    const title=document.createElement('div'); title.textContent='ПОТОКИ СРЕДЫ';
+    title.style.cssText="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#6fcfe6;margin-bottom:2px;"; box.appendChild(title);
+    this.flows.forEach(fl=>{ const c=fl.color, rgb=Math.round(c[0]*255)+','+Math.round(c[1]*255)+','+Math.round(c[2]*255);
+      const row=document.createElement('div'); row.style.cssText="display:flex;align-items:center;gap:8px;font:500 11px 'IBM Plex Sans',sans-serif;color:#dff2fb;";
+      const sw=document.createElement('span'); sw.style.cssText="flex:none;width:18px;height:0;border-top:3px solid rgba("+rgb+",0.95);box-shadow:0 0 7px rgba("+rgb+",0.75);border-radius:2px;";
+      const lbl=document.createElement('span'); lbl.textContent=fl.kind||'';
+      row.appendChild(sw); row.appendChild(lbl); box.appendChild(row); });
+    this.labelBox.appendChild(box); this.flowLegendEl=box;
+  }
+  updateFlows(t){
+    if(!this.flowGroup) return;
+    const on = this.state.flow!==false && this.hasFlows && this.explode<0.12 && !this.state.plan && !this.state.cut && this.progress>0.85;
+    this.flowGroup.visible=on;
+    if(this.flowLegendEl) this.flowLegendEl.style.opacity=on?'1':'0';
+    if(!on || !this.flows) return;
+    const T=this.THREE;
+    const up=this._flowUp||(this._flowUp=new T.Vector3(0,1,0));
+    const tan=this._flowTan||(this._flowTan=new T.Vector3());
+    const q=this._flowQ||(this._flowQ=new T.Quaternion());
+    this.flows.forEach(fl=>{ const n=fl.count;
+      for(let i=0;i<n;i++){ const a=fl.arrows[i];
+        let u=(t*fl.speed + i/n)%1; if(u<0) u+=1;
+        a.position.copy(fl.curve.getPointAt(u));
+        fl.curve.getTangentAt(u, tan); q.setFromUnitVectors(up, tan); a.quaternion.copy(q);
+        const puls=0.72+0.28*Math.sin(u*6.28318 - t*3.0);
+        a.material.opacity=0.5+0.45*puls;
+      }
+    });
+  }
+  toggleFlow=()=>{ this.setState({flow:!(this.state.flow!==false)}); this.lastInteract=performance.now(); };
+
+  addGround(THREE){
+    const c=document.createElement('canvas'); c.width=c.height=256; const x=c.getContext('2d');
+    const g=x.createRadialGradient(128,128,4,128,128,128);
+    g.addColorStop(0,'rgba(70,210,255,0.5)'); g.addColorStop(0.4,'rgba(45,170,225,0.16)'); g.addColorStop(1,'rgba(0,0,0,0)');
+    x.fillStyle=g; x.fillRect(0,0,256,256);
+    const tex=new THREE.CanvasTexture(c);
+    const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:0.6});
+    const r=this.norm.height*1.4;
+    const plane=new THREE.Mesh(new THREE.PlaneGeometry(r,r),mat);
+    plane.rotation.x=-Math.PI/2; plane.position.y=-0.04; this.groundPlane=plane; this.pivot.add(plane);
+  }
+
+  buildLabels(){
+    if(!this.labelBox) return;
+    this.labelBox.innerHTML='';
+    if(this.wholeMode){ this.labelEls=[]; return; }
+    this.labelEls=this.PARTDEF.map((p,i)=>{
+      const line=document.createElement('div');
+      line.style.cssText='position:absolute;height:1px;transform-origin:left center;background:linear-gradient(to right, rgba(56,232,255,0.7), rgba(56,232,255,0.15));pointer-events:none;opacity:0;transition:opacity .2s;';
+      const dot=document.createElement('div');
+      dot.style.cssText='position:absolute;width:7px;height:7px;border-radius:50%;background:#38e8ff;box-shadow:0 0 10px #38e8ff;transform:translate(-50%,-50%);pointer-events:none;opacity:0;transition:opacity .2s;';
+      const box=document.createElement('div');
+      box.style.cssText="position:absolute;transform:translateY(-50%);white-space:nowrap;font:600 12px 'IBM Plex Mono',monospace;color:#eafaff;background:rgba(4,16,26,0.8);border:1px solid rgba(56,232,255,0.4);border-radius:7px;padding:4px 9px;pointer-events:none;opacity:0;transition:opacity .2s;backdrop-filter:blur(4px);";
+      box.textContent=String(i+1).padStart(2,'0')+'  '+p.name;
+      this.labelBox.appendChild(line); this.labelBox.appendChild(dot); this.labelBox.appendChild(box);
+      return {line,dot,box};
+    });
+  }
+
+  bgTexture(THREE){
+    const c=document.createElement('canvas'); c.width=c.height=512; const x=c.getContext('2d');
+    const g=x.createRadialGradient(256,360,40,256,300,420);
+    g.addColorStop(0,'#0b2433'); g.addColorStop(0.45,'#06141f'); g.addColorStop(1,'#02060d');
+    x.fillStyle=g; x.fillRect(0,0,512,512);
+    const t=new THREE.CanvasTexture(c); if('colorSpace' in t && THREE.SRGBColorSpace){ t.colorSpace=THREE.SRGBColorSpace; } else { t.encoding=THREE.sRGBEncoding; } return t;
+  }
+
+  // ---- actions ----
+  selectPart=(i)=>{ if(this.wholeMode) return; const n=(this.selectedPart===i)?-1:i; this.selectedPart=n; this.selMarker=-1; this.setState({selected:n, selMarker:-1});
+    const H=this.norm.height;
+    if(n>=0){ const c=this.partCents[n]; const d=this.partDirs[n]; const e=this.explode; const cy=H*0.5;
+      this.tgtGoal={x:(c[0]+d[0]*e)*0.6, y:cy+((c[1]+d[1]*e)-cy)*0.6, z:(c[2]+d[2]*e)*0.6}; this.distTarget=Math.max(8, H*2.1); }
+    else { this.tgtGoal={x:0,y:H*0.5,z:0}; this.distTarget=Math.max(8.5,H*2.4); }
+    this.lastInteract=performance.now(); };
+  toggleExplode=()=>{ if(this.wholeMode) return; const ex=!this.state.exploded; this.explodeTarget=ex?1:0; if(ex){ this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(13,this.norm.height*3.4); this.setState({exploded:true,selected:-1}); } else { this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false}); } this.lastInteract=performance.now(); };
+  resetView=()=>{ this.azTarget=0.6; this.elTarget=0.42; this.fovTarget=42; this.explodeTarget=0; this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false,selected:-1}); this.lastInteract=performance.now(); };
+  setDensity=(d)=>{ if(d===this.state.density) return; this.setState({density:d}); this.buildEdges(this.THREE,this.angleFor(d)); this.lastInteract=performance.now(); };
+  setHover=(i)=>{ this.hovered=i; };
+
+  onResize=()=>{ if(!this.renderer||!this.canvas) return;
+    const w=this.canvas.clientWidth||window.innerWidth, h=this.canvas.clientHeight||window.innerHeight;
+    const pr=Math.min(window.devicePixelRatio||1,2);
+    this.renderer.setPixelRatio(pr); this.renderer.setSize(w,h,false);
+    this.camera.aspect=w/h; this.camera.updateProjectionMatrix();
+    if(this.composer){ this.composer.setPixelRatio(pr); this.composer.setSize(w,h); }
+    if(this.bloom) this.bloom.setSize(w,h);
+    if(this.geoRT){ this.geoRT.setSize(Math.floor(w*pr),Math.floor(h*pr)); this.outUniforms.uRes.value.set(Math.floor(w*pr),Math.floor(h*pr)); }
+  };
+
+  attachPointer(){
+    const c=this.canvas;
+    c.addEventListener('pointerdown',e=>{ this.dragging=true; this.lastX=e.clientX; this.lastY=e.clientY; this.moved=0; this.lastInteract=performance.now(); c.style.cursor='grabbing'; try{c.setPointerCapture(e.pointerId);}catch(_){} });
+    c.addEventListener('pointermove',e=>{ const r=c.getBoundingClientRect(); this.mouseNDC.x=((e.clientX-r.left)/r.width)*2-1; this.mouseNDC.y=-((e.clientY-r.top)/r.height)*2+1; this.pointerScreen={x:e.clientX-r.left,y:e.clientY-r.top};
+      if(this.dragging){ const dx=e.clientX-this.lastX, dy=e.clientY-this.lastY; this.moved+=Math.abs(dx)+Math.abs(dy); this.lastX=e.clientX; this.lastY=e.clientY; this.azTarget+=dx*0.008; this.elTarget=Math.max(0.08,Math.min(1.4,this.elTarget+dy*0.006)); this.lastInteract=performance.now(); } });
+    // one-shot pick on click (continuous hover-raycast is too costly for a dense model)
+    const up=()=>{
+      const clicked=this.dragging&&this.moved<6;
+      // calibration: print fractional bbox coords of the clicked surface point for marker authoring
+      if(clicked && this.state.calib && this.shellGroup){
+        this.raycaster.setFromCamera(this.mouseNDC,this.camera);
+        const hit=this.raycaster.intersectObjects(this.shellGroup.children,true);
+        if(hit.length){
+          const THREE=this.THREE; let nrm=null;
+          if(hit[0].face){ nrm=hit[0].face.normal.clone().applyNormalMatrix(new THREE.Matrix3().getNormalMatrix(hit[0].object.matrixWorld)).normalize(); }
+          this.reportCalib(hit[0].point, nrm);
+        }
+      } else if(clicked && !this.wholeMode && this.explode<0.06 && this.lines && this.progress>0.8){
+        this.raycaster.setFromCamera(this.mouseNDC,this.camera); const hit=this.raycaster.intersectObject(this.lines);
+        if(hit.length){ const idx=hit[0].index; if(idx!=null){ const pi=this.geometry.attributes.aPart.array[idx]|0; this.selectPart(pi); } }
+      }
+      this.dragging=false; c.style.cursor='grab';
+    };
+    c.addEventListener('pointerup',up); c.addEventListener('pointercancel',()=>{this.dragging=false;});
+    c.addEventListener('wheel',e=>{ e.preventDefault(); this.distTarget=Math.max(4,Math.min(30,this.distTarget*(1+Math.sign(e.deltaY)*0.08))); this.lastInteract=performance.now(); },{passive:false});
+  }
+
+  animate=()=>{
+    if(this.stopped) return; requestAnimationFrame(this.animate);
+    this.frame++;
+    const t=performance.now()*0.001; this.uniforms.uTime.value=t;
+    if(!this.dragging && performance.now()-this.lastInteract>2600 && this.selectedPart<0 && !this.state.plan && !this.state.cut) this.azTarget+=0.0019;
+    this.az+=(this.azTarget-this.az)*0.08; this.el+=(this.elTarget-this.el)*0.08;
+    this.dist+=(this.distTarget-this.dist)*0.08;
+    if(this.fovTarget!=null && Math.abs(this.camera.fov-this.fovTarget)>0.01){ this.camera.fov+=(this.fovTarget-this.camera.fov)*0.1; this.camera.updateProjectionMatrix(); }
+    this.explode+=(this.explodeTarget-this.explode)*0.09;
+    this.progress=Math.min(1,(performance.now()-(this.startTime||performance.now()))/850);
+    this.tgt.x+=(this.tgtGoal.x-this.tgt.x)*0.1; this.tgt.y+=(this.tgtGoal.y-this.tgt.y)*0.1; this.tgt.z+=(this.tgtGoal.z-this.tgt.z)*0.1;
+    if(this.pivot) this.pivot.rotation.y=this.az;
+    this.uniforms.uExplode.value=this.explode;
+    this.uniforms.uProgress.value=this.progress;
+    this.uniforms.uSelected.value=this.selectedPart;
+    const span=this.scanMax-this.scanMin; this.uniforms.uScan.value=this.scanMin+((t*0.3)%1)*span;
+
+    const cam=this.camera, T=this.tgt;
+    cam.position.set(T.x, T.y+Math.sin(this.el)*this.dist, T.z+Math.cos(this.el)*this.dist);
+    cam.lookAt(T.x,T.y,T.z);
+
+    this.updateLabels(cam);
+    this.updateMarkers(cam);
+    this.updateRoomLabels(cam);
+    this.updateFlows(t);
+    if(this.composer) this.composer.render();
+    this.renderOutline();
+  };
+
+  updateLabels(cam){
+    if(!this.labelEls||!this.labelEls.length) return;
+    const THREE=this.THREE, w=this.canvas.clientWidth, h=this.canvas.clientHeight;
+    const v=new THREE.Vector3();
+    const showAll=this.explode>0.12;
+    this.PARTDEF.forEach((p,i)=>{
+      const L=this.labelEls[i]; if(!L) return;
+      const vis = showAll || this.selectedPart===i || this.hovered===i;
+      if(!vis){ L.line.style.opacity='0'; L.dot.style.opacity='0'; L.box.style.opacity='0'; return; }
+      const c=this.partCents[i], d=this.partDirs[i], e=this.explode;
+      v.set(c[0]+d[0]*e,c[1]+d[1]*e,c[2]+d[2]*e);
+      v.applyAxisAngle(new THREE.Vector3(0,1,0), this.az);
+      v.project(cam);
+      if(v.z>1){ L.line.style.opacity='0'; L.dot.style.opacity='0'; L.box.style.opacity='0'; return; }
+      const sx=(v.x*0.5+0.5)*w, sy=(-v.y*0.5+0.5)*h;
+      const side = sx>w*0.5 ? 1 : -1;
+      const len=46, lx=sx+side*len, ly=sy- (i%2?22:-22);
+      L.dot.style.left=sx+'px'; L.dot.style.top=sy+'px'; L.dot.style.opacity='1';
+      const ang=Math.atan2(ly-sy, lx-sx)*180/Math.PI, dl=Math.hypot(lx-sx,ly-sy);
+      L.line.style.left=sx+'px'; L.line.style.top=sy+'px'; L.line.style.width=dl+'px'; L.line.style.transform='rotate('+ang+'deg)'; L.line.style.opacity='0.9';
+      L.box.style.left=(lx+side*6)+'px'; L.box.style.top=ly+'px'; L.box.style.transform=side<0?'translate(-100%,-50%)':'translateY(-50%)'; L.box.style.opacity='1';
+      const seld=this.selectedPart===i;
+      L.box.style.borderColor=seld?'rgba(238,255,255,0.95)':'rgba(56,232,255,0.4)';
+      L.box.style.boxShadow=seld?'0 0 10px rgba(210,250,255,0.55)':'none';
+    });
+  }
+
+  get vShader(){ return `
+    uniform float uTime,uExplode,uProgress,uSelected;
+    attribute float aSeed,aPart,aHot; attribute vec3 aExplode;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ;
+    void main(){
+      vSeed=aSeed; vPart=aPart; vHot=aHot; vMZ=position.z;
+      vSel=(uSelected>=0.0 && abs(aPart-uSelected)<0.5)?1.0:0.0;
+      vec3 formed=position+aExplode*uExplode;
+      formed+=0.004*vec3(sin(uTime*1.3+aSeed*30.0),sin(uTime*1.7+aSeed*47.0),cos(uTime*1.1+aSeed*22.0));
+      float h1=fract(sin(aSeed*91.17)*43758.5453);
+      float h2=fract(sin(aSeed*45.23+1.0)*24634.6345);
+      float u=h1*2.0-1.0; float th=h2*6.2831; float s=sqrt(max(0.0,1.0-u*u));
+      vec3 scat=position+vec3(cos(th)*s,u,sin(th)*s)*2.6;
+      vec3 p=mix(scat,formed,smoothstep(0.0,1.0,uProgress));
+      vY=p.y; vWY=(modelMatrix*vec4(p,1.0)).y;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
+    }`; }
+  fShader(refl){ return `
+    uniform float uTime,uScan,uGround,uSelected,uExplode,uFill,uPlan,uPlanY,uPlanH,uCut,uCutZ; uniform vec3 uColor,uColor2;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ;
+    void main(){
+      if(vHot>0.5) discard;   // hot/internal systems handled by the red inner pass
+      if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
+      float fl=0.88+0.12*sin(uTime*5.0+vSeed*40.0);
+      float band=smoothstep(0.10,0.0,abs(vY-uScan));
+      float sel = uSelected<0.0 ? 1.0 : (vSel>0.5?1.9:0.12);
+      vec3 col=uColor + band*vec3(0.18,0.30,0.38);
+      col=mix(col, vec3(0.90,1.0,1.0), vSel*0.85);   // выделенный узел — белым
+      col*=1.0 + vSel*1.6;                            // мягкое свечение заливки выделенного узла
+      float a=fl*(0.03*sel + band*0.07*sel)*uFill;
+      if(uPlan>0.5) a*=1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY));
+      ${refl?'a*=0.14*smoothstep(uGround-3.0,uGround,vWY)*(1.0-0.85*clamp(uExplode,0.0,1.0));':''}
+      gl_FragColor=vec4(col,a);
+    }`; }
+  get fShaderBold(){ return `
+    uniform float uTime,uScan,uSelected,uBold,uBAmt,uPlan,uPlanY,uPlanH,uCut,uCutZ; uniform vec3 uColor,uBTint;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ;
+    void main(){
+      if(vHot>0.5) discard;
+      if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
+      float fl=0.9+0.1*sin(uTime*5.0+vSeed*40.0);
+      float band=smoothstep(0.10,0.0,abs(vY-uScan));
+      float sel = uSelected<0.0 ? 1.0 : (vSel>0.5?2.0:0.10);
+      // contour tint is mode-aware: whiter for scans, reference blue-cyan for structured
+      vec3 col=mix(uColor, uBTint, uBAmt) + band*vec3(0.12,0.20,0.30);
+      col=mix(col, vec3(0.94,1.0,1.0), vSel*0.92);   // выделенный узел — яркий белый контур
+      col*=1.0 + vSel*(2.6+0.45*sin(uTime*2.3));      // HDR-свечение выделенного контура (раздувается bloom)
+      float a=fl*(0.30*sel + band*0.16*sel)*uBold;
+      if(uPlan>0.5) a*=1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY));
+      gl_FragColor=vec4(col, a);
+    }`; }
+  get fShaderInner(){ return `
+    uniform float uTime,uScan,uSelected,uExplode,uHotInt,uPlan,uPlanY,uPlanH,uCut,uCutZ; uniform vec3 uColor2;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ;
+    void main(){
+      if(vHot<0.5) discard;   // only the hot/internal systems (red)
+      if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
+      float fl=0.85+0.15*sin(uTime*5.0+vSeed*40.0);
+      float band=smoothstep(0.10,0.0,abs(vY-uScan));
+      float sel = uSelected<0.0 ? 1.0 : (vSel>0.5?2.0:0.4);
+      vec3 col=uColor2*1.2 + band*vec3(0.30,0.10,0.03);
+      col=mix(col, vec3(1.0,0.98,0.94), vSel*0.92);  // выделенный горячий узел — белым
+      col*=1.0 + vSel*(2.4+0.45*sin(uTime*2.3));      // HDR-свечение (раздувается bloom)
+      float a=fl*(0.18*sel + band*0.12*sel)*uHotInt;
+      if(uPlan>0.5) a*=1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY));
+      gl_FragColor=vec4(col, a);
+    }`; }
+  get vShellShader(){ return `
+    varying vec4 vClip;
+    varying vec3 vNw,vPw;
+    void main(){
+      vec4 mv=modelViewMatrix*vec4(position,1.0);
+      vClip=projectionMatrix*mv;
+      vPw=(modelMatrix*vec4(position,1.0)).xyz;
+      vNw=normalize(mat3(modelMatrix)*normal);
+      gl_Position=vClip;
+    }`; }
+  // Shell surface = ektogamat HolographicMaterial (MIT) adapted: scanlines + Fresnel,
+  // UV-free (screen-space coords, since single-mesh scans carry no UVs). Our fades
+  // (assemble uProgress / explode uExplode / selected uSelected) preserved verbatim.
+  get fShellShader(){ return `
+    uniform vec3 uColor; uniform float uTime,uExplode,uSelected,uProgress,uShellOp;
+    varying vec4 vClip; varying vec3 vNw,vPw;
+    const float scanlineSize=7.0, signalSpeed=0.9, fresnelAmount=0.5, fresnelOpacity=1.0, holoBright=0.85;
+    float flick(float amt,float t){ return clamp(fract(cos(t)*43758.5453123), amt, 1.0); }
+    float rnd(float a,float b){ return fract(cos(dot(vec2(a,b),vec2(12.9898,78.233)))*43758.5453); }
+    void main(){
+      vec2 sc=vClip.xy/vClip.w; sc=sc*0.5+0.5; vec2 uv=fract(sc);
+      vec4 holo=vec4(uColor, mix(holoBright, uv.y, 0.5));
+      float scan=10.0;
+      scan+=20.0*sin(uTime*signalSpeed*20.8 - uv.y*60.0*scanlineSize);
+      scan*=smoothstep(1.3*cos(uTime*signalSpeed + uv.y*scanlineSize), 0.78, 0.9);
+      scan*=max(0.25, sin(uTime*signalSpeed));
+      float r=rnd(uv.x,uv.y), b=rnd(uv.y*0.9,uv.y*0.2);
+      holo+=vec4(r*scan, b*scan, r, 1.0)/84.0;
+      vec4 scanMix=mix(vec4(0.0), holo, holo.a);
+      vec3 Vd=normalize(cameraPosition - vPw);
+      float fres=dot(Vd, normalize(vNw))*(1.6 - fresnelOpacity/2.0);
+      fres=clamp(fresnelAmount - fres, 0.0, fresnelOpacity);
+      float blink=flick(0.82, uTime*0.3);
+      vec3 col=scanMix.rgb + fres*blink;
+      float fade=(1.0-0.96*clamp(uExplode,0.0,1.0))*(uSelected<0.0?1.0:0.55)*smoothstep(0.0,1.0,uProgress);
+      gl_FragColor=vec4(col, 0.13*fade*uShellOp);
+    }`; }
+
+  renderVals(){
+    const C=this.CONFIG, whole=this.wholeMode, sel=this.state.selected;
+    const ctrlBase="cursor:pointer;font:600 12.5px 'IBM Plex Sans',sans-serif;padding:9px 15px;border-radius:10px;transition:all .15s;backdrop-filter:blur(8px);";
+    const ctrlN=ctrlBase+"color:#dff6ff;background:rgba(6,18,30,0.6);border:1px solid rgba(56,232,255,0.3);";
+    const ctrlM=ctrlBase+"color:#9fc6d8;background:rgba(6,18,30,0.45);border:1px solid rgba(56,232,255,0.16);";
+    const controls=[];
+    if(!whole) controls.push({label:this.state.exploded?'⊞  Собрать':'⊟  Разобрать', style:ctrlN, onClick:this.toggleExplode});
+    if(this.hasFlows) controls.push({label:(this.state.flow!==false)?'⇢  Потоки: ВКЛ':'⇢  Потоки: ВЫКЛ', style:(this.state.flow!==false)?ctrlN:ctrlM, onClick:this.toggleFlow});
+    controls.push({label:'↺  Сбросить вид', style:ctrlM, onClick:this.resetView});
+    if(this.planMode) controls.push({label:this.state.plan?'⊠  Выйти из плана':'▦  План этажа', style:ctrlN, onClick:this.togglePlan});
+    if(this.state.plan){ controls.push({label:'▲ выше', style:ctrlM, onClick:()=>this.planStep(1)}); controls.push({label:'▼ ниже', style:ctrlM, onClick:()=>this.planStep(-1)}); }
+    if(this.planMode) controls.push({label:this.state.cut?'⊠  Собрать фасад':'◫  Разрез фасада', style:ctrlN, onClick:this.toggleCut});
+    if(this.state.cut){ controls.push({label:'⟩ глубже', style:ctrlM, onClick:()=>this.cutStep(1)}); controls.push({label:'⟨ меньше', style:ctrlM, onClick:()=>this.cutStep(-1)}); }
+    if((C.markers&&C.markers.length) && C.calibrate!==false && !this.state.plan && !this.state.cut) controls.push({label:this.state.calib?'⊙  калибровка: ВКЛ':'⊕  калибровка', style:ctrlM, onClick:this.toggleCalib});
+
+    const dBtn=(k,on)=>`cursor:pointer;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.06em;padding:5px 10px;border-radius:7px;border:none;transition:all .15s;${on?'background:rgba(56,232,255,0.9);color:#04141f;':'background:transparent;color:#7fb3c8;'}`;
+    const densBtns=Object.keys(this.densMap).map(k=>({label:this.densMap[k].label, style:dBtn(k,this.state.density===k), onClick:()=>this.setDensity(k)}));
+
+    const partStyle=a=>`display:flex;align-items:center;gap:11px;width:100%;text-align:left;cursor:pointer;font:500 13.5px 'IBM Plex Sans',sans-serif;padding:9px 11px;border-radius:10px;transition:all .15s;border:1px solid ${a?'rgba(56,232,255,0.5)':'rgba(56,232,255,0.12)'};background:${a?'rgba(56,232,255,0.12)':'rgba(6,18,30,0.4)'};color:${a?'#eafaff':'#b4d4e2'};`;
+    const numStyle=a=>`flex:none;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:6px;font:600 11px 'IBM Plex Mono',monospace;background:${a?'rgba(56,232,255,0.9)':'rgba(56,232,255,0.12)'};color:${a?'#04141f':'#7fd6ec'};`;
+    const parts=whole?[]:this.PARTDEF.map((p,i)=>({ name:p.name, num:String(i+1).padStart(2,'0'), style:partStyle(i===sel), numStyle:numStyle(i===sel), onClick:()=>this.selectPart(i), onEnter:()=>this.setHover(i), onLeave:()=>this.setHover(-1) }));
+
+    const headHide=whole?'display:none;':'';
+    const std=this.standMode, M=C.markers||[], selm=this.state.selMarker, calib=this.state.calib;
+    const hasMarkers=M.length>0, hasSpecs=!!(C.specs&&C.specs.rows);
+    const markersList = std? M.map((m,i)=>({ name:m.name||'', num:String(m.n!=null?m.n:i+1).padStart(2,'0'), style:partStyle(i===selm), numStyle:numStyle(i===selm), onClick:()=>this.selectMarker(i), onEnter:()=>this.hoverMarker(i), onLeave:()=>this.hoverMarker(-1) })) : [];
+    const curM = (selm>=0)? M[selm] : null;
+    const specRows = hasSpecs? C.specs.rows.map(r=>({k:r[0], v:r[1]})) : [];
+    const cur = (!whole && sel>=0) ? this.PARTDEF[sel] : null;
+    const overview = C.overview || {};
+    const infoSep = std || !whole || hasSpecs;
+    return {
+      onCanvas:this.onCanvas, onLabels:this.onLabels,
+      badge: C.badge || 'ИНТЕРАКТИВНАЯ ГОЛОГРАММА',
+      category: C.category || '',
+      title: C.title || 'Объект',
+      subtitle: C.subtitle || '',
+      loading:this.state.loading, loadingText:this.state.loadingText,
+      controls, densBtns, parts, markersList, specRows,
+      partsHeadStyle: `font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;margin-bottom:12px;${headHide}`,
+      partsListStyle: `display:${whole?'none':'flex'};flex-direction:column;gap:6px;`,
+      legendHeadStyle: `font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;margin-bottom:12px;display:${std?'block':'none'};`,
+      legendListStyle: `display:${std?'flex':'none'};flex-direction:column;gap:6px;`,
+      specWrapStyle: `display:${hasSpecs?'block':'none'};margin-top:15px;padding-top:14px;border-top:1px solid rgba(56,232,255,0.14);`,
+      specTitle: (C.specs&&C.specs.title)||'ОБЩИЕ ХАРАКТЕРИСТИКИ',
+      infoWrapStyle: `margin-top:${infoSep?'15':'0'}px;padding-top:${infoSep?'15':'0'}px;border-top:${infoSep?'1px solid rgba(56,232,255,0.14)':'none'};`,
+      infoTag: curM? ('УЗЕЛ '+String(curM.n!=null?curM.n:selm+1).padStart(2,'0')) : (cur? cur.tag : (overview.tag||'ОБЗОР')),
+      infoTitle: curM? curM.name : (cur? cur.name : (overview.title|| (whole? C.title : (this.PARTDEF.length+' основных систем')))),
+      infoDesc: curM? (curM.desc||'') : (cur? cur.desc : (overview.desc||C.subtitle||'')),
+      counter: this.state.plan ? ('ПЛАН · ЭТАЖ '+(this.state.planFloor+1)+' / '+(this.planFloors||9))
+               : this.state.cut ? 'РАЗРЕЗ ФАСАДА · КВАРТИРЫ В ОБЪЁМЕ'
+               : calib ? ('КАЛИБР: '+(this.state.calibText||'кликните по модели'))
+               : selm>=0 ? ('Узел '+String((curM&&curM.n!=null?curM.n:selm+1)).padStart(2,'0')+' / '+String(M.length).padStart(2,'0'))
+               : (!whole && sel>=0) ? ('Система '+String(sel+1).padStart(2,'0')+' / '+String(this.PARTDEF.length).padStart(2,'0'))
+               : std ? ('Узлов: '+String(M.length).padStart(2,'0'))
+               : whole ? (C.counter||'ГОЛОГРАММА') : ('Систем: '+String(this.PARTDEF.length).padStart(2,'0')),
+      hint: this.state.cut ? 'разрез фасада · ⟨/⟩ — глубина среза · тяните — поворот'
+            : this.state.plan ? 'план типовой блок-секции · ▲/▼ — этаж · 1Б-2Б-3Б-3Б'
+            : calib ? 'КАЛИБРОВКА: клик по модели → координаты узла (консоль + строка снизу)'
+            : std ? 'клик по номеру или в списке — узел · тяните — поворот · колесо — масштаб'
+            : whole ? 'тяните — поворот · колесо — масштаб'
+            : (this.state.exploded?'наведите на систему в списке · колесо — масштаб':'тяните — поворот · клик по системе или номеру · колесо — масштаб'),
+    };
+  }
+}
+</script>
+
+
+</body></html>
