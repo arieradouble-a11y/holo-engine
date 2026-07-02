@@ -178,19 +178,32 @@ async function main(){
         throw new Error('ошибка выполнения: ' + (msgs[0] || 'см. консоль ComfyUI'));
       }
       if (st.completed){
-        // 5) найти GLB в outputs
+        // 5) найти GLB: сначала файловые outputs (SaveGLB-подобные ноды)…
         const files = [];
         for (const out of Object.values(rec.outputs || {}))
           for (const arr of Object.values(out))
             if (Array.isArray(arr)) arr.forEach(f => { if (f && typeof f === 'object' && /\.glb$/i.test(f.filename || '')) files.push(f); });
-        if (!files.length) throw new Error('в outputs нет .glb (проверьте ноду экспорта)');
-        const f = files[files.length - 1];
-        const r = await api('/view?filename=' + encodeURIComponent(f.filename) + '&subfolder=' + encodeURIComponent(f.subfolder || '') + '&type=' + (f.type || 'output'));
+        let fname = files.length ? files[files.length - 1].filename : null;
+        let sub = files.length ? (files[files.length - 1].subfolder || '') : '';
+        // …иначе перебор счётчика ComfyUI: Trellis2ExportMesh пишет
+        // <префикс>_00001_.glb на диск, не сообщая файл в history. Наибольший
+        // существующий индекс = самый свежий (счётчик монотонный).
+        if (!fname){
+          const probe = async (fn) => (await fetch(COMFY + '/view?filename=' + encodeURIComponent(fn) + '&type=output', { headers: { Range: 'bytes=0-0' } })).ok;
+          let best = 0;
+          for (let i = 1; i <= 200; i++){
+            if (await probe('holo_' + NAME + '_' + String(i).padStart(5, '0') + '_.glb')) best = i;
+            else if (best > 0 || i > 20) break;   // счётчик непрерывный
+          }
+          if (!best) throw new Error('GLB не найден ни в outputs, ни перебором holo_' + NAME + '_NNNNN_.glb');
+          fname = 'holo_' + NAME + '_' + String(best).padStart(5, '0') + '_.glb';
+        }
+        const r = await api('/view?filename=' + encodeURIComponent(fname) + '&subfolder=' + encodeURIComponent(sub) + '&type=output');
         const buf = Buffer.from(await r.arrayBuffer());
         const outPath = path.resolve(args.out || path.join(ENGINE_DIR, '..', NAME + '.glb'));
         fs.writeFileSync(outPath, buf);
         const dt = ((Date.now() - t0) / 1000).toFixed(0);
-        console.log('✓ GLB     :', outPath, '(' + (buf.length / 1e6).toFixed(1) + 'MB, ' + dt + 'с)');
+        console.log('✓ GLB     :', outPath, '(' + (buf.length / 1e6).toFixed(1) + 'MB, ' + dt + 'с | ' + fname + ')');
         return outPath;
       }
     }
