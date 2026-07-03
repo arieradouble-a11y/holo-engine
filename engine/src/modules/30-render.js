@@ -10,7 +10,10 @@
     this.outlineOn = cfg.outline!=null ? !!cfg.outline : this.wholeMode;
     if(!this.outlineOn) return;
     const acc=this.ACCENTS[cfg.accent]||this.ACCENTS.cyan;
-    this.geoRT=new THREE.WebGLRenderTarget(2,2,{depthBuffer:true, minFilter:THREE.NearestFilter, magFilter:THREE.NearestFilter});
+    // HalfFloat обязателен: в 8-битном таргете глубина в альфе квантуется с шагом
+    // 1/256≈0.004 — сопоставимо с порогом uDepth, и «ступени» квантования сами
+    // рисуются как полосы по гладким поверхностям (артефакт «лучей»/«масла»).
+    this.geoRT=new THREE.WebGLRenderTarget(2,2,{depthBuffer:true, type:THREE.HalfFloatType, minFilter:THREE.NearestFilter, magFilter:THREE.NearestFilter});
     this.geoMat=new THREE.ShaderMaterial({ side:THREE.DoubleSide,
       vertexShader:`varying vec3 vN; varying float vZ; void main(){ vec4 mv=modelViewMatrix*vec4(position,1.0); vN=normalize(normalMatrix*normal); vZ=-mv.z; gl_Position=projectionMatrix*mv; }`,
       fragmentShader:`varying vec3 vN; varying float vZ; void main(){ gl_FragColor=vec4(normalize(vN)*0.5+0.5, clamp(vZ/40.0,0.0,1.0)); }`
