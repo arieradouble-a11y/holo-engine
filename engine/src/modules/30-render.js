@@ -41,8 +41,14 @@
           float ne=(nd(nC,sR)+nd(nC,sL)+nd(nC,sU)+nd(nC,sD)+nd(nC,sA)+nd(nC,sB)+nd(nC,sC)+nd(nC,sE))*0.5;
           float de=(abs(dC-sR.a)+abs(dC-sL.a)+abs(dC-sU.a)+abs(dC-sD.a)+abs(dC-sA.a)+abs(dC-sB.a)+abs(dC-sC.a)+abs(dC-sE.a))*0.5;
           float onObj=step(0.0001, dC+sR.a+sL.a+sU.a+sD.a+sA.a+sB.a+sC.a+sE.a); // skip pure background
+          // slope-компенсация порога глубины: на пологих к лучу зрения участках
+          // (|n.z|→0) глубина между соседними пикселями меняется быстро и при
+          // фиксированном пороге даёт ложные «лучи» по поверхности. Настоящий
+          // силуэт (перепад в фон/перекрытие) на порядок больше и остаётся.
+          float slope=1.0/max(abs(nC.z),0.18);
+          float dth=uDepth*slope;
           float nEdge=smoothstep(uNorm, uNorm*1.7, ne);
-          float dEdge=smoothstep(uDepth, uDepth*2.5, de);
+          float dEdge=smoothstep(dth, dth*2.5, de);
           float edge=max(nEdge,dEdge)*onObj;
           float a=edge*uInt*smoothstep(0.0,1.0,uProgress);
           if(a<=0.004) discard;
