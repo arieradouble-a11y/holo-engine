@@ -6,6 +6,7 @@
     const controls=[];
     if(!whole) controls.push({label:this.state.exploded?'⊞  Собрать':'⊟  Разобрать', style:ctrlN, onClick:this.toggleExplode});
     if(this.hasFlows) controls.push({label:(this.state.flow!==false)?'⇢  Потоки: ВКЛ':'⇢  Потоки: ВЫКЛ', style:(this.state.flow!==false)?ctrlN:ctrlM, onClick:this.toggleFlow});
+    controls.push({label:this._tuneOpen?'⚙  Вид: настройка':'⚙  Вид', style:this._tuneOpen?ctrlN:ctrlM, onClick:this.toggleTune});
     controls.push({label:'↺  Сбросить вид', style:ctrlM, onClick:this.resetView});
     if(this.planMode) controls.push({label:this.state.plan?'⊠  Выйти из плана':'▦  План этажа', style:ctrlN, onClick:this.togglePlan});
     if(this.state.plan){ controls.push({label:'▲ выше', style:ctrlM, onClick:()=>this.planStep(1)}); controls.push({label:'▼ ниже', style:ctrlM, onClick:()=>this.planStep(-1)}); }

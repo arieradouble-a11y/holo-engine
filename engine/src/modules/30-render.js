@@ -24,13 +24,16 @@
       uNorm:{value: cfg.contourNormal!=null?cfg.contourNormal:0.9 },   // normal-break threshold (sum of 4 neighbours)
       uDepth:{value: cfg.contourDepth!=null?cfg.contourDepth:0.012 },  // depth-jump threshold (silhouette/overlap)
       uColor:{value:new THREE.Color().setRGB(Math.min(1,acc.a[0]*1.1+0.15),Math.min(1,acc.a[1]*1.05+0.05),1.0)},
-      uInt:{value: cfg.outlineIntensity!=null?cfg.outlineIntensity:1.0 }, uProgress:{value:0}
+      uInt:{value: cfg.outlineIntensity!=null?cfg.outlineIntensity:1.0 }, uProgress:{value:0},
+      // внутренние (по перелому нормали) контуры — своя, приглушённая яркость:
+      // видно устройство, но силуэт остаётся главным
+      uIntN:{value: cfg.outlineInnerIntensity!=null?cfg.outlineInnerIntensity:(cfg.outlineIntensity!=null?cfg.outlineIntensity:1.0)*0.45 }
     };
     const quadMat=new THREE.ShaderMaterial({
       uniforms:this.outUniforms, transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending,
       vertexShader:`varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.0,1.0); }`,
       fragmentShader:`
-        uniform sampler2D tGeo; uniform vec2 uRes; uniform float uThick,uNorm,uDepth,uInt,uProgress; uniform vec3 uColor;
+        uniform sampler2D tGeo; uniform vec2 uRes; uniform float uThick,uNorm,uDepth,uInt,uIntN,uProgress; uniform vec3 uColor;
         varying vec2 vUv;
         float nd(vec3 a, vec4 s){ return 1.0-clamp(dot(a,s.rgb*2.0-1.0),0.0,1.0); }
         void main(){
@@ -52,8 +55,9 @@
           float dth=uDepth*slope;
           float nEdge=smoothstep(uNorm, uNorm*1.7, ne);
           float dEdge=smoothstep(dth, dth*2.5, de);
-          float edge=max(nEdge,dEdge)*onObj;
-          float a=edge*uInt*smoothstep(0.0,1.0,uProgress);
+          // силуэт/перекрытия — полной яркостью, внутренние переломы — своей
+          float edge=max(dEdge*uInt, nEdge*uIntN)*onObj;
+          float a=edge*smoothstep(0.0,1.0,uProgress);
           if(a<=0.004) discard;
           gl_FragColor=vec4(uColor,a);
         }`
@@ -212,5 +216,6 @@
     this.buildMarkers();
     this.buildRoomLabels();
     this.buildFlows(THREE); this.buildFlowLegend();   // guide-tube arrows once; legend re-attaches after labelBox clear
+    this.buildTunePanel();                            // ползунки «⚙ Вид» — тоже живут в labelBox
     this.progress=0; this.uniforms.uProgress.value=0; this.startTime=performance.now();
   }

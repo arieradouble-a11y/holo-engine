@@ -13,7 +13,7 @@
   "outline": true,
   "outlineWidth": 1.5,
   "outlineIntensity": 1.7,
-  "contourNormal": 3.4,
+  "contourNormal": 2.6,
   "contourDepth": 0.005,
   "fill": 0.14,
   "shellOpacity": 0.1,
@@ -63,5 +63,6 @@
         "weld + сглаживание в движке"
       ]
     ]
-  }
+  },
+  "outlineInnerIntensity": 0.7
 }
