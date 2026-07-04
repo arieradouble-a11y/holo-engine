@@ -37,7 +37,7 @@ const WORKFLOW = path.resolve(ENGINE_DIR, args.workflow || 'comfyui/workflows/Me
 const TIMEOUT_S = Number(args.timeout || 1800);
 
 if (!args.image){
-  console.error('Usage: node tools/image-to-3d.js --image <файл> [--name <имя>] [--seed N] [--out <glb>] [--config <cfg.json> --build]');
+  console.error('Usage: node tools/image-to-3d.js --image <файл> [--name <имя>] [--seed N] [--faces N (по умолч. 90000)] [--out <glb>] [--config <cfg.json> --build]');
   process.exit(1);
 }
 const imagePath = path.resolve(args.image);
@@ -153,8 +153,21 @@ async function main(){
     if (args.seed != null && 'seed' in node.inputs && !Array.isArray(node.inputs.seed))
       node.inputs.seed = Number(args.seed);
   }
+  // Упрощение меша: TRELLIS выдаёт 0.5–1 млн полигонов — для проволочной
+  // голограммы это избыток, шум триангуляции читается как «ржавая» поверхность.
+  // Нам нужна чистая основа, а не сверхдетализация → режем целевое число граней.
+  // target_face_num обоих Trellis2SimplifyMesh запитан от одного PrimitiveInt.
+  const FACES = Number(args.faces != null ? args.faces : 90000);
+  let facesSet = 0;
+  for (const node of Object.values(graph)){
+    if (node.class_type === 'Trellis2SimplifyMesh'){
+      const t = node.inputs.target_face_num;
+      if (Array.isArray(t) && graph[t[0]] && graph[t[0]].class_type === 'PrimitiveInt'){ graph[t[0]].inputs.value = FACES; facesSet++; }
+      else { node.inputs.target_face_num = FACES; facesSet++; }
+    }
+  }
   if (!loaded) throw new Error('в воркфлоу нет ноды загрузки изображения');
-  console.log('· graph   :', Object.keys(graph).length, 'нод | префикс: holo_' + NAME + (prefixed ? '' : ' (не подставился!)') + (rembg ? ' | rembg: on' : ''));
+  console.log('· graph   :', Object.keys(graph).length, 'нод | префикс: holo_' + NAME + (prefixed ? '' : ' (не подставился!)') + (rembg ? ' | rembg: on' : '') + (facesSet ? ' | грани≤' + FACES : ''));
 
   // 3) постановка в очередь
   const q = await apiJSON('/prompt', {

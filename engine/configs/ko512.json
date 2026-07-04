@@ -13,7 +13,7 @@
   "outline": true,
   "outlineWidth": 1.5,
   "outlineIntensity": 1.7,
-  "contourNormal": 2.6,
+  "contourNormal": 1.3,
   "contourDepth": 0.005,
   "fill": 0.14,
   "shellOpacity": 0.1,
@@ -73,5 +73,5 @@
     ]
   },
   "calibrate": true,
-  "outlineInnerIntensity": 0.7
+  "outlineInnerIntensity": 0.75
 }

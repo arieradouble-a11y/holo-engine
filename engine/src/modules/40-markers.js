@@ -42,11 +42,12 @@
     if(this.state.plan||this.state.cut){ this.markerEls.forEach(L=>{ L.dot.style.opacity='0'; L.dot.style.pointerEvents='none'; L.line.style.opacity='0'; L.box.style.opacity='0'; }); return; }
     const THREE=this.THREE, w=this.canvas.clientWidth, h=this.canvas.clientHeight;
     const Y=new THREE.Vector3(0,1,0), wp=new THREE.Vector3(), wn=new THREE.Vector3(), vd=new THREE.Vector3(), v=new THREE.Vector3();
+    const vaz=this._viewAz!=null?this._viewAz:this.az;
     const showAll=this.state.calib, sm=THREE.MathUtils.smoothstep;
     this.markerEls.forEach((L,i)=>{
       const sel=this.selMarker===i, hov=this.hovMarker===i, active=sel||hov;
-      wp.set(L.pos[0],L.pos[1],L.pos[2]).applyAxisAngle(Y,this.az);
-      wn.set(L.nrm[0],L.nrm[1],L.nrm[2]).applyAxisAngle(Y,this.az);
+      wp.set(L.pos[0],L.pos[1],L.pos[2]).applyAxisAngle(Y,vaz);
+      wn.set(L.nrm[0],L.nrm[1],L.nrm[2]).applyAxisAngle(Y,vaz);
       v.copy(wp).project(cam);
       if(v.z>1){ L.dot.style.opacity='0'; L.dot.style.pointerEvents='none'; L.line.style.opacity='0'; L.box.style.opacity='0'; return; }
       // model-viewer-style occlusion: a marker whose surface normal faces away from
@@ -75,12 +76,13 @@
   // convert a clicked surface point back to fractional bbox coords for authoring markers
   reportCalib(p,n){
     const THREE=this.THREE, {size,scl}=this.norm, Y=new THREE.Vector3(0,1,0);
-    const v=p.clone().applyAxisAngle(Y, -this.az);
+    const vaz=this._viewAz!=null?this._viewAz:this.az;
+    const v=p.clone().applyAxisAngle(Y, -vaz);
     const f=(x)=>Math.round(x*1000)/1000;
     const fx=f(v.x/(size.x*scl)+0.5), fy=f(v.y/(size.y*scl)), fz=f(v.z/(size.z*scl)+0.5);
     const at='['+fx+', '+fy+', '+fz+']';
     let nrmStr='';
-    if(n){ const nl=n.clone().applyAxisAngle(Y, -this.az).normalize(); nrmStr=', "nrm": ['+f(nl.x)+', '+f(nl.y)+', '+f(nl.z)+']'; }
+    if(n){ const nl=n.clone().applyAxisAngle(Y, -vaz).normalize(); nrmStr=', "nrm": ['+f(nl.x)+', '+f(nl.y)+', '+f(nl.z)+']'; }
     const next=(this.CONFIG.markers||[]).length+1;
     // model-viewer "editor" pattern: emit a paste-ready hotspot (position + normal)
     console.log('[calib] { "n": '+next+', "name": "", "desc": "", "at": '+at+nrmStr+' },');

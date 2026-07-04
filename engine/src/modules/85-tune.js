@@ -8,6 +8,11 @@
     return [
       { key:'outlineIntensity',      name:'Контур внешний',    min:0, max:4,   get:()=>O()?O().uInt.value:0,  set:v=>{ if(O()) O().uInt.value=v; } },
       { key:'outlineInnerIntensity', name:'Контур внутренний', min:0, max:2.5, get:()=>O()?O().uIntN.value:0, set:v=>{ if(O()) O().uIntN.value=v; } },
+      // «детализация нутра» — обратная величина порога uNorm: правее = больше
+      // внутренних линий (uNorm 3.0→0.6). key даёт готовый contourNormal для конфига.
+      { key:'contourNormal', name:'Детализация нутра', min:0, max:1, inv:true,
+        get:()=>{ const n=O()?O().uNorm.value:1.4; return (3.0-n)/2.4; },
+        set:v=>{ if(O()) O().uNorm.value=3.0-v*2.4; }, cfg:()=>O()?+O().uNorm.value.toFixed(2):1.4 },
       { key:'fill',                  name:'Заливка каркаса',   min:0, max:1.5, get:()=>U.uFill.value,         set:v=>{ U.uFill.value=v; } },
       { key:'shellOpacity',          name:'Оболочка',          min:0, max:1,   get:()=>U.uShellOp.value,      set:v=>{ U.uShellOp.value=v; } },
       { key:'bloomStrength',         name:'Свечение (bloom)',  min:0, max:1.5, get:()=>this.bloom?this.bloom.strength:0, set:v=>{ if(this.bloom) this.bloom.strength=v; } },
@@ -25,7 +30,7 @@
     copy.textContent='⧉ в конфиг';
     copy.style.cssText="cursor:pointer;font:600 9.5px 'IBM Plex Mono',monospace;color:#9fdcef;background:rgba(56,232,255,0.10);border:1px solid rgba(56,232,255,0.3);border-radius:6px;padding:2px 7px;";
     copy.onclick=()=>{
-      const s={}; this.tuneDefs().forEach(d=>{ if(d.key==='bloomStrength'){ s.bloom=Object.assign({},this.CONFIG.bloom,{strength:+d.get().toFixed(2)}); } else s[d.key]=+d.get().toFixed(2); });
+      const s={}; this.tuneDefs().forEach(d=>{ if(d.key==='bloomStrength'){ s.bloom=Object.assign({},this.CONFIG.bloom,{strength:+d.get().toFixed(2)}); } else s[d.key]= d.cfg? d.cfg() : +d.get().toFixed(2); });
       const txt=JSON.stringify(s,null,2).replace(/^\{\n|\n\}$/g,'');
       console.log('[настройка вида]\n'+txt);
       try{ navigator.clipboard.writeText(txt); copy.textContent='✓ скопировано'; }catch(_){ copy.textContent='→ в консоли'; }

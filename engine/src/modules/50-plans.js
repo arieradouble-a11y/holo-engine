@@ -20,7 +20,7 @@
     const ny=(yM-minY)*scl, v=new THREE.Vector3(), Y=new THREE.Vector3(0,1,0);
     this.planRooms.forEach((r,i)=>{
       const e=this.roomEls[i]; if(!e) return;
-      v.set((r.x-center.x)*scl, ny, (r.z-center.z)*scl).applyAxisAngle(Y,this.az).project(cam);
+      v.set((r.x-center.x)*scl, ny, (r.z-center.z)*scl).applyAxisAngle(Y,this._viewAz!=null?this._viewAz:this.az).project(cam);
       if(v.z>1){ e.style.opacity='0'; return; }
       e.style.left=((v.x*0.5+0.5)*w)+'px'; e.style.top=((-v.y*0.5+0.5)*h)+'px'; e.style.opacity= r.apt?'1':'0.9';
     });

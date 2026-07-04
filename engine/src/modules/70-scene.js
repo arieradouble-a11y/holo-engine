@@ -44,6 +44,7 @@
     this.lastInteract=performance.now(); };
   toggleExplode=()=>{ if(this.wholeMode) return; const ex=!this.state.exploded; this.explodeTarget=ex?1:0; if(ex){ this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(13,this.norm.height*3.4); this.setState({exploded:true,selected:-1}); } else { this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false}); } this.lastInteract=performance.now(); };
   resetView=()=>{ this.azTarget=0.6; this.elTarget=0.42; this.fovTarget=42; this.explodeTarget=0; this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false,selected:-1}); this.lastInteract=performance.now(); };
+  toggleSpin=()=>{ this.setState({spin:!this.state.spin}); this.lastInteract=performance.now(); };
   setDensity=(d)=>{ if(d===this.state.density) return; this.setState({density:d}); this.buildEdges(this.THREE,this.angleFor(d)); this.lastInteract=performance.now(); };
   setHover=(i)=>{ this.hovered=i; };
 
@@ -81,6 +82,8 @@
       this.dragging=false; c.style.cursor='grab';
     };
     c.addEventListener('pointerup',up); c.addEventListener('pointercancel',()=>{this.dragging=false;});
+    c.addEventListener('pointerenter',()=>{ this.hovering=true; });
+    c.addEventListener('pointerleave',()=>{ this.hovering=false; this.dragging=false; c.style.cursor='grab'; });
     c.addEventListener('wheel',e=>{ e.preventDefault(); this.distTarget=Math.max(4,Math.min(30,this.distTarget*(1+Math.sign(e.deltaY)*0.08))); this.lastInteract=performance.now(); },{passive:false});
   }
 
@@ -88,21 +91,30 @@
     if(this.stopped) return; requestAnimationFrame(this.animate);
     this.frame++;
     const t=performance.now()*0.001; this.uniforms.uTime.value=t;
-    if(!this.dragging && performance.now()-this.lastInteract>2600 && this.selectedPart<0 && !this.state.plan && !this.state.cut) this.azTarget+=0.0019;
+    // авто-вращение только по кнопке «↻ Вращение» (state.spin)
+    if(this.state.spin && !this.dragging && this.selectedPart<0 && !this.state.plan && !this.state.cut) this.azTarget+=0.0028;
     this.az+=(this.azTarget-this.az)*0.08; this.el+=(this.elTarget-this.el)*0.08;
     this.dist+=(this.distTarget-this.dist)*0.08;
     if(this.fovTarget!=null && Math.abs(this.camera.fov-this.fovTarget)>0.01){ this.camera.fov+=(this.fovTarget-this.camera.fov)*0.1; this.camera.updateProjectionMatrix(); }
     this.explode+=(this.explodeTarget-this.explode)*0.09;
     this.progress=Math.min(1,(performance.now()-(this.startTime||performance.now()))/850);
     this.tgt.x+=(this.tgtGoal.x-this.tgt.x)*0.1; this.tgt.y+=(this.tgtGoal.y-this.tgt.y)*0.1; this.tgt.z+=(this.tgtGoal.z-this.tgt.z)*0.1;
-    if(this.pivot) this.pivot.rotation.y=this.az;
+    // реакция на курсор: лёгкий параллакс камеры + подсветка контуров при наведении
+    const px = (this.hovering && !this.dragging && !this.state.plan && !this.state.cut) ? 1 : 0;
+    const pxAz = px ? this.mouseNDC.x*0.13 : 0, pxEl = px ? -this.mouseNDC.y*0.05 : 0;
+    this.parallaxAz=(this.parallaxAz||0)+(pxAz-(this.parallaxAz||0))*0.07;
+    this.parallaxEl=(this.parallaxEl||0)+(pxEl-(this.parallaxEl||0))*0.07;
+    this.uHoverV=(this.uHoverV||0)+((px?1:0)-(this.uHoverV||0))*0.08;
+    if(this.outUniforms) this.outUniforms.uHover.value=this.uHoverV;
+    this._viewAz=this.az+this.parallaxAz;
+    if(this.pivot) this.pivot.rotation.y=this._viewAz;
     this.uniforms.uExplode.value=this.explode;
     this.uniforms.uProgress.value=this.progress;
     this.uniforms.uSelected.value=this.selectedPart;
     const span=this.scanMax-this.scanMin; this.uniforms.uScan.value=this.scanMin+((t*0.3)%1)*span;
 
-    const cam=this.camera, T=this.tgt;
-    cam.position.set(T.x, T.y+Math.sin(this.el)*this.dist, T.z+Math.cos(this.el)*this.dist);
+    const cam=this.camera, T=this.tgt, el=this.el+(this.parallaxEl||0);
+    cam.position.set(T.x, T.y+Math.sin(el)*this.dist, T.z+Math.cos(el)*this.dist);
     cam.lookAt(T.x,T.y,T.z);
 
     this.updateLabels(cam);
@@ -124,7 +136,7 @@
       if(!vis){ L.line.style.opacity='0'; L.dot.style.opacity='0'; L.box.style.opacity='0'; return; }
       const c=this.partCents[i], d=this.partDirs[i], e=this.explode;
       v.set(c[0]+d[0]*e,c[1]+d[1]*e,c[2]+d[2]*e);
-      v.applyAxisAngle(new THREE.Vector3(0,1,0), this.az);
+      v.applyAxisAngle(new THREE.Vector3(0,1,0), this._viewAz!=null?this._viewAz:this.az);
       v.project(cam);
       if(v.z>1){ L.line.style.opacity='0'; L.dot.style.opacity='0'; L.box.style.opacity='0'; return; }
       const sx=(v.x*0.5+0.5)*w, sy=(-v.y*0.5+0.5)*h;

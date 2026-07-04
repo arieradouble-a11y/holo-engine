@@ -25,15 +25,18 @@
       uDepth:{value: cfg.contourDepth!=null?cfg.contourDepth:0.012 },  // depth-jump threshold (silhouette/overlap)
       uColor:{value:new THREE.Color().setRGB(Math.min(1,acc.a[0]*1.1+0.15),Math.min(1,acc.a[1]*1.05+0.05),1.0)},
       uInt:{value: cfg.outlineIntensity!=null?cfg.outlineIntensity:1.0 }, uProgress:{value:0},
-      // внутренние (по перелому нормали) контуры — своя, приглушённая яркость:
-      // видно устройство, но силуэт остаётся главным
-      uIntN:{value: cfg.outlineInnerIntensity!=null?cfg.outlineInnerIntensity:(cfg.outlineIntensity!=null?cfg.outlineIntensity:1.0)*0.45 }
+      // внутренние (по перелому нормали) контуры — своя, приглушённая яркость
+      // И свой цвет (по умолчанию янтарный): устройство читается, силуэт остаётся
+      // главным, а тёплый янтарь визуально отделяет «нутро» от голубого силуэта.
+      uIntN:{value: cfg.outlineInnerIntensity!=null?cfg.outlineInnerIntensity:(cfg.outlineIntensity!=null?cfg.outlineIntensity:1.0)*0.45 },
+      uColorN:{value:new THREE.Color().fromArray(cfg.outlineInnerColor||[1.0,0.62,0.18])},
+      uHover:{value:0}   // подсветка при наведении курсора (0..1)
     };
     const quadMat=new THREE.ShaderMaterial({
       uniforms:this.outUniforms, transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending,
       vertexShader:`varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.0,1.0); }`,
       fragmentShader:`
-        uniform sampler2D tGeo; uniform vec2 uRes; uniform float uThick,uNorm,uDepth,uInt,uIntN,uProgress; uniform vec3 uColor;
+        uniform sampler2D tGeo; uniform vec2 uRes; uniform float uThick,uNorm,uDepth,uInt,uIntN,uProgress,uHover; uniform vec3 uColor,uColorN;
         varying vec2 vUv;
         float nd(vec3 a, vec4 s){ return 1.0-clamp(dot(a,s.rgb*2.0-1.0),0.0,1.0); }
         void main(){
@@ -55,11 +58,16 @@
           float dth=uDepth*slope;
           float nEdge=smoothstep(uNorm, uNorm*1.7, ne);
           float dEdge=smoothstep(dth, dth*2.5, de);
-          // силуэт/перекрытия — полной яркостью, внутренние переломы — своей
-          float edge=max(dEdge*uInt, nEdge*uIntN)*onObj;
-          float a=edge*smoothstep(0.0,1.0,uProgress);
-          if(a<=0.004) discard;
-          gl_FragColor=vec4(uColor,a);
+          // силуэт/перекрытия — цветом uColor полной яркостью; внутренние переломы —
+          // тёплым uColorN своей (приглушённой) яркостью. Наведение курсора (uHover)
+          // мягко добавляет обоим яркости — модель «оживает» под мышкой.
+          float prog=smoothstep(0.0,1.0,uProgress);
+          float so=dEdge*uInt*(1.0+0.45*uHover);   // outer strength
+          float si=nEdge*uIntN*(1.0+0.6*uHover);    // inner strength
+          float m=max(so,si)*onObj;
+          if(m*prog<=0.004) discard;
+          vec3 col=(uColor*so + uColorN*si)*onObj*prog;   // аддитивный бленд (src.a=1)
+          gl_FragColor=vec4(col, 1.0);
         }`
     });
     this.outlineScene=new THREE.Scene();
