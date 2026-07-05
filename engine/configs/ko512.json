@@ -9,7 +9,7 @@
   "thumbLabel": "ЖКХ · КАНАЛОПРОМЫВОЧНАЯ",
   "counter": "КО-512 · ПРОМЫВКА СЕТЕЙ",
   "density": "med",
-  "smooth": 7,
+  "smooth": 4,
   "outline": true,
   "outlineWidth": 1.5,
   "outlineIntensity": 1.7,
