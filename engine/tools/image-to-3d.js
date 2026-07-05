@@ -33,14 +33,20 @@ const COMFY = (args.comfy || 'http://127.0.0.1:8188').replace(/\/$/, '');
 // Дефолт — NoCascade: HR-каскад (1536³) на sdpa-бэкенде не влезает в 16GB VRAM
 // (flash_attn под Windows/Blackwell нет) и роняет сервер; база 1024 даёт то же
 // практическое качество для голограмм. Каскадный HQ можно передать через --workflow.
-const WORKFLOW = path.resolve(ENGINE_DIR, args.workflow || 'comfyui/workflows/MeshOnly_HighQuality_NoCascade.ui.json');
+// Мультивью: --front/--back/--left/--right (front обязателен). Даёт заметно
+// вернее форму (зеркала/кабину/зад), т.к. сеть их ВИДИТ, а не додумывает.
+const MV_VIEWS = { front: args.front, back: args.back, left: args.left, right: args.right };
+const IS_MV = !!args.front;
+const WORKFLOW = path.resolve(ENGINE_DIR, args.workflow ||
+  (IS_MV ? 'comfyui/workflows/MeshOnly_MultiView.ui.json' : 'comfyui/workflows/MeshOnly_HighQuality_NoCascade.ui.json'));
 const TIMEOUT_S = Number(args.timeout || 1800);
 
-if (!args.image){
-  console.error('Usage: node tools/image-to-3d.js --image <файл> [--name <имя>] [--seed N] [--faces N (по умолч. 250000)] [--out <glb>] [--config <cfg.json> --build]');
+if (!args.image && !IS_MV){
+  console.error('Usage (одно фото):    node tools/image-to-3d.js --image <файл> [--name <имя>] [--seed N] [--faces N] [--out <glb>] [--config <cfg.json> --build]');
+  console.error('Usage (мультивью):    node tools/image-to-3d.js --front <f> --back <b> --left <l> --right <r> --name <имя> [--faces N] [--out <glb>]');
   process.exit(1);
 }
-const imagePath = path.resolve(args.image);
+const imagePath = args.image ? path.resolve(args.image) : path.resolve(args.front);
 if (!fs.existsSync(imagePath)){ console.error('✗ картинка не найдена: ' + imagePath); process.exit(1); }
 const NAME = String(args.name || path.basename(imagePath, path.extname(imagePath))).replace(/[^\w\-а-яА-ЯёЁ]/g, '_');
 
@@ -110,24 +116,58 @@ async function main(){
   }
   console.log('· comfy   :', COMFY, '(жив)');
 
-  // 1) загрузка картинки
-  const imgName = 'holo_' + Date.now() + '_' + path.basename(imagePath).replace(/[^\w.\-]/g, '_');
-  const fd = new FormData();
-  fd.append('image', new Blob([fs.readFileSync(imagePath)]), imgName);
-  fd.append('type', 'input');
-  const up = await apiJSON('/upload/image', { method: 'POST', body: fd });
-  console.log('· image   :', path.basename(imagePath), '→', up.name);
+  // 1) загрузка картинки(ок)
+  async function uploadFile(p){
+    const name = 'holo_' + Date.now() + '_' + Math.random().toString(36).slice(2,7) + '_' + path.basename(p).replace(/[^\w.\-]/g, '_');
+    const fd = new FormData();
+    fd.append('image', new Blob([fs.readFileSync(path.resolve(p))]), name);
+    fd.append('type', 'input');
+    return (await apiJSON('/upload/image', { method: 'POST', body: fd })).name;
+  }
+  const uploaded = {};
+  if (IS_MV){
+    for (const [k, v] of Object.entries(MV_VIEWS)) if (v){ uploaded[k] = await uploadFile(v); }
+    console.log('· views   :', Object.keys(uploaded).join(', '), '(front обязателен)');
+  } else {
+    uploaded.single = await uploadFile(imagePath);
+    console.log('· image   :', path.basename(imagePath), '→', uploaded.single);
+  }
 
   // 2) воркфлоу UI → API
   const ui = JSON.parse(fs.readFileSync(WORKFLOW, 'utf8'));
   const objectInfo = await apiJSON('/object_info');
   const graph = uiToApi(ui, objectInfo);
 
-  // подстановки: входная картинка, вырезание фона, префикс результата, seed
+  // мультивью-разводка: front/back уже связаны в воркфлоу; left/right (если даны)
+  // достраиваем, клонируя цепочку LoadImage→PreProcess переднего вида.
   let loaded = false, prefixed = false, rembg = false;
+  if (IS_MV){
+    const genEntry = Object.entries(graph).find(([, n]) => n.class_type === 'Trellis2ImageCondMultiViewGenerator');
+    if (!genEntry) throw new Error('в мультивью-воркфлоу нет Trellis2ImageCondMultiViewGenerator');
+    const gen = genEntry[1];
+    const loadIdFor = (viewKey) => { const pre = gen.inputs[viewKey + '_image']; if (!Array.isArray(pre)) return null;
+      const preNode = graph[pre[0]]; const img = preNode && preNode.inputs.image; return { preId: pre[0], loadId: Array.isArray(img) ? img[0] : null }; };
+    const front = loadIdFor('front');
+    if (!front || !front.loadId) throw new Error('не найдена цепочка переднего вида (front_image) в воркфлоу');
+    let nid = 900;
+    for (const viewKey of ['front','back','left','right']){
+      if (!uploaded[viewKey]) continue;
+      const slot = gen.inputs[viewKey + '_image'];
+      if (!Array.isArray(slot)){ // достроить цепочку по образцу переднего вида
+        const nl = String(nid++), np = String(nid++);
+        graph[nl] = { class_type: graph[front.loadId].class_type, inputs: Object.assign({}, graph[front.loadId].inputs) };
+        graph[np] = { class_type: graph[front.preId].class_type, inputs: Object.assign({}, graph[front.preId].inputs, { image: [nl, 0] }) };
+        gen.inputs[viewKey + '_image'] = [np, 0];
+        graph[nl].inputs.image = uploaded[viewKey];
+      } else { const info = loadIdFor(viewKey); if (info && info.loadId) graph[info.loadId].inputs.image = uploaded[viewKey]; }
+    }
+    loaded = true;
+  }
+
+  // подстановки: входная картинка, вырезание фона, префикс результата, seed
   for (const node of Object.values(graph)){
-    if (node.class_type === 'Trellis2LoadImageWithTransparency' || node.class_type === 'LoadImage'){
-      node.inputs.image = up.name; loaded = true;
+    if (!IS_MV && (node.class_type === 'Trellis2LoadImageWithTransparency' || node.class_type === 'LoadImage')){
+      node.inputs.image = uploaded.single; loaded = true;
     }
     // JPEG/фото без альфа-канала валят препроцесс — включаем встроенное
     // вырезание фона (--no-rembg вернёт значение из воркфлоу, для PNG с прозрачностью)
