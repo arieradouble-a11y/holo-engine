@@ -37,7 +37,7 @@ const WORKFLOW = path.resolve(ENGINE_DIR, args.workflow || 'comfyui/workflows/Me
 const TIMEOUT_S = Number(args.timeout || 1800);
 
 if (!args.image){
-  console.error('Usage: node tools/image-to-3d.js --image <файл> [--name <имя>] [--seed N] [--faces N (по умолч. 90000)] [--out <glb>] [--config <cfg.json> --build]');
+  console.error('Usage: node tools/image-to-3d.js --image <файл> [--name <имя>] [--seed N] [--faces N (по умолч. 250000)] [--out <glb>] [--config <cfg.json> --build]');
   process.exit(1);
 }
 const imagePath = path.resolve(args.image);
@@ -157,7 +157,7 @@ async function main(){
   // голограммы это избыток, шум триангуляции читается как «ржавая» поверхность.
   // Нам нужна чистая основа, а не сверхдетализация → режем целевое число граней.
   // target_face_num обоих Trellis2SimplifyMesh запитан от одного PrimitiveInt.
-  const FACES = Number(args.faces != null ? args.faces : 90000);
+  const FACES = Number(args.faces != null ? args.faces : 250000);
   let facesSet = 0;
   for (const node of Object.values(graph)){
     if (node.class_type === 'Trellis2SimplifyMesh'){
