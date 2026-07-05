@@ -33,10 +33,11 @@ const COMFY = (args.comfy || 'http://127.0.0.1:8188').replace(/\/$/, '');
 // Дефолт — NoCascade: HR-каскад (1536³) на sdpa-бэкенде не влезает в 16GB VRAM
 // (flash_attn под Windows/Blackwell нет) и роняет сервер; база 1024 даёт то же
 // практическое качество для голограмм. Каскадный HQ можно передать через --workflow.
-// Мультивью: --front/--back/--left/--right (front обязателен). Даёт заметно
-// вернее форму (зеркала/кабину/зад), т.к. сеть их ВИДИТ, а не додумывает.
+// Мультивью: --front/--back/--left/--right (front обязателен) ИЛИ --sheet <лист 2×2>
+// (перёд/зад/лев/прав по квадрантам, авто-нарезка нодой ImageCrop). Форма выходит
+// заметно вернее (зеркала/кабина/зад), т.к. сеть их ВИДИТ, а не додумывает.
 const MV_VIEWS = { front: args.front, back: args.back, left: args.left, right: args.right };
-const IS_MV = !!args.front;
+const IS_MV = !!(args.front || args.sheet);
 const WORKFLOW = path.resolve(ENGINE_DIR, args.workflow ||
   (IS_MV ? 'comfyui/workflows/MeshOnly_MultiView.ui.json' : 'comfyui/workflows/MeshOnly_HighQuality_NoCascade.ui.json'));
 const TIMEOUT_S = Number(args.timeout || 1800);
@@ -44,9 +45,10 @@ const TIMEOUT_S = Number(args.timeout || 1800);
 if (!args.image && !IS_MV){
   console.error('Usage (одно фото):    node tools/image-to-3d.js --image <файл> [--name <имя>] [--seed N] [--faces N] [--out <glb>] [--config <cfg.json> --build]');
   console.error('Usage (мультивью):    node tools/image-to-3d.js --front <f> --back <b> --left <l> --right <r> --name <имя> [--faces N] [--out <glb>]');
+  console.error('Usage (лист 2×2):     node tools/image-to-3d.js --sheet <2x2.png> --name <имя> [--faces N] [--out <glb>]  # квадранты: перёд|зад / лев|прав');
   process.exit(1);
 }
-const imagePath = args.image ? path.resolve(args.image) : path.resolve(args.front);
+const imagePath = path.resolve(args.image || args.front || args.sheet);
 if (!fs.existsSync(imagePath)){ console.error('✗ картинка не найдена: ' + imagePath); process.exit(1); }
 const NAME = String(args.name || path.basename(imagePath, path.extname(imagePath))).replace(/[^\w\-а-яА-ЯёЁ]/g, '_');
 
@@ -57,6 +59,23 @@ async function api(p, opts){
   return r;
 }
 const apiJSON = async (p, opts) => (await api(p, opts)).json();
+
+// Размеры изображения из заголовка (без зависимостей): PNG IHDR + JPEG SOFn.
+function imageSize(buf){
+  if (buf.length > 24 && buf.readUInt32BE(0) === 0x89504E47) // PNG
+    return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+  if (buf[0] === 0xFF && buf[1] === 0xD8){ // JPEG: ищем SOF0..SOF3/5..7/9..11/13..15
+    let o = 2;
+    while (o + 9 < buf.length){
+      if (buf[o] !== 0xFF){ o++; continue; }
+      const m = buf[o + 1];
+      if (m >= 0xC0 && m <= 0xCF && m !== 0xC4 && m !== 0xC8 && m !== 0xCC)
+        return { h: buf.readUInt16BE(o + 5), w: buf.readUInt16BE(o + 7) };
+      o += 2 + buf.readUInt16BE(o + 2);
+    }
+  }
+  throw new Error('не удалось прочитать размеры изображения (нужен PNG или JPEG)');
+}
 
 // ---- UI-формат → API-формат ---------------------------------------------------
 // По /object_info: обходим required+optional входы класса по порядку; вход-виджет
@@ -124,42 +143,62 @@ async function main(){
     fd.append('type', 'input');
     return (await apiJSON('/upload/image', { method: 'POST', body: fd })).name;
   }
-  const uploaded = {};
-  if (IS_MV){
-    for (const [k, v] of Object.entries(MV_VIEWS)) if (v){ uploaded[k] = await uploadFile(v); }
-    console.log('· views   :', Object.keys(uploaded).join(', '), '(front обязателен)');
+  // источники видов: {file, crop?}. Для --sheet — один файл + 4 квадранта.
+  const sources = {};
+  if (args.sheet){
+    const sheetName = await uploadFile(imagePath);
+    const { w, h } = imageSize(fs.readFileSync(imagePath));
+    const qw = Math.floor(w / 2), qh = Math.floor(h / 2);   // квадранты 2×2
+    sources.front = { file: sheetName, crop: [0, 0, qw, qh] };       // TL
+    sources.back  = { file: sheetName, crop: [qw, 0, qw, qh] };      // TR
+    sources.left  = { file: sheetName, crop: [0, qh, qw, qh] };      // BL
+    sources.right = { file: sheetName, crop: [qw, qh, qw, qh] };     // BR
+    console.log('· sheet   :', path.basename(imagePath), w + '×' + h, '→ 4 квадранта', qw + '×' + qh);
+  } else if (IS_MV){
+    for (const [k, v] of Object.entries(MV_VIEWS)) if (v) sources[k] = { file: await uploadFile(v) };
+    console.log('· views   :', Object.keys(sources).join(', '), '(front обязателен)');
   } else {
-    uploaded.single = await uploadFile(imagePath);
-    console.log('· image   :', path.basename(imagePath), '→', uploaded.single);
+    sources.single = { file: await uploadFile(imagePath) };
+    console.log('· image   :', path.basename(imagePath), '→', sources.single.file);
   }
 
   // 2) воркфлоу UI → API
   const ui = JSON.parse(fs.readFileSync(WORKFLOW, 'utf8'));
   const objectInfo = await apiJSON('/object_info');
+  const hasCrop = !!objectInfo.ImageCrop;
   const graph = uiToApi(ui, objectInfo);
 
-  // мультивью-разводка: front/back уже связаны в воркфлоу; left/right (если даны)
-  // достраиваем, клонируя цепочку LoadImage→PreProcess переднего вида.
+  // мультивью-разводка: front/back уже связаны в воркфлоу; недостающие виды
+  // достраиваем, клонируя цепочку LoadImage→PreProcess переднего вида. Для листа
+  // между LoadImage и PreProcess вставляем ImageCrop с координатами квадранта.
   let loaded = false, prefixed = false, rembg = false;
   if (IS_MV){
+    if (args.sheet && !hasCrop) throw new Error('нода ImageCrop недоступна в ComfyUI — нарежь лист вручную или дай --front/--back/--left/--right');
     const genEntry = Object.entries(graph).find(([, n]) => n.class_type === 'Trellis2ImageCondMultiViewGenerator');
     if (!genEntry) throw new Error('в мультивью-воркфлоу нет Trellis2ImageCondMultiViewGenerator');
     const gen = genEntry[1];
-    const loadIdFor = (viewKey) => { const pre = gen.inputs[viewKey + '_image']; if (!Array.isArray(pre)) return null;
+    const chainFor = (viewKey) => { const pre = gen.inputs[viewKey + '_image']; if (!Array.isArray(pre)) return null;
       const preNode = graph[pre[0]]; const img = preNode && preNode.inputs.image; return { preId: pre[0], loadId: Array.isArray(img) ? img[0] : null }; };
-    const front = loadIdFor('front');
+    const front = chainFor('front');
     if (!front || !front.loadId) throw new Error('не найдена цепочка переднего вида (front_image) в воркфлоу');
     let nid = 900;
     for (const viewKey of ['front','back','left','right']){
-      if (!uploaded[viewKey]) continue;
-      const slot = gen.inputs[viewKey + '_image'];
-      if (!Array.isArray(slot)){ // достроить цепочку по образцу переднего вида
+      const src = sources[viewKey];
+      if (!src) continue;
+      let chain = chainFor(viewKey);
+      if (!chain){ // достроить цепочку LoadImage→PreProcess по образцу переднего вида
         const nl = String(nid++), np = String(nid++);
         graph[nl] = { class_type: graph[front.loadId].class_type, inputs: Object.assign({}, graph[front.loadId].inputs) };
         graph[np] = { class_type: graph[front.preId].class_type, inputs: Object.assign({}, graph[front.preId].inputs, { image: [nl, 0] }) };
         gen.inputs[viewKey + '_image'] = [np, 0];
-        graph[nl].inputs.image = uploaded[viewKey];
-      } else { const info = loadIdFor(viewKey); if (info && info.loadId) graph[info.loadId].inputs.image = uploaded[viewKey]; }
+        chain = { preId: np, loadId: nl };
+      }
+      graph[chain.loadId].inputs.image = src.file;
+      if (src.crop){ // LoadImage → ImageCrop(квадрант) → PreProcess
+        const nc = String(nid++);
+        graph[nc] = { class_type: 'ImageCrop', inputs: { image: [chain.loadId, 0], x: src.crop[0], y: src.crop[1], width: src.crop[2], height: src.crop[3] } };
+        graph[chain.preId].inputs.image = [nc, 0];
+      }
     }
     loaded = true;
   }
@@ -167,7 +206,7 @@ async function main(){
   // подстановки: входная картинка, вырезание фона, префикс результата, seed
   for (const node of Object.values(graph)){
     if (!IS_MV && (node.class_type === 'Trellis2LoadImageWithTransparency' || node.class_type === 'LoadImage')){
-      node.inputs.image = uploaded.single; loaded = true;
+      node.inputs.image = sources.single.file; loaded = true;
     }
     // JPEG/фото без альфа-канала валят препроцесс — включаем встроенное
     // вырезание фона (--no-rembg вернёт значение из воркфлоу, для PNG с прозрачностью)
