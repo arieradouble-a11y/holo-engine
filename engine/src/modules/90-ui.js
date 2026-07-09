@@ -6,6 +6,7 @@
     const controls=[];
     if(!whole) controls.push({label:this.state.exploded?'⊞  Собрать':'⊟  Разобрать', style:ctrlN, onClick:this.toggleExplode});
     if(this.hasFlows) controls.push({label:(this.state.flow!==false)?'⇢  Потоки: ВКЛ':'⇢  Потоки: ВЫКЛ', style:(this.state.flow!==false)?ctrlN:ctrlM, onClick:this.toggleFlow});
+    if(C.particles!==false) controls.push({label:this.swarmOn?'✦  Рой: ВКЛ':'✦  Рой', style:this.swarmOn?ctrlN:ctrlM, onClick:this.toggleSwarm});
     controls.push({label:this.state.spin?'↻  Вращение: ВКЛ':'↻  Вращение', style:this.state.spin?ctrlN:ctrlM, onClick:this.toggleSpin});
     controls.push({label:this._tuneOpen?'⚙  Вид: настройка':'⚙  Вид', style:this._tuneOpen?ctrlN:ctrlM, onClick:this.toggleTune});
     controls.push({label:'↺  Сбросить вид', style:ctrlM, onClick:this.resetView});

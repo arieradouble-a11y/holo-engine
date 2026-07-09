@@ -16,7 +16,13 @@
       { key:'fill',                  name:'Заливка каркаса',   min:0, max:1.5, get:()=>U.uFill.value,         set:v=>{ U.uFill.value=v; } },
       { key:'shellOpacity',          name:'Оболочка',          min:0, max:1,   get:()=>U.uShellOp.value,      set:v=>{ U.uShellOp.value=v; } },
       { key:'bloomStrength',         name:'Свечение (bloom)',  min:0, max:1.5, get:()=>this.bloom?this.bloom.strength:0, set:v=>{ if(this.bloom) this.bloom.strength=v; } },
-    ];
+    // голо-рой (36-particles): uniforms живут в ensureSwarmU(), поэтому ползунки
+    // работают и до первого включения роя — значения подхватятся при сборке.
+    ].concat(this.CONFIG.particles===false?[]:[
+      { key:'particlesIntensity', name:'Рой: яркость',  min:0, max:2, get:()=>this.ensureSwarmU().uPAmt.value,   set:v=>{ this.ensureSwarmU().uPAmt.value=v; } },
+      { key:'particlesSwirl',     name:'Рой: кружение', min:0, max:1, get:()=>this.ensureSwarmU().uSwirl.value,  set:v=>{ this.ensureSwarmU().uSwirl.value=v; } },
+      { key:'particlesBreath',    name:'Рой: дыхание',  min:0, max:1, get:()=>this.ensureSwarmU().uBreath.value, set:v=>{ this.ensureSwarmU().uBreath.value=v; } },
+    ]);
   }
   buildTunePanel(){
     if(this.tuneEl){ this.tuneEl.remove(); this.tuneEl=null; }

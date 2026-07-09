@@ -224,6 +224,7 @@
     this.buildMarkers();
     this.buildRoomLabels();
     this.buildFlows(THREE); this.buildFlowLegend();   // guide-tube arrows once; legend re-attaches after labelBox clear
+    if(this.swarmOn) this.buildParticles(THREE);      // голо-рой (36-particles): лениво, живёт между пересборками рёбер
     this.buildTunePanel();                            // ползунки «⚙ Вид» — тоже живут в labelBox
     this.progress=0; this.uniforms.uProgress.value=0; this.startTime=performance.now();
   }

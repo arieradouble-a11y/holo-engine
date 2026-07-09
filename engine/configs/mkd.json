@@ -27,6 +27,7 @@
   "fill": 0.4,
   "shellOpacity": 0.14,
   "bloom": { "strength": 0.4, "radius": 0.6, "threshold": 0.0 },
+  "particles": { "on": true, "count": 40000, "intensity": 0.55, "size": 34 },
 
   "parts": [
     { "key": "konstr",   "name": "Несущие конструкции", "tag": "КАРКАС И ПЕРЕКРЫТИЯ",       "desc": "Наружные стены, межсекционные стены и междуэтажные перекрытия — несущий остов дома." },
