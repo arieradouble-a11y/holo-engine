@@ -423,12 +423,27 @@ node build.js --config configs/boiler.json --out "../Котельная (гол�
    ```bash
    # оси/габариты/профиль высоты (куда класть зоны):
    blender --background --python tools/blender-inspect.py -- ../scan.glb
-   # чистка + фасетизация + зоны (296k→158k граней на мусоровозе):
+   # максимальная чистка + фасетизация + зоны (348k → 71k граней на мусоровозе):
    blender --background --python tools/blender-prep.py -- \
-     --in ../scan.glb --out ../scan-parts.glb --weld 0.0002 --smooth 2 --angle 4 \
+     --in ../scan.glb --out ../scan-parts.glb --weld 0.0002 \
+     --corrective 5 --angle 3 --strip-interior 14 --min-component 300 --decimate 0.55 \
      --zones '[{"name":"hodovaya","zmax":0.22},{"name":"kabina","tmax":0.28},
                {"name":"bunker","tmin":0.82},{"name":"kuzov"}]'
    ```
+   Ступени чистки (все опциональны): `--corrective N` — Corrective Smooth
+   (разглаживает шум, подтягивая к исходной форме — рёбра целы, лучше наивного
+   Лапласиана); `--strip-interior N` — BVH-лучи из центра каждого фейса наружу
+   по N направлениям Фибоначчи: невидимый ни с одного — внутренний мусор TRELLIS
+   (−30% фейсов; открытые полости не трогает); `--min-component N` — связные
+   «хлопья» меньше N фейсов в мусор; `--decimate R` — quadric-децимация до доли R
+   (плоскости дешевеют первыми, острые рёбра фасетов держатся — ещё −45% веса
+   практически без потери вида). Для «горячих» узлов в конфиге помогает
+   `hotAngle: 44` — грубее порог рёбер, янтарный узел читается структурой.
+   Крайняя мера — `--voxel S` (voxel remesh OpenVDB, S — воксель в долях макс.
+   габарита, ~0.004): водонепроницаемая переливка по объёму, радикально убирает
+   мусор и полости, но **оплавляет рёбра** (панельные линии мягчеют) — проверено
+   на мусоровозе: чище внутри, «мыльнее» снаружи. Для витринных объектов лучше
+   quadric-цепочка выше; voxel — для совсем рваных/дырявых сканов.
    В конфиге поставьте `smooth: 0` (уже сглажено; наш Лапласиан разрушит фасеты).
    Проверено: Мусоровоз (Seedream→TRELLIS-скан) → 4 системы, select/explode/hot
    работают — `configs/musorovoz-parts.json`, «Мусоровоз разборный (голограмма).html».
@@ -439,6 +454,25 @@ node build.js --config configs/boiler.json --out "../Котельная (гол�
    своя AI-модель/материал), тогда `structured` работает «из коробки». **✅ реализовано:**
    режим `build.js --parts <dir>` — папка `*.glb` (по файлу на узел), каждый файл
    тегируется ключом `partNN` и становится системой; `mode/parts/matRules` авто-заполняются.
+
+   **«Конструктор» (блоками) — ✅ реализовано и проверено на мусоровозе:** каждый
+   узел генерится ОТДЕЛЬНЫМ листом 2×2 (Seedream: «standalone unit, no …») →
+   TRELLIS даёт узлу весь воксельный бюджет 1024³ → детализация кратно выше, чем
+   у той же детали в цельном скане (рама с кронштейнами, зеркала, маячок).
+   `tools/blender-assemble.py` ставит блоки по bbox зон эталонного скана
+   (эталон = целый объект после blender-prep с материалами-зонами):
+   ```bash
+   blender --background --python tools/blender-assemble.py -- \
+     --ref ../musorovoz-parts.glb --outdir ../musorovoz-blocks \
+     --parts '[{"file":"../kabina-clean.glb","zone":"kabina","order":1,
+                "yanchor":"front","zanchor":"bottom","fit":"min","scale":1.0}, …]'
+   ```
+   Спека блока: `zone` (имя материала-зоны эталона), `yanchor` front|center|back,
+   `zanchor` bottom|center|top, `fit` min|x|y|z (min — вписать в зону по всем осям,
+   x — по ширине колеи и т.п.), `scale`/`dx`/`dy`/`dz` — ручная доводка стыков.
+   Выход — `NN_key.glb` под `build.js --parts`. Демо: `configs/musorovoz-blocks.json` →
+   «Мусоровоз (конструктор) (голограмма).html». Честно: стыки блоков «плавают» на
+   проценты (нейро-блоки не идеально согласованы) — доводится scale/d* за 1-2 итерации.
 
 **Part-aware генерация** (из одной картинки сразу несколько частей):
 `ComfyUI_PartPacker` (нода ComfyUI, ≤12 ГБ VRAM), **PartCrafter** (NeurIPS 2025, есть

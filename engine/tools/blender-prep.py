@@ -28,6 +28,10 @@ sm    = int(arg("--smooth", "2"))
 ang   = math.radians(float(arg("--angle", "4")))
 zones = json.loads(arg("--zones", "[]"))
 strip = int(arg("--strip-interior", "0"))   # число направлений видимости (0 = выкл, 14 — норм)
+mincomp = int(arg("--min-component", "0"))  # удалить связные «хлопья» меньше N фейсов (0 = выкл)
+corr  = int(arg("--corrective", "0"))       # Corrective Smooth итераций (сохраняет рёбра; заменяет vertex-smooth)
+decim = float(arg("--decimate", "0"))       # quadric-децимация, доля фейсов 0..1 (0 = выкл)
+vox   = float(arg("--voxel", "0"))          # voxel remesh, размер вокселя в долях макс. габарита (0 = выкл; ~0.004)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=src)
@@ -44,8 +48,27 @@ print("IN  faces:", len(obj.data.polygons))
 bpy.ops.object.mode_set(mode='EDIT')
 bpy.ops.mesh.select_all(action='SELECT')
 bpy.ops.mesh.remove_doubles(threshold=weld)
-if sm > 0:
+bpy.ops.object.mode_set(mode='OBJECT')
+# Voxel remesh (OpenVDB): переливка в водонепроницаемую оболочку по объёму —
+# радикально убирает шум и весь внутренний мусор, но ест мелкую деталь
+# (крайняя мера; тонкие элементы тоньше ~2 вокселей исчезают/сливаются).
+if vox > 0:
+    obj.data.remesh_voxel_size = max(obj.dimensions) * vox
+    bpy.ops.object.voxel_remesh()
+    print("VOXEL remesh @", round(vox,5), "->", len(obj.data.polygons), "faces")
+bpy.ops.object.mode_set(mode='EDIT')
+bpy.ops.mesh.select_all(action='SELECT')
+if corr == 0 and sm > 0:
     bpy.ops.mesh.vertices_smooth(factor=0.5, repeat=sm)
+bpy.ops.object.mode_set(mode='OBJECT')
+# Corrective Smooth: разглаживает шум скана, но подтягивает вершины к исходной
+# форме — рёбра и объём сохраняются лучше, чем у наивного Лапласиана.
+if corr > 0:
+    m = obj.modifiers.new("corr", 'CORRECTIVE_SMOOTH')
+    m.iterations = corr; m.factor = 0.5
+    bpy.ops.object.modifier_apply(modifier=m.name)
+bpy.ops.object.mode_set(mode='EDIT')
+bpy.ops.mesh.select_all(action='SELECT')
 bpy.ops.mesh.dissolve_limited(angle_limit=ang)
 bpy.ops.object.mode_set(mode='OBJECT')
 print("OUT faces (facets):", len(obj.data.polygons))
@@ -89,6 +112,40 @@ if strip > 0:
         bmesh.ops.delete(bm, geom=[bm.faces[i] for i in hidden], context='FACES')
         bm.to_mesh(obj.data); bm.free()
     print("STRIPPED interior faces:", len(hidden), "-> left:", len(obj.data.polygons))
+
+# ---- мелкие связные «хлопья» (--min-component N) -----------------------------
+# Скан оставляет висящие обрывки из десятков-сотен треугольников (особенно после
+# strip-interior). Компоненты связности меньше N фейсов — в мусор.
+if mincomp > 0:
+    import bmesh
+    bm = bmesh.new(); bm.from_mesh(obj.data)
+    bm.faces.ensure_lookup_table()
+    seen = [False]*len(bm.faces)
+    kill = []
+    for f0 in bm.faces:
+        if seen[f0.index]: continue
+        comp = [f0]; seen[f0.index] = True; q = [f0]
+        while q:
+            f = q.pop()
+            for e in f.edges:
+                for nf in e.link_faces:
+                    if not seen[nf.index]:
+                        seen[nf.index] = True; comp.append(nf); q.append(nf)
+        if len(comp) < mincomp: kill.extend(comp)
+    if kill:
+        bmesh.ops.delete(bm, geom=kill, context='FACES')
+        bm.to_mesh(obj.data)
+    bm.free()
+    print("DROPPED small components:", len(kill), "faces -> left:", len(obj.data.polygons))
+
+# ---- quadric-децимация (--decimate R) ---------------------------------------
+# Схлопывание рёбер по метрике ошибки: плоские зоны дешевеют первыми, острые
+# рёбра фасетов держатся дольше всего. Даёт −40..50% веса почти без потери вида.
+if decim > 0:
+    m = obj.modifiers.new("dec", 'DECIMATE')
+    m.ratio = decim
+    bpy.ops.object.modifier_apply(modifier=m.name)
+    print("DECIMATED to", decim, "->", len(obj.data.polygons), "faces")
 
 # ---- зоны -> материалы ------------------------------------------------------
 if zones:
