@@ -16,6 +16,7 @@
 # Движок дальше сам делит на системы через CONFIG.matRules по именам материалов.
 import bpy, sys, json, math
 import mathutils
+from mathutils.bvhtree import BVHTree
 
 argv = sys.argv[sys.argv.index("--")+1:]
 def arg(k, d=None):
@@ -26,6 +27,7 @@ weld  = float(arg("--weld", "0.0002"))
 sm    = int(arg("--smooth", "2"))
 ang   = math.radians(float(arg("--angle", "4")))
 zones = json.loads(arg("--zones", "[]"))
+strip = int(arg("--strip-interior", "0"))   # число направлений видимости (0 = выкл, 14 — норм)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=src)
@@ -47,6 +49,46 @@ if sm > 0:
 bpy.ops.mesh.dissolve_limited(angle_limit=ang)
 bpy.ops.object.mode_set(mode='OBJECT')
 print("OUT faces (facets):", len(obj.data.polygons))
+
+# ---- вырезание внутреннего мусора скана (--strip-interior N) ----------------
+# TRELLIS оставляет геометрию ВНУТРИ оболочки (полости, обрывки) — во вьювере
+# она читается как шумный «клубок» линий. Фейс считается видимым, если хотя бы
+# один луч из его центра (наружу, по N глобальным направлениям + своей нормали)
+# уходит в бесконечность, не задев меш. Невидимые ни с одного направления —
+# внутренние, удаляются вместе с осиротевшими рёбрами/вершинами.
+if strip > 0:
+    import bmesh
+    deps = bpy.context.evaluated_depsgraph_get()
+    bvh = BVHTree.FromObject(obj, deps)
+    size = max(obj.dimensions)
+    eps = size * 1.5e-3
+    # квазиравномерные направления (спираль Фибоначчи по сфере)
+    dirs = []
+    ga = math.pi * (3.0 - math.sqrt(5.0))
+    for i in range(strip):
+        y = 1.0 - 2.0 * (i + 0.5) / strip
+        r = math.sqrt(max(0.0, 1.0 - y * y))
+        dirs.append(mathutils.Vector((math.cos(ga * i) * r, y, math.sin(ga * i) * r)))
+    mw = obj.matrix_world; mwi = mw.inverted()
+    hidden = []
+    for p in obj.data.polygons:
+        n = p.normal
+        origin = p.center + n * eps
+        vis = False
+        if bvh.ray_cast(origin, n)[0] is None:      # быстрый тест вдоль нормали
+            vis = True
+        else:
+            for d in dirs:
+                dl = (mwi.to_3x3() @ d).normalized() # мировое направление -> локальное
+                if dl.dot(n) <= 0.1: continue        # только полусфера наружу
+                if bvh.ray_cast(origin, dl)[0] is None: vis = True; break
+        if not vis: hidden.append(p.index)
+    if hidden:
+        bm = bmesh.new(); bm.from_mesh(obj.data)
+        bm.faces.ensure_lookup_table()
+        bmesh.ops.delete(bm, geom=[bm.faces[i] for i in hidden], context='FACES')
+        bm.to_mesh(obj.data); bm.free()
+    print("STRIPPED interior faces:", len(hidden), "-> left:", len(obj.data.polygons))
 
 # ---- зоны -> материалы ------------------------------------------------------
 if zones:
