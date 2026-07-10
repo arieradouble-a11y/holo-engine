@@ -1,0 +1,29 @@
+{
+  "title": "Мусоровоз (задняя загрузка)",
+  "category": "ЖКХ · КОММУНАЛЬНАЯ ТЕХНИКА",
+  "badge": "ИНТЕРАКТИВНАЯ ГОЛОГРАММА",
+  "subtitle": "Мусоровоз с задней загрузкой: кабина, кузов-компактор, загрузочный бункер с гидравликой. Референс сгенерирован в Seedream (лист 2×2), 3D — мультивью TRELLIS.2.",
+  "accent": "cyan",
+  "mode": "whole",
+  "modelKey": "objModel",
+  "thumbLabel": "ЖКХ · МУСОРОВОЗ",
+  "counter": "МУСОРОВОЗ · SEEDREAM→3D",
+  "density": "med",
+  "smooth": 4,
+  "outline": true,
+  "outlineWidth": 1.5,
+  "outlineIntensity": 1.7,
+  "contourNormal": 1.3,
+  "contourDepth": 0.005,
+  "fill": 0.14,
+  "shellOpacity": 0.1,
+  "particles": { "on": false, "count": 45000, "intensity": 0.5 },
+  "parts": [],
+  "overview": {
+    "tag": "SEEDREAM → 3D (МУЛЬТИВЬЮ)",
+    "title": "Мусоровоз с задней загрузкой",
+    "desc": "Референс-лист 2×2 сгенерирован нейросетью Seedream 5.0 Pro, форма восстановлена TRELLIS.2 из 4 ракурсов. Тяните — поворот, колесо — масштаб, «✦ Рой» — режим частиц."
+  },
+  "calibrate": true,
+  "outlineInnerIntensity": 0.75
+}

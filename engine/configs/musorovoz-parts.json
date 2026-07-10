@@ -1,0 +1,50 @@
+{
+  "title": "Мусоровоз разборный",
+  "category": "ЖКХ · КОММУНАЛЬНАЯ ТЕХНИКА",
+  "badge": "ИНТЕРАКТИВНАЯ ГОЛОГРАММА",
+  "subtitle": "Мусоровоз с задней загрузкой, авто-разборка скана на системы: кабина, кузов-компактор, загрузочный бункер и ходовая часть. Референс — Seedream, 3D — TRELLIS.2, сегментация — Blender (зоны по фейсам).",
+  "accent": "cyan",
+  "mode": "structured",
+  "modelKey": "objModel",
+  "thumbLabel": "ЖКХ · МУСОРОВОЗ (РАЗБОРКА)",
+  "counter": "МУСОРОВОЗ · АВТО-РАЗБОРКА",
+  "density": "med",
+  "smooth": 0,
+  "weld": true,
+  "outline": true,
+  "outlineWidth": 1.5,
+  "outlineIntensity": 1.5,
+  "contourNormal": 1.3,
+  "contourDepth": 0.005,
+  "shellOpacity": 0.1,
+  "particles": { "on": false, "count": 45000, "intensity": 0.5 },
+  "hotParts": ["bunker"],
+  "hotColor": [1.0, 0.58, 0.16],
+  "hotIntensity": 1.6,
+  "parts": [
+    { "key": "kabina",   "name": "Кабина",             "tag": "ШАССИ · КАБИНА",      "desc": "Капотная кабина водителя с зеркалами и органами управления." },
+    { "key": "kuzov",    "name": "Кузов-компактор",    "tag": "НАДСТРОЙКА",          "desc": "Герметичный кузов с прессующей плитой — уплотняет отходы в 5–7 раз." },
+    { "key": "bunker",   "name": "Загрузочный бункер", "tag": "РАБОЧИЙ ОРГАН",       "desc": "Задний приёмный ковш с гидравлическим подъёмником контейнеров и прессом." },
+    { "key": "hodovaya", "name": "Ходовая часть",      "tag": "ШАССИ",               "desc": "Рама, мосты 6×4, колёса и трансмиссия базового шасси." }
+  ],
+  "matRules": [
+    { "match": ["kabina"],   "part": 0 },
+    { "match": ["kuzov"],    "part": 1 },
+    { "match": ["bunker"],   "part": 2 },
+    { "match": ["hodovaya"], "part": 3 }
+  ],
+  "defaultPart": 1,
+  "explodeDirs": {
+    "kabina":   [0, 0, 2.6],
+    "kuzov":    [0, 2.0, 0],
+    "bunker":   [0, 0, -2.6],
+    "hodovaya": [0, -1.4, 0]
+  },
+  "overview": {
+    "tag": "АВТО-РАЗБОРКА СКАНА",
+    "title": "Мусоровоз с задней загрузкой",
+    "desc": "Цельный нейро-скан разрезан на 4 системы автоматически (Blender, зоны по фейсам). Клик по системе — подсветка, «Разобрать» — разнос узлов."
+  },
+  "calibrate": true,
+  "outlineInnerIntensity": 0.6
+}
