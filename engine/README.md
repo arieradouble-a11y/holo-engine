@@ -466,7 +466,7 @@ node build.js --config configs/boiler.json --out "../Котельная (гол�
      --ref ../musorovoz-parts.glb --outdir ../musorovoz-blocks --wzone kuzov \
      --parts '[{"file":"../kabina-clean.glb","zone":"kabina","order":1,"fit":"w","yanchor":"front"},
                {"file":"../kuzov-clean.glb", "zone":"kuzov", "order":2,"fit":"w","stretch":true},
-               {"file":"../bunker-clean.glb","zone":"bunker","order":3,"fit":"w","stretch":"xy","dz":0.03},
+               {"file":"../bunker-clean.glb","zone":"bunker","order":3,"fit":"w","stretch":"xy","zanchor":"bottom","dy":-0.015,"dz":-0.01},
                {"file":"../shassi-clean.glb","zone":"hodovaya","order":4,"fit":"w","stretch":"xy"}]'
    ```
    Ключ к правдоподобию — **общая ширина**: у техники все секции одной ширины,
