@@ -38,6 +38,13 @@ for o in [x for x in bpy.context.scene.objects if x.type == 'MESH']:
 for n,(mn,mx) in zones.items():
     print("ZONE", n, tuple(round(v,3) for v in mn), tuple(round(v,3) for v in mx))
 
+# Эталонная ширина (X): у техники все секции одной ширины. Берём её из ОДНОЙ
+# зоны (--wzone, обычно кузов — чистый короб без зеркал/колёс), чтобы fit:"w"
+# у всех блоков давал согласованную ширину, а не подгонял каждый в свою зону.
+wzone = arg("--wzone")
+WT = (zones[wzone][1].x - zones[wzone][0].x) if wzone else None
+if WT: print("WIDTH ref zone", wzone, "->", round(WT,3))
+
 # ---- 2) блоки: масштаб по ширине зоны + постановка по якорям ------------------
 for spec in parts:
     zn = zones[spec["zone"]]
@@ -62,12 +69,28 @@ for spec in parts:
     ratios = {"x": (zmx.x - zmn.x) / max(1e-6, bmx.x - bmn.x),
               "y": (zmx.y - zmn.y) / max(1e-6, bmx.y - bmn.y),
               "z": (zmx.z - zmn.z) / max(1e-6, bmx.z - bmn.z)}
-    fit = spec.get("fit", "min")
-    s = min(ratios.values()) if fit == "min" else ratios[fit]
-    s *= spec.get("scale", 1.0)
-    obj.scale = (s, s, s)
-    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-    bmn *= s; bmx *= s
+    if WT: ratios["w"] = WT / max(1e-6, bmx.x - bmn.x)   # к общей ширине техники
+    st = spec.get("stretch")
+    if st:
+        # анизотропно вписать бокс в зону (для коробчатых секций: лёгкое растяжение
+        # незаметно, но заполняет зону и правит кривые пропорции нейро-блока).
+        # "xyz"/true — по всем осям; "xy" — только план (X×Y), а Z берётся по Y-фактору
+        # — так круглые колёса шасси не расплющиваются в тонкой нижней зоне.
+        sx = ratios["w"] if (WT and spec.get("fit") == "w") else ratios["x"]
+        if st == "xy":
+            sc = (sx, ratios["y"], ratios["y"])
+        else:
+            sc = (sx, ratios["y"], ratios["z"])
+        obj.scale = sc
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+        bmn.x*=sc[0]; bmx.x*=sc[0]; bmn.y*=sc[1]; bmx.y*=sc[1]; bmn.z*=sc[2]; bmx.z*=sc[2]
+    else:
+        fit = spec.get("fit", "w" if WT else "min")
+        s = min(ratios["x"], ratios["y"], ratios["z"]) if fit == "min" else ratios[fit]
+        s *= spec.get("scale", 1.0)
+        obj.scale = (s, s, s)
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+        bmn *= s; bmx *= s
 
     dx = (zmn.x + zmx.x)/2 - (bmn.x + bmx.x)/2
     ya = spec.get("yanchor", "center")

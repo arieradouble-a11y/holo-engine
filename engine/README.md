@@ -463,15 +463,25 @@ node build.js --config configs/boiler.json --out "../Котельная (гол�
    (эталон = целый объект после blender-prep с материалами-зонами):
    ```bash
    blender --background --python tools/blender-assemble.py -- \
-     --ref ../musorovoz-parts.glb --outdir ../musorovoz-blocks \
-     --parts '[{"file":"../kabina-clean.glb","zone":"kabina","order":1,
-                "yanchor":"front","zanchor":"bottom","fit":"min","scale":1.0}, …]'
+     --ref ../musorovoz-parts.glb --outdir ../musorovoz-blocks --wzone kuzov \
+     --parts '[{"file":"../kabina-clean.glb","zone":"kabina","order":1,"fit":"w","yanchor":"front"},
+               {"file":"../kuzov-clean.glb", "zone":"kuzov", "order":2,"fit":"w","stretch":true},
+               {"file":"../bunker-clean.glb","zone":"bunker","order":3,"fit":"w","stretch":"xy","dz":0.03},
+               {"file":"../shassi-clean.glb","zone":"hodovaya","order":4,"fit":"w","stretch":"xy"}]'
    ```
-   Спека блока: `zone` (имя материала-зоны эталона), `yanchor` front|center|back,
-   `zanchor` bottom|center|top, `fit` min|x|y|z (min — вписать в зону по всем осям,
-   x — по ширине колеи и т.п.), `scale`/`dx`/`dy`/`dz` — ручная доводка стыков.
-   Выход — `NN_key.glb` под `build.js --parts`. Демо: `configs/musorovoz-blocks.json` →
-   «Мусоровоз (конструктор) (голограмма).html». Честно: стыки блоков «плавают» на
+   Ключ к правдоподобию — **общая ширина**: у техники все секции одной ширины,
+   поэтому `--wzone <зона>` задаёт эталон ширины (обычно кузов — чистый короб без
+   зеркал/колёс), а `fit:"w"` подгоняет X каждого блока под неё. Спека блока:
+   `zone` (материал-зона эталона); `fit` w|min|x|y|z (**w** — общая ширина;
+   min — вписать в зону по всем осям); `stretch` true|"xy" — анизотропно вписать
+   бокс в зону (правит кривые пропорции нейро-блоков; **"xy"** тянет только план,
+   Z берётся по Y — так круглые колёса шасси не расплющиваются в тонкой нижней
+   зоне); `yanchor` front|center|back, `zanchor` bottom|center|top; `scale`/`dx/dy/dz`
+   — ручная доводка. Выход — `NN_key.glb` под `build.js --parts`.
+   Демо: `configs/musorovoz-blocks.json` → «Мусоровоз (конструктор) (голограмма).html».
+   Грабли (набитые): `fit:"min"` раздавливает длинный блок (кабина с рамным хвостом)
+   по ширине → делайте `fit:"w"`; шасси из 3/4-листа выходит квадратным в плане →
+   `stretch:"xy"`. Честно: стыки блоков «плавают» на
    проценты (нейро-блоки не идеально согласованы) — доводится scale/d* за 1-2 итерации.
 
 **Part-aware генерация** (из одной картинки сразу несколько частей):
