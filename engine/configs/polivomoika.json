@@ -1,0 +1,30 @@
+{
+  "title": "Поливомоечная машина",
+  "category": "ЖКХ · КОММУНАЛЬНАЯ ТЕХНИКА",
+  "badge": "ИНТЕРАКТИВНАЯ ГОЛОГРАММА",
+  "subtitle": "Поливомоечная машина: кабина, цилиндрическая цистерна на шасси и передняя разбрызгивающая балка с форсунками для мойки дорог. Референс — Seedream, 3D — TRELLIS.2.",
+  "accent": "cyan",
+  "mode": "whole",
+  "modelKey": "objModel",
+  "thumbLabel": "ЖКХ · ПОЛИВОМОЕЧНАЯ",
+  "counter": "ПОЛИВОМОЕЧНАЯ · SEEDREAM→3D",
+  "density": "med",
+  "smooth": 0,
+  "weld": true,
+  "outline": true,
+  "outlineWidth": 1.5,
+  "outlineIntensity": 1.6,
+  "contourNormal": 1.2,
+  "contourDepth": 0.005,
+  "fill": 0.14,
+  "shellOpacity": 0.1,
+  "particles": { "on": false, "count": 45000, "intensity": 0.5 },
+  "parts": [],
+  "overview": {
+    "tag": "SEEDREAM → 3D (МУЛЬТИВЬЮ)",
+    "title": "Поливомоечная машина",
+    "desc": "Референс-лист 2×2 сгенерирован Seedream, форма восстановлена TRELLIS.2. Тяните — поворот, колесо — масштаб, «✦ Рой» — режим частиц."
+  },
+  "calibrate": true,
+  "outlineInnerIntensity": 0.65
+}

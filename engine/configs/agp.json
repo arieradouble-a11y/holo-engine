@@ -1,0 +1,30 @@
+{
+  "title": "Автовышка (АГП)",
+  "category": "ЖКХ · КОММУНАЛЬНАЯ ТЕХНИКА",
+  "badge": "ИНТЕРАКТИВНАЯ ГОЛОГРАММА",
+  "subtitle": "Автогидроподъёмник на шасси грузовика: кабина, поворотная телескопическая стрела с изолированной люлькой и опоры-аутригеры. Референс — Seedream, 3D — TRELLIS.2.",
+  "accent": "cyan",
+  "mode": "whole",
+  "modelKey": "objModel",
+  "thumbLabel": "ЖКХ · АВТОВЫШКА",
+  "counter": "АВТОВЫШКА · SEEDREAM→3D",
+  "density": "med",
+  "smooth": 0,
+  "weld": true,
+  "outline": true,
+  "outlineWidth": 1.5,
+  "outlineIntensity": 1.6,
+  "contourNormal": 1.2,
+  "contourDepth": 0.005,
+  "fill": 0.14,
+  "shellOpacity": 0.1,
+  "particles": { "on": false, "count": 45000, "intensity": 0.5 },
+  "parts": [],
+  "overview": {
+    "tag": "SEEDREAM → 3D (МУЛЬТИВЬЮ)",
+    "title": "Автогидроподъёмник",
+    "desc": "Референс-лист 2×2 сгенерирован Seedream, форма восстановлена TRELLIS.2 из 4 ракурсов. Тяните — поворот, колесо — масштаб, «✦ Рой» — режим частиц."
+  },
+  "calibrate": true,
+  "outlineInnerIntensity": 0.65
+}
