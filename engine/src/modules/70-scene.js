@@ -109,6 +109,7 @@
     this._viewAz=this.az+this.parallaxAz;
     if(this.pivot) this.pivot.rotation.y=this._viewAz;
     this.uniforms.uExplode.value=this.explode;
+    this.updateShellExplode(this.explode);   // оболочка+контур едут вместе с каркасом
     this.uniforms.uProgress.value=this.progress;
     this.uniforms.uSelected.value=this.selectedPart;
     const span=this.scanMax-this.scanMin; this.uniforms.uScan.value=this.scanMin+((t*0.3)%1)*span;

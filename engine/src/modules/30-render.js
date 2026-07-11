@@ -138,13 +138,32 @@
     const N=new THREE.Matrix4().makeTranslation(-scl*center.x,-scl*minY,-scl*center.z).multiply(new THREE.Matrix4().makeScale(scl,scl,scl));
     if(this.shellGroup){ this.pivot.remove(this.shellGroup); }
     this.shellGroup=new THREE.Group();
+    // shell-меши подают геометрию в контурный пасс. При разборке каркас двигает
+    // aExplode в шейдере, а shell — нет, и контур «зависал» на месте. Храним базовую
+    // матрицу и вектор разлёта детали, чтобы updateShellExplode гнал оболочку (и её
+    // контур) вместе с каркасом.
+    this.shellMeshes=[];
     this.meshData.forEach(md=>{
       if(!md.geometry.attributes.normal){ md.geometry.computeVertexNormals(); }
       const m=new THREE.Mesh(md.geometry, this.matShell);
-      m.matrixAutoUpdate=false; m.matrix.copy(N).multiply(md.matrixWorld); m.matrixWorldNeedsUpdate=true;
+      const base=new THREE.Matrix4().copy(N).multiply(md.matrixWorld);
+      m.matrixAutoUpdate=false; m.matrix.copy(base); m.matrixWorldNeedsUpdate=true;
       m.frustumCulled=false; m.renderOrder=0; this.shellGroup.add(m);
+      const pi=this.matToPart(md.mat), d=(this.partDirs&&this.partDirs[pi])||[0,0,0];
+      this.shellMeshes.push({m, base, dir:d});
     });
     this.pivot.add(this.shellGroup);
+    this._shellEx=0;
+  }
+  // сдвиг оболочки (и её контура) по вектору разлёта каждой детали в нормализованном
+  // пространстве — тем же, что aExplode у каркаса; вызывается из animate.
+  updateShellExplode(ex){
+    if(!this.shellMeshes || this._shellEx===ex) return;
+    this._shellEx=ex; const T=this.THREE, t=new T.Matrix4();
+    for(const s of this.shellMeshes){
+      t.makeTranslation(s.dir[0]*ex, s.dir[1]*ex, s.dir[2]*ex);
+      s.m.matrix.copy(t).multiply(s.base); s.m.matrixWorldNeedsUpdate=true;
+    }
   }
 
   buildEdgeGeo(THREE, angle, dirs, accum){
