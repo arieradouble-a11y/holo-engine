@@ -3,7 +3,7 @@
 // Повторяет матричную математику genDeclarative, поэтому показывает ровно то,
 // что увидит движок. Сразу пишет PNG через headless Chrome.
 //
-//   node blueprint.mjs <config.json> <out.png> [--only mat1,mat2] [--zoom x0,x1,y0,y1]
+//   node blueprint.mjs <config.json> <out.png> [--only mat1,mat2] [--zoom x0,x1,y0,y1] [--scale 108]
 import fs from 'node:fs';
 import path from 'node:path';
 import puppeteer from 'puppeteer-core';
@@ -80,15 +80,30 @@ function walk(items, base) {
 walk(geometry, mI());
 
 // ---- три ортогональные проекции ----------------------------------------------
-const MAT_COLOR = { shassi: '#5ad1ff', kabina: '#ffd166', glass: '#8be9fd', tank: '#7ee787',
-                    hatch: '#a5d6a7', pump: '#ff9f43', hydro: '#ff6b6b', boom: '#c792ea', hose: '#79c0ff' };
+// Цвет по материалу. Знакомые имена держат свои цвета (чтобы чертежи машин не
+// «перекрашивались» от правки к правке), незнакомые получают цвет из палитры по
+// порядку появления — так работает любой объект, а не только техника.
+// Суффикс после дефиса (pto-plate, reg-lamp) наследует цвет базового материала:
+// это одна система, и в чертеже она должна читаться одним цветом.
+const KNOWN = { shassi: '#5ad1ff', kabina: '#ffd166', glass: '#8be9fd', tank: '#7ee787',
+                hatch: '#a5d6a7', pump: '#ff9f43', hydro: '#ff6b6b', boom: '#c792ea', hose: '#79c0ff' };
+const PALETTE = ['#5ad1ff', '#ffd166', '#7ee787', '#ff9f43', '#ff6b6b', '#c792ea',
+                 '#79c0ff', '#f78fb3', '#9ae6b4', '#ffc4a3', '#8be9fd', '#d0a0ff'];
+const MAT_COLOR = {};
+let nextColor = 0;
+for (const s of segs) {
+  const base = s.mat.split('-')[0];
+  if (MAT_COLOR[base]) continue;
+  MAT_COLOR[base] = KNOWN[base] || PALETTE[nextColor++ % PALETTE.length];
+}
+const colorOf = mat => MAT_COLOR[mat.split('-')[0]] || '#888';
 const shown = segs.filter(s => !only || only.has(s.mat));
 const VIEWS = [
   { name: 'БОК  (X→ / Y↑)',  px: s => [s.a[0], s.a[1]], py: s => [s.b[0], s.b[1]] },
   { name: 'ФАС  (Z→ / Y↑)',  px: s => [s.a[2], s.a[1]], py: s => [s.b[2], s.b[1]] },
   { name: 'ПЛАН (X→ / Z↑)',  px: s => [s.a[0], s.a[2]], py: s => [s.b[0], s.b[2]] },
 ];
-const SC = 108, PAD = 34;                            // пикселей на метр
+const SC = +(opt('--scale') || 108), PAD = 34;       // пикселей на метр (--scale для мелких узлов)
 const panels = VIEWS.map(v => {
   const L = shown.map(s => ({ p: v.px(s), q: v.py(s), mat: s.mat }));
   let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
@@ -98,7 +113,7 @@ const panels = VIEWS.map(v => {
   const W = (x1 - x0) * SC + PAD * 2, H = (y1 - y0) * SC + PAD * 2;
   const X = u => PAD + (u - x0) * SC, Y = u => H - PAD - (u - y0) * SC;   // Y вверх
   const lines = L.map(({ p, q, mat }) =>
-    `<line x1="${X(p[0]).toFixed(1)}" y1="${Y(p[1]).toFixed(1)}" x2="${X(q[0]).toFixed(1)}" y2="${Y(q[1]).toFixed(1)}" stroke="${MAT_COLOR[mat]||'#888'}"/>`).join('');
+    `<line x1="${X(p[0]).toFixed(1)}" y1="${Y(p[1]).toFixed(1)}" x2="${X(q[0]).toFixed(1)}" y2="${Y(q[1]).toFixed(1)}" stroke="${colorOf(mat)}"/>`).join('');
   // сетка по метру + подпись габарита
   let grid = '';
   for (let u = Math.ceil(x0); u <= x1; u++) grid += `<line x1="${X(u)}" y1="${PAD}" x2="${X(u)}" y2="${H-PAD}" stroke="#1d2b34"/>`;

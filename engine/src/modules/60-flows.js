@@ -35,7 +35,9 @@
     if(this.flowLegendEl){ this.flowLegendEl.remove(); this.flowLegendEl=null; }
     if(!this.labelBox || !this.flows || !this.flows.length) return;
     const box=document.createElement('div');
-    box.style.cssText="position:absolute;left:16px;bottom:16px;display:flex;flex-direction:column;gap:5px;padding:9px 11px;border-radius:9px;background:rgba(4,16,26,0.72);border:1px solid rgba(56,232,255,0.22);backdrop-filter:blur(6px);pointer-events:none;opacity:0;transition:opacity .25s;z-index:8;";
+    // bottom с запасом на строку счётчика/подсказки внизу слева: на 16px легенда
+    // ложилась ровно на «Систем: NN» — накладка была во всех объектах с потоками
+    box.style.cssText="position:absolute;left:16px;bottom:64px;display:flex;flex-direction:column;gap:5px;padding:9px 11px;border-radius:9px;background:rgba(4,16,26,0.72);border:1px solid rgba(56,232,255,0.22);backdrop-filter:blur(6px);pointer-events:none;opacity:0;transition:opacity .25s;z-index:8;";
     const title=document.createElement('div'); title.textContent='ПОТОКИ СРЕДЫ';
     title.style.cssText="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#6fcfe6;margin-bottom:2px;"; box.appendChild(title);
     this.flows.forEach(fl=>{ const c=fl.color, rgb=Math.round(c[0]*255)+','+Math.round(c[1]*255)+','+Math.round(c[2]*255);
