@@ -1,0 +1,54 @@
+{
+  "title": "Илосос (img2threejs → --parts)",
+  "category": "ТЕСТ · СТРУКТУРНЫЙ ПАЙПЛАЙН",
+  "badge": "ИНТЕРАКТИВНАЯ ГОЛОГРАММА",
+  "subtitle": "Проверка мостика: дерево узлов из img2threejs (ObjectSculptSpec) → per-part GLB → build.js --parts. Блокаут-геометрия, но объект уже РАЗБИРАЕТСЯ на 7 систем.",
+  "accent": "cyan",
+  "mode": "structured",
+  "source": "parts",
+  "partsDir": "../ilosos-i2t-parts",
+  "thumbLabel": "СТРУКТУРА · img2threejs",
+  "counter": "ИЛОСОС · РАЗБОРКА ИЗ СПЕКИ",
+  "density": "med",
+  "hotParts": ["nasos", "gidro"],
+  "hotColor": [1.0, 0.62, 0.2],
+  "hotIntensity": 1.6,
+  "contour": 0.6,
+  "fill": 0.4,
+  "shellOpacity": 0.14,
+  "parts": [
+    { "key": "shassi",   "name": "Шасси и ходовая",     "tag": "БАЗА",        "desc": "Шасси КамАЗ 8x4 и ходовая часть." },
+    { "key": "kabina",   "name": "Кабина",              "tag": "КАБИНА",      "desc": "Кабина водителя." },
+    { "key": "cisterna", "name": "Цистерна",            "tag": "ЁМКОСТЬ",     "desc": "Вакуумная цистерна для отходов и ила." },
+    { "key": "nasos",    "name": "Вакуумный насос",     "tag": "НАСОС",       "desc": "Вакуумный насос PVT400 — сердце илососа." },
+    { "key": "gidro",    "name": "Гидропривод насоса",  "tag": "ПРИВОД",      "desc": "Гидравлический привод вакуумного насоса." },
+    { "key": "strela",   "name": "Стрела-манипулятор",  "tag": "МАНИПУЛЯТОР", "desc": "Стрела наведения всасывающего рукава." },
+    { "key": "rukav",    "name": "Всасывающий рукав",   "tag": "РУКАВ",       "desc": "Гибкий Г-образный рукав всасывания с наконечником." }
+  ],
+  "matRules": [
+    { "match": ["part00"], "part": 0 },
+    { "match": ["part01"], "part": 1 },
+    { "match": ["part02"], "part": 2 },
+    { "match": ["part03"], "part": 3 },
+    { "match": ["part04"], "part": 4 },
+    { "match": ["part05"], "part": 5 },
+    { "match": ["part06"], "part": 6 }
+  ],
+  "defaultPart": 0,
+  "overview": {
+    "tag": "СТРУКТУРНЫЙ ТЕСТ",
+    "title": "Илосос из дерева узлов",
+    "desc": "Геометрия — блокаут (примитивы), но главное: структура из img2threejs легла на --parts, и объект разбирается на 7 реальных систем. Выберите систему справа или узел на модели."
+  },
+  "specs": {
+    "title": "ПАЙПЛАЙН",
+    "rows": [
+      ["Источник структуры", "img2threejs (ObjectSculptSpec)"],
+      ["Мостик", "sculptspec-to-parts.mjs"],
+      ["Сборка", "build.js --parts"],
+      ["Систем", "7"],
+      ["Геометрия", "блокаут (box/cylinder)"],
+      ["Фиделити", "требует vision-цикл на машине"]
+    ]
+  }
+}

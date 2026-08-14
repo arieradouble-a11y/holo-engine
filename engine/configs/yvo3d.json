@@ -1,0 +1,41 @@
+{
+  "title": "YVO3D скан (тест)",
+  "category": "ТЕСТ · ВНЕШНИЙ ГЕНЕРАТОР",
+  "badge": "ИНТЕРАКТИВНАЯ ГОЛОГРАММА",
+  "subtitle": "Проверка внешнего пайплайна: модель сгенерирована облачным сервисом yvo3d.com (3D AI Workspace) и собрана в голограмму движком без изменений — single-mesh, запечённый 4K PBR.",
+  "accent": "cyan",
+  "mode": "whole",
+  "modelKey": "objModel",
+  "thumbLabel": "ГОЛОГРАММА · YVO3D",
+  "counter": "YVO3D · ВНЕШНИЙ СКАН",
+  "density": "med",
+  "smooth": 5,
+  "outline": true,
+  "outlineWidth": 1.5,
+  "outlineIntensity": 1.6,
+  "contourNormal": 1.6,
+  "contourDepth": 0.006,
+  "fill": 0.15,
+  "shellOpacity": 0.1,
+  "parts": [],
+  "overview": {
+    "tag": "ВНЕШНИЙ ГЕНЕРАТОР",
+    "title": "Скан из yvo3d.com",
+    "desc": "Тест совместимости: модель сделана на стороннем облачном сервисе, движок принял её как есть и собрал в интерактивную голограмму. Тяните — поворот, колесо — масштаб."
+  },
+  "specs": {
+    "title": "ПАРАМЕТРЫ АССЕТА",
+    "rows": [
+      ["Источник", "yvo3d.com · 3D AI Workspace"],
+      ["Тип", "single-mesh (whole)"],
+      ["Экспорт", "trimesh → GLB"],
+      ["Полигонаж", "≈ 1.45 млн треугольников"],
+      ["Вершины", "≈ 773 тыс."],
+      ["Материал", "PBR: baseColor 4K + MR 4K + normal 1K"],
+      ["Размер GLB", "76 МБ"],
+      ["Разборка", "нет (цельный меш)"],
+      ["Постобработка", "weld + сглаживание в движке"]
+    ]
+  },
+  "outlineInnerIntensity": 0.75
+}
