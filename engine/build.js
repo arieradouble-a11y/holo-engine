@@ -154,26 +154,52 @@ function validateConfig(cfg){
     if (f.color && (f.color.length !== 3 || f.color.some(v => typeof v !== 'number'))) errs.push(id + ': color должен быть [r,g,b]');
   });
   if (cfg.hotColor && cfg.hotColor.length !== 3) errs.push('hotColor должен быть [r,g,b]');
-  // declarative geometry: {box|cyl|frustum:[…]} | {at?,repeat?,step?,items:[…]}
+  // declarative geometry: {box|cyl|frustum|sphere|torus|capsule|tube:[…], rot?}
+  //                     | {at?,rot?,repeat?,step?,rstep?,items:[…]}
+  // Для каждого примитива: nums — сколько числовых параметров идёт до имени материала,
+  // max — предельная длина массива (хвост: axis и/или seg), axis — допустим ли axis.
+  const SHAPES = {
+    box:     { nums: 6, max: 7, axis: false },
+    cyl:     { nums: 5, max: 8, axis: true  },   // …, mat, axis?, seg?
+    frustum: { nums: 6, max: 8, axis: true  },
+    sphere:  { nums: 4, max: 6, axis: false },   // …, mat, seg?
+    torus:   { nums: 5, max: 7, axis: true  },
+    capsule: { nums: 5, max: 7, axis: true  },
+  };
+  const vec3 = v => Array.isArray(v) && v.length === 3 && !v.some(x => typeof x !== 'number');
   function checkGeometry(items, at){
     items.forEach((it, i) => {
       const id = at + '[' + i + ']';
+      ['rot', 'rstep'].forEach(k => { if (it[k] && !vec3(it[k])) errs.push(id + ': ' + k + ' должен быть [rx,ry,rz] в градусах'); });
       if (Array.isArray(it.items)){
         if (it.repeat != null && (!Number.isInteger(it.repeat) || it.repeat < 1)) errs.push(id + ': repeat должен быть целым ≥1');
-        ['at', 'step'].forEach(k => { if (it[k] && (it[k].length !== 3 || it[k].some(v => typeof v !== 'number'))) errs.push(id + ': ' + k + ' должен быть [dx,dy,dz]'); });
+        ['at', 'step'].forEach(k => { if (it[k] && !vec3(it[k])) errs.push(id + ': ' + k + ' должен быть [dx,dy,dz]'); });
         checkGeometry(it.items, id + '.items');
         return;
       }
-      const shape = ['box', 'cyl', 'frustum'].find(s => it[s] !== undefined);
-      if (!shape){ errs.push(id + ': нужен box | cyl | frustum | items'); return; }
-      const a = it[shape];
+      if (it.tube !== undefined){                                   // [r, [[x,y,z],…], mat, seg?]
+        const a = it.tube;
+        if (!Array.isArray(a) || a.length < 3 || a.length > 4){ errs.push(id + '.tube: ожидается [r, точки, mat, seg?]'); return; }
+        if (typeof a[0] !== 'number') errs.push(id + '.tube: радиус должен быть числом');
+        if (!Array.isArray(a[1]) || a[1].length < 2) errs.push(id + '.tube: нужно ≥2 точек пути');
+        else a[1].forEach((p, j) => { if (!vec3(p)) errs.push(id + '.tube.точка[' + j + ']: должна быть [x,y,z]'); });
+        if (typeof a[2] !== 'string') errs.push(id + '.tube: mat должен быть строкой');
+        return;
+      }
+      const shape = Object.keys(SHAPES).find(s => it[s] !== undefined);
+      if (!shape){ errs.push(id + ': нужен ' + Object.keys(SHAPES).join(' | ') + ' | tube | items'); return; }
+      const a = it[shape], sp = SHAPES[shape];
       if (!Array.isArray(a)){ errs.push(id + '.' + shape + ': должен быть массивом'); return; }
-      const matIdx = shape === 'cyl' ? 5 : 6;                       // числа до mat, потом mat (+axis у cyl)
-      const lenOk = shape === 'cyl' ? (a.length === 6 || a.length === 7) : a.length === 7;
-      if (!lenOk){ errs.push(id + '.' + shape + ': ожидается ' + (shape === 'cyl' ? '6–7' : '7') + ' элементов, получено ' + a.length); return; }
-      if (a.slice(0, matIdx).some(v => typeof v !== 'number')) errs.push(id + '.' + shape + ': параметры до mat должны быть числами');
-      if (typeof a[matIdx] !== 'string') errs.push(id + '.' + shape + ': mat должен быть строкой');
-      if (shape === 'cyl' && a[6] != null && !['x', 'y', 'z'].includes(a[6])) errs.push(id + '.cyl: axis должен быть x|y|z');
+      if (a.length < sp.nums + 1 || a.length > sp.max){
+        errs.push(id + '.' + shape + ': ожидается ' + (sp.nums + 1) + '–' + sp.max + ' элементов, получено ' + a.length); return; }
+      if (a.slice(0, sp.nums).some(v => typeof v !== 'number')) errs.push(id + '.' + shape + ': параметры до mat должны быть числами');
+      if (typeof a[sp.nums] !== 'string') errs.push(id + '.' + shape + ': mat должен быть строкой');
+      const tail = a.slice(sp.nums + 1);
+      tail.forEach(t => {
+        if (typeof t === 'number') return;                          // seg
+        if (sp.axis && ['x', 'y', 'z'].includes(t)) return;         // axis
+        errs.push(id + '.' + shape + ': хвостовой параметр «' + t + '» — ожидался ' + (sp.axis ? 'axis x|y|z или seg' : 'seg'));
+      });
     });
   }
   const hasGeometry = Array.isArray(cfg.geometry) && cfg.geometry.length > 0;

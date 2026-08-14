@@ -18,12 +18,16 @@
     // truncated cone (radiusTop != radiusBottom) — for cooling-tower silhouette
     const frustum=(rT,rB,h,cx,cy,cz,mat)=>{ const g=new THREE.CylinderGeometry(rT,rB,h,16,1); md.push({name:mat,mat,geometry:g,matrixWorld:new THREE.Matrix4().makeTranslation(cx,cy,cz)}); };
 
+    // raw emitter for the declarative interpreter (it builds its own matrices)
+    const push=(g,m,mat)=>{ md.push({name:mat,mat,geometry:g,matrixWorld:m}); };
+
     // Declarative geometry: the object is described as DATA in the config
     // (list of primitives / repeat-groups) — new facilities need no engine code.
-    if(Array.isArray(this.CONFIG.geometry) && this.CONFIG.geometry.length){ this.genDeclarative(box,cyl,frustum,this.CONFIG.geometry,0,0,0); return; }
+    if(Array.isArray(this.CONFIG.geometry) && this.CONFIG.geometry.length){ this.genDeclarative(THREE,push,this.CONFIG.geometry,new THREE.Matrix4()); return; }
     if(b.type==='power'){ this.genPowerPlant(box,cyl,frustum,b); return; }
     if(b.type==='boiler'){ this.genBoilerHouse(box,cyl,b); return; }
     if(b.type==='ctp'){ this.genCTP(box,cyl,b); return; }
+    if(b.type==='water'){ this.genWaterIntake(box,cyl,frustum,b); return; }
 
     box(W*1.03, 0.5, D*1.04, 0, -0.25, 0, 'base');                                 // цоколь / плита
     box(W, H, D, 0, H/2, 0, 'shell');                                              // несущая оболочка
@@ -247,6 +251,49 @@
     cyl(0.5,3.2, tx0-1.4,1.3,tz,'heatmain','y');            // стояк выхода из корпуса
   }
 
+  // Поверхностный водозабор с ВОС (по схеме Метелёвского, Тюмень): река с русловым
+  // оголовком → самотечные линии → береговой колодец с сетками → НС-I подъёма →
+  // реагентное хозяйство + смесители → отстойники (2×4) → скорые фильтры →
+  // УФ/хлораторная → резервуары чистой воды → НС-II подъёма → магистраль в город.
+  // Компоновка слева направо повторяет путь воды. Насосные — «горячие» (янтарь).
+  genWaterIntake(box, cyl, frustum, b){
+    // площадка и река
+    box(86,0.5,42, 9,-0.25,0,'base');                       // промплощадка ВОС
+    box(16,0.25,40, -40,0.05,0,'river');                    // зеркало реки (Тура)
+    box(1.2,1.2,40, -31.4,0.6,0,'base');                    // берегоукрепление
+    // русловой оголовок + 2 самотечные линии + береговой колодец
+    box(2.4,1.6,3.0, -44,0.8,-2,'intake');
+    cyl(0.5,0.8, -44,1.9,-2,'intake','y');
+    [-3,-1].forEach(z=>cyl(0.35,14, -37,0.4,z,'intake','x'));
+    cyl(2.2,4, -28,2,-2,'intake','y');                      // береговой сеточный колодец
+    // НС-I подъёма: корпус + 3 насосных агрегата + напорные линии к смесителям
+    box(8,6,8, -22,3,-2,'ns1'); box(8.4,0.4,8.4, -22,6.2,-2,'ns1');
+    [-4.4,-2,0.4].forEach(z=>{ box(1.2,1.0,1.0, -23,0.7,z,'pump1'); cyl(0.42,1.4, -21.6,0.9,z,'pump1','x'); });
+    [-3,-1].forEach(z=>cyl(0.3,8, -14,1.2,z,'ns1','x'));
+    // реагентное хозяйство (коагулянт) + смесители
+    box(5,4,5, -12,2,10,'reag'); box(5.4,0.35,5.4, -12,4.2,10,'reag');
+    [8.6,11.4].forEach(z=>cyl(0.8,2.6, -13.5,5.4,z,'reag','y'));   // баки коагулянта на этажерке
+    cyl(0.18,9, -9,2.2,4.5,'reag','z');                     // реагентопровод к смесителям
+    [-2,3].forEach(z=>{ cyl(1.3,5, -6,2.5,z,'mixer','y'); cyl(1.45,0.35, -6,5.15,z,'mixer','y'); });
+    // отстойники 2×4 (борта + зеркало воды)
+    [0,11].forEach(x=>[-9,-3,3,9].forEach(z=>{
+      box(9,1.8,4.5, x,0.9,z,'sedim');
+      box(8.4,0.12,3.9, x,1.86,z,'sedim'); }));
+    // фильтровальный зал: корпус + 2 ряда скорых фильтров
+    box(12,8,16, 24,4,0,'filthall'); box(12.5,0.5,16.5, 24,8.25,0,'filthall');
+    [-4.5,0,4.5].forEach(z=>[21.5,26.5].forEach(x=>box(2.6,2.2,3.4, x,1.2,z,'filt')));
+    // УФ/хлораторная
+    box(5,3.5,5, 24,1.75,13,'uv'); box(5.3,0.3,5.3, 24,3.65,13,'uv');
+    // резервуары чистой воды (полузаглублённые)
+    [-9,9].forEach(z=>{ cyl(5.5,3, 35,1.5,z,'rchv','y'); cyl(1.0,0.8, 35,3.4,z,'rchv','y'); });
+    // НС-II подъёма: корпус + 3 агрегата
+    box(9,6,7, 42,3,0,'ns2'); box(9.4,0.4,7.4, 42,6.2,0,'ns2');
+    [-2.2,0,2.2].forEach(z=>{ box(1.2,1.0,1.0, 41,0.7,z,'pump2'); cyl(0.42,1.4, 42.4,0.9,z,'pump2','x'); });
+    // магистраль в город: 2 нитки на низких опорах
+    [-1.5,1.5].forEach(z=>cyl(0.45,12, 52,1.0,z,'watermain','x'));
+    for(let k=0;k<3;k++){ const x=48+k*4; box(0.24,1.0,0.24, x,0.5,-1.5,'watermain'); box(0.24,1.0,0.24, x,0.5,1.5,'watermain'); box(0.3,0.24,3.6, x,1.0,0,'watermain'); }
+  }
+
   // Центральный тепловой пункт (ЦТП) — независимая схема присоединения квартала:
   // ввод теплосети (первичный контур) с грязевиками, задвижками и узлом учёта →
   // пластинчатые теплообменники (отопление + ГВС двухступенчатые) → распределительные
@@ -317,21 +364,58 @@
     cyl(0.2,3.0,  W*0.30,H-0.8,0,'cold','z');            // трасса ХВС/подпитки
   }
 
-  // Declarative-geometry interpreter. CONFIG.geometry items (model coords, metres):
-  //   { "box":     [sx,sy,sz, cx,cy,cz, "mat"] }
-  //   { "cyl":     [r,h, cx,cy,cz, "mat", "x"|"y"|"z"?] }      (axis default "y")
-  //   { "frustum": [rT,rB,h, cx,cy,cz, "mat"] }
-  //   { "at":[dx,dy,dz]?, "repeat":n?, "step":[sx,sy,sz]?, "items":[…] }  — group,
-  //     items repeated n times with the offset advancing by step; groups nest.
+  // Declarative-geometry interpreter. CONFIG.geometry items (model coords, metres;
+  // "rot" in DEGREES, applied about the item's own centre / the group's origin):
+  //   { "box":     [sx,sy,sz, cx,cy,cz, "mat"],  "rot":[rx,ry,rz]? }
+  //   { "cyl":     [r,h, cx,cy,cz, "mat", "x"|"y"|"z"?, seg?] }   (axis default "y")
+  //   { "frustum": [rT,rB,h, cx,cy,cz, "mat", "x"|"y"|"z"?] }
+  //   { "sphere":  [r, cx,cy,cz, "mat", seg?] }
+  //   { "torus":   [R,tube, cx,cy,cz, "mat", "x"|"y"|"z"?] }      (axis = ring normal)
+  //   { "capsule": [r,h, cx,cy,cz, "mat", "x"|"y"|"z"?] }
+  //   { "tube":    [r, [[x,y,z],…], "mat", seg?] }   Catmull-Rom по точкам — рукава/шланги
+  //   { "at":[dx,dy,dz]?, "rot":[rx,ry,rz]?, "repeat":n?, "step":[dx,dy,dz]?,
+  //     "rstep":[rx,ry,rz]?, "items":[…] }  — group: items repeated n times, offset
+  //     advancing by step and rotation by rstep; transforms nest (parent × child).
   // Material names map to systems via matRules, exactly like the named generators.
-  genDeclarative(box, cyl, frustum, items, ox, oy, oz){
+  genDeclarative(THREE, push, items, base){
+    const D=Math.PI/180;
+    // base × translate(c) × rotate(rot) — вращение вокруг СОБСТВЕННОГО центра детали
+    const trs=(cx,cy,cz,rot)=>{
+      const m=new THREE.Matrix4().makeTranslation(cx,cy,cz);
+      if(rot) m.multiply(new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(rot[0]*D,rot[1]*D,rot[2]*D,'XYZ')));
+      return base.clone().multiply(m);
+    };
+    // тела вращения three смотрят по Y; доворот до x/z — ПОСЛЕ пользовательского rot,
+    // чтобы rot читался как наклон уже уложенной по оси детали
+    const axisM=(m,axis)=>{ if(axis==='x') m.multiply(new THREE.Matrix4().makeRotationZ(Math.PI/2));
+                            else if(axis==='z') m.multiply(new THREE.Matrix4().makeRotationX(Math.PI/2)); return m; };
+    // тор лежит в плоскости XY (нормаль кольца = Z) — приводим к запрошенной оси
+    const ringM=(m,axis)=>{ if(axis==='x') m.multiply(new THREE.Matrix4().makeRotationY(Math.PI/2));
+                            else if(axis!=='z') m.multiply(new THREE.Matrix4().makeRotationX(Math.PI/2)); return m; };
     items.forEach(it=>{
+      const r=it.rot;
       if(Array.isArray(it.items)){
-        const at=it.at||[0,0,0], n=it.repeat||1, st=it.step||[0,0,0];
-        for(let i=0;i<n;i++) this.genDeclarative(box,cyl,frustum,it.items, ox+at[0]+st[0]*i, oy+at[1]+st[1]*i, oz+at[2]+st[2]*i);
+        const at=it.at||[0,0,0], n=it.repeat||1, st=it.step||[0,0,0], rs=it.rstep;
+        for(let i=0;i<n;i++){
+          const rot=(r||rs) ? [(r?r[0]:0)+(rs?rs[0]*i:0), (r?r[1]:0)+(rs?rs[1]*i:0), (r?r[2]:0)+(rs?rs[2]*i:0)] : null;
+          this.genDeclarative(THREE, push, it.items, trs(at[0]+st[0]*i, at[1]+st[1]*i, at[2]+st[2]*i, rot));
+        }
+        return;
       }
-      else if(it.box){ const a=it.box; box(a[0],a[1],a[2], ox+a[3],oy+a[4],oz+a[5], a[6]); }
-      else if(it.cyl){ const a=it.cyl; cyl(a[0],a[1], ox+a[2],oy+a[3],oz+a[4], a[5], a[6]||'y'); }
-      else if(it.frustum){ const a=it.frustum; frustum(a[0],a[1],a[2], ox+a[3],oy+a[4],oz+a[5], a[6]); }
+      if(it.box){ const a=it.box;
+        push(new THREE.BoxGeometry(a[0],a[1],a[2]), trs(a[3],a[4],a[5],r), a[6]); }
+      else if(it.cyl){ const a=it.cyl;
+        push(new THREE.CylinderGeometry(a[0],a[0],a[1],a[7]||14,1), axisM(trs(a[2],a[3],a[4],r),a[6]), a[5]); }
+      else if(it.frustum){ const a=it.frustum;
+        push(new THREE.CylinderGeometry(a[0],a[1],a[2],16,1), axisM(trs(a[3],a[4],a[5],r),a[7]), a[6]); }
+      else if(it.sphere){ const a=it.sphere;
+        push(new THREE.SphereGeometry(a[0],a[5]||16,(a[5]||16)>>1), trs(a[1],a[2],a[3],r), a[4]); }
+      else if(it.torus){ const a=it.torus;
+        push(new THREE.TorusGeometry(a[0],a[1],10,24), ringM(trs(a[2],a[3],a[4],r),a[6]), a[5]); }
+      else if(it.capsule){ const a=it.capsule;
+        push(new THREE.CapsuleGeometry(a[0],a[1],6,14), axisM(trs(a[2],a[3],a[4],r),a[6]), a[5]); }
+      else if(it.tube){ const a=it.tube;
+        const curve=new THREE.CatmullRomCurve3(a[1].map(p=>new THREE.Vector3(p[0],p[1],p[2])));
+        push(new THREE.TubeGeometry(curve,a[3]||24,a[0],10,false), trs(0,0,0,r), a[2]); }
     });
   }
