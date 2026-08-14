@@ -137,6 +137,22 @@ MATS = {
     'pult-amber':   spec((0.75, 0.30, 0.02), 0.0, 0.25, emit=(1.0, 0.45, 0.05), emit_str=1.4),
     'hydro':        spec((0.26, 0.27, 0.30), 0.75, 0.42),
     'hose':         spec((0.020, 0.020, 0.022), 0.0, 0.80),
+    # ---- ИТП: тепловой пункт. Цвета по трубной маркировке теплопунктов --------
+    'teplo':        spec((0.40, 0.05, 0.03), 0.15, 0.44),         # теплосеть: красная окраска Т1/Т2
+    'teplo-lamp':   spec((0.90, 0.90, 0.88), 0.0, 0.18, emit=(1.0, 0.97, 0.90), emit_str=1.2),
+    'uchet':        spec((0.70, 0.71, 0.72), 0.2, 0.38),          # приборные корпуса узла учёта
+    'uchet-lamp':   spec((0.10, 0.60, 0.55), 0.0, 0.20, emit=(0.15, 1.0, 0.85), emit_str=1.8),
+    'reg':          spec((0.10, 0.22, 0.36), 0.25, 0.42),         # приводы и регуляторы: синие корпуса
+    'reg-lamp':     spec((0.60, 0.30, 0.02), 0.0, 0.20, emit=(1.0, 0.55, 0.08), emit_str=2.0),
+    'pto':          spec((0.26, 0.28, 0.31), 0.60, 0.40),         # плиты теплообменника
+    'pto-plate':    spec((0.62, 0.63, 0.65), 0.95, 0.22),         # пакет пластин: нержавейка
+    'nasos':        spec((0.16, 0.17, 0.19), 0.70, 0.40),         # корпуса циркуляционных насосов
+    'nasos-lamp':   spec((0.10, 0.65, 0.30), 0.0, 0.20, emit=(0.2, 1.0, 0.4), emit_str=2.0),
+    'podpit':       spec((0.44, 0.46, 0.48), 0.45, 0.46),         # арматура подпитки: оцинковка
+    'podpit-red':   spec((0.42, 0.03, 0.02), 0.0, 0.34),          # мембранный бак (красный, БЕЗ свечения)
+    'podpit-lamp':  spec((0.88, 0.88, 0.86), 0.0, 0.20, emit=(1.0, 0.96, 0.88), emit_str=1.2),
+    'kollekt':      spec((0.46, 0.48, 0.50), 0.35, 0.48),         # коллекторы вторичного контура
+    'kollekt-lamp': spec((0.90, 0.90, 0.88), 0.0, 0.18, emit=(1.0, 0.97, 0.90), emit_str=1.2),
 }
 BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing',
            'kabina-dark', 'kabina-chrome', 'reel', 'water', 'tank-dark', 'pump-dark', 'tank-panel', 'tank-stripe',
@@ -145,7 +161,10 @@ BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing'
            'rama', 'motor', 'mufta', 'val', 'ulitka', 'koleso', 'pipe', 'kip',
            'shkaf', 'dver', 'vvod', 'pch', 'avt', 'plc', 'klem', 'hmi', 'vent',
            'nozzle', 'spray',
-           'opora', 'strela', 'lulka', 'autrig', 'pult'}
+           'opora', 'strela', 'lulka', 'autrig', 'pult',
+           # ИТП. Пластины пакета (pto-plate) НЕ фасковать: они 5 мм толщиной,
+           # фаска 8 мм съела бы их целиком.
+           'teplo', 'uchet', 'reg', 'pto', 'nasos', 'podpit', 'kollekt'}
 
 def make_material(name):
     s = MATS.get(name)
