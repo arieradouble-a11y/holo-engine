@@ -291,6 +291,22 @@ MATS = {
     'pozic':        spec((0.10, 0.22, 0.36), 0.25, 0.42),         # позиционер: синий корпус
     'pozic-lamp':   spec((0.10, 0.60, 0.55), 0.0, 0.20, emit=(0.15, 1.0, 0.85), emit_str=1.8),
     'ruchnoe-mark': spec((0.80, 0.35, 0.02), 0.0, 0.35),          # стрелка указателя хода
+    # ---- ГРПШ: газорегуляторный пункт ----------------------------------------
+    'shkaf-grid':   spec((0.32, 0.33, 0.35), 0.3, 0.52),          # вентиляционные жалюзи
+    'vhod':         spec((0.62, 0.42, 0.04), 0.15, 0.44),         # газопровод: жёлтый по ГОСТ
+    'vhod-izo':     spec((0.10, 0.10, 0.11), 0.0, 0.62),          # изолирующее соединение
+    'vhod-mark':    spec((0.72, 0.73, 0.74), 0.2, 0.42),
+    'filtr-lamp':   spec((0.60, 0.30, 0.02), 0.0, 0.20, emit=(1.0, 0.55, 0.08), emit_str=1.6),
+    'pzk':          spec((0.40, 0.05, 0.03), 0.15, 0.44),         # ПЗК: красный (аварийная отсечка)
+    'pzk-lever':    spec((0.72, 0.42, 0.02), 0.0, 0.40),          # рычаг взвода: жёлтый
+    'regul':        spec((0.10, 0.22, 0.36), 0.20, 0.44),         # регулятор: синий корпус
+    'regul-cap':    spec((0.42, 0.43, 0.45), 0.60, 0.36),
+    'regul-mark':   spec((0.72, 0.73, 0.74), 0.2, 0.42),
+    'psk':          spec((0.10, 0.28, 0.16), 0.20, 0.46),         # ПСК: зелёный
+    'psk-mark':     spec((0.72, 0.73, 0.74), 0.2, 0.42),
+    'baypas':       spec((0.62, 0.42, 0.04), 0.15, 0.46),         # байпас — тот же газопровод
+    'baypas-mark':  spec((0.80, 0.35, 0.02), 0.0, 0.38),
+    'baypas-plomb': spec((0.62, 0.63, 0.66), 0.60, 0.42),
 }
 BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing',
            'kabina-dark', 'kabina-chrome', 'reel', 'water', 'tank-dark', 'pump-dark', 'tank-panel', 'tank-stripe',
@@ -320,7 +336,9 @@ BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing'
            # Радиаторный узел. Оребрение и метки тонкие — без фаски.
            'stoyak', 'podvodka', 'radiator', 'termo', 'termo-head', 'balans', 'raspredel',
            # Регулирующий клапан. Кольца набивки тонкие — без фаски.
-           'klap', 'sedlo', 'plunzher', 'salnik', 'fonar', 'pozic'}
+           'klap', 'sedlo', 'plunzher', 'salnik', 'fonar', 'pozic',
+           # ГРПШ. Жалюзи и бирки плоские — без фаски.
+           'vhod', 'pzk', 'regul', 'psk', 'baypas'}
 
 def make_material(name):
     s = MATS.get(name)
