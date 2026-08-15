@@ -201,6 +201,26 @@ MATS = {
     'kip-lamp':     spec((0.88, 0.88, 0.86), 0.0, 0.18, emit=(1.0, 0.97, 0.90), emit_str=1.2),
     'tele':         spec((0.34, 0.35, 0.37), 0.25, 0.46),         # шкафчик телеметрии
     'tele-lamp':    spec((0.10, 0.60, 0.55), 0.0, 0.20, emit=(0.15, 1.0, 0.85), emit_str=1.8),
+    # ---- Лифтовая лебёдка ----------------------------------------------------
+    'pol':          spec((0.40, 0.39, 0.37), 0.0, 0.84),          # плита машинного помещения
+    'pol-hole':     spec((0.020, 0.020, 0.022), 0.0, 0.92),       # проём в шахту: тёмный
+    'pol-mark':     spec((0.72, 0.42, 0.02), 0.0, 0.40),          # трафарет грузоподъёмности
+    'rama-rub':     spec((0.026, 0.026, 0.028), 0.0, 0.86),       # резиновая виброопора
+    'rama-mark':    spec((0.72, 0.73, 0.74), 0.3, 0.40),
+    'motor-lamp':   spec((0.60, 0.30, 0.02), 0.0, 0.20, emit=(1.0, 0.55, 0.08), emit_str=1.8),
+    'tormoz':       spec((0.42, 0.05, 0.03), 0.15, 0.44),         # тормоз: красный, как положено
+    'tormoz-core':  spec((0.60, 0.61, 0.63), 0.92, 0.22),         # сердечник электромагнита
+    'tormoz-spring': spec((0.52, 0.53, 0.55), 0.88, 0.28),        # пружины замыкания
+    'tormoz-lamp':  spec((0.10, 0.65, 0.30), 0.0, 0.20, emit=(0.2, 1.0, 0.4), emit_str=2.0),
+    'reduktor-lamp': spec((0.62, 0.45, 0.10), 0.0, 0.22, emit=(1.0, 0.72, 0.18), emit_str=1.4),
+    'kvsh':         spec((0.24, 0.25, 0.27), 0.65, 0.40),         # канатоведущий шкив: чугун
+    'kvsh-mark':    spec((0.72, 0.42, 0.02), 0.0, 0.40),
+    'kanat':        spec((0.34, 0.35, 0.37), 0.90, 0.34),         # стальные канаты
+    'ogranich':     spec((0.10, 0.28, 0.16), 0.30, 0.46),         # ограничитель скорости: зелёный
+    'ogranich-grz': spec((0.50, 0.51, 0.53), 0.85, 0.32),         # центробежные грузы
+    'ogranich-lamp': spec((0.10, 0.65, 0.30), 0.0, 0.20, emit=(0.2, 1.0, 0.4), emit_str=2.0),
+    'ruchnoe':      spec((0.62, 0.30, 0.02), 0.0, 0.40),          # ручное управление: сигнальный жёлтый
+    'ruchnoe-lamp': spec((0.06, 0.28, 0.42), 0.0, 0.18, emit=(0.10, 0.70, 1.0), emit_str=1.8),
 }
 BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing',
            'kabina-dark', 'kabina-chrome', 'reel', 'water', 'tank-dark', 'pump-dark', 'tank-panel', 'tank-stripe',
@@ -220,7 +240,9 @@ BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing'
            # пластину отмостки, у вторых — гибкая труба, а не отливка.
            'kolodec', 'vodoprovod', 'gidrant', 'klapan', 'shtanga', 'sliv', 'kolonka',
            # Узел учёта. stena — плоские плиты, фаска на них только съест углы.
-           'zapor', 'filtr', 'schetchik', 'schetchik-uch', 'obvod', 'tele'}
+           'zapor', 'filtr', 'schetchik', 'schetchik-uch', 'obvod', 'tele',
+           # Лебёдка. Канаты и пол не фаскуем: первые тонкие, второй — плита.
+           'tormoz', 'kvsh', 'ogranich', 'ruchnoe'}
 
 def make_material(name):
     s = MATS.get(name)
