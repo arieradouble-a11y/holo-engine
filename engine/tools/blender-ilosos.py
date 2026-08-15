@@ -171,6 +171,21 @@ MATS = {
     'upravl':       spec((0.30, 0.31, 0.33), 0.25, 0.46),         # блок выключателей и клеммный отсек
     'upravl-lamp':  spec((0.10, 0.65, 0.30), 0.0, 0.20, emit=(0.2, 1.0, 0.4), emit_str=2.0),
     'upravl-mark':  spec((0.80, 0.35, 0.02), 0.0, 0.35),          # флажок переключателя режима
+    # ---- Пожарный гидрант в колодце -----------------------------------------
+    'kolodec':      spec((0.34, 0.34, 0.33), 0.0, 0.72),          # ж/б кольца и люк: бетон
+    'kolodec-mark': spec((0.72, 0.73, 0.74), 0.2, 0.42),          # надписи и табличка ПГ
+    'grunt':        spec((0.16, 0.14, 0.11), 0.0, 0.88),          # грунт/отмостка
+    'vodoprovod':   spec((0.10, 0.30, 0.14), 0.25, 0.50),         # магистраль и подставка
+    'gidrant':      spec((0.48, 0.03, 0.02), 0.0, 0.40),          # корпус гидранта: пожарный красный
+    'gidrant-mark': spec((0.72, 0.73, 0.74), 0.3, 0.40),          # шильд с высотой
+    'klapan':       spec((0.52, 0.36, 0.12), 0.85, 0.32),         # клапан: бронза
+    'klapan-rub':   spec((0.030, 0.031, 0.033), 0.0, 0.78),       # обрезиненный поясок
+    'shtanga':      spec((0.62, 0.63, 0.65), 0.90, 0.24),         # штанга: сталь
+    'sliv':         spec((0.40, 0.41, 0.43), 0.60, 0.46),         # спускное устройство
+    'kolonka':      spec((0.48, 0.03, 0.02), 0.0, 0.40),          # колонка КПА: тоже красная
+    'kolonka-key':  spec((0.55, 0.56, 0.58), 0.85, 0.30),         # центральный ключ
+    'kolonka-mark': spec((0.72, 0.73, 0.74), 0.3, 0.40),
+    'rukav':        spec((0.30, 0.30, 0.28), 0.0, 0.70),          # напорные рукава и головки
 }
 BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing',
            'kabina-dark', 'kabina-chrome', 'reel', 'water', 'tank-dark', 'pump-dark', 'tank-panel', 'tank-stripe',
@@ -185,7 +200,10 @@ BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing'
            'teplo', 'uchet', 'reg', 'pto', 'nasos', 'podpit', 'kollekt',
            # Задвижка. Обрезинку (klin-rub) не фасковать: она облегает клин тонким
            # слоем, фаска 8 мм сгрызла бы уплотнительные пояса.
-           'truba', 'korpus', 'klin', 'kryshka', 'shpindel', 'reduktor', 'privod', 'upravl'}
+           'truba', 'korpus', 'klin', 'kryshka', 'shpindel', 'reduktor', 'privod', 'upravl',
+           # Гидрант. Грунт и рукава не фаскуем: у первого фаска съест тонкую
+           # пластину отмостки, у вторых — гибкая труба, а не отливка.
+           'kolodec', 'vodoprovod', 'gidrant', 'klapan', 'shtanga', 'sliv', 'kolonka'}
 
 def make_material(name):
     s = MATS.get(name)
