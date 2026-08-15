@@ -1,6 +1,9 @@
 # ---- Сборочные артефакты (пересобираются: node engine/build.js --config …) ----
 *(голограмма).html
 *(тест блока).html
+«Каталог голограмм ЖКХ».html
+Каталог голограмм ЖКХ.html
+catalog-thumbs/
 engine/out/
 engine/node_modules/
 
