@@ -221,6 +221,20 @@ MATS = {
     'ogranich-lamp': spec((0.10, 0.65, 0.30), 0.0, 0.20, emit=(0.2, 1.0, 0.4), emit_str=2.0),
     'ruchnoe':      spec((0.62, 0.30, 0.02), 0.0, 0.40),          # ручное управление: сигнальный жёлтый
     'ruchnoe-lamp': spec((0.06, 0.28, 0.42), 0.0, 0.18, emit=(0.10, 0.70, 1.0), emit_str=1.8),
+    # ---- КНС: канализационная насосная станция --------------------------------
+    'korp':         spec((0.16, 0.19, 0.22), 0.0, 0.42),          # стеклопластиковый корпус: тёмно-серый
+    'korp-mark':    spec((0.72, 0.73, 0.74), 0.3, 0.40),
+    'podvod':       spec((0.22, 0.20, 0.16), 0.0, 0.62),          # самотёчный коллектор: бурый
+    'podvod-mark':  spec((0.72, 0.73, 0.74), 0.3, 0.40),
+    'reshetka':     spec((0.40, 0.41, 0.43), 0.70, 0.40),         # корзина: нержавейка
+    'reshetka-bar': spec((0.52, 0.53, 0.55), 0.90, 0.30),         # прутья решётки
+    'nasos-rk':     spec((0.58, 0.42, 0.14), 0.85, 0.32),         # рабочее колесо: бронза
+    'napravl':      spec((0.46, 0.47, 0.49), 0.88, 0.30),         # направляющие и трубные муфты
+    'napor':        spec((0.10, 0.30, 0.14), 0.25, 0.48),         # напорная обвязка
+    'napor-lamp':   spec((0.88, 0.88, 0.86), 0.0, 0.18, emit=(1.0, 0.97, 0.90), emit_str=1.2),
+    'urovni':       spec((0.62, 0.30, 0.02), 0.0, 0.42),          # поплавки: сигнальный оранжевый
+    'urovni-lamp':  spec((0.10, 0.65, 0.30), 0.0, 0.20, emit=(0.2, 1.0, 0.4), emit_str=1.8),
+    'voda':         spec((0.10, 0.16, 0.12), 0.0, 0.14, glass=True),   # зеркало стоков
 }
 BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing',
            'kabina-dark', 'kabina-chrome', 'reel', 'water', 'tank-dark', 'pump-dark', 'tank-panel', 'tank-stripe',
@@ -242,7 +256,9 @@ BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing'
            # Узел учёта. stena — плоские плиты, фаска на них только съест углы.
            'zapor', 'filtr', 'schetchik', 'schetchik-uch', 'obvod', 'tele',
            # Лебёдка. Канаты и пол не фаскуем: первые тонкие, второй — плита.
-           'tormoz', 'kvsh', 'ogranich', 'ruchnoe'}
+           'tormoz', 'kvsh', 'ogranich', 'ruchnoe',
+           # КНС. voda (зеркало стоков) и прутья решётки — плоские/тонкие, без фаски.
+           'korp', 'podvod', 'reshetka', 'napravl', 'napor', 'urovni'}
 
 def make_material(name):
     s = MATS.get(name)
