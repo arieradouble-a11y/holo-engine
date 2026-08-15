@@ -186,6 +186,21 @@ MATS = {
     'kolonka-key':  spec((0.55, 0.56, 0.58), 0.85, 0.30),         # центральный ключ
     'kolonka-mark': spec((0.72, 0.73, 0.74), 0.3, 0.40),
     'rukav':        spec((0.30, 0.30, 0.28), 0.0, 0.70),          # напорные рукава и головки
+    # ---- Узел учёта воды (ОДПУ) ---------------------------------------------
+    'stena':        spec((0.42, 0.41, 0.39), 0.0, 0.86),          # стена и пол подвала
+    'zapor':        spec((0.045, 0.13, 0.34), 0.15, 0.46),        # задвижки: синий чугун
+    'filtr':        spec((0.30, 0.31, 0.33), 0.70, 0.42),         # фильтр: сталь, иначе сливается с трубой
+    'filtr-mesh':   spec((0.52, 0.53, 0.55), 0.90, 0.30),         # сетка фильтра
+    'schetchik':    spec((0.55, 0.40, 0.14), 0.85, 0.30),         # корпус счётчика: латунь
+    'schetchik-uch': spec((0.10, 0.30, 0.14), 0.25, 0.50),        # прямые участки — это труба
+    'schetchik-lamp': spec((0.88, 0.88, 0.86), 0.0, 0.18, emit=(1.0, 0.97, 0.90), emit_str=1.4),
+    'schetchik-mark': spec((0.72, 0.73, 0.74), 0.3, 0.40),        # шильд прибора
+    'schetchik-plomb': spec((0.62, 0.63, 0.66), 0.60, 0.42),      # пломба поверителя: свинец
+    'obvod':        spec((0.62, 0.30, 0.02), 0.0, 0.42),          # обводная: сигнальный жёлтый
+    'obvod-plomb':  spec((0.62, 0.63, 0.66), 0.60, 0.42),         # пломба на обводной
+    'kip-lamp':     spec((0.88, 0.88, 0.86), 0.0, 0.18, emit=(1.0, 0.97, 0.90), emit_str=1.2),
+    'tele':         spec((0.34, 0.35, 0.37), 0.25, 0.46),         # шкафчик телеметрии
+    'tele-lamp':    spec((0.10, 0.60, 0.55), 0.0, 0.20, emit=(0.15, 1.0, 0.85), emit_str=1.8),
 }
 BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing',
            'kabina-dark', 'kabina-chrome', 'reel', 'water', 'tank-dark', 'pump-dark', 'tank-panel', 'tank-stripe',
@@ -203,7 +218,9 @@ BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing'
            'truba', 'korpus', 'klin', 'kryshka', 'shpindel', 'reduktor', 'privod', 'upravl',
            # Гидрант. Грунт и рукава не фаскуем: у первого фаска съест тонкую
            # пластину отмостки, у вторых — гибкая труба, а не отливка.
-           'kolodec', 'vodoprovod', 'gidrant', 'klapan', 'shtanga', 'sliv', 'kolonka'}
+           'kolodec', 'vodoprovod', 'gidrant', 'klapan', 'shtanga', 'sliv', 'kolonka',
+           # Узел учёта. stena — плоские плиты, фаска на них только съест углы.
+           'zapor', 'filtr', 'schetchik', 'schetchik-uch', 'obvod', 'tele'}
 
 def make_material(name):
     s = MATS.get(name)
