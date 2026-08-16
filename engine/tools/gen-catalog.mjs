@@ -107,7 +107,6 @@ const json = o => JSON.stringify(o).replace(/</g, '\u003c');
 // обои рабочего стола — кадр одной из голограмм: размывается и затемняется в CSS
 const WALL = all.find(o => /ТЭЦ|Жилой дом|Котельная/.test(o.title)) || all[0];
 const WALLPAPER = WALL && WALL.thumb ? WALL.thumb : '';
-
 const html = `<!doctype html>
 <html lang="ru"><head>
 <meta charset="utf-8">
@@ -158,10 +157,15 @@ body.light #menubar{background:rgba(250,250,252,0.66)}
 
 /* ── окна ─────────────────────────────────────────────────────────────── */
 #desk{position:fixed; inset:30px 0 0 0; z-index:10}
+/* У окна фон 0.80–0.88 — blur под ним почти не читается, а стоит дорого: каждый
+   кадр композитинга пересчитывается на всей площади, и при живой голограмме
+   (WebGL рисует непрерывно) именно это даёт рывки. Стекло оставлено там, где
+   оно видно и дёшево: меню-бар и док. */
 .win{position:absolute; display:flex; flex-direction:column; border-radius:var(--rw); overflow:hidden;
-  background:var(--glass2); backdrop-filter:blur(30px) saturate(1.7);
-  -webkit-backdrop-filter:blur(30px) saturate(1.7); border:0.5px solid var(--hair);
+  background:var(--glass2); border:0.5px solid var(--hair); contain:layout paint;
   box-shadow:var(--shadow), inset 0 1px 0 var(--hi); animation:winIn .26s cubic-bezier(.2,.8,.25,1)}
+.win.drag{transition:none; box-shadow:0 6px 18px rgba(0,0,0,.42); will-change:left,top}
+.win.drag .stage{pointer-events:none}
 @keyframes winIn{from{opacity:0; transform:scale(.955) translateY(10px)} to{opacity:1; transform:none}}
 .win.closing{animation:winOut .18s ease forwards}
 @keyframes winOut{to{opacity:0; transform:scale(.96)}}
@@ -198,7 +202,9 @@ body.light #menubar{background:rgba(250,250,252,0.66)}
 .content::-webkit-scrollbar-thumb,.side::-webkit-scrollbar-thumb,.info::-webkit-scrollbar-thumb{
   background:rgba(160,190,210,.22); border-radius:9px}
 .gtitle{margin:4px 0 12px; font:600 11px var(--mono); letter-spacing:.15em; color:var(--dim2)}
-.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:14px; margin-bottom:26px}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:14px; margin-bottom:26px;
+  content-visibility:auto; contain-intrinsic-size:auto 320px}
+.hidden{display:none !important}
 .item{border:0; background:transparent; color:inherit; cursor:pointer; padding:9px; border-radius:14px;
   text-align:center; font:inherit; transition:.2s cubic-bezier(.2,.8,.25,1)}
 .item:hover{background:rgba(255,255,255,.09); transform:translateY(-3px)}
@@ -219,6 +225,11 @@ body.light #menubar{background:rgba(250,250,252,0.66)}
 .stage iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
 .stage .load{position:absolute; inset:0; display:grid; place-items:center; color:var(--dim2);
   font:500 11px var(--mono); letter-spacing:.18em}
+.sleep{position:absolute; inset:0; display:grid; place-items:center; align-content:center; gap:14px;
+  background:#04080f center/cover no-repeat; text-align:center; padding:20px}
+.sleep::before{content:''; position:absolute; inset:0; background:rgba(2,6,13,.66)}
+.sleep p{position:relative; margin:0; max-width:260px; font:500 12px/1.5 var(--sans); color:var(--dim)}
+.sleep button{position:relative}
 .info{width:0; flex:none; overflow:hidden; border-left:0.5px solid var(--hair);
   transition:width .28s cubic-bezier(.2,.8,.25,1)}
 .info.open{width:316px; overflow-y:auto}
@@ -308,7 +319,19 @@ const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g,
 const short = (t, n) => { n = n || 320; t = String(t || ''); if (t.length <= n) return t;
   const c = t.slice(0, n), d = Math.max(c.lastIndexOf('. '), c.lastIndexOf('; '));
   return d > n * 0.5 ? c.slice(0, d + 1) : c.trimEnd() + '…'; };
-const src = f => THUMBS[f] ? 'data:image/jpeg;base64,' + THUMBS[f] : '';
+// base64 в атрибуте src браузер декодирует ЗАНОВО при каждой вставке в DOM:
+// 27 карточек по ~50 КБ — это 1,4 МБ строк на каждую перерисовку сетки. Один раз
+// переводим в Blob URL: ссылка короткая, декодированный кадр кэшируется браузером.
+const BLOBS = {};
+(function makeBlobs(){
+  for (const f in THUMBS){
+    const bin = atob(THUMBS[f]); const a = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i);
+    BLOBS[f] = URL.createObjectURL(new Blob([a], { type: 'image/jpeg' }));
+    THUMBS[f] = null;
+  }
+})();
+const src = f => BLOBS[f] || '';
 const desk = document.getElementById('desk');
 let zTop = 10, wins = [], filter = 'Все', query = '', finder = null;
 
@@ -327,10 +350,11 @@ function makeWin(opt){
     '</div><div class="title">' + esc(opt.title) + '</div><div class="tools"></div></div>' +
     '<div class="wbody"></div><div class="rsz"></div>';
   const bar = el.querySelector('.bar');
-  el.addEventListener('mousedown', () => { el.style.zIndex = ++zTop; });
+  el.addEventListener('mousedown', () => { el.style.zIndex = ++zTop; applyFocus(); });
+  el.addEventListener('mouseenter', () => { if (el.dataset.idx) applyFocus(el); });
   bar.querySelector('.c').onclick = e => { e.stopPropagation(); closeWin(el); };
   bar.querySelector('.m').onclick = e => { e.stopPropagation(); el.classList.add('min');
-    setTimeout(() => { el.style.display = 'none'; el.classList.remove('min'); }, 260); };
+    setTimeout(() => { el.style.display = 'none'; el.classList.remove('min'); sleepWin(el); }, 260); };
   bar.querySelector('.z').onclick = e => { e.stopPropagation(); zoomWin(el); };
   bar.ondblclick = () => zoomWin(el);
   drag(bar, el, 'move'); drag(el.querySelector('.rsz'), el, 'size');
@@ -344,6 +368,7 @@ function drag(handle, el, mode){
     const sx = e.clientX, sy = e.clientY;
     const ox = parseFloat(el.style.left), oy = parseFloat(el.style.top);
     const ow = el.offsetWidth, oh = el.offsetHeight;
+    el.classList.add('drag');
     const mv = ev => {
       if (mode === 'move'){
         el.style.left = Math.max(-ow + 140, ox + ev.clientX - sx) + 'px';
@@ -353,7 +378,8 @@ function drag(handle, el, mode){
         el.style.height = Math.max(300, oh + ev.clientY - sy) + 'px';
       }
     };
-    const up = () => { removeEventListener('mousemove', mv); removeEventListener('mouseup', up); };
+    const up = () => { el.classList.remove('drag');
+      removeEventListener('mousemove', mv); removeEventListener('mouseup', up); };
     addEventListener('mousemove', mv); addEventListener('mouseup', up);
   });
 }
@@ -369,7 +395,8 @@ function zoomWin(el){
 }
 function closeWin(el){
   el.classList.add('closing');
-  setTimeout(() => { el.remove(); wins = wins.filter(w => w !== el); if (el === finder) finder = null; syncDock(); }, 180);
+  setTimeout(() => { el.remove(); wins = wins.filter(w => w !== el);
+    if (el === finder) finder = null; syncDock(); applyFocus(); }, 180);
 }
 function topWin(){
   return wins.filter(w => w.style.display !== 'none')
@@ -414,30 +441,50 @@ function renderSide(){
 const hay = o => [o.title, o.hook, o.sub, o.desc, o.tag]
   .concat(o.parts.map(p => p.n + ' ' + p.t + ' ' + p.d))
   .concat(o.flows).concat(o.specs.map(r => r.join(' '))).join(' ').toLowerCase();
+let CARDS = null, HEADS = {};        // карточки строятся один раз и переиспользуются
+function buildGrid(){
+  const c = finder.querySelector('.content');
+  c.innerHTML = ''; CARDS = []; HEADS = {};
+  GROUPS.forEach(g => {
+    const sec = document.createElement('div');
+    const h = document.createElement('div'); h.className = 'gtitle';
+    const grid = document.createElement('div'); grid.className = 'grid';
+    g.items.forEach(o => {
+      const b = document.createElement('button'); b.className = 'item';
+      const img = new Image();
+      img.loading = 'lazy'; img.decoding = 'async'; img.alt = ''; img.src = src(o.file);
+      const ic = document.createElement('div'); ic.className = 'ic'; ic.appendChild(img);
+      const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = o.title;
+      const hk = document.createElement('span'); hk.className = 'hk'; hk.textContent = o.hook;
+      b.appendChild(ic); b.appendChild(nm); b.appendChild(hk);
+      let idx = -1; FLAT.forEach((x, i) => { if (x.file === o.file) idx = i; });
+      b.onclick = () => openObject(idx);
+      grid.appendChild(b);
+      CARDS.push({ el: b, group: g.name, hay: hay(o) });
+    });
+    sec.appendChild(h); sec.appendChild(grid); c.appendChild(sec);
+    HEADS[g.name] = { h: h, sec: sec };
+  });
+  const empty = document.createElement('div');
+  empty.className = 'gtitle empty hidden'; empty.textContent = 'НИЧЕГО НЕ НАЙДЕНО';
+  c.appendChild(empty);
+}
 function renderGrid(){
   if (!finder) return;
-  const c = finder.querySelector('.content'), q = query.trim().toLowerCase();
-  c.innerHTML = ''; let shown = 0;
-  GROUPS.forEach(g => {
-    if (filter !== 'Все' && filter !== g.name) return;
-    const items = g.items.filter(o => !q || hay(o).indexOf(q) >= 0);
-    if (!items.length) return;
-    shown += items.length;
-    const h = document.createElement('div');
-    h.className = 'gtitle'; h.textContent = g.name.toUpperCase() + ' · ' + items.length;
-    const grid = document.createElement('div'); grid.className = 'grid';
-    items.forEach(o => {
-      const b = document.createElement('button'); b.className = 'item';
-      b.innerHTML = '<div class="ic"><img loading="lazy" alt="" src="' + src(o.file) + '"></div>' +
-        '<span class="nm">' + esc(o.title) + '</span><span class="hk">' + esc(o.hook) + '</span>';
-      b.onclick = () => { let idx = -1;
-        FLAT.forEach((x, i) => { if (x.file === o.file) idx = i; });
-        openObject(idx); };
-      grid.appendChild(b);
-    });
-    c.appendChild(h); c.appendChild(grid);
+  if (!CARDS) buildGrid();
+  const q = query.trim().toLowerCase(), counts = {};
+  CARDS.forEach(c => {
+    const ok = (filter === 'Все' || filter === c.group) && (!q || c.hay.indexOf(q) >= 0);
+    c.el.classList.toggle('hidden', !ok);
+    if (ok) counts[c.group] = (counts[c.group] || 0) + 1;
   });
-  if (!shown) c.innerHTML = '<div class="gtitle">НИЧЕГО НЕ НАЙДЕНО</div>';
+  let total = 0;
+  GROUPS.forEach(g => {
+    const H = HEADS[g.name], n = counts[g.name] || 0; total += n;
+    H.sec.classList.toggle('hidden', !n);
+    H.h.textContent = g.name.toUpperCase() + ' · ' + n;
+  });
+  finder.querySelector('.empty').classList.toggle('hidden', !!total);
 }
 
 /* ── окно объекта: слева живая голограмма, справа выезжающий путеводитель ── */
@@ -450,33 +497,83 @@ function openObject(i){
     '<button class="tbtn info-t">Инфо</button>' +
     '<a class="tbtn" href="' + encodeURI(o.file) + '" target="_blank" rel="noopener">Открыть ↗</a>';
   el.querySelector('.wbody').innerHTML =
-    '<div class="stage"><div class="load">ЗАГРУЗКА ГОЛОГРАММЫ…</div></div>' +
-    '<div class="info"><div class="pad">' +
-      '<p class="lede">' + esc(o.hook) + '</p>' +
-      '<h4>СУТЬ</h4><p>' + esc(short(o.desc)) + '</p>' +
-      (o.keys.length ? '<h4>ЧТО ЗДЕСЬ СМОТРЕТЬ</h4>' +
-        o.keys.map(k => '<div class="k"><b>' + esc(k.n) + '</b><p>' + esc(k.d) + '</p></div>').join('') : '') +
-      (o.flows.length ? '<h4>ПОТОКИ СРЕДЫ</h4>' +
-        o.flows.map(f => '<span class="pill">' + esc(f) + '</span>').join('') : '') +
-      '<h4>В ОБЪЕКТЕ</h4>' +
-      '<span class="pill">' + o.parts.length + ' СИСТЕМ</span>' +
-      '<span class="pill">' + o.markers + ' УЗЛОВ</span>' +
-      '<span class="pill">' + esc(o.size) + '</span>' +
-      '<span class="pill">' + esc(o.mode) + '</span>' +
-    '</div></div>';
-  const stage = el.querySelector('.stage'), info = el.querySelector('.info');
+    '<div class="stage"></div><div class="info"><div class="pad">' + infoHTML(o) + '</div></div>';
+  const info = el.querySelector('.info');
   el.querySelector('.info-t').onclick = function(){ info.classList.toggle('open'); this.classList.toggle('on'); };
+  wake(el); keepAlive(el);
+  return el;
+}
+function infoHTML(o){
+  return '<p class="lede">' + esc(o.hook) + '</p>' +
+    '<h4>СУТЬ</h4><p>' + esc(short(o.desc)) + '</p>' +
+    (o.keys.length ? '<h4>ЧТО ЗДЕСЬ СМОТРЕТЬ</h4>' +
+      o.keys.map(k => '<div class="k"><b>' + esc(k.n) + '</b><p>' + esc(k.d) + '</p></div>').join('') : '') +
+    (o.flows.length ? '<h4>ПОТОКИ СРЕДЫ</h4>' +
+      o.flows.map(f => '<span class="pill">' + esc(f) + '</span>').join('') : '') +
+    '<h4>В ОБЪЕКТЕ</h4>' +
+    '<span class="pill">' + o.parts.length + ' СИСТЕМ</span>' +
+    '<span class="pill">' + o.markers + ' УЗЛОВ</span>' +
+    '<span class="pill">' + esc(o.size) + '</span>' +
+    '<span class="pill">' + esc(o.mode) + '</span>';
+}
+/* Каждая голограмма — свой WebGL-контекст, рисующий непрерывно, даже когда окно
+   перекрыто. Три открытых объекта = три сцены на GPU, и интерфейс дёргается.
+   Живыми держим не больше двух: остальные усыпляются — iframe выгружается,
+   остаётся кадр-миниатюра с кнопкой «Возобновить». */
+const LIVE_MAX = 3;
+/* Живой рендер — только у верхнего окна: остальным шлём паузу. Движок бандла
+   слушает postMessage и перестаёт рисовать, пока его не разбудят. Без этого
+   одна фоновая голограмма роняла каталог со 166 до 20 fps. */
+function applyFocus(force){
+  // Верхним считаем ЛЮБОЕ окно, включая каталог: пока человек листает список,
+  // ни одна голограмма рисовать не должна — иначе список дёргается.
+  const vis = wins.filter(w => w.style.display !== 'none');
+  const top = force || vis.slice().sort((a, b) => (+b.style.zIndex) - (+a.style.zIndex))[0];
+  vis.forEach(w => {
+    if (!w.dataset.idx) return;
+    const fr = w.querySelector('iframe');
+    if (!fr || !fr.contentWindow) return;
+    try { fr.contentWindow.postMessage({ holo: w === top ? 'resume' : 'pause' }, '*'); } catch (e) {}
+  });
+}
+function wake(el){
+  const o = FLAT[+el.dataset.idx], stage = el.querySelector('.stage');
+  stage.innerHTML = '<div class="load">ЗАГРУЗКА ГОЛОГРАММЫ…</div>';
   const fr = document.createElement('iframe');
   fr.src = encodeURI(o.file);
-  fr.onload = () => { const l = stage.querySelector('.load'); if (l) l.remove(); };
+  fr.onload = () => { const l = stage.querySelector('.load'); if (l) l.remove(); applyFocus(); };
   stage.appendChild(fr);
-  return el;
+  el.dataset.live = '1';
+}
+function sleepWin(el){
+  if (el.dataset.live !== '1') return;
+  const o = FLAT[+el.dataset.idx], stage = el.querySelector('.stage');
+  stage.innerHTML = '';
+  const d = document.createElement('div');
+  d.className = 'sleep'; d.style.backgroundImage = 'url(' + src(o.file) + ')';
+  const p = document.createElement('p');
+  p.textContent = 'Голограмма приостановлена, чтобы не занимать видеокарту';
+  const b = document.createElement('button');
+  b.className = 'tbtn'; b.textContent = 'Возобновить';
+  b.onclick = () => { wake(el); keepAlive(el); };
+  d.appendChild(p); d.appendChild(b); stage.appendChild(d);
+  el.dataset.live = '0';
+}
+function keepAlive(el){
+  const live = wins.filter(w => w.dataset.live === '1' && w !== el);
+  live.sort((a, b) => (+a.style.zIndex) - (+b.style.zIndex));
+  while (live.length >= LIVE_MAX) sleepWin(live.shift());
 }
 function stepObject(d){
   const t = topWin();
   if (!t || !t.dataset.idx) return;
-  const i = ((+t.dataset.idx) + d + FLAT.length) % FLAT.length;
-  closeWin(t); openObject(i);
+  // раньше окно закрывалось и создавалось заново: прыжок позиции и лишний кадр
+  const i = ((+t.dataset.idx) + d + FLAT.length) % FLAT.length, o = FLAT[i];
+  t.dataset.idx = String(i);
+  t.querySelector('.title').textContent = o.title;
+  t.querySelector('.tools a').href = encodeURI(o.file);
+  t.querySelector('.info .pad').innerHTML = infoHTML(o);
+  wake(t); keepAlive(t);
 }
 
 /* ── док, меню, клавиатура, часы ──────────────────────────────────────── */

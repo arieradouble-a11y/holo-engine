@@ -245,6 +245,13 @@ class Component extends DCLogic {
       this.buildOutline(THREE);
 
       this.onResize(); window.addEventListener('resize',this.onResize);
+      // Хозяин страницы (каталог) может усыпить фоновую голограмму: WebGL рисует
+      // непрерывно и в iframe забирает кадровый бюджет у всего интерфейса.
+      window.addEventListener('message', e => {
+        if(!e.data || e.data.holo===undefined) return;
+        this.paused = e.data.holo === 'pause';
+        if(!this.paused) this.lastInteract = performance.now();
+      });
       this.attachPointer();
       this.setState({loading:false});
       this.animate();

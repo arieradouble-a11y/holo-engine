@@ -89,6 +89,11 @@
 
   animate=()=>{
     if(this.stopped) return; requestAnimationFrame(this.animate);
+    // ПАУЗА РЕНДЕРА. Сцена рисует непрерывно, и когда бандл открыт в iframe
+    // (каталог), даже одна фоновая голограмма забирает почти весь кадровый
+    // бюджет страницы-хозяина: 166 fps → 20 fps на списке объектов. Рисуем
+    // только когда вкладка видима И нас не усыпил родитель через postMessage.
+    if(document.hidden || this.paused) return;
     this.frame++;
     const t=performance.now()*0.001; this.uniforms.uTime.value=t;
     // авто-вращение только по кнопке «↻ Вращение» (state.spin)
