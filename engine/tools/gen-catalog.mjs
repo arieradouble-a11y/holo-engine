@@ -104,6 +104,10 @@ groups.forEach(g => g.items.forEach(o => { if (o.thumb) THUMB_MAP[o.file] = o.th
 
 const json = o => JSON.stringify(o).replace(/</g, '\u003c');
 
+// обои рабочего стола — кадр одной из голограмм: размывается и затемняется в CSS
+const WALL = all.find(o => /ТЭЦ|Жилой дом|Котельная/.test(o.title)) || all[0];
+const WALLPAPER = WALL && WALL.thumb ? WALL.thumb : '';
+
 const html = `<!doctype html>
 <html lang="ru"><head>
 <meta charset="utf-8">
@@ -111,300 +115,414 @@ const html = `<!doctype html>
 <title>Каталог голограмм ЖКХ</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2302060d'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%2338e8ff' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%2338e8ff'/%3E%3C/svg%3E">
 <style>
-  :root{
-    --bg:#02060d; --bg2:#061320; --line:rgba(56,232,255,0.18); --line2:rgba(56,232,255,0.34);
-    --txt:#e8f6ff; --dim:#8fb6c8; --dim2:#5d93a8; --cyan:#38e8ff; --amber:#ffa63d;
-    --card:rgba(6,18,30,0.62);
-    --mono:'IBM Plex Mono','JetBrains Mono',ui-monospace,Consolas,monospace;
-    --sans:'IBM Plex Sans','Segoe UI',system-ui,-apple-system,sans-serif;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;height:100%}
-  body{
-    background:
-      radial-gradient(120% 80% at 50% 100%, rgba(20,96,128,0.22), rgba(2,6,13,0) 60%),
-      radial-gradient(90% 70% at 50% 0%, rgba(12,60,90,0.30), rgba(2,6,13,0) 55%),
-      var(--bg);
-    color:var(--txt); font-family:var(--sans); -webkit-font-smoothing:antialiased;
-    min-height:100%;
-  }
-  body::before{ /* скан-линии как в самих голограммах */
-    content:''; position:fixed; inset:0; pointer-events:none; z-index:2; opacity:.30;
-    background:repeating-linear-gradient(to bottom, rgba(150,230,255,0.05) 0px, rgba(150,230,255,0.05) 1px, transparent 1px, transparent 3px);
-  }
-  body::after{ content:''; position:fixed; inset:0; pointer-events:none; z-index:2;
-    box-shadow:inset 0 0 240px 60px rgba(0,0,0,0.66); }
-  .wrap{position:relative; z-index:3; max-width:1560px; margin:0 auto; padding:34px 30px 90px}
+/* ─────────────────────────────────────────────────────────────────────────
+   Liquid Glass (macOS 26/27): стекло = полупрозрачный фон + blur с saturate,
+   светлая внутренняя окантовка сверху, мягкая тень и волосяная граница.
+   Значения сняты с референса: blur(28px) saturate(1.7), радиусы 12–24,
+   тень 0 10px 34px rgba(0,0,0,.28) + 0 0 0 .5px.
+   ───────────────────────────────────────────────────────────────────────── */
+:root{
+  --glass:rgba(28,30,36,0.62); --glass2:rgba(18,20,26,0.80); --hair:rgba(255,255,255,0.10);
+  --hi:rgba(255,255,255,0.16); --txt:#f2f6fa; --dim:rgba(236,244,250,0.68); --dim2:rgba(236,244,250,0.44);
+  --accent:#38e8ff; --shadow:0 10px 34px rgba(0,0,0,0.46), 0 0 0 0.5px rgba(0,0,0,0.35);
+  --sans:'IBM Plex Sans','SF Pro Display','Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Consolas,monospace;
+  --rw:16px;
+}
+body.light{
+  --glass:rgba(248,248,250,0.74); --glass2:rgba(252,252,254,0.88); --hair:rgba(0,0,0,0.09);
+  --hi:rgba(255,255,255,0.85); --txt:#12161c; --dim:rgba(20,26,34,0.70); --dim2:rgba(20,26,34,0.46);
+  --shadow:0 10px 34px rgba(0,0,0,0.26), 0 0 0 0.5px rgba(0,0,0,0.12);
+}
+*{box-sizing:border-box; -webkit-font-smoothing:antialiased}
+html,body{margin:0; height:100%; overflow:hidden; font-family:var(--sans); color:var(--txt)}
+#wall{position:fixed; inset:-6%; z-index:0; background-size:cover; background-position:center;
+  filter:blur(26px) saturate(1.45) brightness(.86); transform:scale(1.06)}
+body.light #wall{filter:blur(30px) saturate(1.35) brightness(1.05)}
+#wall::after{content:''; position:absolute; inset:0;
+  background:radial-gradient(120% 90% at 50% 6%, rgba(16,64,104,.30), rgba(2,8,16,.62) 72%)}
+body.light #wall::after{background:radial-gradient(120% 90% at 50% 6%, rgba(255,255,255,.42), rgba(176,198,220,.58) 72%)}
 
-  /* ── шапка ───────────────────────────────────────────────────────────── */
-  header{margin-bottom:26px}
-  .brand{display:flex; align-items:center; gap:10px; margin-bottom:14px}
-  .dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan);animation:pulse 2.4s ease-in-out infinite}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.82)}}
-  .brand span{font:600 12px var(--mono); letter-spacing:.18em; color:#6fcfe6}
-  h1{margin:0; font:700 clamp(30px,4.4vw,52px)/1.02 var(--sans); letter-spacing:-0.02em;
-     text-shadow:0 0 30px rgba(56,232,255,0.22)}
-  .lead{margin:12px 0 0; max-width:760px; font:400 15.5px/1.55 var(--sans); color:var(--dim)}
-  .stats{display:flex; flex-wrap:wrap; gap:26px; margin-top:22px; padding-top:20px; border-top:1px solid var(--line)}
-  .stat b{display:block; font:700 26px var(--sans); color:#f1fbff; letter-spacing:-0.01em}
-  .stat span{font:500 11px var(--mono); letter-spacing:.14em; color:var(--dim2)}
+/* ── меню-бар ─────────────────────────────────────────────────────────── */
+#menubar{position:fixed; top:0; left:0; right:0; height:30px; z-index:40; display:flex; align-items:center;
+  gap:20px; padding:0 14px; font:500 13px var(--sans); background:rgba(22,24,30,0.55);
+  backdrop-filter:blur(22px) saturate(1.6); -webkit-backdrop-filter:blur(22px) saturate(1.6);
+  border-bottom:0.5px solid var(--hair)}
+body.light #menubar{background:rgba(250,250,252,0.66)}
+#menubar .logo{display:flex; align-items:center; gap:7px; font-weight:700}
+#menubar .logo i{width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent)}
+.mi{opacity:.78; cursor:pointer} .mi:hover{opacity:1}
+#menubar .right{margin-left:auto; display:flex; align-items:center; gap:16px; font-size:12.5px; opacity:.86}
+.mbtn{border:0; background:transparent; color:inherit; font:inherit; cursor:pointer; padding:2px 7px; border-radius:7px}
+.mbtn:hover{background:rgba(255,255,255,.14)}
 
-  /* ── панель фильтров ─────────────────────────────────────────────────── */
-  .bar{position:sticky; top:0; z-index:6; display:flex; flex-wrap:wrap; gap:12px; align-items:center;
-       margin:24px 0 22px; padding:12px 0; background:linear-gradient(to bottom, rgba(2,6,13,0.96) 70%, rgba(2,6,13,0));
-       backdrop-filter:blur(6px)}
-  .chips{display:flex; flex-wrap:wrap; gap:8px}
-  .chip{padding:8px 15px; border-radius:999px; border:1px solid var(--line); background:rgba(6,18,30,0.55);
-        color:var(--dim); font:600 12px var(--mono); letter-spacing:.06em; cursor:pointer;
-        transition:.22s cubic-bezier(.2,.7,.3,1)}
-  .chip:hover{border-color:var(--line2); color:var(--txt); transform:translateY(-1px)}
-  .chip[aria-pressed="true"]{background:rgba(56,232,255,0.14); border-color:var(--cyan); color:#eafcff;
-        box-shadow:0 0 18px rgba(56,232,255,0.18)}
-  .search{position:relative; flex:1; min-width:230px; max-width:380px}
-  .search input{width:100%; padding:10px 14px 10px 36px; border-radius:11px; border:1px solid var(--line);
-        background:rgba(6,18,30,0.62); color:var(--txt); font:400 14px var(--sans); outline:none;
-        transition:.2s}
-  .search input:focus{border-color:var(--cyan); box-shadow:0 0 0 3px rgba(56,232,255,0.10)}
-  .search svg{position:absolute; left:12px; top:11px; opacity:.55}
-  .found{margin-left:auto; font:500 12px var(--mono); color:var(--dim2); letter-spacing:.1em}
+/* ── окна ─────────────────────────────────────────────────────────────── */
+#desk{position:fixed; inset:30px 0 0 0; z-index:10}
+.win{position:absolute; display:flex; flex-direction:column; border-radius:var(--rw); overflow:hidden;
+  background:var(--glass2); backdrop-filter:blur(30px) saturate(1.7);
+  -webkit-backdrop-filter:blur(30px) saturate(1.7); border:0.5px solid var(--hair);
+  box-shadow:var(--shadow), inset 0 1px 0 var(--hi); animation:winIn .26s cubic-bezier(.2,.8,.25,1)}
+@keyframes winIn{from{opacity:0; transform:scale(.955) translateY(10px)} to{opacity:1; transform:none}}
+.win.closing{animation:winOut .18s ease forwards}
+@keyframes winOut{to{opacity:0; transform:scale(.96)}}
+.win.min{animation:winMin .26s cubic-bezier(.4,0,.6,1) forwards}
+@keyframes winMin{to{opacity:0; transform:translateY(55vh) scale(.2)}}
+.bar{height:40px; display:flex; align-items:center; gap:10px; padding:0 12px; flex:none;
+  border-bottom:0.5px solid var(--hair); user-select:none}
+.lights{display:flex; gap:8px; align-items:center}
+.lights b{width:12px; height:12px; border-radius:50%; display:block; cursor:pointer;
+  box-shadow:inset 0 0 0 .5px rgba(0,0,0,.2)}
+.lights .c{background:#ff5f57} .lights .m{background:#febc2e} .lights .z{background:#28c840}
+.title{flex:1; text-align:center; font:600 13.5px var(--sans); opacity:.92; pointer-events:none;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.tools{display:flex; gap:8px; align-items:center}
+.tbtn{border:0.5px solid var(--hair); background:rgba(255,255,255,.08); color:var(--txt); cursor:pointer;
+  font:600 12px var(--sans); padding:6px 11px; border-radius:9px; transition:.18s; white-space:nowrap;
+  text-decoration:none; display:inline-block}
+.tbtn:hover{background:rgba(255,255,255,.18); transform:translateY(-1px)}
+.tbtn.on{background:rgba(56,232,255,.22); border-color:rgba(56,232,255,.42)}
+.wbody{flex:1; display:flex; min-height:0; position:relative}
+.rsz{position:absolute; right:0; bottom:0; width:18px; height:18px; cursor:nwse-resize; z-index:3}
 
-  /* ── группы и сетка ──────────────────────────────────────────────────── */
-  .group{margin:0 0 40px}
-  .ghead{display:flex; align-items:baseline; gap:14px; margin-bottom:6px}
-  .ghead h2{margin:0; font:600 20px var(--sans); letter-spacing:-0.01em}
-  .ghead em{font:500 11px var(--mono); font-style:normal; letter-spacing:.14em; color:var(--dim2)}
-  .gnote{margin:0 0 18px; font:400 13.5px/1.5 var(--sans); color:var(--dim); max-width:820px}
-  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(316px,1fr)); gap:18px}
+/* ── окно каталога ────────────────────────────────────────────────────── */
+.side{width:210px; flex:none; padding:12px 10px; border-right:0.5px solid var(--hair); overflow-y:auto}
+.side .sec{font:600 10.5px var(--mono); letter-spacing:.14em; color:var(--dim2); margin:8px 8px 6px}
+.side button{display:flex; align-items:center; gap:9px; width:100%; border:0; background:transparent;
+  color:var(--txt); font:500 13.5px var(--sans); padding:7px 9px; border-radius:9px; cursor:pointer; text-align:left}
+.side button:hover{background:rgba(255,255,255,.09)}
+.side button[aria-pressed=true]{background:rgba(56,232,255,.20)}
+.side button i{width:18px; display:grid; place-items:center; font-style:normal; opacity:.9}
+.side button span{margin-left:auto; font:500 11px var(--mono); color:var(--dim2)}
+.content{flex:1; overflow-y:auto; padding:16px 18px 24px}
+.content::-webkit-scrollbar,.side::-webkit-scrollbar,.info::-webkit-scrollbar{width:9px}
+.content::-webkit-scrollbar-thumb,.side::-webkit-scrollbar-thumb,.info::-webkit-scrollbar-thumb{
+  background:rgba(160,190,210,.22); border-radius:9px}
+.gtitle{margin:4px 0 12px; font:600 11px var(--mono); letter-spacing:.15em; color:var(--dim2)}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:14px; margin-bottom:26px}
+.item{border:0; background:transparent; color:inherit; cursor:pointer; padding:9px; border-radius:14px;
+  text-align:center; font:inherit; transition:.2s cubic-bezier(.2,.8,.25,1)}
+.item:hover{background:rgba(255,255,255,.09); transform:translateY(-3px)}
+.item .ic{position:relative; border-radius:22.37%; overflow:hidden; aspect-ratio:1; margin-bottom:9px;
+  background:#04080f; box-shadow:0 8px 22px rgba(0,0,0,.42), inset 0 0 0 .5px rgba(255,255,255,.18)}
+.item .ic img{width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .45s cubic-bezier(.2,.8,.25,1)}
+.item:hover .ic img{transform:scale(1.07)}
+.item .nm{display:block; font:600 13px/1.3 var(--sans)}
+.item .hk{display:-webkit-box; margin-top:3px; font:400 11.5px/1.35 var(--sans); color:var(--dim2);
+  -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.srch{display:flex; align-items:center; gap:7px; padding:5px 10px; border-radius:9px;
+  background:rgba(255,255,255,.10); border:0.5px solid var(--hair)}
+.srch input{border:0; background:transparent; color:var(--txt); font:400 13px var(--sans); outline:none; width:180px}
 
-  /* ── карточка ────────────────────────────────────────────────────────── */
-  .card{position:relative; border:1px solid var(--line); border-radius:16px; overflow:hidden;
-        background:var(--card); cursor:pointer; text-align:left; padding:0; color:inherit; font:inherit;
-        transition:transform .28s cubic-bezier(.2,.7,.3,1), border-color .28s, box-shadow .28s;
-        animation:rise .5s cubic-bezier(.2,.7,.3,1) backwards}
-  @keyframes rise{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
-  .card:hover{transform:translateY(-4px); border-color:var(--line2);
-        box-shadow:0 18px 46px rgba(0,0,0,0.55), 0 0 32px rgba(56,232,255,0.10)}
-  .card:focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
-  .shot{position:relative; aspect-ratio:4/3; overflow:hidden; background:#020509}
-  .shot img{width:100%; height:100%; object-fit:cover; display:block;
-        transition:transform .5s cubic-bezier(.2,.7,.3,1), filter .4s; filter:saturate(1.05)}
-  .card:hover .shot img{transform:scale(1.055); filter:saturate(1.18) brightness(1.06)}
-  .shot::after{content:''; position:absolute; inset:0;
-        background:linear-gradient(to top, rgba(6,18,30,0.92) 2%, rgba(6,18,30,0) 42%)}
-  .beam{position:absolute; left:0; right:0; height:2px; top:-10%; opacity:0; z-index:2;
-        background:linear-gradient(90deg, transparent, rgba(56,232,255,0.85), transparent)}
-  .card:hover .beam{animation:sweep 1.5s cubic-bezier(.4,0,.2,1) infinite}
-  @keyframes sweep{0%{top:-4%; opacity:0}12%{opacity:.9}100%{top:104%; opacity:0}}
-  .body{position:relative; padding:14px 16px 16px; margin-top:-38px; z-index:2}
-  .tag{font:600 10px var(--mono); letter-spacing:.16em; color:#6fcfe6; opacity:.92}
-  .name{margin:6px 0 0; font:600 17.5px/1.25 var(--sans); letter-spacing:-0.01em}
-  .hook{margin:7px 0 0; font:400 13px/1.45 var(--sans); color:var(--dim); min-height:37px}
-  .meta{display:flex; flex-wrap:wrap; gap:6px; margin-top:13px}
-  .pill{padding:4px 9px; border-radius:7px; border:1px solid rgba(56,232,255,0.14);
-        background:rgba(56,232,255,0.05); font:500 10.5px var(--mono); letter-spacing:.06em; color:#9fd6e8}
+/* ── окно объекта ─────────────────────────────────────────────────────── */
+.stage{flex:1; position:relative; background:#02060d; min-width:0}
+.stage iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+.stage .load{position:absolute; inset:0; display:grid; place-items:center; color:var(--dim2);
+  font:500 11px var(--mono); letter-spacing:.18em}
+.info{width:0; flex:none; overflow:hidden; border-left:0.5px solid var(--hair);
+  transition:width .28s cubic-bezier(.2,.8,.25,1)}
+.info.open{width:316px; overflow-y:auto}
+.info .pad{width:316px; padding:16px 18px 22px}
+.info h4{margin:18px 0 8px; font:600 10.5px var(--mono); letter-spacing:.15em; color:var(--dim2)}
+.info h4:first-child{margin-top:0}
+.info p{margin:0; font:400 13.5px/1.55 var(--sans); color:var(--dim)}
+.info .lede{margin-bottom:2px; font:600 15px/1.4 var(--sans); color:var(--txt)}
+.info .k{padding:10px 12px; margin-bottom:8px; border:0.5px solid var(--hair); border-radius:11px;
+  background:rgba(255,255,255,.05)}
+.info .k b{display:block; margin-bottom:4px; font:600 13px var(--sans)}
+.info .k p{font-size:12.5px}
+.pill{display:inline-block; padding:4px 9px; margin:0 5px 5px 0; border-radius:8px; color:var(--dim);
+  border:0.5px solid var(--hair); background:rgba(255,255,255,.06); font:500 10.5px var(--mono)}
 
-  /* ── оверлей объекта ─────────────────────────────────────────────────── */
-  .ov{position:fixed; inset:0; z-index:20; display:none; background:rgba(1,4,9,0.82); backdrop-filter:blur(10px)}
-  .ov.on{display:flex; animation:fade .28s ease}
-  @keyframes fade{from{opacity:0}to{opacity:1}}
-  .sheet{display:flex; flex:1; margin:24px; border:1px solid var(--line2); border-radius:20px; overflow:hidden;
-         background:linear-gradient(180deg, rgba(6,18,30,0.96), rgba(2,8,15,0.98));
-         box-shadow:0 40px 120px rgba(0,0,0,0.7); animation:pop .34s cubic-bezier(.2,.7,.3,1)}
-  @keyframes pop{from{transform:translateY(18px) scale(.985); opacity:0}to{transform:none; opacity:1}}
-  .stage{flex:1.55; position:relative; background:#02060d; border-right:1px solid var(--line)}
-  .stage iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
-  .stage .load{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-        font:500 12px var(--mono); letter-spacing:.16em; color:var(--dim2)}
-  .side{flex:1; max-width:400px; display:flex; flex-direction:column; min-width:330px}
-  .shead{padding:20px 22px 16px; border-bottom:1px solid var(--line)}
-  .shead .tag{display:block; margin-bottom:8px}
-  .shead h3{margin:0; font:700 23px/1.2 var(--sans); letter-spacing:-0.01em}
-  .scroll{flex:1; overflow-y:auto; padding:18px 22px 24px}
-  .scroll::-webkit-scrollbar{width:9px} .scroll::-webkit-scrollbar-thumb{background:rgba(56,232,255,0.18); border-radius:9px}
-  .scroll h4{margin:22px 0 10px; font:600 11px var(--mono); letter-spacing:.16em; color:#6fcfe6}
-  .scroll h4:first-child{margin-top:0}
-  .scroll p{margin:0; font:400 14px/1.6 var(--sans); color:var(--dim)}
-  .scroll .lede{margin:0 0 4px; font:600 16px/1.4 var(--sans); color:var(--txt)}
-  .scroll .tip{margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
-        font:400 12px/1.55 var(--sans); color:var(--dim2)}
-  .scroll .meta{display:flex; flex-wrap:wrap; gap:6px}
-  .sys{display:flex; flex-direction:column; gap:8px}
-  .sys div{padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(56,232,255,0.035)}
-  .sys b{display:block; font:600 13.5px var(--sans); color:var(--txt)}
-  .sys em{display:block; margin-top:3px; font:500 10px var(--mono); font-style:normal; letter-spacing:.14em; color:var(--dim2)}
-  .sys p{margin-top:6px; font-size:12.5px; line-height:1.5}
-  table{width:100%; border-collapse:collapse; font:400 13px var(--sans)}
-  td{padding:7px 0; border-bottom:1px solid rgba(56,232,255,0.10); color:var(--dim)}
-  td:last-child{text-align:right; color:var(--txt); font-family:var(--mono); font-size:12px}
-  .acts{display:flex; gap:10px; padding:16px 22px; border-top:1px solid var(--line)}
-  .btn{flex:1; padding:11px 12px; border-radius:11px; border:1px solid var(--line2); cursor:pointer;
-       background:rgba(56,232,255,0.10); color:#eafcff; font:600 12.5px var(--sans); text-align:center;
-       text-decoration:none; transition:.2s}
-  .btn:hover{background:rgba(56,232,255,0.20); transform:translateY(-1px)}
-  .btn.sec{background:rgba(6,18,30,0.6); color:var(--dim)}
-  .nav{position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:42px; height:42px;
-       border-radius:50%; border:1px solid var(--line2); background:rgba(2,8,15,0.72); color:var(--txt);
-       cursor:pointer; font-size:18px; line-height:1; transition:.2s}
-  .nav:hover{background:rgba(56,232,255,0.18)}
-  .nav.prev{left:14px} .nav.next{left:auto; right:calc(400px + 14px)}
-  .hint{margin-top:26px; font:500 11px var(--mono); letter-spacing:.1em; color:var(--dim2); text-align:center}
-  @media (max-width:1080px){ .sheet{flex-direction:column; margin:12px} .side{max-width:none; min-width:0}
-    .stage{min-height:46vh; border-right:0; border-bottom:1px solid var(--line)} .nav{display:none} }
+/* ── док ──────────────────────────────────────────────────────────────── */
+#dock{position:fixed; left:50%; bottom:12px; transform:translateX(-50%); z-index:35; display:flex;
+  align-items:flex-end; gap:9px; padding:9px 12px; border-radius:24px; background:var(--glass);
+  backdrop-filter:blur(30px) saturate(1.8); -webkit-backdrop-filter:blur(30px) saturate(1.8);
+  border:0.5px solid var(--hair); box-shadow:var(--shadow), inset 0 1px 0 var(--hi)}
+.dapp{position:relative; width:50px; height:50px; padding:0; border:0; border-radius:22.37%; cursor:pointer;
+  display:grid; place-items:center; color:#eafcff; background:linear-gradient(160deg,#1e6a86,#0c2637);
+  box-shadow:0 6px 16px rgba(0,0,0,.42), inset 0 0 0 .5px rgba(255,255,255,.22);
+  transition:transform .22s cubic-bezier(.2,.8,.25,1)}
+.dapp:hover{transform:translateY(-9px) scale(1.14)}
+.dapp[data-run="1"]::after{content:''; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
+  width:5px; height:5px; border-radius:50%; background:var(--txt); opacity:.75}
+.dapp em{position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%) scale(.9);
+  padding:5px 10px; border-radius:9px; background:var(--glass2); border:0.5px solid var(--hair);
+  backdrop-filter:blur(20px); font:500 12px var(--sans); font-style:normal; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:.18s}
+.dapp:hover em{opacity:1; transform:translateX(-50%) scale(1)}
+.dsep{width:1px; height:38px; margin:0 3px; background:var(--hair)}
+.hintbar{position:fixed; left:50%; bottom:88px; transform:translateX(-50%); z-index:34; pointer-events:none;
+  font:500 11px var(--mono); letter-spacing:.1em; color:rgba(255,255,255,.42)}
+body.light .hintbar{color:rgba(0,0,0,.40)}
+@media (max-width:900px){ .side{display:none} .info.open{width:100%} }
 </style>
-</head><body>
-<div class="wrap">
-  <header>
-    <div class="brand"><i class="dot"></i><span>HOLO ENGINE · КАТАЛОГ</span></div>
-    <h1>Голограммы объектов ЖКХ</h1>
-    <p class="lead">Интерактивные рентген-модели коммунальной техники, инженерного оборудования и зданий.
-      Каждый объект — самодостаточный офлайн-файл: открывается двойным кликом, работает без интернета,
-      разбирается на системы и показывает потоки среды.</p>
-    <div class="stats">
-      <div class="stat"><b>${all.length}</b><span>ОБЪЕКТОВ</span></div>
-      <div class="stat"><b>${groups.length}</b><span>КАТЕГОРИИ</span></div>
-      <div class="stat"><b>${totalSystems}</b><span>СИСТЕМ</span></div>
-      <div class="stat"><b>${totalMarkers}</b><span>УЗЛОВ-ВЫНОСОК</span></div>
-      <div class="stat"><b>${kb(totalSize)}</b><span>ОФЛАЙН-ДАННЫХ</span></div>
-    </div>
-  </header>
+</head><body class="dark">
+<div id="wall" style="background-image:url('data:image/jpeg;base64,${WALLPAPER}')"></div>
 
-  <div class="bar">
-    <div class="chips" id="chips"></div>
-    <label class="search">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6fcfe6" stroke-width="2">
-        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Поиск: насос, тормоз, пломба, ОДН…" autocomplete="off">
-    </label>
-    <div class="found" id="found"></div>
-  </div>
-
-  <main id="list"></main>
-  <div class="hint">/ — поиск · Esc — закрыть · ← → — соседний объект</div>
+<div id="menubar">
+  <span class="logo"><i></i>Holo Engine</span>
+  <span class="mi" id="mCat">Каталог</span>
+  <span class="mi" id="mRand">Случайный объект</span>
+  <span class="mi" id="mAbout">О проекте</span>
+  <span class="right">
+    <button class="mbtn" id="theme" title="Светлая / тёмная тема">☾</button>
+    <span><b>${all.length}</b> объектов</span>
+    <span id="clock"></span>
+  </span>
 </div>
 
-<div class="ov" id="ov">
-  <button class="nav prev" id="prev" title="Предыдущий">‹</button>
-  <button class="nav next" id="next" title="Следующий">›</button>
-  <div class="sheet">
-    <div class="stage"><div class="load">ЗАГРУЗКА ГОЛОГРАММЫ…</div></div>
-    <div class="side">
-      <div class="shead"><span class="tag" id="ovTag"></span><h3 id="ovTitle"></h3></div>
-      <div class="scroll" id="ovBody"></div>
-      <div class="acts">
-        <a class="btn" id="ovOpen" target="_blank" rel="noopener">Открыть в новой вкладке</a>
-        <button class="btn sec" id="ovClose">Закрыть</button>
-      </div>
-    </div>
-  </div>
+<div id="desk"></div>
+
+<div id="dock">
+  <button class="dapp" data-act="catalog"><em>Каталог</em>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+      <path d="M3 7.5A1.5 1.5 0 014.5 6h4l1.6 2H19.5A1.5 1.5 0 0121 9.5v8A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/></svg></button>
+  <div class="dsep"></div>
+  <button class="dapp" data-group="Коммунальная техника"><em>Техника</em>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+      <path d="M2 15V8h11v7M13 11h4l3 3v1M2 15h2m4 0h8m4 0h2"/><circle cx="6" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/></svg></button>
+  <button class="dapp" data-group="Оборудование и узлы"><em>Оборудование</em>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+      <circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></button>
+  <button class="dapp" data-group="Здания и станции"><em>Здания и станции</em>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+      <path d="M4 21V6l6-3v18M14 21V10l6 3v8M2 21h20M7 9v.01M7 13v.01M7 17v.01M17 15v.01M17 18v.01"/></svg></button>
+  <div class="dsep"></div>
+  <button class="dapp" data-act="search"><em>Поиск</em>
+    <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button>
+  <button class="dapp" data-act="random"><em>Случайный объект</em>
+    <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+      <rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/>
+      <circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg></button>
 </div>
+<div class="hintbar">перетаскивайте окна за заголовок · / — поиск · Esc — закрыть · ← → — соседний объект</div>
 
 <script>
 const GROUPS = ${json(DATA)};
 const THUMBS = ${json(THUMB_MAP)};
-const FLAT = GROUPS.flatMap(g => g.items.map(o => ({...o, group: g.name})));
-const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-// полный текст «как это работает» живёт в самой голограмме; в каталоге — аннотация
-const short = (t, n = 340) => { t = String(t || ''); if (t.length <= n) return t;
-  const cut = t.slice(0, n); const dot = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '));
-  return (dot > n * 0.5 ? cut.slice(0, dot + 1) : cut.trimEnd() + '…'); };
+const STATS = { systems: ${totalSystems}, markers: ${totalMarkers} };
+const FLAT = GROUPS.flatMap(g => g.items.map(o => Object.assign({}, o, { group: g.name })));
+const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const short = (t, n) => { n = n || 320; t = String(t || ''); if (t.length <= n) return t;
+  const c = t.slice(0, n), d = Math.max(c.lastIndexOf('. '), c.lastIndexOf('; '));
+  return d > n * 0.5 ? c.slice(0, d + 1) : c.trimEnd() + '…'; };
+const src = f => THUMBS[f] ? 'data:image/jpeg;base64,' + THUMBS[f] : '';
+const desk = document.getElementById('desk');
+let zTop = 10, wins = [], filter = 'Все', query = '', finder = null;
 
-let filter = 'Все', query = '';
-const chips = document.getElementById('chips');
-['Все', ...GROUPS.map(g => g.name)].forEach(n => {
-  const b = document.createElement('button');
-  b.className = 'chip'; b.textContent = n; b.setAttribute('aria-pressed', n === 'Все');
-  b.onclick = () => { filter = n; [...chips.children].forEach(c => c.setAttribute('aria-pressed', c === b)); render(); };
-  chips.appendChild(b);
-});
-
-const hay = o => [o.title, o.hook, o.sub, o.desc, o.tag, ...o.parts.map(p => p.n + ' ' + p.t + ' ' + p.d),
-                  ...o.flows, ...o.specs.map(r => r.join(' '))].join(' ').toLowerCase();
-
-function render(){
-  const q = query.trim().toLowerCase();
-  const list = document.getElementById('list');
-  let shown = 0; list.innerHTML = '';
-  GROUPS.forEach(g => {
-    if (filter !== 'Все' && filter !== g.name) return;
-    const items = g.items.filter(o => !q || hay(o).includes(q));
-    if (!items.length) return;
-    shown += items.length;
-    const sec = document.createElement('section'); sec.className = 'group';
-    sec.innerHTML = '<div class="ghead"><h2>' + esc(g.name) + '</h2><em>' + items.length + ' ОБЪ.</em></div>'
-                  + '<p class="gnote">' + esc(g.note) + '</p><div class="grid"></div>';
-    const grid = sec.querySelector('.grid');
-    items.forEach((o, i) => {
-      const card = document.createElement('button');
-      card.className = 'card'; card.style.animationDelay = Math.min(i * 45, 400) + 'ms';
-      const src = THUMBS[o.file] ? 'data:image/jpeg;base64,' + THUMBS[o.file] : '';
-      card.innerHTML =
-        '<div class="shot"><i class="beam"></i>' +
-        (src ? '<img loading="lazy" alt="" src="' + src + '">' : '') + '</div>' +
-        '<div class="body"><div class="tag">' + esc(o.tag) + '</div>' +
-        '<div class="name">' + esc(o.title) + '</div>' +
-        '<div class="hook">' + esc(o.hook) + '</div>' +
-        '<div class="meta">' +
-          '<span class="pill">' + o.parts.length + ' СИСТЕМ</span>' +
-          '<span class="pill">' + o.markers + ' УЗЛОВ</span>' +
-          (o.flows.length ? '<span class="pill">' + o.flows.length + ' ПОТОКА</span>' : '') +
-          '<span class="pill">' + esc(o.size) + '</span>' +
-        '</div></div>';
-      card.onclick = () => open(FLAT.indexOf(FLAT.find(x => x.file === o.file)));
-      grid.appendChild(card);
-    });
-    list.appendChild(sec);
+/* ── фабрика окон: traffic lights, перетаскивание, зум, свёртывание ───── */
+function makeWin(opt){
+  const el = document.createElement('div');
+  el.className = 'win ' + (opt.cls || '');
+  const W = Math.min(opt.w, innerWidth - 40), H = Math.min(opt.h, innerHeight - 110);
+  const off = (wins.length % 4) * 24;
+  el.style.width = W + 'px'; el.style.height = H + 'px';
+  el.style.left = Math.max(8, (innerWidth - W) / 2 + off) + 'px';
+  el.style.top = Math.max(10, (innerHeight - H) / 2 - 44 + off) + 'px';
+  el.style.zIndex = ++zTop;
+  el.innerHTML = '<div class="bar"><div class="lights">' +
+      '<b class="c" title="Закрыть"></b><b class="m" title="Свернуть"></b><b class="z" title="Развернуть"></b>' +
+    '</div><div class="title">' + esc(opt.title) + '</div><div class="tools"></div></div>' +
+    '<div class="wbody"></div><div class="rsz"></div>';
+  const bar = el.querySelector('.bar');
+  el.addEventListener('mousedown', () => { el.style.zIndex = ++zTop; });
+  bar.querySelector('.c').onclick = e => { e.stopPropagation(); closeWin(el); };
+  bar.querySelector('.m').onclick = e => { e.stopPropagation(); el.classList.add('min');
+    setTimeout(() => { el.style.display = 'none'; el.classList.remove('min'); }, 260); };
+  bar.querySelector('.z').onclick = e => { e.stopPropagation(); zoomWin(el); };
+  bar.ondblclick = () => zoomWin(el);
+  drag(bar, el, 'move'); drag(el.querySelector('.rsz'), el, 'size');
+  desk.appendChild(el); wins.push(el); syncDock();
+  return el;
+}
+function drag(handle, el, mode){
+  handle.addEventListener('mousedown', e => {
+    if (mode === 'move' && e.target.closest('.lights, .tools')) return;
+    e.preventDefault();
+    const sx = e.clientX, sy = e.clientY;
+    const ox = parseFloat(el.style.left), oy = parseFloat(el.style.top);
+    const ow = el.offsetWidth, oh = el.offsetHeight;
+    const mv = ev => {
+      if (mode === 'move'){
+        el.style.left = Math.max(-ow + 140, ox + ev.clientX - sx) + 'px';
+        el.style.top = Math.max(0, oy + ev.clientY - sy) + 'px';
+      } else {
+        el.style.width = Math.max(460, ow + ev.clientX - sx) + 'px';
+        el.style.height = Math.max(300, oh + ev.clientY - sy) + 'px';
+      }
+    };
+    const up = () => { removeEventListener('mousemove', mv); removeEventListener('mouseup', up); };
+    addEventListener('mousemove', mv); addEventListener('mouseup', up);
   });
-  if (!shown) list.innerHTML = '<p class="gnote">Ничего не найдено. Попробуйте другой запрос.</p>';
-  document.getElementById('found').textContent = shown + ' / ' + FLAT.length;
+}
+function zoomWin(el){
+  if (el.dataset.zoom){
+    const p = el.dataset.zoom.split(',');
+    el.style.left = p[0]; el.style.top = p[1]; el.style.width = p[2]; el.style.height = p[3];
+    delete el.dataset.zoom; return;
+  }
+  el.dataset.zoom = [el.style.left, el.style.top, el.style.width, el.style.height].join(',');
+  el.style.left = '8px'; el.style.top = '8px';
+  el.style.width = (innerWidth - 16) + 'px'; el.style.height = (innerHeight - 100) + 'px';
+}
+function closeWin(el){
+  el.classList.add('closing');
+  setTimeout(() => { el.remove(); wins = wins.filter(w => w !== el); if (el === finder) finder = null; syncDock(); }, 180);
+}
+function topWin(){
+  return wins.filter(w => w.style.display !== 'none')
+             .sort((a, b) => (+b.style.zIndex) - (+a.style.zIndex))[0];
+}
+function syncDock(){
+  document.querySelectorAll('.dapp').forEach(d => { d.dataset.run = '0'; });
+  const c = document.querySelector('[data-act=catalog]');
+  if (finder && document.body.contains(finder)) c.dataset.run = '1';
 }
 
-// ── оверлей ───────────────────────────────────────────────────────────────
-const ov = document.getElementById('ov'), stage = ov.querySelector('.stage');
-let cur = -1;
-function open(i){
+/* ── окно каталога ────────────────────────────────────────────────────── */
+const ICONS = { 'Все': '▦', 'Коммунальная техника': '🚛', 'Оборудование и узлы': '⚙', 'Здания и станции': '🏢' };
+function openCatalog(group){
+  if (group) filter = group;
+  if (finder && document.body.contains(finder)){
+    finder.style.display = ''; finder.style.zIndex = ++zTop; renderSide(); renderGrid(); return finder;
+  }
+  const el = makeWin({ title: 'Каталог голограмм', w: Math.round(innerWidth * 0.74), h: Math.round(innerHeight * 0.78), cls: 'finder' });
+  el.querySelector('.tools').innerHTML =
+    '<div class="srch"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+    '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>' +
+    '<input id="q" type="search" placeholder="Поиск по системам и ТТХ" autocomplete="off"></div>';
+  el.querySelector('.wbody').innerHTML = '<div class="side"></div><div class="content"></div>';
+  el.querySelector('#q').addEventListener('input', e => { query = e.target.value; renderGrid(); });
+  finder = el; renderSide(); renderGrid(); syncDock();
+  return el;
+}
+function renderSide(){
+  if (!finder) return;
+  const s = finder.querySelector('.side');
+  s.innerHTML = '<div class="sec">КАТЕГОРИИ</div>';
+  ['Все'].concat(GROUPS.map(g => g.name)).forEach(n => {
+    const cnt = n === 'Все' ? FLAT.length : GROUPS.filter(g => g.name === n)[0].items.length;
+    const b = document.createElement('button');
+    b.setAttribute('aria-pressed', String(n === filter));
+    b.innerHTML = '<i>' + ICONS[n] + '</i>' + esc(n) + '<span>' + cnt + '</span>';
+    b.onclick = () => { filter = n; renderSide(); renderGrid(); };
+    s.appendChild(b);
+  });
+}
+const hay = o => [o.title, o.hook, o.sub, o.desc, o.tag]
+  .concat(o.parts.map(p => p.n + ' ' + p.t + ' ' + p.d))
+  .concat(o.flows).concat(o.specs.map(r => r.join(' '))).join(' ').toLowerCase();
+function renderGrid(){
+  if (!finder) return;
+  const c = finder.querySelector('.content'), q = query.trim().toLowerCase();
+  c.innerHTML = ''; let shown = 0;
+  GROUPS.forEach(g => {
+    if (filter !== 'Все' && filter !== g.name) return;
+    const items = g.items.filter(o => !q || hay(o).indexOf(q) >= 0);
+    if (!items.length) return;
+    shown += items.length;
+    const h = document.createElement('div');
+    h.className = 'gtitle'; h.textContent = g.name.toUpperCase() + ' · ' + items.length;
+    const grid = document.createElement('div'); grid.className = 'grid';
+    items.forEach(o => {
+      const b = document.createElement('button'); b.className = 'item';
+      b.innerHTML = '<div class="ic"><img loading="lazy" alt="" src="' + src(o.file) + '"></div>' +
+        '<span class="nm">' + esc(o.title) + '</span><span class="hk">' + esc(o.hook) + '</span>';
+      b.onclick = () => { let idx = -1;
+        FLAT.forEach((x, i) => { if (x.file === o.file) idx = i; });
+        openObject(idx); };
+      grid.appendChild(b);
+    });
+    c.appendChild(h); c.appendChild(grid);
+  });
+  if (!shown) c.innerHTML = '<div class="gtitle">НИЧЕГО НЕ НАЙДЕНО</div>';
+}
+
+/* ── окно объекта: слева живая голограмма, справа выезжающий путеводитель ── */
+function openObject(i){
   if (i < 0 || i >= FLAT.length) return;
-  cur = i; const o = FLAT[i];
-  document.getElementById('ovTag').textContent = o.tag;
-  document.getElementById('ovTitle').textContent = o.title;
-  document.getElementById('ovOpen').href = o.file;
-  // Панель НЕ повторяет правую колонку самой голограммы (там уже есть системы и
-  // ТТХ) — здесь путеводитель: чему объект учит и что в нём стоит открыть.
-  document.getElementById('ovBody').innerHTML =
-    '<p class="lede">' + esc(o.hook) + '</p>' +
-    '<h4>СУТЬ</h4><p>' + esc(short(o.desc)) + '</p>' +
-    (o.keys.length ? '<h4>ЧТО ЗДЕСЬ СМОТРЕТЬ</h4><div class="sys">' +
-      o.keys.map(k => '<div><b>' + esc(k.n) + '</b><p>' + esc(k.d) + '</p></div>').join('') + '</div>' : '') +
-    (o.flows.length ? '<h4>ПОТОКИ СРЕДЫ</h4><div class="sys">' +
-      o.flows.map(f => '<div><b>' + esc(f) + '</b></div>').join('') + '</div>' : '') +
-    '<h4>В ОБЪЕКТЕ</h4><div class="meta">' +
+  const o = FLAT[i];
+  const el = makeWin({ title: o.title, w: Math.round(innerWidth * 0.88), h: Math.round(innerHeight * 0.86) });
+  el.dataset.idx = String(i);
+  el.querySelector('.tools').innerHTML =
+    '<button class="tbtn info-t">Инфо</button>' +
+    '<a class="tbtn" href="' + encodeURI(o.file) + '" target="_blank" rel="noopener">Открыть ↗</a>';
+  el.querySelector('.wbody').innerHTML =
+    '<div class="stage"><div class="load">ЗАГРУЗКА ГОЛОГРАММЫ…</div></div>' +
+    '<div class="info"><div class="pad">' +
+      '<p class="lede">' + esc(o.hook) + '</p>' +
+      '<h4>СУТЬ</h4><p>' + esc(short(o.desc)) + '</p>' +
+      (o.keys.length ? '<h4>ЧТО ЗДЕСЬ СМОТРЕТЬ</h4>' +
+        o.keys.map(k => '<div class="k"><b>' + esc(k.n) + '</b><p>' + esc(k.d) + '</p></div>').join('') : '') +
+      (o.flows.length ? '<h4>ПОТОКИ СРЕДЫ</h4>' +
+        o.flows.map(f => '<span class="pill">' + esc(f) + '</span>').join('') : '') +
+      '<h4>В ОБЪЕКТЕ</h4>' +
       '<span class="pill">' + o.parts.length + ' СИСТЕМ</span>' +
       '<span class="pill">' + o.markers + ' УЗЛОВ</span>' +
       '<span class="pill">' + esc(o.size) + '</span>' +
       '<span class="pill">' + esc(o.mode) + '</span>' +
-    '</div>' +
-    '<p class="tip">Внутри: «Разобрать» — разнести на системы · «Потоки» — движение среды · ' +
-    '«Вид» — настройка картинки · тяните мышью — поворот.</p>';
-  stage.innerHTML = '<div class="load">ЗАГРУЗКА ГОЛОГРАММЫ…</div>';
+    '</div></div>';
+  const stage = el.querySelector('.stage'), info = el.querySelector('.info');
+  el.querySelector('.info-t').onclick = function(){ info.classList.toggle('open'); this.classList.toggle('on'); };
   const fr = document.createElement('iframe');
-  fr.src = o.file; fr.loading = 'eager';
+  fr.src = encodeURI(o.file);
   fr.onload = () => { const l = stage.querySelector('.load'); if (l) l.remove(); };
   stage.appendChild(fr);
-  ov.classList.add('on'); document.body.style.overflow = 'hidden';
+  return el;
 }
-function close(){ ov.classList.remove('on'); stage.innerHTML = ''; document.body.style.overflow = ''; cur = -1; }
-document.getElementById('ovClose').onclick = close;
-document.getElementById('prev').onclick = () => open((cur - 1 + FLAT.length) % FLAT.length);
-document.getElementById('next').onclick = () => open((cur + 1) % FLAT.length);
-ov.addEventListener('click', e => { if (e.target === ov) close(); });
+function stepObject(d){
+  const t = topWin();
+  if (!t || !t.dataset.idx) return;
+  const i = ((+t.dataset.idx) + d + FLAT.length) % FLAT.length;
+  closeWin(t); openObject(i);
+}
 
-document.getElementById('q').addEventListener('input', e => { query = e.target.value; render(); });
-addEventListener('keydown', e => {
-  if (e.key === 'Escape' && cur >= 0) return close();
-  if (e.key === '/' && document.activeElement.id !== 'q'){ e.preventDefault(); document.getElementById('q').focus(); }
-  if (cur >= 0 && e.key === 'ArrowLeft') open((cur - 1 + FLAT.length) % FLAT.length);
-  if (cur >= 0 && e.key === 'ArrowRight') open((cur + 1) % FLAT.length);
+/* ── док, меню, клавиатура, часы ──────────────────────────────────────── */
+document.querySelectorAll('.dapp').forEach(b => {
+  b.onclick = () => {
+    const g = b.dataset.group, a = b.dataset.act;
+    if (g) openCatalog(g);
+    else if (a === 'catalog') openCatalog('Все');
+    else if (a === 'search'){ openCatalog(); setTimeout(() => { const q = finder.querySelector('#q'); if (q) q.focus(); }, 80); }
+    else if (a === 'random') openObject(Math.floor(Math.random() * FLAT.length));
+  };
 });
-render();
+document.getElementById('mCat').onclick = () => openCatalog('Все');
+document.getElementById('mRand').onclick = () => openObject(Math.floor(Math.random() * FLAT.length));
+document.getElementById('mAbout').onclick = () => {
+  const el = makeWin({ title: 'О проекте', w: 560, h: 400 });
+  el.querySelector('.wbody').innerHTML = '<div class="content" style="padding:22px 26px">' +
+    '<p style="font:600 17px var(--sans); margin:0 0 10px">Holo Engine — голограммы объектов ЖКХ</p>' +
+    '<p style="color:var(--dim); font:400 13.5px/1.6 var(--sans); margin:0">Движок превращает CAD-описание ' +
+    'объекта в самодостаточный офлайн-файл: рентген-каркас, разборка на системы, потоки среды и нумерованные ' +
+    'узлы. Каждый объект открывается двойным кликом и работает без интернета — здесь они собраны в одну витрину.</p>' +
+    '<p style="margin:16px 0 0"><span class="pill">' + FLAT.length + ' ОБЪЕКТОВ</span>' +
+    '<span class="pill">' + STATS.systems + ' СИСТЕМ</span>' +
+    '<span class="pill">' + STATS.markers + ' УЗЛОВ</span></p></div>';
+};
+document.getElementById('theme').onclick = function(){
+  document.body.classList.toggle('light');
+  this.textContent = document.body.classList.contains('light') ? '☀' : '☾';
+};
+addEventListener('keydown', e => {
+  if (e.key === 'Escape'){ const t = topWin(); if (t) closeWin(t); return; }
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT'){
+    e.preventDefault(); openCatalog();
+    setTimeout(() => { const q = finder.querySelector('#q'); if (q) q.focus(); }, 80); return;
+  }
+  if (e.key === 'ArrowLeft') stepObject(-1);
+  if (e.key === 'ArrowRight') stepObject(1);
+});
+function tick(){
+  const d = new Date();
+  document.getElementById('clock').textContent =
+    d.toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'short' }) + '  ' +
+    d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+}
+tick(); setInterval(tick, 20000);
+openCatalog('Все');
 </script>
 </body></html>`;
 
