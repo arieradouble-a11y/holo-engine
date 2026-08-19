@@ -207,7 +207,7 @@ function validateConfig(cfg){
   if (hasGeometry) checkGeometry(cfg.geometry, 'geometry');
   if (procedural && !hasGeometry){
     const t = (cfg.building && cfg.building.type) || 'mkd';
-    if (!['mkd', 'boiler', 'power', 'ctp'].includes(t)) warns.push('building.type=«' + t + '» неизвестен движку — сработает генератор МКД');
+    if (!['mkd', 'boiler', 'power', 'ctp', 'water'].includes(t)) warns.push('building.type=«' + t + '» неизвестен движку — сработает генератор МКД');
   }
   return { errs, warns };
 }

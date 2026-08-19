@@ -333,6 +333,26 @@ MATS = {
     'avtomat':      spec((0.30, 0.31, 0.33), 0.25, 0.46),         # щит автоматики
     'avtomat-door': spec((0.34, 0.35, 0.37), 0.25, 0.42),
     'avtomat-lamp': spec((0.06, 0.28, 0.42), 0.0, 0.18, emit=(0.10, 0.70, 1.0), emit_str=1.8),
+    # ---- ЦТП и станции (общий словарь lib/plant-kit.js) ----------------------
+    'shell':        spec((0.52, 0.52, 0.50), 0.0, 0.72),          # сэндвич-панели и каркас зала
+    'shell-dark':   spec((0.10, 0.105, 0.115), 0.2, 0.55),        # ворота, лотки, тельфер
+    'shell-glass':  spec((0.80, 0.88, 0.92), 0.0, 0.05, glass=True),
+    'shell-lamp':   spec((0.92, 0.92, 0.90), 0.0, 0.15, emit=(1.0, 0.97, 0.88), emit_str=2.2),
+    'input':        spec((0.40, 0.05, 0.03), 0.15, 0.44),         # теплосеть Т1/Т2: красная окраска
+    'input-dark':   spec((0.10, 0.105, 0.115), 0.2, 0.46),        # приборные корпуса на трубе
+    'input-lamp':   spec((0.10, 0.60, 0.55), 0.0, 0.20, emit=(0.15, 1.0, 0.85), emit_str=1.8),
+    'hx':           spec((0.26, 0.28, 0.31), 0.60, 0.40),         # плиты и обвязка теплообменников
+    'hx-plate':     spec((0.62, 0.63, 0.65), 0.95, 0.22),         # пакет пластин: нержавейка
+    'hx-lamp':      spec((0.88, 0.88, 0.86), 0.0, 0.20, emit=(1.0, 0.96, 0.88), emit_str=1.2),
+    'pump-lamp':    spec((0.10, 0.65, 0.30), 0.0, 0.20, emit=(0.2, 1.0, 0.4), emit_str=2.0),
+    'cold':         spec((0.10, 0.30, 0.48), 0.25, 0.46),         # ХВС и подпитка: синий по маркировке
+    'cold-dark':    spec((0.10, 0.105, 0.115), 0.2, 0.48),
+    'cold-lamp':    spec((0.88, 0.88, 0.86), 0.0, 0.20, emit=(1.0, 0.96, 0.88), emit_str=1.2),
+    'manif':        spec((0.46, 0.48, 0.50), 0.35, 0.48),         # гребёнки вторичного контура
+    'manif-lamp':   spec((0.80, 0.40, 0.03), 0.0, 0.30, emit=(1.0, 0.55, 0.08), emit_str=1.4),
+    'auto':         spec((0.42, 0.44, 0.46), 0.25, 0.48),         # шкафы АСУ/ЧРП
+    'auto-dark':    spec((0.075, 0.078, 0.085), 0.3, 0.46),       # лотки и кабель
+    'auto-lamp':    spec((0.06, 0.28, 0.42), 0.0, 0.18, emit=(0.10, 0.70, 1.0), emit_str=1.8),
 }
 BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing',
            'kabina-dark', 'kabina-chrome', 'reel', 'water', 'tank-dark', 'pump-dark', 'tank-panel', 'tank-stripe',
@@ -341,6 +361,8 @@ BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing'
            'rama', 'motor', 'mufta', 'val', 'ulitka', 'koleso', 'pipe', 'kip',
            'shkaf', 'dver', 'vvod', 'pch', 'avt', 'plc', 'klem', 'hmi', 'vent',
            'nozzle', 'spray',
+           # станции: фаску получают корпуса и строительная часть, не пластины пакета
+           'shell', 'shell-dark', 'input', 'hx', 'cold', 'manif', 'auto',
            'opora', 'strela', 'lulka', 'autrig', 'pult',
            # ИТП. Пластины пакета (pto-plate) НЕ фасковать: они 5 мм толщиной,
            # фаска 8 мм съела бы их целиком.
@@ -780,7 +802,9 @@ def unit_cams():
     lo, hi = obj_bbox(truck)
     c = [(lo[i] + hi[i]) / 2 for i in range(3)]
     s = [hi[i] - lo[i] for i in range(3)]
-    d = max(s) * 2.6 + 1.0
+    # --cam-fit: множитель отлёта камеры. 2.6 годится для стенда 2-3 м, но зал
+    # 20 м при нём уходит в марку на сером фоне — станции снимать с 1.2-1.4.
+    d = max(s) * farg('--cam-fit', 2.6) + 1.0
     return [
         camera('unit34',   (c[0] + d * 0.62, c[1] - d * 0.62, c[2] + s[2] * 0.30), c, 45),
         camera('unitside', (c[0], c[1] - d * 1.10, c[2]), c, 50),
