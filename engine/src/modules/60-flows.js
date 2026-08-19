@@ -31,27 +31,29 @@
       return { curve, arrows, count, speed:(f.speed!=null?f.speed:0.09), kind:f.kind||'', color:col };
     }).filter(Boolean);
   }
-  buildFlowLegend(){
-    if(this.flowLegendEl){ this.flowLegendEl.remove(); this.flowLegendEl=null; }
-    if(!this.labelBox || !this.flows || !this.flows.length) return;
-    const box=document.createElement('div');
-    // bottom с запасом на строку счётчика/подсказки внизу слева: на 16px легенда
-    // ложилась ровно на «Систем: NN» — накладка была во всех объектах с потоками
-    box.style.cssText="position:absolute;left:16px;bottom:64px;display:flex;flex-direction:column;gap:5px;padding:9px 11px;border-radius:9px;background:rgba(4,16,26,0.72);border:1px solid rgba(56,232,255,0.22);backdrop-filter:blur(6px);pointer-events:none;opacity:0;transition:opacity .25s;z-index:8;";
-    const title=document.createElement('div'); title.textContent='ПОТОКИ СРЕДЫ';
-    title.style.cssText="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#6fcfe6;margin-bottom:2px;"; box.appendChild(title);
-    this.flows.forEach(fl=>{ const c=fl.color, rgb=Math.round(c[0]*255)+','+Math.round(c[1]*255)+','+Math.round(c[2]*255);
-      const row=document.createElement('div'); row.style.cssText="display:flex;align-items:center;gap:8px;font:500 11px 'IBM Plex Sans',sans-serif;color:#dff2fb;";
-      const sw=document.createElement('span'); sw.style.cssText="flex:none;width:18px;height:0;border-top:3px solid rgba("+rgb+",0.95);box-shadow:0 0 7px rgba("+rgb+",0.75);border-radius:2px;";
-      const lbl=document.createElement('span'); lbl.textContent=fl.kind||'';
-      row.appendChild(sw); row.appendChild(lbl); box.appendChild(row); });
-    this.labelBox.appendChild(box); this.flowLegendEl=box;
+  // Легенда потоков рисуется ШАБЛОНОМ в правой панели (aside) из flowLegendRows()
+  // — см. viewer.html. Раньше это был абсолютный блок в углу сцены: слева внизу он
+  // ложился на счётчик «Систем: NN», после переезда панели «⚙ Вид» в левый блок на
+  // низких экранах встречался и с ней, а справа внизу — с самим aside (на 590px он
+  // тянется до самого низа). В aside легенда — такая же секция, как «Системы» и
+  // «Основные узлы», и прокручивается вместе с ними; накладываться ей не на что.
+  buildFlowLegend(){ if(this.flowLegendEl){ this.flowLegendEl.remove(); this.flowLegendEl=null; } }
+  flowLegendRows(){
+    if(!this.flows || !this.flows.length) return [];
+    return this.flows.map(fl=>{ const c=fl.color, rgb=Math.round(c[0]*255)+','+Math.round(c[1]*255)+','+Math.round(c[2]*255);
+      return { name: fl.kind||'', swStyle: "flex:none;width:18px;height:0;border-top:3px solid rgba("+rgb+",0.95);box-shadow:0 0 7px rgba("+rgb+",0.75);border-radius:2px;" }; });
+  }
+  get flowLegendOn(){
+    return this.state.flow!==false && !!this.hasFlows && (this.explode||0)<0.12 && !this.state.plan && !this.state.cut && (this.progress||0)>0.85;
   }
   updateFlows(t){
     if(!this.flowGroup) return;
     const on = this.state.flow!==false && this.hasFlows && this.explode<0.12 && !this.state.plan && !this.state.cut && this.progress>0.85;
     this.flowGroup.visible=on;
-    if(this.flowLegendEl) this.flowLegendEl.style.opacity=on?'1':'0';
+    // Легенда теперь в aside и рисуется React'ом, а условие «показывать» зависит от
+    // progress/explode, которые живут вне state. Перерисовываем ТОЛЬКО на переходе
+    // (одна перерисовка на включение/выключение, не на каждый кадр).
+    if(on!==this._legendShown){ this._legendShown=on; this.setState({legendOn:on}); }
     if(!on || !this.flows) return;
     const T=this.THREE;
     const up=this._flowUp||(this._flowUp=new T.Vector3(0,1,0));

@@ -1,3 +1,13 @@
+  // Светлая тема хозяина (каталога): голограмма — аддитивное свечение на тёмном,
+  // на белом её не существует, поэтому сцена остаётся тёмным «экраном», а вот
+  // рамка вокруг — тёмно-синяя виньетка по краям — ослабляется, чтобы окно не
+  // выглядело чёрной дырой в светлом интерфейсе. Сигнал: postMessage {holo:'theme',light}.
+  setLightFrame(on){
+    this._lightFrame=!!on;
+    const root=this.canvas&&this.canvas.parentElement; if(!root) return;
+    const vign=root.children[3];   // inset box-shadow виньетка: canvas(0), labels(1), сканлайны(2), она(3)
+    if(vign) vign.style.boxShadow=on?'inset 0 0 160px 20px rgba(0,0,0,0.35)':'inset 0 0 240px 50px rgba(0,0,0,0.7)';
+  }
   renderVals(){
     const C=this.CONFIG, whole=this.wholeMode, sel=this.state.selected;
     const ctrlBase="cursor:pointer;font:600 12.5px 'IBM Plex Sans',sans-serif;padding:9px 15px;border-radius:10px;transition:all .15s;backdrop-filter:blur(8px);";
@@ -6,7 +16,9 @@
     const controls=[];
     if(!whole) controls.push({label:this.state.exploded?'⊞  Собрать':'⊟  Разобрать', style:ctrlN, onClick:this.toggleExplode});
     if(this.hasFlows) controls.push({label:(this.state.flow!==false)?'⇢  Потоки: ВКЛ':'⇢  Потоки: ВЫКЛ', style:(this.state.flow!==false)?ctrlN:ctrlM, onClick:this.toggleFlow});
-    if(C.particles!==false) controls.push({label:this.swarmOn?'✦  Рой: ВКЛ':'✦  Рой', style:this.swarmOn?ctrlN:ctrlM, onClick:this.toggleSwarm});
+    // «Рой» (36-particles) с кнопок снят 19.08.2026 — по замечанию пользователя
+    // эффект сейчас не нужен; модуль и конфиг-ключ particles остаются, включается
+    // только явно: particles:{on:true} в конфиге.
     controls.push({label:this.state.spin?'↻  Вращение: ВКЛ':'↻  Вращение', style:this.state.spin?ctrlN:ctrlM, onClick:this.toggleSpin});
     controls.push({label:this._tuneOpen?'⚙  Вид: настройка':'⚙  Вид', style:this._tuneOpen?ctrlN:ctrlM, onClick:this.toggleTune});
     controls.push({label:'↺  Сбросить вид', style:ctrlM, onClick:this.resetView});
@@ -33,7 +45,7 @@
     const overview = C.overview || {};
     const infoSep = std || !whole || hasSpecs;
     return {
-      onCanvas:this.onCanvas, onLabels:this.onLabels,
+      onCanvas:this.onCanvas, onLabels:this.onLabels, onTuneSlot:this.onTuneSlot,
       badge: C.badge || 'ИНТЕРАКТИВНАЯ ГОЛОГРАММА',
       category: C.category || '',
       title: C.title || 'Объект',
@@ -50,6 +62,8 @@
       infoTag: curM? ('УЗЕЛ '+String(curM.n!=null?curM.n:selm+1).padStart(2,'0')) : (cur? cur.tag : (overview.tag||'ОБЗОР')),
       infoTitle: curM? curM.name : (cur? cur.name : (overview.title|| (whole? C.title : (this.PARTDEF.length+' основных систем')))),
       infoDesc: curM? (curM.desc||'') : (cur? cur.desc : (overview.desc||C.subtitle||'')),
+      credits: C.credits||'',
+      flowLegend: this.flowLegendRows(), flowLegendOn: this.flowLegendOn,
       counter: this.state.plan ? ('ПЛАН · ЭТАЖ '+(this.state.planFloor+1)+' / '+(this.planFloors||9))
                : this.state.cut ? 'РАЗРЕЗ ФАСАДА · КВАРТИРЫ В ОБЪЁМЕ'
                : calib ? ('КАЛИБР: '+(this.state.calibText||'кликните по модели'))

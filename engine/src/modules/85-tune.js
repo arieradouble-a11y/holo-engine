@@ -16,9 +16,9 @@
       { key:'fill',                  name:'Заливка каркаса',   min:0, max:1.5, get:()=>U.uFill.value,         set:v=>{ U.uFill.value=v; } },
       { key:'shellOpacity',          name:'Оболочка',          min:0, max:1,   get:()=>U.uShellOp.value,      set:v=>{ U.uShellOp.value=v; } },
       { key:'bloomStrength',         name:'Свечение (bloom)',  min:0, max:1.5, get:()=>this.bloom?this.bloom.strength:0, set:v=>{ if(this.bloom) this.bloom.strength=v; } },
-    // голо-рой (36-particles): uniforms живут в ensureSwarmU(), поэтому ползунки
-    // работают и до первого включения роя — значения подхватятся при сборке.
-    ].concat(this.CONFIG.particles===false?[]:[
+    // ползунки голо-роя сняты вместе с кнопкой (19.08.2026); вернутся, если рой
+    // включат в конфиге — тогда и uniforms из ensureSwarmU() снова пригодятся.
+    ].concat(!(this.CONFIG.particles&&this.CONFIG.particles.on)?[]:[
       { key:'particlesIntensity', name:'Рой: яркость',  min:0, max:2, get:()=>this.ensureSwarmU().uPAmt.value,   set:v=>{ this.ensureSwarmU().uPAmt.value=v; } },
       { key:'particlesSwirl',     name:'Рой: кружение', min:0, max:1, get:()=>this.ensureSwarmU().uSwirl.value,  set:v=>{ this.ensureSwarmU().uSwirl.value=v; } },
       { key:'particlesBreath',    name:'Рой: дыхание',  min:0, max:1, get:()=>this.ensureSwarmU().uBreath.value, set:v=>{ this.ensureSwarmU().uBreath.value=v; } },
@@ -26,9 +26,15 @@
   }
   buildTunePanel(){
     if(this.tuneEl){ this.tuneEl.remove(); this.tuneEl=null; }
-    if(!this.labelBox) return;
+    if(!this.labelBox && !this.tuneSlot) return;
+    // Панель живёт В ПОТОКЕ левого блока, под кнопками (слот tuneSlot в viewer.html),
+    // а не прибита к нижнему краю: в углу она наезжала снизу на кнопки и сверху на
+    // легенду потоков и строку счётчика (замечание пользователя 19.08.2026,
+    // скриншот — ползунки под кнопками «Разобрать/Потоки»). В потоке ей никто не
+    // мешает и она не мешает никому; на низком экране левый блок просто прокрутится.
+    const host=this.tuneSlot||this.labelBox;
     const box=document.createElement('div');
-    box.style.cssText="position:absolute;left:30px;bottom:64px;width:238px;padding:11px 13px;border-radius:11px;background:rgba(4,16,26,0.82);border:1px solid rgba(56,232,255,0.25);backdrop-filter:blur(8px);pointer-events:auto;z-index:11;display:"+(this._tuneOpen?'block':'none')+";";
+    box.style.cssText="width:238px;margin-top:12px;padding:11px 13px;border-radius:11px;background:rgba(4,16,26,0.82);border:1px solid rgba(56,232,255,0.25);backdrop-filter:blur(8px);pointer-events:auto;display:"+(this._tuneOpen?'block':'none')+";";
     const title=document.createElement('div');
     title.style.cssText="display:flex;justify-content:space-between;align-items:center;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#6fcfe6;margin-bottom:9px;";
     title.textContent='НАСТРОЙКА ВИДА';
@@ -56,6 +62,11 @@
       inp.oninput=()=>{ const v=parseFloat(inp.value); d.set(v); valEl.textContent=v.toFixed(2); };
       row.appendChild(lab); row.appendChild(inp); box.appendChild(row);
     });
-    this.labelBox.appendChild(box); this.tuneEl=box;
+    host.appendChild(box); this.tuneEl=box;
   }
-  toggleTune=()=>{ this._tuneOpen=!this._tuneOpen; if(this.tuneEl) this.tuneEl.style.display=this._tuneOpen?'block':'none'; else this.buildTunePanel(); this.setState({tune:this._tuneOpen}); this.lastInteract=performance.now(); };
+  toggleTune=()=>{ this._tuneOpen=!this._tuneOpen;
+    if(this.tuneEl){ this.tuneEl.style.display=this._tuneOpen?'block':'none';
+      // на всякий случай вернуть панель в слот, если она родилась до его привязки
+      if(this.tuneSlot && this.tuneEl.parentNode!==this.tuneSlot) this.tuneSlot.appendChild(this.tuneEl); }
+    else this.buildTunePanel();
+    this.setState({tune:this._tuneOpen}); this.lastInteract=performance.now(); };
