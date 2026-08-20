@@ -53,8 +53,14 @@
     const pr=Math.min(window.devicePixelRatio||1,2);
     this.renderer.setPixelRatio(pr); this.renderer.setSize(w,h,false);
     this.camera.aspect=w/h; this.camera.updateProjectionMatrix();
+    // ⚠ Блуму размер НЕ задаём вручную. EffectComposer.setSize сам зовёт
+    // pass.setSize(w*pixelRatio, h*pixelRatio) у всех пассов, а строка
+    // `this.bloom.setSize(w,h)` шла ПОСЛЕ и перетирала это размером БЕЗ
+    // плотности пикселей: на экране с dpr 1.5-2 мип-цепочка блума оказывалась
+    // в 1.5-2 раза мельче кадра, и свечение размазывалось во столько же раз
+    // шире задуманного. На dpr 1 (моя машина) разницы нет вовсе — отсюда
+    // «у меня нормально, а на проде блума многовато».
     if(this.composer){ this.composer.setPixelRatio(pr); this.composer.setSize(w,h); }
-    if(this.bloom) this.bloom.setSize(w,h);
     if(this.geoRT){ this.geoRT.setSize(Math.floor(w*pr),Math.floor(h*pr)); this.outUniforms.uRes.value.set(Math.floor(w*pr),Math.floor(h*pr)); }
     this.hmShift();   // сдвиг кадра из-под нижнего листа (телефон)
   };
