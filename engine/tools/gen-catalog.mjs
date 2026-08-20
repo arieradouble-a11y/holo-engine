@@ -398,7 +398,12 @@ function zoomWin(el){
 function closeWin(el){
   el.classList.add('closing');
   setTimeout(() => { el.remove(); wins = wins.filter(w => w !== el);
-    if (el === finder) finder = null; syncDock(); applyFocus(); }, 180);
+    // ⚠ Карточки сетки кэшируются в CARDS/HEADS и живут В ЭТОМ окне. Если их не
+    // сбросить, следующий openCatalog() создаст новое окно, renderGrid() решит,
+    // что сетка уже построена, и переключит классы у осиротевших узлов —
+    // каталог откроется ПУСТЫМ (и упадёт на finder.querySelector('.empty')).
+    if (el === finder){ finder = null; CARDS = null; HEADS = {}; }
+    syncDock(); applyFocus(); }, 180);
 }
 function topWin(){
   return wins.filter(w => w.style.display !== 'none')
@@ -538,12 +543,23 @@ function applyFocus(force){
     try { fr.contentWindow.postMessage({ holo: w === top ? 'resume' : 'pause' }, '*'); } catch (e) {}
   });
 }
+// Тема. Голограмма — аддитивное свечение на тёмном, и «белой» она не станет,
+// но движок умеет смягчать тёмную виньетку по краям, чтобы окно не читалось
+// чёрной дырой в светлом интерфейсе. Сигнал надо ПОСЛАТЬ: приёмник в бандле
+// (viewer.html, holo:'theme') был, а отправителя не было — тема внутри окна
+// модели не менялась вовсе.
+function isLight(){ return document.body.classList.contains('light'); }
+function sendTheme(fr){
+  try { fr && fr.contentWindow && fr.contentWindow.postMessage({ holo: 'theme', light: isLight() }, '*'); } catch (e) {}
+}
+function pushTheme(){ wins.forEach(w => sendTheme(w.querySelector('iframe'))); }
+
 function wake(el){
   const o = FLAT[+el.dataset.idx], stage = el.querySelector('.stage');
   stage.innerHTML = '<div class="load">ЗАГРУЗКА ГОЛОГРАММЫ…</div>';
   const fr = document.createElement('iframe');
   fr.src = encodeURI(o.file);
-  fr.onload = () => { const l = stage.querySelector('.load'); if (l) l.remove(); applyFocus(); };
+  fr.onload = () => { const l = stage.querySelector('.load'); if (l) l.remove(); applyFocus(); sendTheme(fr); };
   stage.appendChild(fr);
   el.dataset.live = '1';
 }
@@ -603,7 +619,8 @@ document.getElementById('mAbout').onclick = () => {
 };
 document.getElementById('theme').onclick = function(){
   document.body.classList.toggle('light');
-  this.textContent = document.body.classList.contains('light') ? '☀' : '☾';
+  this.textContent = isLight() ? '☀' : '☾';
+  pushTheme();
 };
 addEventListener('keydown', e => {
   if (e.key === 'Escape'){ const t = topWin(); if (t) closeWin(t); return; }
