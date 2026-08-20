@@ -5176,7 +5176,7 @@
   "bloom": {
     "strength": 0.5,
     "radius": 0.65,
-    "threshold": 0
+    "threshold": 0.15
   },
   "grade": {
     "exposure": 1.06,

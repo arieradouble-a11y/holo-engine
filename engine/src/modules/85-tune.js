@@ -15,6 +15,7 @@
         set:v=>{ if(O()) O().uNorm.value=3.0-v*2.4; }, cfg:()=>O()?+O().uNorm.value.toFixed(2):1.4 },
       { key:'fill',                  name:'Заливка каркаса',   min:0, max:1.5, get:()=>U.uFill.value,         set:v=>{ U.uFill.value=v; } },
       { key:'shellOpacity',          name:'Оболочка',          min:0, max:1,   get:()=>U.uShellOp.value,      set:v=>{ U.uShellOp.value=v; } },
+      { key:'reflect',               name:'Отражение',         min:0, max:0.3, get:()=>U.uRefl.value,         set:v=>{ U.uRefl.value=v; } },
       { key:'bloomStrength',         name:'Свечение (bloom)',  min:0, max:1.5, get:()=>this.bloom?this.bloom.strength:0, set:v=>{ if(this.bloom) this.bloom.strength=v; } },
     // ползунки голо-роя сняты вместе с кнопкой (19.08.2026); вернутся, если рой
     // включат в конфиге — тогда и uniforms из ensureSwarmU() снова пригодятся.

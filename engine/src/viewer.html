@@ -196,6 +196,7 @@ class Component extends DCLogic {
         uPlanX:{value:0}, uPlanW:{value:1e9},                // и по X — приглушение соседних блок-секций
         uCut:{value:0}, uCutZ:{value:0}, // facade cutaway (discard model-z beyond uCutZ)
         uBold:{value:1}, uFill:{value:1},   // contour brightness / interior-fill dimming
+        uRefl:{value: this.CONFIG.reflect!=null?this.CONFIG.reflect:0.14 },  // яркость отражения под моделью
         uBTint:{value:new THREE.Color(0.05,0.45,1.0)}, uBAmt:{value:0.5}, // contour tint (mode-aware)
         uColor:{value:new THREE.Color().setRGB(acc.a[0],acc.a[1],acc.a[2])},
         uColor2:{value:new THREE.Color().setRGB(acc.b[0],acc.b[1],acc.b[2])}

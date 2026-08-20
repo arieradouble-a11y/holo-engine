@@ -23,7 +23,11 @@
   "contour": 0.62,
   "fill": 0.42,
   "shellOpacity": 0.11,
-  "bloom": 0.7,
+  "bloom": {
+    "strength": 0.34,
+    "radius": 0.6,
+    "threshold": 0.15
+  },
   "grade": {
     "exposure": 1.06,
     "contrast": 1.07,

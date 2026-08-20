@@ -16,7 +16,7 @@
       gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
     }`; }
   fShader(refl){ return `
-    uniform float uTime,uScan,uGround,uSelected,uExplode,uFill,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uCut,uCutZ; uniform vec3 uColor,uColor2;
+    uniform float uTime,uScan,uGround,uSelected,uExplode,uFill,uRefl,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uCut,uCutZ; uniform vec3 uColor,uColor2;
     varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
     void main(){
       if(vHot>0.5) discard;   // hot/internal systems handled by the red inner pass
@@ -30,7 +30,7 @@
       float a=fl*(0.03*sel + band*0.07*sel)*uFill;
       if(uPlan>0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
                     *(1.0-0.95*smoothstep(uPlanW,uPlanW*1.25,abs(vMX-uPlanX)));  // соседние секции — в фон
-      ${refl?'a*=0.14*smoothstep(uGround-3.0,uGround,vWY)*(1.0-0.85*clamp(uExplode,0.0,1.0));':''}
+      ${refl?'a*=uRefl*smoothstep(uGround-3.0,uGround,vWY)*(1.0-0.85*clamp(uExplode,0.0,1.0));':''}
       gl_FragColor=vec4(col,a);
     }`; }
   get fShaderBold(){ return `

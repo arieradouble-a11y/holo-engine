@@ -26,7 +26,7 @@
   "bloom": {
     "strength": 0.45,
     "radius": 0.6,
-    "threshold": 0
+    "threshold": 0.15
   },
   "geometry": [
     {
