@@ -46,6 +46,7 @@ export const BUILD_MAP = [
   ['ctp',             'ЦТП',                                    null],
   ['vns',             'Насосная станция (ВНС II подъёма)',      null],
   ['vodozabor',       'Метелёвский водозабор',                  null],
+  ['velizh',          'Велижанский водозабор',                  null],
 ];
 
 const here = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
