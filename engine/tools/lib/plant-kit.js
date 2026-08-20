@@ -271,8 +271,10 @@ function bak(x, y, z, mat, opt) {
              { at: [lx, y0 + 0.35, z], repeat: Math.max(3, Math.round(h / 0.35)), step: [0, 0.35, 0], items: [
                { cyl: [0.018, 0.44, 0, 0, 0, mat, 'z', 6] },                   // ступень
              ]},
-             { at: [lx - 0.34, y0 + h * 0.45, z], repeat: 4, step: [0, 0.5, 0], items: [
-               { torus: [0.36, 0.02, 0, 0, 0, mat, 'x'] },                     // дуги ограждения
+             { at: [lx - 0.30, y0 + h * 0.45, z], repeat: 4, step: [0, 0.5, 0], items: [
+               // дуга ограждения — ГОРИЗОНТАЛЬНОЕ кольцо (нормаль Y), надетое на
+               // тетивы: с нормалью X оно висело в 0.3 м от стремянки (ловится floaters)
+               { torus: [0.38, 0.022, 0, 0, 0, mat, 'y'] },
              ]});
   }
   return out;
@@ -496,34 +498,80 @@ function svet(x, y, z, mat) {
   ];
 }
 
-// bbox по элементам DSL — повторяет extents хелперов движка (для маркеров/потоков).
+// bbox по элементам DSL — повторяет extents движка, ВКЛЮЧАЯ повороты (rot/rstep):
+// матрицы группы и детали перемножаются, локальный AABB переносится по восьми
+// углам. Без учёта поворотов bbox уезжал, а вместе с ним — маркеры и потоки,
+// которые пересчитываются в доли этого bbox (на водозаборе 93 м это давало
+// промах в метр, и flowcheck показывал точки «мимо труб»).
+const D2R = Math.PI / 180;
+const mId = () => [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];          // row-major
+const mMul = (a, b) => {
+  const o = new Array(16);
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+    let v = 0; for (let k = 0; k < 4; k++) v += a[r*4+k] * b[k*4+c];
+    o[r*4+c] = v;
+  }
+  return o;
+};
+const mTrans = (x, y, z) => [1,0,0,x, 0,1,0,y, 0,0,1,z, 0,0,0,1];
+const mRot = (rx, ry, rz) => {                                    // Euler XYZ, как в движке
+  const cx = Math.cos(rx*D2R), sx = Math.sin(rx*D2R), cy = Math.cos(ry*D2R),
+        sy = Math.sin(ry*D2R), cz = Math.cos(rz*D2R), sz = Math.sin(rz*D2R);
+  return [cy*cz, -cy*sz, sy, 0,
+          cx*sz + sx*sy*cz, cx*cz - sx*sy*sz, -sx*cy, 0,
+          sx*sz - cx*sy*cz, sx*cz + cx*sy*sz, cx*cy, 0,
+          0, 0, 0, 1];
+};
+const mApply = (m, x, y, z) => [
+  m[0]*x + m[1]*y + m[2]*z + m[3],
+  m[4]*x + m[5]*y + m[6]*z + m[7],
+  m[8]*x + m[9]*y + m[10]*z + m[11]];
+
 function measure(items) {
-  let min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
-  const ext = (c, d) => { for (let i = 0; i < 3; i++) { min[i] = Math.min(min[i], c[i] - d[i]); max[i] = Math.max(max[i], c[i] + d[i]); } };
-  const walk = (list, ox, oy, oz) => list.forEach(it => {
+  const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
+  const ext = (m, hx, hy, hz) => {
+    for (const sx of [-hx, hx]) for (const sy of [-hy, hy]) for (const sz of [-hz, hz]) {
+      const p = mApply(m, sx, sy, sz);
+      for (let i = 0; i < 3; i++) { min[i] = Math.min(min[i], p[i]); max[i] = Math.max(max[i], p[i]); }
+    }
+  };
+  const trs = (base, cx, cy, cz, rot) => {
+    let m = mMul(base, mTrans(cx, cy, cz));
+    if (rot) m = mMul(m, mRot(rot[0], rot[1], rot[2]));
+    return m;
+  };
+  // осевые примитивы движок доворачивает ПОСЛЕ пользовательского rot
+  const axisM = (m, ax) => ax === 'x' ? mMul(m, mRot(0, 0, 90))
+                         : ax === 'z' ? mMul(m, mRot(90, 0, 0)) : m;
+  const ringM = (m, ax) => ax === 'x' ? mMul(m, mRot(0, 90, 0))
+                         : ax === 'z' ? m : mMul(m, mRot(90, 0, 0));
+  const walk = (list, base) => list.forEach(it => {
+    const r = it.rot;
     if (Array.isArray(it.items)) {
-      const at = it.at || [0, 0, 0], n = it.repeat || 1, st = it.step || [0, 0, 0];
-      for (let i = 0; i < n; i++) walk(it.items, ox + at[0] + st[0] * i, oy + at[1] + st[1] * i, oz + at[2] + st[2] * i);
+      const at = it.at || [0,0,0], n = it.repeat || 1, st = it.step || [0,0,0], rs = it.rstep;
+      for (let i = 0; i < n; i++) {
+        const rot = (r || rs) ? [(r?r[0]:0)+(rs?rs[0]*i:0), (r?r[1]:0)+(rs?rs[1]*i:0), (r?r[2]:0)+(rs?rs[2]*i:0)] : null;
+        walk(it.items, trs(base, at[0]+st[0]*i, at[1]+st[1]*i, at[2]+st[2]*i, rot));
+      }
       return;
     }
-    if (it.box) { const a = it.box; ext([ox + a[3], oy + a[4], oz + a[5]], [a[0] / 2, a[1] / 2, a[2] / 2]); }
-    else if (it.cyl) { const a = it.cyl, r = a[0], h = a[1], ax = a[6] || 'y';
-      ext([ox + a[2], oy + a[3], oz + a[4]], ax === 'x' ? [h / 2, r, r] : ax === 'z' ? [r, r, h / 2] : [r, h / 2, r]); }
-    else if (it.frustum) { const a = it.frustum, R = Math.max(a[0], a[1]), ax = a[7] || 'y';
-      ext([ox + a[3], oy + a[4], oz + a[5]], ax === 'x' ? [a[2] / 2, R, R] : ax === 'z' ? [R, R, a[2] / 2] : [R, a[2] / 2, R]); }
-    else if (it.sphere) { const a = it.sphere; ext([ox + a[1], oy + a[2], oz + a[3]], [a[0], a[0], a[0]]); }
-    else if (it.torus) { const a = it.torus, R = a[0] + a[1], ax = a[6] || 'y';
-      ext([ox + a[2], oy + a[3], oz + a[4]], ax === 'x' ? [a[1], R, R] : ax === 'z' ? [R, R, a[1]] : [R, a[1], R]); }
-    else if (it.capsule) { const a = it.capsule, r = a[0], h = a[1] + 2 * r, ax = a[6] || 'y';
-      ext([ox + a[2], oy + a[3], oz + a[4]], ax === 'x' ? [h / 2, r, r] : ax === 'z' ? [r, r, h / 2] : [r, h / 2, r]); }
-    else if (it.tube) { const a = it.tube; a[1].forEach(p => ext([ox + p[0], oy + p[1], oz + p[2]], [a[0], a[0], a[0]])); }
+    if (it.box) { const a = it.box; ext(trs(base, a[3], a[4], a[5], r), a[0]/2, a[1]/2, a[2]/2); }
+    else if (it.cyl) { const a = it.cyl; ext(axisM(trs(base, a[2], a[3], a[4], r), a[6]), a[0], a[1]/2, a[0]); }
+    else if (it.frustum) { const a = it.frustum, R = Math.max(a[0], a[1]);
+      ext(axisM(trs(base, a[3], a[4], a[5], r), a[7]), R, a[2]/2, R); }
+    else if (it.sphere) { const a = it.sphere; ext(trs(base, a[1], a[2], a[3], r), a[0], a[0], a[0]); }
+    else if (it.torus) { const a = it.torus, R = a[0] + a[1];
+      ext(ringM(trs(base, a[2], a[3], a[4], r), a[6]), R, R, a[1]); }
+    else if (it.capsule) { const a = it.capsule;
+      ext(axisM(trs(base, a[2], a[3], a[4], r), a[6]), a[0], a[1]/2 + a[0], a[0]); }
+    else if (it.tube) { const a = it.tube; a[1].forEach(p => ext(trs(base, p[0], p[1], p[2], r), a[0], a[0], a[0])); }
   });
-  walk(items, 0, 0, 0);
-  const size = [max[0] - min[0], max[1] - min[1], max[2] - min[2]];
+  walk(items, mId());
+  const size = [max[0]-min[0], max[1]-min[1], max[2]-min[2]];
   return { min, max, size, frac: p => [
-    +((p[0] - min[0]) / size[0]).toFixed(3),
-    +((p[1] - min[1]) / size[1]).toFixed(3),
-    +((p[2] - min[2]) / size[2]).toFixed(3)] };
+    +((p[0] - min[0]) / size[0]).toFixed(4),
+    +((p[1] - min[1]) / size[1]).toFixed(4),
+    +((p[2] - min[2]) / size[2]).toFixed(4)] };
 }
 
 module.exports = {
