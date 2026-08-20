@@ -133,25 +133,83 @@
     this.scanMin=0; this.scanMax=size.y*scl+0.3;
   }
 
+  // ОБОЛОЧКА СЛИТА ПО СИСТЕМАМ. Раньше на каждый примитив конфига заводился свой
+  // THREE.Mesh: у 9-этажки это 2390 мешей, и кадр стоил 22.7 мс (44 fps) даже на
+  // RTX 5080 — «обычный рабочий комп с трудом жуёт» (замечание пользователя
+  // 20.08.2026). Разбор кадра по слоям показал, что 99% времени — именно оболочка:
+  // без неё 0.3 мс, вызовов 41 вместо 4821. Причина двойная: (1) вызовов ровно
+  // столько же, сколько мешей, и (2) three r134 при transparent+DoubleSide рисует
+  // КАЖДЫЙ меш ДВАЖДЫ (задняя сторона, потом передняя), переставляя material.side
+  // и material.needsUpdate между ними — то есть ещё и дёргая состояние шейдера
+  // на каждый объект. Отсюда 4821 вызов на 2390 мешей.
+  //
+  // Геометрия при слиянии НЕ меняется: базовая матрица примитива запекается в
+  // вершины и нормали, а матрица меша остаётся под разлёт — он и так один на всю
+  // систему (partDirs[pi]), поэтому «Разобрать» работает ровно как прежде.
+  // Замер после: 9-этажка 22.7 → 0.3 мс, вызовов 4821 → 57, мешей 2390 → 8;
+  // МКД 14.8 → 0.3 мс. DoubleSide НЕ трогаем: на слитой оболочке двойной проход
+  // стоит копейки, а односторонняя оболочка выглядит жиже (это видимая потеря).
   buildShell(THREE){
     const {center,minY,scl}=this.norm;
     const N=new THREE.Matrix4().makeTranslation(-scl*center.x,-scl*minY,-scl*center.z).multiply(new THREE.Matrix4().makeScale(scl,scl,scl));
-    if(this.shellGroup){ this.pivot.remove(this.shellGroup); }
+    if(this.shellGroup){
+      this.shellGroup.traverse(o=>{ if(o.isMesh && o.geometry && o.geometry.userData.merged) o.geometry.dispose(); });
+      this.pivot.remove(this.shellGroup);
+    }
     this.shellGroup=new THREE.Group();
-    // shell-меши подают геометрию в контурный пасс. При разборке каркас двигает
-    // aExplode в шейдере, а shell — нет, и контур «зависал» на месте. Храним базовую
-    // матрицу и вектор разлёта детали, чтобы updateShellExplode гнал оболочку (и её
-    // контур) вместе с каркасом.
     this.shellMeshes=[];
+
+    // примитивы → корзины по системе: у системы один вектор разлёта
+    const bins=new Map();
     this.meshData.forEach(md=>{
       if(!md.geometry.attributes.normal){ md.geometry.computeVertexNormals(); }
-      const m=new THREE.Mesh(md.geometry, this.matShell);
-      const base=new THREE.Matrix4().copy(N).multiply(md.matrixWorld);
-      m.matrixAutoUpdate=false; m.matrix.copy(base); m.matrixWorldNeedsUpdate=true;
-      m.frustumCulled=false; m.renderOrder=0; this.shellGroup.add(m);
-      const pi=this.matToPart(md.mat), d=(this.partDirs&&this.partDirs[pi])||[0,0,0];
-      this.shellMeshes.push({m, base, dir:d});
+      const pi=this.matToPart(md.mat);
+      let b=bins.get(pi);
+      if(!b){ b={ dir:(this.partDirs&&this.partDirs[pi])||[0,0,0], items:[] }; bins.set(pi,b); }
+      b.items.push({ geo:md.geometry, m:new THREE.Matrix4().copy(N).multiply(md.matrixWorld) });
     });
+
+    const v=new THREE.Vector3(), nm=new THREE.Matrix3();
+    for(const bin of bins.values()){
+      // Склейка ИНДЕКСИРОВАННАЯ. Де-индексировать было проще, но у моделей из GLB
+      // вершины переиспользуются: у илососа это 229 тыс. вершин против 1.37 млн
+      // после разбора треугольников — +22 МБ буферов на телефоне на ровном месте.
+      let nv=0, ni=0;
+      for(const it of bin.items){
+        nv+=it.geo.attributes.position.count;
+        ni+=it.geo.index? it.geo.index.count : it.geo.attributes.position.count;
+      }
+      const pos=new Float32Array(nv*3), nrm=new Float32Array(nv*3);
+      const idx=(nv>65535)? new Uint32Array(ni) : new Uint16Array(ni);
+      let o=0, io_=0, base=0;
+      for(const it of bin.items){
+        const g=it.geo, P=g.attributes.position.array, NR=g.attributes.normal.array;
+        nm.getNormalMatrix(it.m);
+        for(let i=0;i<P.length;i+=3){
+          v.set(P[i],P[i+1],P[i+2]).applyMatrix4(it.m);
+          pos[o]=v.x; pos[o+1]=v.y; pos[o+2]=v.z;
+          v.set(NR[i],NR[i+1],NR[i+2]).applyMatrix3(nm).normalize();
+          nrm[o]=v.x; nrm[o+1]=v.y; nrm[o+2]=v.z; o+=3;
+        }
+        const cnt=g.attributes.position.count;
+        if(g.index){ const I=g.index.array; for(let i=0;i<I.length;i++) idx[io_++]=base+I[i]; }
+        else { for(let i=0;i<cnt;i++) idx[io_++]=base+i; }
+        base+=cnt;
+      }
+      const g=new THREE.BufferGeometry();
+      g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+      g.setAttribute('normal',new THREE.BufferAttribute(nrm,3));
+      g.setIndex(new THREE.BufferAttribute(idx,1));
+      g.computeBoundingSphere();   // нужен лучу калибровки
+      g.userData.merged=true;
+      const m=new THREE.Mesh(g,this.matShell);
+      m.matrixAutoUpdate=false; m.matrix.identity(); m.matrixWorldNeedsUpdate=true;
+      m.frustumCulled=false; m.renderOrder=0;
+      this.shellGroup.add(m);
+      // base — единичная: базовые матрицы уже запечены в вершины, снаружи
+      // остаётся только сдвиг разлёта (updateShellExplode)
+      this.shellMeshes.push({m, base:new THREE.Matrix4(), dir:bin.dir});
+    }
     this.pivot.add(this.shellGroup);
     this._shellEx=0;
   }
@@ -166,11 +224,20 @@
     }
   }
 
-  buildEdgeGeo(THREE, angle, dirs, accum){
+  // only — набор систем, из которых строить рёбра (остальные пропускаем).
+  // Внутренний («горячий») каркас раньше строился по ВСЕЙ модели, а шейдер
+  // fShaderInner первой же строкой делает `if(vHot<0.5) discard` — то есть мы
+  // гоняли через вершинный конвейер десятки и сотни тысяч вершин, чтобы тут же
+  // их выбросить, и держали под них третий полный буфер. Картинка от фильтра
+  // не меняется ни на пиксель (проверено попиксельно), зато у 9-этажки внутренний
+  // каркас 63052 → 6132 вершины, и третий проход EdgesGeometry при загрузке
+  // идёт только по стоякам.
+  buildEdgeGeo(THREE, angle, dirs, accum, only){
     const {center,minY,scl}=this.norm;
     const pos=[], mats=[];
     const v=new THREE.Vector3();
     this.meshData.forEach(md=>{
+      if(only && !only.has(this.matToPart(md.mat))) return;
       const eg=new THREE.EdgesGeometry(md.geometry, angle);
       const arr=eg.attributes.position.array;
       const m=md.matrixWorld;
@@ -223,7 +290,7 @@
     // hot/internal systems get their OWN coarse-angle edges so dense wheels/engine
     // read as clean red rings (not a saturated white disc under additive blending).
     const hotAngle=this.CONFIG.hotAngle!=null?this.CONFIG.hotAngle:30;
-    const hotGeo=(this.hotSet&&this.hotSet.size)? this.buildEdgeGeo(THREE, hotAngle, dirs, null) : denseGeo;
+    const hotGeo=(this.hotSet&&this.hotSet.size)? this.buildEdgeGeo(THREE, hotAngle, dirs, null, this.hotSet) : denseGeo;
     this.hotGeo=(hotGeo!==denseGeo)?hotGeo:null;
     this.geometry=denseGeo;
 
