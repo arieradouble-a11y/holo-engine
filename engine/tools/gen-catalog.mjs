@@ -15,6 +15,8 @@ import path from 'node:path';
 const argv = process.argv.slice(2);
 const opt = (n, d) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : d; };
 const THUMBS = opt('--thumbs', '../catalog-thumbs');
+const MUSEUM = argv.includes('--museum');   // брендинг раздела медиаштабжкх.рф/golomuzey/
+const SITE_NAME = MUSEUM ? 'Голографический музей ЖКХ' : 'Holo Engine';
 const OUT = opt('--out', '../Каталог голограмм ЖКХ.html');
 const ROOT = path.resolve('..');
 
@@ -113,7 +115,8 @@ const html = `<!doctype html>
 <html lang="ru"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Каталог голограмм ЖКХ</title>
+${MUSEUM ? '<meta name="robots" content="noindex,nofollow">' : ''}
+<title>${MUSEUM ? SITE_NAME : 'Каталог голограмм ЖКХ'}</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2302060d'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%2338e8ff' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%2338e8ff'/%3E%3C/svg%3E">
 <style>
 /* ─────────────────────────────────────────────────────────────────────────
@@ -179,6 +182,17 @@ body.light #menubar{background:rgba(250,250,252,0.66)}
 .lights b{width:12px; height:12px; border-radius:50%; display:block; cursor:pointer;
   box-shadow:inset 0 0 0 .5px rgba(0,0,0,.2)}
 .lights .c{background:#ff5f57} .lights .m{background:#febc2e} .lights .z{background:#28c840}
+/* Явная кнопка закрытия: macOS-светофоры многим незнакомы, а прятать выход за
+   12-пиксельным кружком без подписи — невежливо. Красная, с крестиком и словом,
+   справа в шапке окна, где её ждут пользователи Windows. */
+.xbtn{display:inline-flex; align-items:center; gap:6px; border:0; cursor:pointer; flex:none;
+  height:28px; padding:0 11px 0 9px; border-radius:9px; color:#fff; font:600 12.5px var(--sans);
+  background:#e5484d; box-shadow:0 1px 0 rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.22);
+  transition:.15s}
+.xbtn:hover{background:#f25c60; transform:translateY(-1px)}
+.xbtn:active{transform:none; background:#cf3e43}
+.xbtn svg{width:13px; height:13px; stroke:#fff; stroke-width:2.6; fill:none; stroke-linecap:round}
+.bar .tools{gap:8px}
 .title{flex:1; text-align:center; font:600 13.5px var(--sans); opacity:.92; pointer-events:none;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .tools{display:flex; gap:8px; align-items:center}
@@ -269,15 +283,96 @@ body.light #menubar{background:rgba(250,250,252,0.66)}
   font:500 11px var(--mono); letter-spacing:.1em; color:rgba(255,255,255,.42)}
 body.light .hintbar{color:rgba(0,0,0,.40)}
 @media (max-width:900px){ .side{display:none} .info.open{width:100%} }
+/* ── Телефон (≤640px): не окна, а экраны ─────────────────────────────────
+   Оконная метафора с перетаскиванием, стопкой и доком-«ракетой» на телефоне не
+   живёт. Здесь: каждое окно — полноэкранный лист, док — нижняя панель вкладок
+   с подписями, сетка объектов в две колонки.
+   Первая версия просто растягивала окно — кнопка «Закрыть» уезжала за край
+   (375px → правый край 441), боковая панель категорий пропадала без замены.
+   ⚠ Панель «Инфо» здесь НЕ раскрывается по умолчанию: у самой голограммы с
+   20.08.2026 есть свои вкладки внизу («Системы · Инфо · Вид»), и два листа
+   с описанием друг над другом съедали экран, ради которого всё и затевалось. */
+@media (max-width:640px){
+  :root{--rw:0px}
+  #menubar{height:44px; padding:0 12px; font-size:12.5px}
+  #menubar .logo{font-size:13px}
+  #menubar .mi:not(.logo){display:none}
+  #menubar .right{gap:10px}
+  #menubar .right span:not(#clock){display:none}
+  #desk{inset:44px 0 0 0}
+  .win{left:0 !important; top:0 !important; width:100vw !important;
+    height:calc(100% - 64px) !important; border-radius:0; animation:none; border:0}
+  .win.drag{box-shadow:none}
+  .bar{height:46px; padding:0 10px; gap:8px}
+  .lights{display:none}
+  .title{text-align:left; font-size:14px}
+  .tools{gap:6px}
+  .tbtn{padding:7px 10px; font-size:12px}
+  .xbtn{height:32px; padding:0 10px 0 8px; font-size:13px}
+  .rsz{display:none}
+  /* каталог: боковую панель категорий заменяет горизонтальная лента чипов сверху */
+  .wbody{flex-direction:column}
+  .side{width:100%; display:flex; gap:6px; padding:8px 10px; overflow-x:auto; overflow-y:hidden;
+    border-right:0; border-bottom:0.5px solid var(--hair); flex:none; scrollbar-width:none}
+  .side::-webkit-scrollbar{display:none}
+  .side .sec{display:none}
+  .side button{width:auto; flex:none; padding:7px 12px; border-radius:999px; font-size:12.5px;
+    border:0.5px solid var(--hair); background:rgba(255,255,255,.06); white-space:nowrap}
+  .side button span{margin-left:6px}
+  .srch input{width:110px}
+  .content{padding:12px 12px 18px}
+  .grid{grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:18px}
+  .item{padding:6px}
+  .item .ic{border-radius:18%}
+  .item .nm{font-size:12.5px}
+  .item .hk{font-size:11px; -webkit-line-clamp:2}
+  /* объект: голограмма во весь лист, описание выезжает снизу по кнопке «Инфо» */
+  .stage{min-height:0}
+  /* В column-flex у flex-элемента min-height:auto = высота контента, и height:0
+     не держит — панель раздвигалась обратно до 342px. Поэтому min-height:0 и
+     размер через flex-basis. ⚠ Обе стороны перехода — В ОДНИХ ЕДИНИЦАХ (%):
+     transition 52% → 0px браузер интерполировать не может и ВИСИТ на старте
+     бесконечно (getAnimations() показывал живую анимацию спустя 2 с), панель
+     так и не схлопывалась — это и был весь баг. */
+  .info{width:100% !important; border-left:0; border-top:0.5px solid var(--hair);
+    transition:flex-basis .28s cubic-bezier(.2,.8,.25,1); height:auto; min-height:0;
+    flex:0 0 0%; overflow:hidden}
+  .info.open{flex-basis:52%; overflow-y:auto}
+  .info .pad{width:100%; padding:14px 16px 20px}
+  .sleep p{max-width:220px}
+  /* док → нижняя панель вкладок с подписями */
+  #dock{left:0; right:0; bottom:0; transform:none; border-radius:0; padding:6px 4px 10px;
+    gap:0; justify-content:space-around; border:0; border-top:0.5px solid var(--hair)}
+  .dsep{display:none}
+  .dapp{width:auto; min-width:58px; height:auto; padding:4px 6px; border-radius:10px;
+    background:transparent; box-shadow:none; color:var(--dim); flex-direction:column; gap:3px}
+  .dapp:hover{transform:none}
+  .dapp svg{width:22px; height:22px}
+  .dapp em{position:static; transform:none; opacity:1; padding:0; border:0; background:transparent;
+    backdrop-filter:none; font:600 10px var(--sans); color:inherit; white-space:nowrap}
+  .dapp[data-run="1"]{color:var(--accent)}
+  .dapp[data-run="1"]::after{display:none}
+  .dapp em[data-short]{font-size:0}
+  .dapp em[data-short]::after{content:attr(data-short); font-size:10px}
+  .hintbar{display:none}
+  /* объект на весь экран: док прячем, окно занимает всю высоту (см. applyFocus) */
+  body.objfull #dock{display:none}
+  body.objfull .win{height:100% !important}
+}
+@media (max-width:640px) and (orientation:landscape){
+  .info.open{flex-basis:70%}
+  .grid{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 </head><body class="dark">
 <div id="wall" style="background-image:url('data:image/jpeg;base64,${WALLPAPER}')"></div>
 
 <div id="menubar">
-  <span class="logo"><i></i>Holo Engine</span>
+  <span class="logo"><i></i>${SITE_NAME}</span>
   <span class="mi" id="mCat">Каталог</span>
   <span class="mi" id="mRand">Случайный объект</span>
   <span class="mi" id="mAbout">О проекте</span>
+  ${MUSEUM ? '<a class="mi" href="/metavselennaya/" style="color:inherit;text-decoration:none">← Метавселенная</a>' : ''}
   <span class="right">
     <button class="mbtn" id="theme" title="Светлая / тёмная тема">☾</button>
     <span><b>${all.length}</b> объектов</span>
@@ -295,22 +390,22 @@ body.light .hintbar{color:rgba(0,0,0,.40)}
   <button class="dapp" data-group="Коммунальная техника"><em>Техника</em>
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
       <path d="M2 15V8h11v7M13 11h4l3 3v1M2 15h2m4 0h8m4 0h2"/><circle cx="6" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/></svg></button>
-  <button class="dapp" data-group="Оборудование и узлы"><em>Оборудование</em>
+  <button class="dapp" data-group="Оборудование и узлы"><em data-short="Узлы">Оборудование</em>
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
       <circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></button>
-  <button class="dapp" data-group="Здания и станции"><em>Здания и станции</em>
+  <button class="dapp" data-group="Здания и станции"><em data-short="Здания">Здания и станции</em>
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
       <path d="M4 21V6l6-3v18M14 21V10l6 3v8M2 21h20M7 9v.01M7 13v.01M7 17v.01M17 15v.01M17 18v.01"/></svg></button>
   <div class="dsep"></div>
   <button class="dapp" data-act="search"><em>Поиск</em>
     <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button>
-  <button class="dapp" data-act="random"><em>Случайный объект</em>
+  <button class="dapp" data-act="random"><em data-short="Случайный">Случайный объект</em>
     <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
       <rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/>
       <circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg></button>
 </div>
-<div class="hintbar">перетаскивайте окна за заголовок · / — поиск · Esc — закрыть · ← → — соседний объект</div>
+<div class="hintbar">перетаскивайте окна за заголовок · «Закрыть» или Esc — закрыть окно · / — поиск · ← → — соседний объект</div>
 
 <script>
 const GROUPS = ${json(DATA)};
@@ -349,23 +444,26 @@ function makeWin(opt){
   el.style.zIndex = ++zTop;
   el.innerHTML = '<div class="bar"><div class="lights">' +
       '<b class="c" title="Закрыть"></b><b class="m" title="Свернуть"></b><b class="z" title="Развернуть"></b>' +
-    '</div><div class="title">' + esc(opt.title) + '</div><div class="tools"></div></div>' +
+    '</div><div class="title">' + esc(opt.title) + '</div><div class="tools"></div>' +
+    '<button class="xbtn" title="Закрыть окно (Esc)" aria-label="Закрыть">' +
+      '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>Закрыть</button></div>' +
     '<div class="wbody"></div><div class="rsz"></div>';
   const bar = el.querySelector('.bar');
   el.addEventListener('mousedown', () => { el.style.zIndex = ++zTop; applyFocus(); });
   el.addEventListener('mouseenter', () => { if (el.dataset.idx) applyFocus(el); });
   bar.querySelector('.c').onclick = e => { e.stopPropagation(); closeWin(el); };
+  bar.querySelector('.xbtn').onclick = e => { e.stopPropagation(); closeWin(el); };
   bar.querySelector('.m').onclick = e => { e.stopPropagation(); el.classList.add('min');
     setTimeout(() => { el.style.display = 'none'; el.classList.remove('min'); sleepWin(el); }, 260); };
   bar.querySelector('.z').onclick = e => { e.stopPropagation(); zoomWin(el); };
-  bar.ondblclick = () => zoomWin(el);
+  if (!matchMedia('(max-width:640px)').matches) bar.ondblclick = () => zoomWin(el);
   drag(bar, el, 'move'); drag(el.querySelector('.rsz'), el, 'size');
   desk.appendChild(el); wins.push(el); syncDock();
   return el;
 }
 function drag(handle, el, mode){
   handle.addEventListener('mousedown', e => {
-    if (mode === 'move' && e.target.closest('.lights, .tools')) return;
+    if (mode === 'move' && e.target.closest('.lights, .tools, .xbtn')) return;
     e.preventDefault();
     const sx = e.clientX, sy = e.clientY;
     const ox = parseFloat(el.style.left), oy = parseFloat(el.style.top);
@@ -422,7 +520,7 @@ function openCatalog(group){
   if (finder && document.body.contains(finder)){
     finder.style.display = ''; finder.style.zIndex = ++zTop; renderSide(); renderGrid(); return finder;
   }
-  const el = makeWin({ title: 'Каталог голограмм', w: Math.round(innerWidth * 0.74), h: Math.round(innerHeight * 0.78), cls: 'finder' });
+  const el = makeWin({ title: '${MUSEUM ? 'Каталог музея' : 'Каталог голограмм'}', w: Math.round(innerWidth * 0.74), h: Math.round(innerHeight * 0.78), cls: 'finder' });
   el.querySelector('.tools').innerHTML =
     '<div class="srch"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
     '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>' +
@@ -536,6 +634,7 @@ function applyFocus(force){
   // ни одна голограмма рисовать не должна — иначе список дёргается.
   const vis = wins.filter(w => w.style.display !== 'none');
   const top = force || vis.slice().sort((a, b) => (+b.style.zIndex) - (+a.style.zIndex))[0];
+  document.body.classList.toggle('objfull', !!(top && top.dataset.idx));
   vis.forEach(w => {
     if (!w.dataset.idx) return;
     const fr = w.querySelector('iframe');
@@ -609,7 +708,7 @@ document.getElementById('mRand').onclick = () => openObject(Math.floor(Math.rand
 document.getElementById('mAbout').onclick = () => {
   const el = makeWin({ title: 'О проекте', w: 560, h: 400 });
   el.querySelector('.wbody').innerHTML = '<div class="content" style="padding:22px 26px">' +
-    '<p style="font:600 17px var(--sans); margin:0 0 10px">Holo Engine — голограммы объектов ЖКХ</p>' +
+    '<p style="font:600 17px var(--sans); margin:0 0 10px">${MUSEUM ? SITE_NAME : 'Holo Engine — голограммы объектов ЖКХ'}</p>' +
     '<p style="color:var(--dim); font:400 13.5px/1.6 var(--sans); margin:0">Движок превращает CAD-описание ' +
     'объекта в самодостаточный офлайн-файл: рентген-каркас, разборка на системы, потоки среды и нумерованные ' +
     'узлы. Каждый объект открывается двойным кликом и работает без интернета — здесь они собраны в одну витрину.</p>' +

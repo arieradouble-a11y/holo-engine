@@ -9,8 +9,9 @@
     if(vign) vign.style.boxShadow=on?'inset 0 0 160px 20px rgba(0,0,0,0.35)':'inset 0 0 240px 50px rgba(0,0,0,0.7)';
   }
   renderVals(){
+    this.hmSync();   // телефон: вкладки нижнего листа (95-mobile)
     const C=this.CONFIG, whole=this.wholeMode, sel=this.state.selected;
-    const ctrlBase="cursor:pointer;font:600 12.5px 'IBM Plex Sans',sans-serif;padding:9px 15px;border-radius:10px;transition:all .15s;backdrop-filter:blur(8px);";
+    const ctrlBase="--hm-btn:1;cursor:pointer;font:600 12.5px 'IBM Plex Sans',sans-serif;padding:9px 15px;border-radius:10px;transition:all .15s;backdrop-filter:blur(8px);";
     const ctrlN=ctrlBase+"color:#dff6ff;background:rgba(6,18,30,0.6);border:1px solid rgba(56,232,255,0.3);";
     const ctrlM=ctrlBase+"color:#9fc6d8;background:rgba(6,18,30,0.45);border:1px solid rgba(56,232,255,0.16);";
     const controls=[];
@@ -31,7 +32,7 @@
     const dBtn=(k,on)=>`cursor:pointer;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.06em;padding:5px 10px;border-radius:7px;border:none;transition:all .15s;${on?'background:rgba(56,232,255,0.9);color:#04141f;':'background:transparent;color:#7fb3c8;'}`;
     const densBtns=Object.keys(this.densMap).map(k=>({label:this.densMap[k].label, style:dBtn(k,this.state.density===k), onClick:()=>this.setDensity(k)}));
 
-    const partStyle=a=>`display:flex;align-items:center;gap:11px;width:100%;text-align:left;cursor:pointer;font:500 13.5px 'IBM Plex Sans',sans-serif;padding:9px 11px;border-radius:10px;transition:all .15s;border:1px solid ${a?'rgba(56,232,255,0.5)':'rgba(56,232,255,0.12)'};background:${a?'rgba(56,232,255,0.12)':'rgba(6,18,30,0.4)'};color:${a?'#eafaff':'#b4d4e2'};`;
+    const partStyle=a=>`--hm-item:1;display:flex;align-items:center;gap:11px;width:100%;text-align:left;cursor:pointer;font:500 13.5px 'IBM Plex Sans',sans-serif;padding:9px 11px;border-radius:10px;transition:all .15s;border:1px solid ${a?'rgba(56,232,255,0.5)':'rgba(56,232,255,0.12)'};background:${a?'rgba(56,232,255,0.12)':'rgba(6,18,30,0.4)'};color:${a?'#eafaff':'#b4d4e2'};`;
     const numStyle=a=>`flex:none;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:6px;font:600 11px 'IBM Plex Mono',monospace;background:${a?'rgba(56,232,255,0.9)':'rgba(56,232,255,0.12)'};color:${a?'#04141f':'#7fd6ec'};`;
     const parts=whole?[]:this.PARTDEF.map((p,i)=>({ name:p.name, num:String(i+1).padStart(2,'0'), style:partStyle(i===sel), numStyle:numStyle(i===sel), onClick:()=>this.selectPart(i), onEnter:()=>this.setHover(i), onLeave:()=>this.setHover(-1) }));
 
@@ -52,13 +53,13 @@
       subtitle: C.subtitle || '',
       loading:this.state.loading, loadingText:this.state.loadingText,
       controls, densBtns, parts, markersList, specRows,
-      partsHeadStyle: `font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;margin-bottom:12px;${headHide}`,
-      partsListStyle: `display:${whole?'none':'flex'};flex-direction:column;gap:6px;`,
-      legendHeadStyle: `font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;margin-bottom:12px;display:${std?'block':'none'};`,
-      legendListStyle: `display:${std?'flex':'none'};flex-direction:column;gap:6px;`,
-      specWrapStyle: `display:${hasSpecs?'block':'none'};margin-top:15px;padding-top:14px;border-top:1px solid rgba(56,232,255,0.14);`,
+      partsHeadStyle: `--hm-ph:1;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;margin-bottom:12px;${headHide}`,
+      partsListStyle: `--hm-pl:1;display:${whole?'none':'flex'};flex-direction:column;gap:6px;`,
+      legendHeadStyle: `--hm-lh:1;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;margin-bottom:12px;display:${std?'block':'none'};`,
+      legendListStyle: `--hm-ll:1;display:${std?'flex':'none'};flex-direction:column;gap:6px;`,
+      specWrapStyle: `--hm-spec:1;display:${hasSpecs?'block':'none'};margin-top:15px;padding-top:14px;border-top:1px solid rgba(56,232,255,0.14);`,
       specTitle: (C.specs&&C.specs.title)||'ОБЩИЕ ХАРАКТЕРИСТИКИ',
-      infoWrapStyle: `margin-top:${infoSep?'15':'0'}px;padding-top:${infoSep?'15':'0'}px;border-top:${infoSep?'1px solid rgba(56,232,255,0.14)':'none'};`,
+      infoWrapStyle: `--hm-info:1;margin-top:${infoSep?'15':'0'}px;padding-top:${infoSep?'15':'0'}px;border-top:${infoSep?'1px solid rgba(56,232,255,0.14)':'none'};`,
       infoTag: curM? ('УЗЕЛ '+String(curM.n!=null?curM.n:selm+1).padStart(2,'0')) : (cur? cur.tag : (overview.tag||'ОБЗОР')),
       infoTitle: curM? curM.name : (cur? cur.name : (overview.title|| (whole? C.title : (this.PARTDEF.length+' основных систем')))),
       infoDesc: curM? (curM.desc||'') : (cur? cur.desc : (overview.desc||C.subtitle||'')),

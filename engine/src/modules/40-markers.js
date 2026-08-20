@@ -16,6 +16,9 @@
 
   buildMarkers(){
     if(!this.labelBox) return;
+    // на телефоне 21px под палец мало — точка узла крупнее (48px рекомендация HIG
+    // недостижима без каши из номеров, 27px — компромисс, проверенный на 375px)
+    const DS=(window.matchMedia&&window.matchMedia('(max-width:640px)').matches)?27:21;
     const M=this.CONFIG.markers||[]; this.markerEls=[];
     if(!M.length) return;
     M.forEach((m,i)=>{
@@ -28,7 +31,7 @@
       box.textContent=String(m.n!=null?m.n:i+1).padStart(2,'0')+'  '+(m.name||'');
       const dot=document.createElement('button');
       dot.textContent=String(m.n!=null?m.n:i+1);
-      dot.style.cssText="position:absolute;width:21px;height:21px;border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;font:700 10.5px 'IBM Plex Mono',monospace;color:#04141f;background:rgba(56,232,255,0.9);border:1.5px solid #bff3ff;box-shadow:0 0 9px rgba(56,232,255,0.6);cursor:pointer;pointer-events:auto;z-index:10;transition:transform .1s,background .1s;";
+      dot.style.cssText="position:absolute;width:"+DS+"px;height:"+DS+"px;border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;font:700 10.5px 'IBM Plex Mono',monospace;color:#04141f;background:rgba(56,232,255,0.9);border:1.5px solid #bff3ff;box-shadow:0 0 9px rgba(56,232,255,0.6);cursor:pointer;pointer-events:auto;z-index:10;transition:transform .1s,background .1s;";
       dot.onclick=(e)=>{ e.stopPropagation(); this.selectMarker(i); };
       dot.onmouseenter=()=>this.hoverMarker(i);
       dot.onmouseleave=()=>this.hoverMarker(-1);

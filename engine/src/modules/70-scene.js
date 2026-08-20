@@ -56,13 +56,29 @@
     if(this.composer){ this.composer.setPixelRatio(pr); this.composer.setSize(w,h); }
     if(this.bloom) this.bloom.setSize(w,h);
     if(this.geoRT){ this.geoRT.setSize(Math.floor(w*pr),Math.floor(h*pr)); this.outUniforms.uRes.value.set(Math.floor(w*pr),Math.floor(h*pr)); }
+    this.hmShift();   // сдвиг кадра из-под нижнего листа (телефон)
   };
 
   attachPointer(){
     const c=this.canvas;
-    c.addEventListener('pointerdown',e=>{ this.dragging=true; this.lastX=e.clientX; this.lastY=e.clientY; this.moved=0; this.lastInteract=performance.now(); c.style.cursor='grabbing'; try{c.setPointerCapture(e.pointerId);}catch(_){} });
+    // Щипок двумя пальцами = масштаб: на телефоне события wheel не бывает, и без
+    // этого модель нельзя было ни приблизить, ни отдалить вовсе.
+    const pts=new Map();
+    const pinchDist=()=>{ const a=[...pts.values()]; return Math.hypot(a[0].x-a[1].x, a[0].y-a[1].y); };
+    const drop=e=>{ pts.delete(e.pointerId); if(pts.size<2) this._pinch=0; };
+    c.addEventListener('pointerdown',e=>{ pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      if(pts.size===2){ this._pinch=pinchDist(); this.dragging=false; } });
+    c.addEventListener('pointerup',drop); c.addEventListener('pointercancel',drop); c.addEventListener('pointerleave',drop);
+    c.addEventListener('pointermove',e=>{
+      if(!pts.has(e.pointerId)) return;
+      pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      if(pts.size<2 || !this._pinch) return;
+      const d=pinchDist(); if(d>4){ this.distTarget=Math.max(4,Math.min(30,this.distTarget*this._pinch/d)); this._pinch=d; }
+      this.dragging=false; this.lastInteract=performance.now();
+    });
+    c.addEventListener('pointerdown',e=>{ if(pts.size>1) return; this.dragging=true; this.lastX=e.clientX; this.lastY=e.clientY; this.moved=0; this.lastInteract=performance.now(); c.style.cursor='grabbing'; try{c.setPointerCapture(e.pointerId);}catch(_){} });
     c.addEventListener('pointermove',e=>{ const r=c.getBoundingClientRect(); this.mouseNDC.x=((e.clientX-r.left)/r.width)*2-1; this.mouseNDC.y=-((e.clientY-r.top)/r.height)*2+1; this.pointerScreen={x:e.clientX-r.left,y:e.clientY-r.top};
-      if(this.dragging){ const dx=e.clientX-this.lastX, dy=e.clientY-this.lastY; this.moved+=Math.abs(dx)+Math.abs(dy); this.lastX=e.clientX; this.lastY=e.clientY; this.azTarget+=dx*0.008; this.elTarget=Math.max(0.08,Math.min(1.4,this.elTarget+dy*0.006)); this.lastInteract=performance.now(); } });
+      if(this.dragging && pts.size<2){ const dx=e.clientX-this.lastX, dy=e.clientY-this.lastY; this.moved+=Math.abs(dx)+Math.abs(dy); this.lastX=e.clientX; this.lastY=e.clientY; this.azTarget+=dx*0.008; this.elTarget=Math.max(0.08,Math.min(1.4,this.elTarget+dy*0.006)); this.lastInteract=performance.now(); } });
     // one-shot pick on click (continuous hover-raycast is too costly for a dense model)
     const up=()=>{
       const clicked=this.dragging&&this.moved<6;
