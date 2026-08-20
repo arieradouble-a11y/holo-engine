@@ -14,11 +14,12 @@
   // компонента (DOM пересоздаётся на каждый setState) ничего не ломает:
   // состояние вкладки живёт на <html>, а не на узлах шаблона.
   HM_BAR = 54;
+  HM_MQ = '(max-width:640px),(max-height:520px) and (pointer:coarse)';
 
   get hmOn(){ return !!(this._hmMQ && this._hmMQ.matches); }
 
   hmStyles(){ return [
-    '@media (max-width:640px){',
+    '@media '+this.HM_MQ+'{',
     ':root{--hm-bar:calc(54px + env(safe-area-inset-bottom,0px));}',
     /* шапка: только счётчик и (в отдельной вкладке — нет) заголовок */
     '[style*=\"--hm-head\"]{top:0!important;left:0!important;right:0!important;max-width:none!important;',
@@ -54,6 +55,8 @@
     /* заголовок дублирует шапку окна каталога — в iframe его прячем */
     'html[data-hm-embed] [style*=\"--hm-title\"]{display:none!important;}',
     'html[data-hm-embed] [style*=\"--hm-head\"]{background:none!important;padding-top:0!important;}',
+    // альбомный телефон: высоты 375px хватает только на невысокий лист
+    '@media (max-height:520px){[style*=\"--hm-tools\"],[style*=\"--hm-side\"]{max-height:min(56vh,200px)!important;}}',
     '#hmbar{display:flex!important;}',
     '}',
     '#hmbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;align-items:stretch;',
@@ -78,7 +81,7 @@
 
   hmInit(){
     if(this._hmReady) return; this._hmReady=true;
-    try{ this._hmMQ=window.matchMedia('(max-width:640px)'); }catch(_){ this._hmMQ={matches:false,addEventListener(){}}; }
+    try{ this._hmMQ=window.matchMedia(this.HM_MQ); }catch(_){ this._hmMQ={matches:false,addEventListener(){}}; }
     const st=document.createElement('style'); st.id='hm-css'; st.textContent=this.hmStyles();
     document.head.appendChild(st);
     const root=document.documentElement;

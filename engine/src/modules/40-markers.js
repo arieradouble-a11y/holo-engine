@@ -18,7 +18,7 @@
     if(!this.labelBox) return;
     // на телефоне 21px под палец мало — точка узла крупнее (48px рекомендация HIG
     // недостижима без каши из номеров, 27px — компромисс, проверенный на 375px)
-    const DS=(window.matchMedia&&window.matchMedia('(max-width:640px)').matches)?27:21;
+    const DS=(window.matchMedia&&window.matchMedia(this.HM_MQ).matches)?27:21;
     const M=this.CONFIG.markers||[]; this.markerEls=[];
     if(!M.length) return;
     M.forEach((m,i)=>{

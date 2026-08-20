@@ -292,7 +292,7 @@ body.light .hintbar{color:rgba(0,0,0,.40)}
    ⚠ Панель «Инфо» здесь НЕ раскрывается по умолчанию: у самой голограммы с
    20.08.2026 есть свои вкладки внизу («Системы · Инфо · Вид»), и два листа
    с описанием друг над другом съедали экран, ради которого всё и затевалось. */
-@media (max-width:640px){
+@media (max-width:640px),(max-height:520px) and (pointer:coarse){
   :root{--rw:0px}
   #menubar{height:44px; padding:0 12px; font-size:12.5px}
   #menubar .logo{font-size:13px}
@@ -359,7 +359,7 @@ body.light .hintbar{color:rgba(0,0,0,.40)}
   body.objfull #dock{display:none}
   body.objfull .win{height:100% !important}
 }
-@media (max-width:640px) and (orientation:landscape){
+@media (max-height:520px) and (pointer:coarse){
   .info.open{flex-basis:70%}
   .grid{grid-template-columns:repeat(3,1fr)}
 }
@@ -412,6 +412,8 @@ const GROUPS = ${json(DATA)};
 const THUMBS = ${json(THUMB_MAP)};
 const STATS = { systems: ${totalSystems}, markers: ${totalMarkers} };
 const FLAT = GROUPS.flatMap(g => g.items.map(o => Object.assign({}, o, { group: g.name })));
+// тот же запрос, что в CSS ниже: ширина ИЛИ низкий экран под пальцем (альбом)
+const PHONE = '(max-width:640px),(max-height:520px) and (pointer:coarse)';
 const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const short = (t, n) => { n = n || 320; t = String(t || ''); if (t.length <= n) return t;
   const c = t.slice(0, n), d = Math.max(c.lastIndexOf('. '), c.lastIndexOf('; '));
@@ -456,7 +458,7 @@ function makeWin(opt){
   bar.querySelector('.m').onclick = e => { e.stopPropagation(); el.classList.add('min');
     setTimeout(() => { el.style.display = 'none'; el.classList.remove('min'); sleepWin(el); }, 260); };
   bar.querySelector('.z').onclick = e => { e.stopPropagation(); zoomWin(el); };
-  if (!matchMedia('(max-width:640px)').matches) bar.ondblclick = () => zoomWin(el);
+  if (!matchMedia(PHONE).matches) bar.ondblclick = () => zoomWin(el);
   drag(bar, el, 'move'); drag(el.querySelector('.rsz'), el, 'size');
   desk.appendChild(el); wins.push(el); syncDock();
   return el;
