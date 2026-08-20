@@ -123,7 +123,8 @@
   // Сдвиг кадра вверх на половину «съеденной» высоты: иначе центр модели
   // оказывается ровно под открытым листом. setViewOffset двигает саму проекцию,
   // поэтому выноски и клики по модели остаются на своих местах.
-  hmShift(){
+  hmShift(){ try{ this.hmShift_(); }catch(_){} }
+  hmShift_(){
     const cam=this.camera, c=this.canvas; if(!cam||!c) return;
     const w=c.clientWidth, h=c.clientHeight; if(!w||!h) return;
     if(!this.hmOn){ cam.clearViewOffset(); return; }
@@ -138,7 +139,12 @@
 
   // Зовётся из renderVals на каждой перерисовке: дешёвая синхронизация вкладок
   // (DOM панели пересоздаётся, а панель вкладок живёт в body и переживает всё).
-  hmSync(){
+  // ⚠ Под try/catch, и hmShift тоже: обе живут внутри рендера (renderVals) и
+  // внутри кадра (onResize), а исключение оттуда гасит вьювер целиком — ровно
+  // так однажды тултип уронил карту на главной. Вкладки — украшение, падать
+  // из-за них голограмма не должна; сообщение печатаем один раз.
+  hmSync(){ try{ this.hmSync_(); }catch(e){ if(!this._hmWarned){ this._hmWarned=1; console.warn('mobile ui:', e); } } }
+  hmSync_(){
     if(!this._hmReady) this.hmInit();
     this.hmPaint();
     if(!this.hmOn) return;
