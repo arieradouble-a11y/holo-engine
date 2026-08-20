@@ -43,12 +43,39 @@
       // of vertical (86°) keeps up=+Y (no gimbal/roll), so the whole move — az→0, tilt
       // to top, fov→10, dolly — glides smoothly into a clean floor plan.
       this.fovTarget=10;
-      this.azTarget=0; this.elTarget=1.50; const b=this.CONFIG.building||{};
-      const sw=(b.sectionWidth||21);
+      this.elTarget=1.50; const b=this.CONFIG.building||{};
+      const sw=(b.sectionWidth||21), sections=(b.sections||3), center=this.norm.center;
       const vt=Math.tan(10*Math.PI/360), asp=this.camera.aspect||1.6;
       const nW=sw*scl, nD=(b.depth||12)*scl;
-      this.distTarget=Math.max((nW*0.5)/(vt*asp), (nD*0.5)/vt)*1.12;
-      this.tgtGoal={x:0, y:(yM-minY)*scl, z:0};
+      // План разворачиваем ДЛИННОЙ стороной секции по горизонтали: у узкой секции
+      // (7 м при глубине 12) кадр диктует глубина, и на экран влезал весь дом —
+      // план переставал быть планом секции. Поворот на 90° даёт секции весь кадр.
+      const turn = nW < nD*0.85;
+      this.azTarget = turn ? Math.PI/2 : 0;
+      const fitX = turn ? nD : nW, fitZ = turn ? nW : nD;
+      // Панель «Системы и узлы» лежит ПОВЕРХ канваса справа, поэтому вписываем
+      // секцию в СВОБОДНУЮ часть кадра и сдвигаем цель — иначе половина плана
+      // уезжает под панель, а по центру экрана остаётся пустое место.
+      const cw=this.canvas.clientWidth||1600, ch=this.canvas.clientHeight||900;
+      const aEl=document.querySelector('aside');
+      const aw=(aEl&&aEl.offsetWidth)?aEl.offsetWidth+48:0;
+      const freeW=Math.max(cw*0.45, cw-aw), aspFree=freeW/ch;
+      this.distTarget=Math.max((fitX*0.5)/(vt*aspFree), (fitZ*0.5)/vt)*1.18;
+      // Кадрируем ИМЕННО типовую блок-секцию — ту, для которой построены подписи
+      // комнат (labelSec в 10-generators.js), а не центр габарита: при чётном числе
+      // секций это разные точки. Цель камеры — в МИРОВЫХ координатах, а модель
+      // крутит pivot.rotation.y, поэтому точку доворачиваем на тот же угол.
+      const secX=-(sections*sw)/2 + (Math.floor(sections/2)+0.5)*sw;
+      const px=(secX-center.x)*scl, pz=(0-center.z)*scl, ca=Math.cos(this.azTarget), sa=Math.sin(this.azTarget);
+      const dx=((cw-freeW)/2)/(cw/2)*(this.distTarget*vt*asp);   // увести модель из-под панели
+      this.tgtGoal={x:px*ca+pz*sa+dx, y:(yM-minY)*scl, z:-px*sa+pz*ca};
+      // соседние секции гасим маской по X: у узкой секции (7 м) кадр всё равно
+      // диктует глубина дома, и в него влезает весь дом — план переставал быть
+      // планом секции и читался мешаниной стен
+      this.uniforms.uPlanX.value=(secX-center.x)*scl;
+      // ровно полуширина секции: соседняя начинается сразу за ней, и при большем
+      // радиусе её ближняя половина оставалась яркой
+      this.uniforms.uPlanW.value=nW*0.5;
       this.explodeTarget=0;
     } else { this.fovTarget=42; this.resetView(); }
     this.lastInteract=performance.now();

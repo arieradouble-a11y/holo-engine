@@ -188,6 +188,7 @@ class Component extends DCLogic {
         uHotInt:{value: this.CONFIG.hotIntensity!=null?this.CONFIG.hotIntensity:1.0 }, // red/hot systems brightness
         uShellOp:{value: this.CONFIG.shellOpacity!=null?this.CONFIG.shellOpacity:1.0 }, // body-shell opacity multiplier
         uPlan:{value:0}, uPlanY:{value:0}, uPlanH:{value:1}, // floor-plan isolation (band around uPlanY)
+        uPlanX:{value:0}, uPlanW:{value:1e9},                // и по X — приглушение соседних блок-секций
         uCut:{value:0}, uCutZ:{value:0}, // facade cutaway (discard model-z beyond uCutZ)
         uBold:{value:1}, uFill:{value:1},   // contour brightness / interior-fill dimming
         uBTint:{value:new THREE.Color(0.05,0.45,1.0)}, uBAmt:{value:0.5}, // contour tint (mode-aware)

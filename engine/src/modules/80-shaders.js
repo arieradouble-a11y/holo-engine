@@ -1,9 +1,9 @@
   get vShader(){ return `
     uniform float uTime,uExplode,uProgress,uSelected;
     attribute float aSeed,aPart,aHot; attribute vec3 aExplode;
-    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
     void main(){
-      vSeed=aSeed; vPart=aPart; vHot=aHot; vMZ=position.z;
+      vSeed=aSeed; vPart=aPart; vHot=aHot; vMZ=position.z; vMX=position.x;
       vSel=(uSelected>=0.0 && abs(aPart-uSelected)<0.5)?1.0:0.0;
       vec3 formed=position+aExplode*uExplode;
       formed+=0.004*vec3(sin(uTime*1.3+aSeed*30.0),sin(uTime*1.7+aSeed*47.0),cos(uTime*1.1+aSeed*22.0));
@@ -16,8 +16,8 @@
       gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
     }`; }
   fShader(refl){ return `
-    uniform float uTime,uScan,uGround,uSelected,uExplode,uFill,uPlan,uPlanY,uPlanH,uCut,uCutZ; uniform vec3 uColor,uColor2;
-    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ;
+    uniform float uTime,uScan,uGround,uSelected,uExplode,uFill,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uCut,uCutZ; uniform vec3 uColor,uColor2;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
     void main(){
       if(vHot>0.5) discard;   // hot/internal systems handled by the red inner pass
       if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
@@ -28,13 +28,14 @@
       col=mix(col, vec3(0.90,1.0,1.0), vSel*0.85);   // выделенный узел — белым
       col*=1.0 + vSel*1.6;                            // мягкое свечение заливки выделенного узла
       float a=fl*(0.03*sel + band*0.07*sel)*uFill;
-      if(uPlan>0.5) a*=1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY));
+      if(uPlan>0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
+                    *(1.0-0.95*smoothstep(uPlanW,uPlanW*1.25,abs(vMX-uPlanX)));  // соседние секции — в фон
       ${refl?'a*=0.14*smoothstep(uGround-3.0,uGround,vWY)*(1.0-0.85*clamp(uExplode,0.0,1.0));':''}
       gl_FragColor=vec4(col,a);
     }`; }
   get fShaderBold(){ return `
-    uniform float uTime,uScan,uSelected,uBold,uBAmt,uPlan,uPlanY,uPlanH,uCut,uCutZ; uniform vec3 uColor,uBTint;
-    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ;
+    uniform float uTime,uScan,uSelected,uBold,uBAmt,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uCut,uCutZ; uniform vec3 uColor,uBTint;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
     void main(){
       if(vHot>0.5) discard;
       if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
@@ -46,12 +47,13 @@
       col=mix(col, vec3(0.94,1.0,1.0), vSel*0.92);   // выделенный узел — яркий белый контур
       col*=1.0 + vSel*(2.6+0.45*sin(uTime*2.3));      // HDR-свечение выделенного контура (раздувается bloom)
       float a=fl*(0.30*sel + band*0.16*sel)*uBold;
-      if(uPlan>0.5) a*=1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY));
+      if(uPlan>0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
+                    *(1.0-0.95*smoothstep(uPlanW,uPlanW*1.25,abs(vMX-uPlanX)));  // соседние секции — в фон
       gl_FragColor=vec4(col, a);
     }`; }
   get fShaderInner(){ return `
-    uniform float uTime,uScan,uSelected,uExplode,uHotInt,uPlan,uPlanY,uPlanH,uCut,uCutZ; uniform vec3 uColor2;
-    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ;
+    uniform float uTime,uScan,uSelected,uExplode,uHotInt,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uCut,uCutZ; uniform vec3 uColor2;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
     void main(){
       if(vHot<0.5) discard;   // only the hot/internal systems (red)
       if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
@@ -62,7 +64,8 @@
       col=mix(col, vec3(1.0,0.98,0.94), vSel*0.92);  // выделенный горячий узел — белым
       col*=1.0 + vSel*(2.4+0.45*sin(uTime*2.3));      // HDR-свечение (раздувается bloom)
       float a=fl*(0.18*sel + band*0.12*sel)*uHotInt;
-      if(uPlan>0.5) a*=1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY));
+      if(uPlan>0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
+                    *(1.0-0.95*smoothstep(uPlanW,uPlanW*1.25,abs(vMX-uPlanX)));  // соседние секции — в фон
       gl_FragColor=vec4(col, a);
     }`; }
   get vShellShader(){ return `
