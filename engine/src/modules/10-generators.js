@@ -27,15 +27,41 @@
 
     // Declarative geometry: the object is described as DATA in the config
     // (list of primitives / repeat-groups) — new facilities need no engine code.
-    if(Array.isArray(this.CONFIG.geometry) && this.CONFIG.geometry.length){ this.genDeclarative(THREE,push,this.CONFIG.geometry,new THREE.Matrix4()); return; }
+    // ⚠ Декларация и building{} СОВМЕСТИМЫ и складываются: у станций building нет,
+    // и на этом мы выходим, а жилому дому декларацией добавляется подвал с вводами
+    // и разводкой. Так подвал попадает под линтеры (blueprint/floaters/flowcheck),
+    // которые читают config.geometry, а параметрический дом сохраняет planRooms.
+    if(Array.isArray(this.CONFIG.geometry) && this.CONFIG.geometry.length){
+      this.genDeclarative(THREE,push,this.CONFIG.geometry,new THREE.Matrix4());
+      if(!this.CONFIG.building) return;
+    }
 
     box(W*1.03, 0.5, D*1.04, 0, -0.25, 0, 'base');                                 // цоколь / плита
     box(W, H, D, 0, H/2, 0, 'shell');                                              // несущая оболочка
     for(let f=1; f<floors; f++) box(W*1.002, 0.10, D*1.002, 0, f*fh, 0, 'slab');   // междуэтажные перекрытия
     for(let s=1; s<sections; s++) box(0.14, H, D, -W/2 + s*sw, H/2, 0, 'wall');    // межсекционные стены
     box(W, 0.5, D, 0, H+0.25, 0, 'roof'); box(W*1.02, 0.7, D*1.02, 0, H+0.35, 0, 'roof'); // кровля + парапет
+    box(W*1.05, 0.12, D*1.06, 0, 0.06, 0, 'base');                                // отлив цоколя
+    box(W*1.03, 0.28, D*1.03, 0, H-0.16, 0, 'seam');                              // карниз под кровлей
+    for(let s=0; s<=sections; s++){                                               // простенки-пилястры по границам секций
+      const px=-W/2 + s*sw + (s===0?0.22:(s===sections?-0.22:0));
+      box(0.44, H, 0.10, px, H/2, D/2+0.03, 'seam');
+      box(0.44, H, 0.10, px, H/2, -D/2-0.03, 'seam');
+    }
 
     const winW=Math.min(1.4, sw/(winCols+1.2)), winH=fh*0.5, step=sw/(winCols+0.4);
+    // Окно — не плоская нашлёпка: стеклопакет + УТОПЛЕННАЯ коробка вокруг него даёт
+    // в контурном пассе вторую рамку, и проём начинает читаться проёмом. На лицевом
+    // фасаде добавляются импост (деление на створки) и отлив — они и делают ряды
+    // окон «чёткими» с расстояния, на котором сам стеклопакет уже не разобрать.
+    const okno=(cx,cy,z,sgn)=>{
+      box(winW, winH, 0.08, cx, cy, z, 'window');                                   // стеклопакет
+      box(winW+0.20, winH+0.20, 0.05, cx, cy, z - sgn*0.05, 'window');              // оконная коробка
+      if(sgn>0){
+        box(0.06, winH, 0.11, cx, cy, z + sgn*0.02, 'window');                      // импост
+        box(winW+0.26, 0.05, 0.17, cx, cy - winH/2 - 0.06, z + sgn*0.06, 'window'); // отлив
+      }
+    };
     for(let s=0; s<sections; s++){
       const scx=-W/2 + (s+0.5)*sw;
       box(3.0, H, 4.4, scx, H/2, -D*0.20, 'core');         // лестнично-лифтовой узел (лифт + лестница)
@@ -52,13 +78,24 @@
           if(c===loggiaCol){
             if(f>=1){ box(step*0.92, winH*1.5, 0.10, cx, f*fh+fh*0.5, D/2, 'balcony');   // проём лоджии
                       box(step*0.92, 0.10, 1.2,  cx, f*fh+0.08, D/2-0.4, 'balcony'); }   // утопленная плита лоджии
-            else box(winW, winH, 0.14, cx, cy, D/2, 'window');
-            box(winW, winH, 0.14, cx, cy, -D/2, 'window');
+            else okno(cx, cy, D/2, 1);
+            okno(cx, cy, -D/2, -1);
             continue;
           }
-          box(winW, winH, 0.14, cx, cy, D/2,  'window');  // лицевой фасад
-          box(winW, winH, 0.14, cx, cy, -D/2, 'window');  // тыльный фасад
+          okno(cx, cy, D/2, 1);    // лицевой фасад
+          okno(cx, cy, -D/2, -1);  // тыльный фасад
         }
+      }
+    }
+
+    // простенки МЕЖДУ окнами: вертикальный ритм — то, чем панельный фасад
+    // читается с расстояния, на котором сами окна уже сливаются в сетку
+    for(let s=0; s<sections; s++){
+      const scx=-W/2 + (s+0.5)*sw;
+      for(let c=0; c<winCols-1; c++){
+        const px=scx + (c+0.5-(winCols-1)/2)*step;
+        box(Math.max(0.18, step-winW-0.24), H, 0.07, px, H/2, D/2+0.02, 'seam');
+        box(Math.max(0.18, step-winW-0.24), H, 0.07, px, H/2, -D/2-0.02, 'seam');
       }
     }
 

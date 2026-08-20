@@ -440,6 +440,19 @@ MATS = {
     'vodovod':      spec((0.12, 0.34, 0.52), 0.30, 0.46),
     'vodovod-dark': spec((0.075, 0.078, 0.085), 0.30, 0.50),
     'vodovod-lamp': spec((0.88, 0.88, 0.86), 0.0, 0.20, emit=(1.0, 0.96, 0.88), emit_str=1.2),
+    # ---- Подвал жилого дома ---------------------------------------------------
+    'podval':       spec((0.44, 0.44, 0.42), 0.0, 0.86),          # бетон подвала
+    'podval-dark':  spec((0.20, 0.20, 0.19), 0.0, 0.88),          # плита, приямок, проёмы
+    'podval-lamp':  spec((0.92, 0.92, 0.90), 0.0, 0.15, emit=(1.0, 0.97, 0.88), emit_str=2.0),
+    'hvs':          spec((0.10, 0.30, 0.48), 0.25, 0.46),         # ХВС и ГВС: синие магистрали
+    'hvs-dark':     spec((0.10, 0.105, 0.115), 0.20, 0.48),
+    'hvs-lamp':     spec((0.88, 0.88, 0.86), 0.0, 0.20, emit=(1.0, 0.96, 0.88), emit_str=1.4),
+    'teplo-dark':   spec((0.10, 0.105, 0.115), 0.20, 0.48),       # приборы на трубах теплосети
+    'kanal':        spec((0.14, 0.15, 0.16), 0.0, 0.66),          # чугун канализации
+    'kanal-dark':   spec((0.055, 0.058, 0.062), 0.10, 0.60),      # ревизии и люки
+    'vru':          spec((0.42, 0.44, 0.46), 0.25, 0.48),         # ВРУ и дренажный насос
+    'vru-dark':     spec((0.075, 0.078, 0.085), 0.30, 0.46),      # кабель и лотки
+    'vru-lamp':     spec((0.06, 0.28, 0.42), 0.0, 0.18, emit=(0.10, 0.70, 1.0), emit_str=1.8),
 }
 BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing',
            'kabina-dark', 'kabina-chrome', 'reel', 'water', 'tank-dark', 'pump-dark', 'tank-panel', 'tank-stripe',
@@ -453,6 +466,7 @@ BEVELED = {'kabina', 'tank', 'hatch', 'shassi', 'boom', 'pump', 'hydro', 'fwing'
            'boiler', 'flue', 'chimney', 'pipes', 'panel', 'zdanie', 'kotel', 'turbo', 'genr',
            'dym', 'grad', 'elektro', 'tset', 'vsas', 'asu', 'priem', 'podem1', 'podem2',
            'reagent', 'otstoy', 'filtrzal', 'rchv', 'hlor', 'vodovod',
+           'podval', 'hvs', 'kanal', 'vru',
            'opora', 'strela', 'lulka', 'autrig', 'pult',
            # ИТП. Пластины пакета (pto-plate) НЕ фасковать: они 5 мм толщиной,
            # фаска 8 мм съела бы их целиком.
