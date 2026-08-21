@@ -976,7 +976,7 @@ const config = {
   hotAngle: 44,
   contour: 0.62,
   fill: 0.42,
-  shellOpacity: 0.11,
+  shellOpacity: 0.30,
   bloom: 0.7,
   grade: { exposure: 1.06, contrast: 1.07, saturation: 1.14 },
 

@@ -1175,7 +1175,7 @@
   "hotIntensity": 1.7,
   "contour": 0.66,
   "fill": 0.4,
-  "shellOpacity": 0.1,
+  "shellOpacity": 0.3,
   "bloom": {
     "strength": 0.48,
     "radius": 0.62,

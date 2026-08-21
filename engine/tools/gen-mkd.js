@@ -368,7 +368,7 @@ function build(id) {
     building: b,
     hotParts: ['systems', 'podval'],
     hotColor: [1.0, 0.58, 0.16], hotIntensity: 1.9, hotAngle: 44,
-    contour: 0.72, fill: 0.34, shellOpacity: 0.08,   // фасад: контур ярче, заливка тише
+    contour: 0.72, fill: 0.34, shellOpacity: 0.30,   // фасад: контур ярче, заливка тише
     bloom: { strength: 0.4, radius: 0.6, threshold: 0.0 },
     geometry,
     parts, matRules, defaultPart: 0,

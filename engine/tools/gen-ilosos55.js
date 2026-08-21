@@ -42,7 +42,7 @@ const config = {
   // примитивы — контур приглушён, заливка чуть плотнее, чтобы не рябило
   contour: 0.78,
   fill: 0.32,
-  shellOpacity: 0.09,
+  shellOpacity: 0.30,
   smooth: 0,                        // фасеты уже сделаны в Blender, JS-лапласиан их разрушит
   bloom: src.bloom,
   grade: src.grade,

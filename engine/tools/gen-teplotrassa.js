@@ -410,7 +410,7 @@ const config = {
   hotAngle: 40,
   contour: 0.62,
   fill: 0.42,
-  shellOpacity: 0.1,
+  shellOpacity: 0.30,
   bloom: { strength: 0.48, radius: 0.62, threshold: 0.15 },
 
   geometry,

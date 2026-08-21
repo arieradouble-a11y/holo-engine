@@ -197,7 +197,7 @@ const config = {
   hotIntensity: 1.6,
   contour: 0.62,
   fill: 0.42,
-  shellOpacity: 0.12,
+  shellOpacity: 0.30,
   bloom: { strength: 0.48, radius: 0.62, threshold: 0.0 },
   grade: { exposure: 1.06, contrast: 1.08, saturation: 1.12 },
 

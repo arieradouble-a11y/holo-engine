@@ -38,7 +38,7 @@
   "hotAngle": 44,
   "contour": 0.72,
   "fill": 0.34,
-  "shellOpacity": 0.08,
+  "shellOpacity": 0.3,
   "bloom": {
     "strength": 0.4,
     "radius": 0.6,
