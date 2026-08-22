@@ -262,11 +262,35 @@ class Component extends DCLogic {
       this.raycaster=new THREE.Raycaster(); this.raycaster.params.Line={threshold:0.05};
       this.mouseNDC=new THREE.Vector2(-2,-2); this.pointerScreen={x:0,y:0};
 
-      const composer=new EffectComposer(renderer); this.composer=composer;
-      composer.addPass(new RenderPass(scene,camera));
+      // ---- СЕЛЕКТИВНЫЙ БЛУМ: светится только то, что излучает -------------
+      // Раньше UnrealBloomPass стоял в основном композере и обсчитывал ВЕСЬ
+      // кадр: оболочка на 0.30 целиком выше порога 0.15, а зеркальное
+      // отражение каркаса + пьедестал складывались под моделью в большую
+      // размытую «копию» (жалоба 22.08: «по умолчанию отражения с блумом»).
+      // Теперь блум считается отдельным проходом (bloomComposer, оффскрин),
+      // в котором остаётся только излучающее: каркас, горячие системы,
+      // потоки, рой. Отражение, пьедестал и фон в этот проход не попадают,
+      // а оболочка рисуется ЧЁРНЫМ непрозрачным дублёром (matShellDark) —
+      // она обязана, как и в основном кадре, заслонять линии за собой,
+      // иначе у ореола появлялся бы источник, невидимый в самом кадре.
       const bl=this.CONFIG.bloom||{};
       const bloom=new UnrealBloomPass(new THREE.Vector2(1,1), bl.strength!=null?bl.strength:0.34, bl.radius!=null?bl.radius:0.6, bl.threshold!=null?bl.threshold:0.18); this.bloom=bloom;
-      composer.addPass(bloom);
+      this.bloomComposer=new EffectComposer(renderer); this.bloomComposer.renderToScreen=false;
+      this.bloomComposer.addPass(new RenderPass(scene,camera));
+      this.bloomComposer.addPass(bloom);
+      this.matShellDark=new THREE.MeshBasicMaterial({color:0x000000, side:THREE.DoubleSide, polygonOffset:true, polygonOffsetFactor:1, polygonOffsetUnits:1});
+      const composer=new EffectComposer(renderer); this.composer=composer;
+      composer.addPass(new RenderPass(scene,camera));
+      // подмешиваем ЧИСТЫЙ блум (renderTargetsHorizontal[0] — свод мипов уже
+      // со strength) — ровно та же математика, что у additive-copy финала
+      // внутри UnrealBloomPass, только источник теперь отдельный проход.
+      this.bloomMix=new THREE.ShaderPass({
+        uniforms:{ tDiffuse:{value:null}, tBloom:{value:null} },
+        vertexShader:`varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+        fragmentShader:`uniform sampler2D tDiffuse,tBloom; varying vec2 vUv;
+          void main(){ gl_FragColor=vec4(texture2D(tDiffuse,vUv).rgb+texture2D(tBloom,vUv).rgb, 1.0); }`
+      });
+      composer.addPass(this.bloomMix);
       this.addGradePass(THREE, composer);   // ACES tone-map + subtle colour grade (final pass)
       this.buildOutline(THREE);
 

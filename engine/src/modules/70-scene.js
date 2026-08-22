@@ -61,6 +61,7 @@
     // шире задуманного. На dpr 1 (моя машина) разницы нет вовсе — отсюда
     // «у меня нормально, а на проде блума многовато».
     if(this.composer){ this.composer.setPixelRatio(pr); this.composer.setSize(w,h); }
+    if(this.bloomComposer){ this.bloomComposer.setPixelRatio(pr); this.bloomComposer.setSize(w,h); }
     if(this.geoRT){ this.geoRT.setSize(Math.floor(w*pr),Math.floor(h*pr)); this.outUniforms.uRes.value.set(Math.floor(w*pr),Math.floor(h*pr)); }
     this.hmShift();   // сдвиг кадра из-под нижнего листа (телефон)
   };
@@ -149,7 +150,7 @@
     this.updateMarkers(cam);
     this.updateRoomLabels(cam);
     this.updateFlows(t);
-    if(this.composer) this.composer.render();
+    this.renderFrame();
     this.renderOutline();
   };
 

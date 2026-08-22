@@ -54,7 +54,7 @@ for (const file of process.argv.slice(2).filter(a => !a.startsWith('--'))) {
     set(h.boldLines, false);  res['без жирного каркаса'] = await time(1500); set(h.boldLines, true);
     set(h.lines, false);      res['без осн. каркаса'] = await time(1500); set(h.lines, true);
     set(h.flowGroup, false);  res['без потоков'] = await time(1500); set(h.flowGroup, true);
-    const bloom = h.composer.passes.find(p => p.constructor.name === 'UnrealBloomPass');
+    const bloom = h.bloom || h.composer.passes.find(p => p.constructor.name === 'UnrealBloomPass');
     if (bloom) { bloom.enabled = false; res['без свечения'] = await time(1500); bloom.enabled = true; }
     const grade = h.composer.passes[h.composer.passes.length - 1];
     grade.enabled = false; res['без грейда'] = await time(1500); grade.enabled = true;

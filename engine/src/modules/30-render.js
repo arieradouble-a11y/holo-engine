@@ -76,6 +76,29 @@
     this.outlineQuad.frustumCulled=false; this.outlineScene.add(this.outlineQuad);
   }
 
+  // Кадр в два прохода. (1) Блум-композер видит только светящееся: отражение,
+  // пьедестал и фон выключены, оболочка подменена чёрным непрозрачным дублёром
+  // (заслоняет линии за собой ровно как настоящая — depthWrite у обеих; уровень
+  // «Оболочка» и режимы план/разрез наследуются сами: ползунок меняет лишь
+  // альфу, а план/разрез прячут shellGroup целиком, что видно обоим проходам).
+  // (2) Основной композер рисует полную сцену и подмешивает готовый блум.
+  renderFrame(){
+    if(!this.composer) return;
+    if(this.bloomComposer){
+      const sc=this.scene, bg=sc.background; sc.background=null;
+      const hide=[this.reflect,this.groundPlane];
+      const vis=hide.map(o=>o&&o.visible); hide.forEach(o=>{ if(o) o.visible=false; });
+      if(this.shellGroup&&this.matShellDark) this.shellGroup.traverse(o=>{ if(o.isMesh) o.material=this.matShellDark; });
+      this.bloomComposer.render();
+      if(this.shellGroup&&this.matShell) this.shellGroup.traverse(o=>{ if(o.isMesh) o.material=this.matShell; });
+      hide.forEach((o,i)=>{ if(o) o.visible=vis[i]; });
+      sc.background=bg;
+      // текстуру берём каждый кадр: setSize пересоздаёт таргеты блума
+      if(this.bloomMix&&this.bloom&&this.bloom.renderTargetsHorizontal) this.bloomMix.uniforms.tBloom.value=this.bloom.renderTargetsHorizontal[0].texture;
+    }
+    this.composer.render();
+  }
+
   renderOutline(){
     if(!this.outlineOn||!this.geoRT) return;
     const r=this.renderer, sc=this.scene, cam=this.camera;

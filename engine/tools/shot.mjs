@@ -29,7 +29,7 @@ const page = await browser.newPage();
 // раз, две сцены рисуют в два канваса поверх друг друга, и кадр становится ровно
 // вдвое ярче (15.88 → 31.97 на одном и том же файле). Кладём в глобальную
 // переменную до загрузки страницы.
-await page.evaluateOnNewDocument((p) => { window.__SHOT = p; }, { ex: +(process.env.HOLO_EX||0), op: +(process.env.HOLO_OP||0), bt: +(process.env.HOLO_BT||-1), bs: +(process.env.HOLO_BS||0) });
+await page.evaluateOnNewDocument((p) => { window.__SHOT = p; }, { ex: +(process.env.HOLO_EX||0), op: +(process.env.HOLO_OP||0), bt: +(process.env.HOLO_BT||-1), bs: +(process.env.HOLO_BS||0), rf: +(process.env.HOLO_RF||-1), gp: +(process.env.HOLO_GP||1) });
 await page.evaluateOnNewDocument(() => {
   let s = 123456789;
   Math.random = () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648; };
@@ -53,6 +53,8 @@ await page.evaluate(() => {
   if (OP > 0) h.uniforms.uShellOp.value = OP;
   const S = window.__SHOT || {};
   if (h.bloom) { if (S.bt >= 0) h.bloom.threshold = S.bt; if (S.bs > 0) h.bloom.strength = S.bs; }
+  if (S.rf >= 0) h.uniforms.uRefl.value = S.rf;             // яркость отражения (0 = выключить)
+  if (S.gp === 0 && h.groundPlane) h.groundPlane.visible = false;  // пьедестал-подсветка пола
   h.uniforms.uTime.value = 2.5;
   h.uniforms.uScan.value = h.scanMin + 0.42 * (h.scanMax - h.scanMin);
   h.uniforms.uProgress.value = 1; h.progress = 1;
@@ -72,7 +74,8 @@ await page.evaluate(() => {
   // контроль «один файл дважды» давал 2-5% несовпавших пикселей, и на таком фоне
   // настоящая разница неотличима от шума.
   h.updateFlows(2.5);
-  h.composer.render(); h.renderOutline();
+  if (h.renderFrame) h.renderFrame(); else h.composer.render();
+  h.renderOutline();
 });
 // ⚠ page.screenshot при РЕАЛЬНОЙ видеокарте в headless отдаёт ЧЁРНЫЙ кадр:
 // композитор не забирает содержимое WebGL-канваса (render-thumbs.mjs работает
