@@ -375,7 +375,7 @@ body.light .hintbar{color:rgba(0,0,0,.40)}
   <span class="mi" id="mCat">Каталог</span>
   <span class="mi" id="mRand">Случайный объект</span>
   <span class="mi" id="mAbout">О проекте</span>
-  ${MUSEUM ? '<a class="mi" href="/metavselennaya/" style="color:inherit;text-decoration:none">← Метавселенная</a>' : ''}
+  ${MUSEUM ? '<a class="mi" href="/metavselennaya/" style="color:inherit;text-decoration:none">← Энциклопедия ЖКХ</a>' : ''}
   <span class="right">
     <button class="mbtn" id="theme" title="Светлая / тёмная тема">☾</button>
     <span><b>${all.length}</b> объектов</span>
