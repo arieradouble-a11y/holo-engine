@@ -4,7 +4,14 @@
     g.addColorStop(0,'rgba(70,210,255,0.5)'); g.addColorStop(0.4,'rgba(45,170,225,0.16)'); g.addColorStop(1,'rgba(0,0,0,0)');
     x.fillStyle=g; x.fillRect(0,0,256,256);
     const tex=new THREE.CanvasTexture(c);
-    const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:0.6});
+    // ПЬЕДЕСТАЛ — САМ ПО СЕБЕ ИСТОЧНИК СВЕТА, А НЕ ОТРАЖЕНИЕ. Это аддитивный
+    // радиальный градиент под моделью; замер 22.08.2026 показал, что именно он
+    // даёт почти половину свечения в нижней трети кадра (у котельной ореол там
+    // 8.14% → 4.34% при его выключении), тогда как ЗЕРКАЛЬНОЕ отражение каркаса
+    // (uRefl) не даёт вообще ничего. Селективный блум убрал ореол ВОКРУГ модели,
+    // но лужу под ней не трогал — отсюда «блум так и не ушёл».
+    const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+      opacity: this.CONFIG.ground!=null?this.CONFIG.ground:0.15});
     const r=this.norm.height*1.4;
     const plane=new THREE.Mesh(new THREE.PlaneGeometry(r,r),mat);
     plane.rotation.x=-Math.PI/2; plane.position.y=-0.04; this.groundPlane=plane; this.pivot.add(plane);

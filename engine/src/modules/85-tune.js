@@ -5,9 +5,13 @@
   // (labelBox очищается), состояние «открыта/закрыта» живёт в this._tuneOpen.
   tuneDefs(){
     const U=this.uniforms, O=()=>this.outUniforms;
-    return [
+    // Контурные ползунки показываем ТОЛЬКО когда контурный проход есть: у объектов
+    // без него (structured-режим) они висели на нуле и ничего не делали — та же
+    // ловушка «ползунок врёт», что была у блума.
+    return (!this.outlineOn?[]:[
       { key:'outlineIntensity',      name:'Контур внешний',    min:0, max:4,   get:()=>O()?O().uInt.value:0,  set:v=>{ if(O()) O().uInt.value=v; } },
       { key:'outlineInnerIntensity', name:'Контур внутренний', min:0, max:2.5, get:()=>O()?O().uIntN.value:0, set:v=>{ if(O()) O().uIntN.value=v; } },
+    ]).concat([
       // «детализация нутра» — обратная величина порога uNorm: правее = больше
       // внутренних линий (uNorm 3.0→0.6). key даёт готовый contourNormal для конфига.
       { key:'contourNormal', name:'Детализация нутра', min:0, max:1, inv:true,
@@ -16,6 +20,12 @@
       { key:'fill',                  name:'Заливка каркаса',   min:0, max:1.5, get:()=>U.uFill.value,         set:v=>{ U.uFill.value=v; } },
       { key:'shellOpacity',          name:'Оболочка',          min:0, max:1,   get:()=>U.uShellOp.value,      set:v=>{ U.uShellOp.value=v; } },
       { key:'reflect',               name:'Отражение',         min:0, max:0.3, get:()=>U.uRefl.value,         set:v=>{ U.uRefl.value=v; } },
+      // Пьедестал = светящаяся «лужа» под моделью (аддитивный градиент). Ползунка
+      // у неё не было вовсе, а на глаз она читается как блум/отражение — и когда
+      // просили «убрать блум», крутить было нечего.
+      { key:'ground', name:'Пьедестал', min:0, max:1,
+        get:()=>this.groundPlane?this.groundPlane.material.opacity:0,
+        set:v=>{ if(this.groundPlane){ this.groundPlane.material.opacity=v; this.groundPlane.visible=v>0.001; } } },
       { key:'bloomStrength',         name:'Свечение (bloom)',  min:0, max:1.5, get:()=>this.bloom?this.bloom.strength:0, set:v=>{ if(this.bloom) this.bloom.strength=v; } },
     // ползунки голо-роя сняты вместе с кнопкой (19.08.2026); вернутся, если рой
     // включат в конфиге — тогда и uniforms из ensureSwarmU() снова пригодятся.
@@ -23,7 +33,7 @@
       { key:'particlesIntensity', name:'Рой: яркость',  min:0, max:2, get:()=>this.ensureSwarmU().uPAmt.value,   set:v=>{ this.ensureSwarmU().uPAmt.value=v; } },
       { key:'particlesSwirl',     name:'Рой: кружение', min:0, max:1, get:()=>this.ensureSwarmU().uSwirl.value,  set:v=>{ this.ensureSwarmU().uSwirl.value=v; } },
       { key:'particlesBreath',    name:'Рой: дыхание',  min:0, max:1, get:()=>this.ensureSwarmU().uBreath.value, set:v=>{ this.ensureSwarmU().uBreath.value=v; } },
-    ]);
+    ]));
   }
   buildTunePanel(){
     if(this.tuneEl){ this.tuneEl.remove(); this.tuneEl=null; }
@@ -65,9 +75,14 @@
     });
     host.appendChild(box); this.tuneEl=box;
   }
+  // ⚠ ПАНЕЛЬ ПЕРЕСОБИРАЕТСЯ ПРИ КАЖДОМ ОТКРЫТИИ — иначе она показывает значения,
+  // снятые в момент СБОРКИ, а собирается она из buildEdges, то есть ДО того, как
+  // в init() создан composer с блумом. Из-за этого ползунок «Свечение (bloom)»
+  // всегда стоял на нуле при живом strength 0.4-0.5: панель врала, а первое же
+  // касание ставило настоящий ноль и свечение пропадало совсем («блум стоит ноль,
+  // как только его подвинешь — выключается», замечание пользователя 22.08.2026).
+  // Баг был и до селективного блума — проверено на сборке прошлого коммита.
   toggleTune=()=>{ this._tuneOpen=!this._tuneOpen;
-    if(this.tuneEl){ this.tuneEl.style.display=this._tuneOpen?'block':'none';
-      // на всякий случай вернуть панель в слот, если она родилась до его привязки
-      if(this.tuneSlot && this.tuneEl.parentNode!==this.tuneSlot) this.tuneSlot.appendChild(this.tuneEl); }
-    else this.buildTunePanel();
+    if(this._tuneOpen) this.buildTunePanel();          // значения — живые, на момент открытия
+    else if(this.tuneEl) this.tuneEl.style.display='none';
     this.setState({tune:this._tuneOpen}); this.lastInteract=performance.now(); };
