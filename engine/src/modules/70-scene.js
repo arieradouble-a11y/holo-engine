@@ -50,7 +50,7 @@
     else { this.tgtGoal={x:0,y:H*0.5,z:0}; this.distTarget=Math.max(8.5,H*2.4); }
     this.lastInteract=performance.now(); };
   toggleExplode=()=>{ if(this.wholeMode) return; const ex=!this.state.exploded; this.explodeTarget=ex?1:0; if(ex){ this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(13,this.norm.height*3.4); this.setState({exploded:true,selected:-1}); } else { this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false}); } this.lastInteract=performance.now(); };
-  resetView=()=>{ this.azTarget=0.6; this.elTarget=0.42; this.fovTarget=42; this.explodeTarget=0; this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false,selected:-1}); this.lastInteract=performance.now(); };
+  resetView=()=>{ this.azTarget=this.azHome!=null?this.azHome:0.6; this.elTarget=this.elHome!=null?this.elHome:0.42; this.fovTarget=42; this.explodeTarget=0; this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false,selected:-1}); this.lastInteract=performance.now(); };
   toggleSpin=()=>{ this.setState({spin:!this.state.spin}); this.lastInteract=performance.now(); };
   setDensity=(d)=>{ if(d===this.state.density) return; this.setState({density:d}); this.buildEdges(this.THREE,this.angleFor(d)); this.lastInteract=performance.now(); };
   setHover=(i)=>{ this.hovered=i; };
