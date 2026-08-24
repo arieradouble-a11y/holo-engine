@@ -63,7 +63,13 @@ await page.evaluate(() => {
   h.uniforms.uExplode.value = EX; h.explode = EX; h.explodeTarget = EX; h.updateShellExplode(EX);
   if (EX > 0) h.dist = Math.max(13, h.norm.height * 3.4);   // как в toggleExplode
   if (h.outUniforms) { h.outUniforms.uProgress.value = 1; h.outUniforms.uHover.value = 0; }
-  h.az = 0.6; h.el = 0.42; h.dist = Math.max(8.5, h.norm.height * 2.4);
+  // ⚠ Ракурс берём ТОТ, КОТОРЫЙ ВИДИТ ЧЕЛОВЕК (azHome/elHome — расчётный под
+  // пропорции объекта), а не жёсткие 0.6/0.42: с хардкодом инструмент мерил
+  // камеру, которой в жизни уже нет, и «завал» у широких домов оставался в
+  // замере даже после того, как его починили в движке.
+  h.az = (h.azHome != null ? h.azHome : 0.6);
+  h.el = (h.elHome != null ? h.elHome : 0.42);
+  h.dist = Math.max(8.5, h.norm.height * 2.4);
   h.parallaxAz = 0; h.parallaxEl = 0; h._viewAz = h.az;
   h.pivot.rotation.y = h.az;
   h.camera.fov = 42; h.camera.updateProjectionMatrix();
