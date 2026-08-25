@@ -188,7 +188,7 @@ const config = {
   contour: 0.62,
   fill: 0.42,
   shellOpacity: 0.30,
-  bloom: { strength: 0.48, radius: 0.62, threshold: 0.0 },
+  bloom: { strength: 0.48, radius: 0.62, threshold: 0.15 },
   grade: { exposure: 1.06, contrast: 1.08, saturation: 1.12 },
 
   // порядок ОБЯЗАН совпадать с сортировкой файлов part00.glb…part07.glb
@@ -236,6 +236,7 @@ const config = {
   calibrate: true,
   flows: flowsM.map(f => ({ kind: f.kind, color: f.color, speed: f.speed, count: f.count, at: f.pts.map(frac) })),
   markers: markersM.map(([n, name, p, desc]) => ({ n, name, at: frac(p), desc })),
+  credits: 'Модель кабины: КамАЗ-55111 © mamontnikita62 (Sketchfab), лицензия CC BY 4.0.',
 };
 
 fs.writeFileSync(path.resolve(__dirname, '..', 'configs', 'polivomoika-cad.json'), JSON.stringify(config, null, 2));

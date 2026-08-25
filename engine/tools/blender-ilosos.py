@@ -28,6 +28,13 @@ CAB_CUT_X = farg('--cab-cut-x', 3.50)    # …но только позади э�
 CAB_TOP   = farg('--cab-top', 1e9)       # срезать всё выше (у донора над крышей своя выхлопная труба)
 CAB_REAR  = farg('--cab-rear', -1e9)     # срезать всё ПОЗАДИ кабины: выхлопной стояк донора
                                          # стоит за задней стенкой и лезет в надстройку
+# АРКА ПЕРЕДНЕГО КОЛЕСА. У донорской кабины своей арки НЕТ (её унесло вместе с
+# отброшенным шасси донора): низ кабины — сплошная плита на высоте ~0.84 м, и наше
+# колесо просто торчит из-под неё, а подножка сидит внутри шины на 0.31 м. Вырезаем
+# в кабине цилиндр по переднему колесу, а закрывает проём наше крыло fwing
+# (радиус 0.70 + отбортовка => наружу 0.75, поэтому радиус выреза чуть больше).
+CAB_WHEELCUT = farg('--cab-wheelcut', 0.0)   # 0 = не резать
+CAB_WHEELCUT_Z = farg('--cab-wheelcut-z', 0.0)  # 0 = взять внутреннюю щёку шины сама
 # --export-cab: выгрузить ПОСАЖЕННУЮ кабину отдельным GLB (для parts-режима движка)
 # и выйти, не рендеря. Так математика посадки живёт в одном месте.
 EXPORT_CAB = argv[argv.index('--export-cab') + 1] if '--export-cab' in argv else None
@@ -548,12 +555,16 @@ canon = lambda n: MATS[n] if isinstance(MATS.get(n), str) else n   # ftyre→tyr
 # это внешняя шина. Собираем их центры ДО сборки, а сами колёсные примитивы
 # потом пропускаем: их заменит донорский меш.
 WHEEL_MATS = {'tyre', 'rim'}
-wheel_at, wheel_r = [], 0.0
+# считаем ВСЕГДА: те же позиции нужны и вырезу арки в донорской кабине,
+# а он работает в прогоне БЕЗ --wheel-glb (там кабина только выгружается)
+wheel_at, wheel_r, wheel_w = [], 0.0, 0.0
+tyres = [p for p in prims if p['s'] == 'cyl' and canon(p['mat']) == 'tyre']
+if tyres:
+    wheel_r = max(p['r'] for p in tyres)
+    outer = [p for p in tyres if abs(p['r'] - wheel_r) < 1e-6]
+    wheel_at = [(C @ mat4(p['w'])).translation for p in outer]
+    wheel_w = max(p['h'] for p in outer)
 if WHEEL_GLB:
-    tyres = [p for p in prims if p['s'] == 'cyl' and canon(p['mat']) == 'tyre']
-    if tyres:
-        wheel_r = max(p['r'] for p in tyres)
-        wheel_at = [(C @ mat4(p['w'])).translation for p in tyres if abs(p['r'] - wheel_r) < 1e-6]
     print('ДОНОР-КОЛЕСО позиций: %d · радиус %.3f' % (len(wheel_at), wheel_r))
 
 bms, tubes = {}, []
@@ -735,13 +746,22 @@ if CAB_GLB:
     print('ДОНОР масштаб %.6g · кабина Д%.2f Ш%.2f В%.2f м' %
           (k, khi2[0] - klo2[0], khi2[1] - klo2[1], khi2[2] - klo2[2]))
 
+    # переднее колесо = самое переднее из внешних шин; порог по полуширине —
+    # внутренняя щека шины, чтобы вырез не съел центральную часть кабины
+    front_wheel = max(wheel_at, key=lambda v: v.x) if (CAB_WHEELCUT > 0 and wheel_at) else None
+    wheelcut_z = CAB_WHEELCUT_Z if CAB_WHEELCUT_Z > 0 else (
+        abs(front_wheel.y) - wheel_w / 2 - 0.04 if front_wheel else 0.0)
+    if front_wheel:
+        print('АРКА КОЛЕСА: вырез R=%.2f вокруг (x=%.2f, h=%.2f) наружу от %.2f'
+              % (CAB_WHEELCUT, front_wheel.x, front_wheel.z, wheelcut_z))
+
     for o in donor:
         if o.type != 'MESH': continue
         # чужие материалы → наша палитра (по имени слота автора)
         for i, m in enumerate(o.data.materials):
             tgt = DONOR_MATS.get(m.name if m else '', 'kabina-dark')
             o.data.materials[i] = bpy.data.materials.get(tgt) or make_material(tgt)
-        if CAB_CUT > -1e8 or CAB_TOP < 1e8 or CAB_REAR > -1e8:
+        if CAB_CUT > -1e8 or CAB_TOP < 1e8 or CAB_REAR > -1e8 or (CAB_WHEELCUT > 0 and front_wheel):
             mw = o.matrix_world
             bm = bmesh.new(); bm.from_mesh(o.data)
             bad = []
@@ -753,6 +773,11 @@ if CAB_GLB:
                 elif w.z > CAB_TOP: bad.append(f)
                 # корма: выхлопной стояк донора стоит за задней стенкой и лезет в надстройку
                 elif w.x < CAB_REAR: bad.append(f)
+                # арка переднего колеса: цилиндр по колесу, но только НАРУЖУ от
+                # внутренней щеки шины — середину (двигатель, рама) не трогаем
+                elif (CAB_WHEELCUT > 0 and front_wheel and abs(w.y) > wheelcut_z
+                      and math.hypot(w.x - front_wheel.x, w.z - front_wheel.z) < CAB_WHEELCUT):
+                    bad.append(f)
             bmesh.ops.delete(bm, geom=bad, context='FACES')
             bm.to_mesh(o.data); bm.free()
         for f in o.data.polygons: f.use_smooth = True

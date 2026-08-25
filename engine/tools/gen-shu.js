@@ -205,7 +205,7 @@ const config = {
   contour: 0.66,
   fill: 0.40,
   shellOpacity: 0.30,
-  bloom: { strength: 0.48, radius: 0.62, threshold: 0.0 },
+  bloom: { strength: 0.48, radius: 0.62, threshold: 0.15 },
   grade: { exposure: 1.06, contrast: 1.08, saturation: 1.12 },
 
   parts: [
