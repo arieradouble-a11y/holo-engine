@@ -38,6 +38,8 @@ export const BUILD_MAP = [
   ['radiator',        'Радиаторный узел квартиры',              null],
   ['reg-klapan',      'Регулирующий клапан',                    null],
   ['grpsh',           'ГРПШ — газорегуляторный пункт',          null],
+  ['ktp',             'КТП — трансформаторная подстанция',      null],
+  ['lift',            'Пассажирский лифт в шахте',              null],
   ['pvu',             'Приточная вентустановка',                null],
   ['mkd',             'Жилой дом (МКД)',                        null],
   ['mkd-121',         'Панельная 9-этажка (121 серия)',         null],
@@ -49,6 +51,8 @@ export const BUILD_MAP = [
   ['velizh',          'Подземный водозабор',                  null],
   ['osk',             'Очистные сооружения канализации',        null],
   ['teplotrassa',     'Теплотрасса в разрезе',                  null],
+  ['tko',             'Полигон и сортировка ТКО',               null],
+  ['bashnya',         'Водонапорная башня и скважина',          null],
 ];
 
 const here = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
