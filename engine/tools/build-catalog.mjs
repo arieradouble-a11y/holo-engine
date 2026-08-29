@@ -28,6 +28,7 @@ export const BUILD_MAP = [
   ['agp-cad',         'Автовышка АГП-22 (КамАЗ)',               '../agp-parts'],
   ['bunkervoz',       'Бункеровоз-мультилифт (КамАЗ)',          '../bunkervoz-parts'],
   ['letuchka',        'Аварийная летучка (КамАЗ)',              '../letuchka-parts'],
+  ['cisterna',        'Автоцистерна питьевой воды (КамАЗ)',     '../cisterna-parts'],
   ['ekskavator-cad',  'Экскаватор-погрузчик на раскопке',       null],
   ['traktor',         'Коммунальный трактор (отвал и щётка)',   null],
   ['nasos',           'Насосный агрегат (центробежный)',        null],
