@@ -13,13 +13,33 @@
     const b=this.CONFIG.building||{};
     const floors=b.floors||9, fh=b.floorHeight||2.75, sections=b.sections||3,
           sw=b.sectionWidth||21.0, D=b.depth||12.0, winCols=b.windowsPerSection||7;
-    const W=sections*sw, H=floors*fh;
+    // ---- признаки СЕРИИ (умолчания = панельная девятиэтажка, как было) --------
+    // Дом в музее больше не один: хрущёвка без лифта и со скатной кровлей поверх
+    // холодного чердака, панельная высотка с техэтажом, монолитный ЖК с витражами.
+    // Это РАЗНЫЕ дома, а не один с другой подписью, поэтому признаки серии живут
+    // параметрами здесь — копия ветки на каждую серию разъехалась бы с первой правкой.
+    const struct=b.struct||'panel';        // panel — межпанельные швы | brick | monolith
+    const hasLift=b.lift!==false;          // машинное помещение на кровле, шахта в ядре
+    const roofType=b.roofType||'flat';     // flat — плоская рулонная | pitched — скатная
+    const atticH=b.atticH||0;              // холодный чердак / техэтаж над верхним перекрытием
+    const balcType=b.balcony||'loggia';    // loggia — утопленная | balcony — выступающая плита | none
+    const winF=b.winH||0.5;                // высота окна в долях этажа (витраж — 0.72)
+    const winCap=b.winW||1.4;              // предел ширины окна
+    const APTS=b.apts||[['3Б',3],['3Б',3],['2Б',2],['1Б',1]];  // фронт-лево, фронт-право, тыл-лево, тыл-право
+    const coreW=b.coreW||3.0, coreD=b.coreD||4.4;
+    const W=sections*sw, H=floors*fh, HT=H+atticH;   // HT — верх стен (с чердаком)
     const md=this.meshData;
     this.planRooms=[]; this.planFloors=floors; this.planFloorH=fh;
     const box=(sx,sy,sz,cx,cy,cz,mat)=>{ const g=new THREE.BoxGeometry(sx,sy,sz); md.push({name:mat,mat,geometry:g,matrixWorld:new THREE.Matrix4().makeTranslation(cx,cy,cz)}); };
     // cylinder helper (axis 'y'|'x'|'z') — for tanks, boilers, chimney, manifolds
     const cyl=(r,h,cx,cy,cz,mat,axis)=>{ const g=new THREE.CylinderGeometry(r,r,h,14,1); const m=new THREE.Matrix4().makeTranslation(cx,cy,cz);
       if(axis==='x') m.multiply(new THREE.Matrix4().makeRotationZ(Math.PI/2)); else if(axis==='z') m.multiply(new THREE.Matrix4().makeRotationX(Math.PI/2));
+      md.push({name:mat,mat,geometry:g,matrixWorld:m}); };
+
+    // повёрнутый ящик — для скатной кровли: скат это плоскость под углом, а
+    // «лесенкой» из горизонтальных плит он читается мусором, а не кровлей
+    const rbox=(sx,sy,sz,cx,cy,cz,mat,rx)=>{ const g=new THREE.BoxGeometry(sx,sy,sz);
+      const m=new THREE.Matrix4().makeTranslation(cx,cy,cz).multiply(new THREE.Matrix4().makeRotationX(rx));
       md.push({name:mat,mat,geometry:g,matrixWorld:m}); };
 
     // raw emitter for the declarative interpreter (it builds its own matrices)
@@ -37,19 +57,44 @@
     }
 
     box(W*1.03, 0.5, D*1.04, 0, -0.25, 0, 'base');                                 // цоколь / плита
-    box(W, H, D, 0, H/2, 0, 'shell');                                              // несущая оболочка
+    box(W, HT, D, 0, HT/2, 0, 'shell');                                            // несущая оболочка
+    if(b.slab==='wood'){
+      // ПЕРЕКРЫТИЕ ПО ДЕРЕВЯННЫМ БАЛКАМ — не плита, а балки с накатом и настилом.
+      // Это не деталь ради детали: от него зависит и допустимая нагрузка на пол,
+      // и цена капремонта такого дома, и то, почему в нём слышно соседей.
+      for(let f=1; f<floors; f++){
+        box(W*1.002, 0.05, D*1.002, 0, f*fh+0.04, 0, 'slab');                     // настил пола
+        for(let x=-W/2+0.8; x<W/2-0.4; x+=1.4) box(0.16, 0.22, D*0.98, x, f*fh-0.11, 0, 'slab');  // балки
+      }
+    } else
     for(let f=1; f<floors; f++) box(W*1.002, 0.10, D*1.002, 0, f*fh, 0, 'slab');   // междуэтажные перекрытия
-    for(let s=1; s<sections; s++) box(0.14, H, D, -W/2 + s*sw, H/2, 0, 'wall');    // межсекционные стены
-    box(W, 0.5, D, 0, H+0.25, 0, 'roof'); box(W*1.02, 0.7, D*1.02, 0, H+0.35, 0, 'roof'); // кровля + парапет
+    for(let s=1; s<sections; s++) box(0.14, HT, D, -W/2 + s*sw, HT/2, 0, 'wall');  // межсекционные стены
+    if(atticH>0) box(W*1.002, 0.16, D*1.002, 0, H+0.08, 0, 'slab');                // перекрытие под чердаком
+    if(roofType==='pitched'){
+      // Скатная кровля холодного чердака: два ската от карниза к коньку. Свес
+      // выпущен за стену — по нему и опознаётся дом со скатной кровлей, а заодно
+      // он объясняет, почему водосток тут наружный и висит на карнизе.
+      const rise=D*0.30, slope=Math.atan2(rise, D/2), len=Math.hypot(D/2+0.45, rise);
+      rbox(W*1.04, 0.09, len, 0, HT+rise/2, -(D/2+0.45)/2, 'roof', -slope);
+      rbox(W*1.04, 0.09, len, 0, HT+rise/2,  (D/2+0.45)/2, 'roof',  slope);
+      box(W*1.05, 0.16, 0.26, 0, HT+rise, 0, 'roof');                              // конёк
+      [-W/2-0.02, W/2+0.02].forEach(x=>{                                           // фронтоны: скатные кромки
+        rbox(0.12, 0.14, len, x, HT+rise/2, -(D/2+0.45)/2, 'roof', -slope);
+        rbox(0.12, 0.14, len, x, HT+rise/2,  (D/2+0.45)/2, 'roof',  slope);
+      });
+      [D/2+0.42, -D/2-0.42].forEach(z=>box(W*1.05, 0.14, 0.16, 0, HT+0.04, z, 'roof')); // карнизная доска
+    } else {
+      box(W, 0.5, D, 0, HT+0.25, 0, 'roof'); box(W*1.02, 0.7, D*1.02, 0, HT+0.35, 0, 'roof'); // кровля + парапет
+    }
     box(W*1.05, 0.12, D*1.06, 0, 0.06, 0, 'base');                                // отлив цоколя
-    box(W*1.03, 0.28, D*1.03, 0, H-0.16, 0, 'seam');                              // карниз под кровлей
+    box(W*1.03, 0.28, D*1.03, 0, HT-0.16, 0, 'seam');                             // карниз под кровлей
     for(let s=0; s<=sections; s++){                                               // простенки-пилястры по границам секций
       const px=-W/2 + s*sw + (s===0?0.22:(s===sections?-0.22:0));
-      box(0.44, H, 0.10, px, H/2, D/2+0.03, 'seam');
-      box(0.44, H, 0.10, px, H/2, -D/2-0.03, 'seam');
+      box(0.44, HT, 0.10, px, HT/2, D/2+0.03, 'seam');
+      box(0.44, HT, 0.10, px, HT/2, -D/2-0.03, 'seam');
     }
 
-    const winW=Math.min(1.4, sw/(winCols+1.2)), winH=fh*0.5, step=sw/(winCols+0.4);
+    const winW=Math.min(winCap, sw/(winCols+1.2)), winH=fh*winF, step=sw/(winCols+0.4);
     // Окно — не плоская нашлёпка: стеклопакет + УТОПЛЕННАЯ коробка вокруг него даёт
     // в контурном пассе вторую рамку, и проём начинает читаться проёмом. На лицевом
     // фасаде добавляются импост (деление на створки) и отлив — они и делают ряды
@@ -64,8 +109,8 @@
     };
     for(let s=0; s<sections; s++){
       const scx=-W/2 + (s+0.5)*sw;
-      box(3.0, H, 4.4, scx, H/2, -D*0.20, 'core');         // лестнично-лифтовой узел (лифт + лестница)
-      const loggiaCol=winCols-1;                            // правый ряд секции — стояк лоджий (характерно для 121)
+      box(coreW, HT, coreD, scx, HT/2, -D*0.20, 'core');    // лестнично-лифтовой узел (лестница, у серий с лифтом — и шахта)
+      const loggiaCol=balcType==='none'? -1 : winCols-1;    // правый ряд секции — стояк лоджий/балконов
       for(let f=0; f<floors; f++){
         const cy=f*fh + fh*0.55;
         for(let c=0; c<winCols; c++){
@@ -76,7 +121,13 @@
             continue;
           }
           if(c===loggiaCol){
-            if(f>=1){ box(step*0.92, winH*1.5, 0.10, cx, f*fh+fh*0.5, D/2, 'balcony');   // проём лоджии
+            if(f>=1 && balcType==='balcony'){
+              // Балкон хрущёвки и сталинки — не ниша, а КОНСОЛЬНАЯ ПЛИТА, вылетающая
+              // за фасад: именно она и ржавеет, и попадает в предписания надзора.
+              box(step*0.92, winH*1.4, 0.10, cx, f*fh+fh*0.52, D/2, 'balcony');           // балконная дверь с окном
+              box(step*1.06, 0.12, 0.95, cx, f*fh+0.06, D/2+0.46, 'balcony');             // консольная плита
+            }
+            else if(f>=1){ box(step*0.92, winH*1.5, 0.10, cx, f*fh+fh*0.5, D/2, 'balcony');   // проём лоджии
                       box(step*0.92, 0.10, 1.2,  cx, f*fh+0.08, D/2-0.4, 'balcony'); }   // утопленная плита лоджии
             else okno(cx, cy, D/2, 1);
             okno(cx, cy, -D/2, -1);
@@ -123,17 +174,17 @@
         const y=f*fh, L=lbl&&(f===labelFloor);
         wallX(scx-sw/2,scx-pHalf,0,y); wallX(scx+pHalf,scx+sw/2,0,y);                 // коридор: фронт|тыл
         wallZ(-D/2,1.2,scx-pHalf,y); wallZ(-D/2,1.2,scx+pHalf,y); wallX(scx-pHalf,scx+pHalf,1.2,y); // стены ядра
-        apt(scx-sw/2,scx-pHalf, 0, D/2,  '3Б',3,y,L);   // фронт-лево
-        apt(scx+pHalf,scx+sw/2, 0, D/2,  '3Б',3,y,L);   // фронт-право
-        apt(scx-sw/2,scx-pHalf, 0,-D/2,  '2Б',2,y,L);   // тыл-лево
-        apt(scx+pHalf,scx+sw/2, 0,-D/2,  '1Б',1,y,L);   // тыл-право
+        apt(scx-sw/2,scx-pHalf, 0, D/2,  APTS[0][0],APTS[0][1],y,L);   // фронт-лево
+        apt(scx+pHalf,scx+sw/2, 0, D/2,  APTS[1][0],APTS[1][1],y,L);   // фронт-право
+        apt(scx-sw/2,scx-pHalf, 0,-D/2,  APTS[2][0],APTS[2][1],y,L);   // тыл-лево
+        apt(scx+pHalf,scx+sw/2, 0,-D/2,  APTS[3][0],APTS[3][1],y,L);   // тыл-право
       }
     }
 
     // инженерные стояки (горячие): ХВС/ГВС, отопление, канализация, электрика, мусоропровод
     const risers=b.risers||['water','heat','sewer','electric','trash'];
-    risers.forEach((sys,i)=>{ const x=-W/2 + (i+1)*W/(risers.length+1); box(0.22, H, 0.22, x, H/2, -D*0.16, sys);
-      if(sys==='trash'||sys==='sewer') box(0.32, 1.2, 0.32, x, H+0.6, -D*0.16, sys); }); // вытяжка над кровлей
+    risers.forEach((sys,i)=>{ const x=-W/2 + (i+1)*W/(risers.length+1); box(0.22, HT, 0.22, x, HT/2, -D*0.16, sys);
+      if(sys==='trash'||sys==='sewer') box(0.32, 1.2, 0.32, x, HT+0.6, -D*0.16, sys); }); // вытяжка над кровлей
 
     // ---- фасад и кровля в деталях -------------------------------------------
     // Дом из объёма с окошками читался коробкой: узнаваемость панельного МКД
@@ -141,11 +192,17 @@
     // входных группах с крыльцом и козырьком и на «хозяйстве» кровли —
     // ограждение, вентшахты, машинное помещение лифта, водосточные трубы.
     const seamZ=[D/2+0.02, -D/2-0.02];
-    for(let f=1; f<floors; f++)                                                    // горизонтальные швы панелей
-      seamZ.forEach(z=>box(W*1.004, 0.07, 0.05, 0, f*fh, z, 'seam'));
-    const seamStep=Math.max(2.6, sw/Math.max(1,Math.round(sw/3.2)));
-    for(let x=-W/2+seamStep; x<W/2-0.1; x+=seamStep)                               // вертикальные швы панелей
-      seamZ.forEach(z=>box(0.05, H, 0.07, x, H/2, z, 'seam'));
+    if(struct==='panel'){
+      for(let f=1; f<floors; f++)                                                  // горизонтальные швы панелей
+        seamZ.forEach(z=>box(W*1.004, 0.07, 0.05, 0, f*fh, z, 'seam'));
+      const seamStep=Math.max(2.6, sw/Math.max(1,Math.round(sw/3.2)));
+      for(let x=-W/2+seamStep; x<W/2-0.1; x+=seamStep)                             // вертикальные швы панелей
+        seamZ.forEach(z=>box(0.05, H, 0.07, x, H/2, z, 'seam'));
+    } else if(struct==='monolith'){
+      // У монолита швов нет — фасад держат ЛЕНТЫ ПЕРЕКРЫТИЙ между витражами
+      for(let f=1; f<floors; f++)
+        seamZ.forEach(z=>box(W*1.004, 0.34, 0.07, 0, f*fh-0.08, z, 'seam'));
+    }
 
     for(let s=0; s<sections; s++){
       const scx=-W/2 + (s+0.5)*sw;
@@ -164,26 +221,49 @@
       box(0.34, 0.24, 0.03, ecx-1.0, 2.35, D/2+0.10, 'entrance');                  // номер дома
       box(0.18, 0.26, 0.06, ecx+0.85, 1.45, D/2+0.12, 'entrance');                 // домофон
 
-      // ограждения лоджий: экран, поручень, боковые щёки
+      // ограждения: у лоджии экран стоит в нише, у балкона — по кромке консоли
       const lcx=scx + ((winCols-1)-(winCols-1)/2)*step, lw=step*0.92;
-      for(let f=1; f<floors; f++){
+      const zEkr = balcType==='balcony' ? D/2+0.92 : D/2+0.55;
+      const zShch= balcType==='balcony' ? D/2+0.47 : D/2+0.28;
+      const dShch= balcType==='balcony' ? 0.92 : 0.55;
+      if(balcType!=='none') for(let f=1; f<floors; f++){
         const by=f*fh;
-        box(lw, 0.95, 0.06, lcx, by+0.60, D/2+0.55, 'balcony');                    // экран ограждения
-        box(lw, 0.08, 0.10, lcx, by+1.12, D/2+0.55, 'balcony');                    // поручень
-        box(0.06, 0.95, 0.55, lcx-lw/2, by+0.60, D/2+0.28, 'balcony');             // щёки
-        box(0.06, 0.95, 0.55, lcx+lw/2, by+0.60, D/2+0.28, 'balcony');
+        box(lw, 0.95, 0.06, lcx, by+0.60, zEkr, 'balcony');                        // экран ограждения
+        box(lw, 0.08, 0.10, lcx, by+1.12, zEkr, 'balcony');                        // поручень
+        box(0.06, 0.95, dShch, lcx-lw/2, by+0.60, zShch, 'balcony');               // щёки
+        box(0.06, 0.95, dShch, lcx+lw/2, by+0.60, zShch, 'balcony');
       }
 
-      // кровля: машинное помещение лифта над ядром, выход на кровлю, вентшахты
-      box(3.2, 2.4, 3.0, scx, H+1.7, -D*0.20, 'roof');                             // машинное помещение
-      box(3.4, 0.22, 3.2, scx, H+2.98, -D*0.20, 'roof');                           // его кровля
-      box(1.0, 2.1, 0.10, scx+1.65, H+1.55, -D*0.20, 'roof');                      // дверь выхода на кровлю
-      for(let k=0;k<2;k++) box(0.55, 1.0, 0.55, scx-1.3+k*2.6, H+1.0, D*0.18, 'roof');   // вентшахты
-      for(let k=0;k<2;k++) box(0.75, 0.10, 0.75, scx-1.3+k*2.6, H+1.55, D*0.18, 'roof'); // зонты вентшахт
+      // Хозяйство кровли. Машинное помещение бывает ТОЛЬКО там, где есть лифт:
+      // у пятиэтажки его нет, и рисовать будку над лестницей означало бы врать
+      // ровно про то, чем пятиэтажка отличается от девятиэтажки.
+      if(roofType==='pitched'){
+        const rise=D*0.30;
+        box(1.5, 0.95, 0.9, scx, HT+rise*0.42, -D*0.26, 'roof');                   // слуховое окно на скате
+        box(1.7, 0.08, 1.0, scx, HT+rise*0.42+0.50, -D*0.26, 'roof');              // его козырёк
+        box(0.9, 0.06, 0.06, scx, HT+rise*0.42-0.44, -D*0.30, 'roof');             // отлив слухового окна
+        for(let k=0;k<2;k++){                                                      // кирпичные вентканалы над коньком
+          box(0.75, 1.5, 0.55, scx-1.6+k*3.2, HT+rise+0.62, 0, 'roof');
+          box(0.95, 0.10, 0.75, scx-1.6+k*3.2, HT+rise+1.42, 0, 'roof');           // оголовок
+        }
+      } else {
+        if(hasLift){
+          box(3.2, 2.4, 3.0, scx, HT+1.7, -D*0.20, 'roof');                        // машинное помещение
+          box(3.4, 0.22, 3.2, scx, HT+2.98, -D*0.20, 'roof');                      // его кровля
+          box(1.0, 2.1, 0.10, scx+1.65, HT+1.55, -D*0.20, 'roof');                 // дверь выхода на кровлю
+        } else {
+          box(1.6, 1.9, 1.6, scx, HT+0.95, -D*0.20, 'roof');                       // будка выхода на кровлю
+          box(1.8, 0.16, 1.8, scx, HT+1.98, -D*0.20, 'roof');
+          box(0.9, 1.7, 0.10, scx+0.85, HT+0.85, -D*0.20, 'roof');                 // дверь
+        }
+        for(let k=0;k<2;k++) box(0.55, 1.0, 0.55, scx-1.3+k*2.6, HT+1.0, D*0.18, 'roof');   // вентшахты
+        for(let k=0;k<2;k++) box(0.75, 0.10, 0.75, scx-1.3+k*2.6, HT+1.55, D*0.18, 'roof'); // зонты вентшахт
+      }
     }
 
     // ограждение кровли по периметру: стойки с шагом ~3 м + два поручня
-    const rY=H+0.7, rStep=3.0;
+    const rY=HT+0.7, rStep=3.0;
+    if(roofType!=='pitched'){
     for(let x=-W/2+0.6; x<=W/2-0.5; x+=rStep){
       box(0.07, 1.0, 0.07, x, rY+0.5, D/2+0.02, 'roof');
       box(0.07, 1.0, 0.07, x, rY+0.5, -D/2-0.02, 'roof');
@@ -197,15 +277,22 @@
      [0.06,0.06,D*1.02, W/2+0.02, rY+1.0, 0],[0.06,0.06,D*1.02, -W/2-0.02, rY+1.0, 0],
      [0.05,0.05,D*1.02, W/2+0.02, rY+0.55, 0],[0.05,0.05,D*1.02, -W/2-0.02, rY+0.55, 0],
     ].forEach(a=>box(a[0],a[1],a[2],a[3],a[4],a[5],'roof'));
-    box(0.05, 3.2, 0.05, -W/2+1.2, H+2.3, -D/2+1.2, 'roof');                       // молниеприёмники
-    box(0.05, 3.2, 0.05,  W/2-1.2, H+2.3, -D/2+1.2, 'roof');
+    } else {
+      // у скатной кровли вместо ограждения — снегозадержатели вдоль карниза
+      for(let x=-W/2+1.2; x<=W/2-1.0; x+=2.4)
+        [D/2+0.26, -D/2-0.26].forEach(z=>box(1.9, 0.30, 0.06, x, HT+0.36, z, 'roof'));
+    }
+    const mlY = roofType==='pitched' ? HT+D*0.30+1.7 : HT+2.3;
+    const mlZ = roofType==='pitched' ? 0 : -D/2+1.2;
+    box(0.05, 3.2, 0.05, -W/2+1.2, mlY, mlZ, 'roof');                              // молниеприёмники
+    box(0.05, 3.2, 0.05,  W/2-1.2, mlY, mlZ, 'roof');
 
     // водосточные трубы по границам секций: воронка, ствол, отмёт
     for(let s=0; s<=sections; s++){
       const x=-W/2 + s*sw + (s===0?0.35:(s===sections?-0.35:0));
       [D/2+0.14, -D/2-0.14].forEach(z=>{
-        cyl(0.09, H-0.5, x, (H-0.5)/2, z, 'roof', 'y');
-        cyl(0.16, 0.28, x, H-0.15, z, 'roof', 'y');                                // воронка
+        cyl(0.09, HT-0.5, x, (HT-0.5)/2, z, 'roof', 'y');
+        cyl(0.16, 0.28, x, HT-0.15, z, 'roof', 'y');                               // воронка
         cyl(0.09, 0.45, x, 0.30, z + (z>0?0.18:-0.18), 'roof', 'z');               // отмёт
       });
     }
