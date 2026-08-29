@@ -354,7 +354,17 @@
       else if(it.torus){ const a=it.torus;
         push(new THREE.TorusGeometry(a[0],a[1],10,24), ringM(trs(a[2],a[3],a[4],r),a[6]), a[5]); }
       else if(it.capsule){ const a=it.capsule;
-        push(new THREE.CapsuleGeometry(a[0],a[1],6,14), axisM(trs(a[2],a[3],a[4],r),a[6]), a[5]); }
+        // ⚠ В РАНТАЙМЕ БАНДЛА three r134, а CapsuleGeometry появилась в r142: прямой
+        // вызов роняет ВЕСЬ разбор геометрии («init failed»), причём линтеры этого
+        // не видят — они считают геометрию свежим three из node_modules. Поэтому
+        // капсула собирается вручную из цилиндра и двух полусфер.
+        const m=axisM(trs(a[2],a[3],a[4],r),a[6]);
+        if(THREE.CapsuleGeometry) push(new THREE.CapsuleGeometry(a[0],a[1],6,14), m, a[5]);
+        else {
+          push(new THREE.CylinderGeometry(a[0],a[0],a[1],14,1), m.clone(), a[5]);
+          [1,-1].forEach(sgn=>push(new THREE.SphereGeometry(a[0],14,7),
+            m.clone().multiply(new THREE.Matrix4().makeTranslation(0,sgn*a[1]/2,0)), a[5]));
+        } }
       else if(it.tube){ const a=it.tube;
         const curve=new THREE.CatmullRomCurve3(a[1].map(p=>new THREE.Vector3(p[0],p[1],p[2])));
         push(new THREE.TubeGeometry(curve,a[3]||24,a[0],10,false), trs(0,0,0,r), a[2]); }
