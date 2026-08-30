@@ -2,6 +2,13 @@
 //
 //   node tools/shot.mjs <out.png> "<file.html>"      HOLO_EX=1 — снять разобранным
 //
+// КРУПНЫЙ ПЛАН: HOLO_AZ / HOLO_EL (радианы), HOLO_DIST, HOLO_TX / HOLO_TY / HOLO_TZ
+// (точка, куда смотрит камера, в НОРМАЛИЗОВАННЫХ единицах: x,z от центра модели,
+// y от её низа). Без них ракурс прежний — расчётный azHome/elHome. Нужны, чтобы
+// смотреть УЗЕЛ, а не всю модель: дефект потока у автокрана (30.08) на общем плане
+// читался как «немного мимо», и только крупный план на оголовке показал, что трасса
+// уходит вниз за 2.8 м до конца стрелы. HOLO_AZ=0 даёт строгий бок (камера на +Z).
+//
 // Это единственный способ честно ответить «не испортилась ли картинка»: обычная
 // миниатюра пляшет на скан-полосе, и контрольное сравнение ДВУХ ПРОГОНОВ ОДНОГО
 // файла давало 3-8% несовпавших пикселей — на таком фоне реальная регрессия
@@ -29,7 +36,7 @@ const page = await browser.newPage();
 // раз, две сцены рисуют в два канваса поверх друг друга, и кадр становится ровно
 // вдвое ярче (15.88 → 31.97 на одном и том же файле). Кладём в глобальную
 // переменную до загрузки страницы.
-await page.evaluateOnNewDocument((p) => { window.__SHOT = p; }, { ex: +(process.env.HOLO_EX||0), op: +(process.env.HOLO_OP||0), bt: +(process.env.HOLO_BT||-1), bs: +(process.env.HOLO_BS||0), rf: +(process.env.HOLO_RF||-1), gp: process.env.HOLO_GP!=null? +process.env.HOLO_GP : -1 });
+await page.evaluateOnNewDocument((p) => { window.__SHOT = p; }, { az:+(process.env.HOLO_AZ??-99), el:+(process.env.HOLO_EL??-99), dist:+(process.env.HOLO_DIST??0), tx:+(process.env.HOLO_TX??0), ty:+(process.env.HOLO_TY??-99), tz:+(process.env.HOLO_TZ??0), ex: +(process.env.HOLO_EX||0), op: +(process.env.HOLO_OP||0), bt: +(process.env.HOLO_BT||-1), bs: +(process.env.HOLO_BS||0), rf: +(process.env.HOLO_RF||-1), gp: process.env.HOLO_GP!=null? +process.env.HOLO_GP : -1 });
 await page.evaluateOnNewDocument(() => {
   let s = 123456789;
   Math.random = () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648; };
@@ -67,13 +74,13 @@ await page.evaluate(() => {
   // пропорции объекта), а не жёсткие 0.6/0.42: с хардкодом инструмент мерил
   // камеру, которой в жизни уже нет, и «завал» у широких домов оставался в
   // замере даже после того, как его починили в движке.
-  h.az = (h.azHome != null ? h.azHome : 0.6);
-  h.el = (h.elHome != null ? h.elHome : 0.42);
-  h.dist = Math.max(8.5, h.norm.height * 2.4);
+  h.az = (S.az > -90 ? S.az : (h.azHome != null ? h.azHome : 0.6));
+  h.el = (S.el > -90 ? S.el : (h.elHome != null ? h.elHome : 0.42));
+  h.dist = (S.dist > 0 ? S.dist : Math.max(8.5, h.norm.height * 2.4));
   h.parallaxAz = 0; h.parallaxEl = 0; h._viewAz = h.az;
   h.pivot.rotation.y = h.az;
   h.camera.fov = 42; h.camera.updateProjectionMatrix();
-  const T = h.tgt = { x: 0, y: h.norm.height * 0.5, z: 0 };
+  const T = h.tgt = { x: (S.tx||0), y: (S.ty > -90 ? S.ty : h.norm.height * 0.5), z: (S.tz||0) };
   h.camera.position.set(T.x, T.y + Math.sin(h.el) * h.dist, T.z + Math.cos(h.el) * h.dist);
   h.camera.lookAt(T.x, T.y, T.z);
   // ⚠ Стрелки потоков — чистая функция времени, но замирают там, где их застал
