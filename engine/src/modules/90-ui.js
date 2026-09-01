@@ -11,7 +11,11 @@
   renderVals(){
     this.hmSync();   // телефон: вкладки нижнего листа (95-mobile)
     const C=this.CONFIG, whole=this.wholeMode, sel=this.state.selected;
-    const ctrlBase="--hm-btn:1;cursor:pointer;font:600 12.5px 'IBM Plex Sans',sans-serif;padding:9px 15px;border-radius:10px;transition:all .15s;backdrop-filter:blur(8px);";
+    // Кнопки стоят в сетке 2 колонки (viewer.html, --hm-ctrls): ширину задаёт
+    // колонка, подпись прижата влево — по центру в узкой колонке подписи
+    // «плясали» вокруг оси; длинная подпись подрезается, а не ломает сетку.
+    const ctrlBase="--hm-btn:1;width:100%;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"+
+      "cursor:pointer;font:600 12px 'IBM Plex Sans',sans-serif;padding:9px 11px;border-radius:10px;transition:all .15s;backdrop-filter:blur(8px);";
     const ctrlN=ctrlBase+"color:#dff6ff;background:rgba(6,18,30,0.6);border:1px solid rgba(56,232,255,0.3);";
     const ctrlM=ctrlBase+"color:#9fc6d8;background:rgba(6,18,30,0.45);border:1px solid rgba(56,232,255,0.16);";
     const controls=[];
@@ -44,7 +48,12 @@
     const specRows = hasSpecs? C.specs.rows.map(r=>({k:r[0], v:r[1]})) : [];
     const cur = (!whole && sel>=0) ? this.PARTDEF[sel] : null;
     const overview = C.overview || {};
-    const infoSep = std || !whole || hasSpecs;
+    // Панель собрана двумя блоками: карточка описания (прибита сверху) и
+    // всё остальное в прокрутке. Карточка подсвечивается, когда выбран
+    // узел или система, — тогда она читается как ответ на клик, а не как
+    // постоянная шапка.
+    const anySel = !!curM || !!cur;
+    const hasList = (!whole && this.PARTDEF.length>0) || (std && hasMarkers) || hasSpecs || this.flowLegendOn || !!C.credits;
     return {
       onCanvas:this.onCanvas, onLabels:this.onLabels, onTuneSlot:this.onTuneSlot,
       badge: C.badge || 'ИНТЕРАКТИВНАЯ ГОЛОГРАММА',
@@ -59,7 +68,11 @@
       legendListStyle: `--hm-ll:1;display:${std?'flex':'none'};flex-direction:column;gap:6px;`,
       specWrapStyle: `--hm-spec:1;display:${hasSpecs?'block':'none'};margin-top:15px;padding-top:14px;border-top:1px solid rgba(56,232,255,0.14);`,
       specTitle: (C.specs&&C.specs.title)||'ОБЩИЕ ХАРАКТЕРИСТИКИ',
-      infoWrapStyle: `--hm-info:1;margin-top:${infoSep?'15':'0'}px;padding-top:${infoSep?'15':'0'}px;border-top:${infoSep?'1px solid rgba(56,232,255,0.14)':'none'};`,
+      infoWrapStyle: `--hm-info:1;flex:0 1 auto;max-height:52vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;`+
+        `padding:11px 12px;border-radius:12px;background:${anySel?'rgba(56,232,255,0.10)':'rgba(56,232,255,0.045)'};`+
+        `border:1px solid ${anySel?'rgba(56,232,255,0.34)':'rgba(56,232,255,0.13)'};`,
+      listWrapStyle: `--hm-scroll:1;display:${hasList?'block':'none'};flex:1 1 auto;min-height:110px;overflow-y:auto;overflow-x:hidden;`+
+        `scrollbar-width:thin;margin-top:12px;padding-top:12px;border-top:1px solid rgba(56,232,255,0.14);`,
       infoTag: curM? ('УЗЕЛ '+String(curM.n!=null?curM.n:selm+1).padStart(2,'0')) : (cur? cur.tag : (overview.tag||'ОБЗОР')),
       infoTitle: curM? curM.name : (cur? cur.name : (overview.title|| (whole? C.title : (this.PARTDEF.length+' основных систем')))),
       infoDesc: curM? (curM.desc||'') : (cur? cur.desc : (overview.desc||C.subtitle||'')),

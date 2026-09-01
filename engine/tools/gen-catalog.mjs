@@ -50,6 +50,7 @@ const CATALOG = [
     ['lebedka',     'Лифтовая лебёдка'],
     ['kns',         'Канализационная насосная станция'],
     ['vru',         'ВРУ жилого дома'],
+    ['etazhshit',   'Этажный щит и квартирная электрика'],
     ['radiator',    'Радиаторный узел квартиры'],
     ['reg-klapan',  'Регулирующий клапан'],
     ['grpsh',       'ГРПШ — газорегуляторный пункт'],
@@ -153,7 +154,7 @@ ${MUSEUM ? '<meta name="robots" content="noindex,nofollow">' : ''}
    тень 0 10px 34px rgba(0,0,0,.28) + 0 0 0 .5px.
    ───────────────────────────────────────────────────────────────────────── */
 :root{
-  --glass:rgba(28,30,36,0.62); --glass2:rgba(18,20,26,0.80); --hair:rgba(255,255,255,0.10);
+  --glass:rgba(28,30,36,0.62); --glass2:rgba(18,20,26,0.985); --hair:rgba(255,255,255,0.10);
   --hi:rgba(255,255,255,0.16); --txt:#f2f6fa; --dim:rgba(236,244,250,0.68); --dim2:rgba(236,244,250,0.44);
   --accent:#38e8ff; --shadow:0 10px 34px rgba(0,0,0,0.46), 0 0 0 0.5px rgba(0,0,0,0.35);
   --sans:'IBM Plex Sans','SF Pro Display','Segoe UI',system-ui,-apple-system,sans-serif;
@@ -161,7 +162,7 @@ ${MUSEUM ? '<meta name="robots" content="noindex,nofollow">' : ''}
   --rw:16px;
 }
 body.light{
-  --glass:rgba(248,248,250,0.74); --glass2:rgba(252,252,254,0.88); --hair:rgba(0,0,0,0.09);
+  --glass:rgba(248,248,250,0.74); --glass2:rgba(252,252,254,0.985); --hair:rgba(0,0,0,0.09);
   --hi:rgba(255,255,255,0.85); --txt:#12161c; --dim:rgba(20,26,34,0.70); --dim2:rgba(20,26,34,0.46);
   --shadow:0 10px 34px rgba(0,0,0,0.26), 0 0 0 0.5px rgba(0,0,0,0.12);
 }
@@ -309,6 +310,12 @@ body.light #menubar{background:rgba(250,250,252,0.66)}
 .hintbar{position:fixed; left:50%; bottom:88px; transform:translateX(-50%); z-index:34; pointer-events:none;
   font:500 11px var(--mono); letter-spacing:.1em; color:rgba(255,255,255,.42)}
 body.light .hintbar{color:rgba(0,0,0,.40)}
+/* Подсказка про окна живёт на «рабочем столе» каталога. Когда сверху открыт
+   объект, она ложилась ровно на собственную нижнюю строку голограммы —
+   счётчик и подсказку вьювера, и внизу получались два текста друг на друге
+   (замечание пользователя 01.09.2026). objfull ставится в applyFocus, когда
+   верхнее окно — объект. */
+body.objfull .hintbar{display:none}
 @media (max-width:900px){ .side{display:none} .info.open{width:100%} }
 /* ── Телефон (≤640px): не окна, а экраны ─────────────────────────────────
    Оконная метафора с перетаскиванием, стопкой и доком-«ракетой» на телефоне не
@@ -462,14 +469,21 @@ const desk = document.getElementById('desk');
 let zTop = 10, wins = [], filter = 'Все', query = '', finder = null;
 
 /* ── фабрика окон: traffic lights, перетаскивание, зум, свёртывание ───── */
+const DOCK_ZONE = 96;   // высота дока внизу плюс зазор — окна туда не залезают
 function makeWin(opt){
   const el = document.createElement('div');
   el.className = 'win ' + (opt.cls || '');
-  const W = Math.min(opt.w, innerWidth - 40), H = Math.min(opt.h, innerHeight - 110);
+  const W = Math.min(opt.w, innerWidth - 40);
   const off = (wins.length % 4) * 24;
+  let H = Math.min(opt.h, innerHeight - 110);
+  const top = Math.max(10, (innerHeight - H) / 2 - 44 + off);
+  // Док стоит внизу поверх окон (z-index 35), и нижние 88px окна уходили под
+  // него — ровно там у голограммы её нижняя строка со счётчиком и подсказкой.
+  // #desk смещён на 30px под меню-баром, поэтому низ окна на странице = 30+top+H.
+  H = Math.max(320, Math.min(H, innerHeight - DOCK_ZONE - 30 - top));
   el.style.width = W + 'px'; el.style.height = H + 'px';
   el.style.left = Math.max(8, (innerWidth - W) / 2 + off) + 'px';
-  el.style.top = Math.max(10, (innerHeight - H) / 2 - 44 + off) + 'px';
+  el.style.top = top + 'px';
   el.style.zIndex = ++zTop;
   el.innerHTML = '<div class="bar"><div class="lights">' +
       '<b class="c" title="Закрыть"></b><b class="m" title="Свернуть"></b><b class="z" title="Развернуть"></b>' +
@@ -520,7 +534,7 @@ function zoomWin(el){
   }
   el.dataset.zoom = [el.style.left, el.style.top, el.style.width, el.style.height].join(',');
   el.style.left = '8px'; el.style.top = '8px';
-  el.style.width = (innerWidth - 16) + 'px'; el.style.height = (innerHeight - 100) + 'px';
+  el.style.width = (innerWidth - 16) + 'px'; el.style.height = (innerHeight - 38 - DOCK_ZONE) + 'px';
 }
 function closeWin(el){
   el.classList.add('closing');

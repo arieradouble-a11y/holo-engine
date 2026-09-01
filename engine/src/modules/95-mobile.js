@@ -22,7 +22,7 @@
     '@media '+this.HM_MQ+'{',
     ':root{--hm-bar:calc(54px + env(safe-area-inset-bottom,0px));}',
     /* шапка: только счётчик и (в отдельной вкладке — нет) заголовок */
-    '[style*=\"--hm-head\"]{top:0!important;left:0!important;right:0!important;max-width:none!important;',
+    '[style*=\"--hm-head\"]{top:0!important;left:0!important;right:0!important;max-width:none!important;width:auto!important;',
       'max-height:none!important;overflow:visible!important;padding:9px 150px 12px 13px!important;',
       'background:linear-gradient(to bottom,rgba(2,8,15,.82),rgba(2,8,15,0))!important;pointer-events:none!important;}',
     '[style*=\"--hm-badge\"],[style*=\"--hm-cat\"],[style*=\"--hm-sub\"],[style*=\"--hm-credf\"],[style*=\"--hm-hint\"],[style*=\"--hm-sep\"]{display:none!important;}',
@@ -49,6 +49,15 @@
       'html[data-hm="info"] [style*=\"--hm-ll\"],html[data-hm="info"] [style*=\"--hm-fh\"],html[data-hm="info"] [style*=\"--hm-fl\"]{display:none!important;}',
     'html[data-hm="info"] [style*=\"--hm-info\"]{margin-top:0!important;padding-top:0!important;border-top:0!important;}',
     'html[data-hm="info"] [style*=\"--hm-credm\"]{display:block!important;}',
+    /* Десктоп держит описание прибитым сверху, а списки — в своей прокрутке
+       (aside = flex-колонка). В листе телефона делить нечего: обе обёртки
+       возвращаются в обычный поток, иначе вложенная прокрутка внутри
+       прокручиваемого листа ловит палец и лист перестаёт закрываться. */
+    '[style*=\"--hm-info\"]{max-height:none!important;overflow:visible!important;background:none!important;',
+      'border:0!important;border-radius:0!important;padding:0!important;}',
+    '[style*=\"--hm-scroll\"]{overflow:visible!important;flex:none!important;margin-top:14px!important;',
+      'padding-top:14px!important;border-top:1px solid rgba(56,232,255,.14)!important;}',
+    'html[data-hm=\"info\"] [style*=\"--hm-scroll\"]{margin-top:0!important;padding-top:0!important;border-top:0!important;}',
     /* пальцем в список попадать легче, чем мышью */
     '[style*=\"--hm-item\"]{padding:11px 12px!important;font-size:14px!important;}',
     '[style*=\"--hm-btn\"]{padding:11px 15px!important;font-size:13px!important;}',
@@ -71,6 +80,14 @@
     '#hmbar button.on{color:#38e8ff;}',
     '#hmbar button.on svg{filter:drop-shadow(0 0 6px rgba(56,232,255,.55));}',
     '#hmbar button[hidden]{display:none;}',
+    /* ── ДЕСКТОП: низкий кадр ─────────────────────────────────────────────
+       В окне каталога кадр бывает 560-620px высотой, и длинный подзаголовок
+       съедал левую колонку целиком: нижний ряд кнопок уходил под край и рубился
+       посередине — колонка читалась сломанной. На низком кадре подзаголовок
+       подрезаем; полный текст остаётся в «Инфо» каталога и в карточке справа. */
+    '@media (min-width:641px) and (max-height:840px){[style*=\"--hm-sub\"]{display:-webkit-box;',
+      '-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;}}',
+    '@media (min-width:641px) and (max-height:700px){[style*=\"--hm-sub\"]{-webkit-line-clamp:3;}}',
   ].join(''); }
 
   hmIcons(){ return {
