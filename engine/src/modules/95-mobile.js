@@ -55,7 +55,7 @@
        прокручиваемого листа ловит палец и лист перестаёт закрываться. */
     '[style*=\"--hm-info\"]{max-height:none!important;overflow:visible!important;background:none!important;',
       'border:0!important;border-radius:0!important;padding:0!important;}',
-    '[style*=\"--hm-scroll\"]{overflow:visible!important;flex:none!important;margin-top:14px!important;',
+    '[style*=\"--hm-scroll\"]{overflow:visible!important;flex:none!important;margin-top:14px!important;padding-right:0!important;',
       'padding-top:14px!important;border-top:1px solid rgba(56,232,255,.14)!important;}',
     // вкладка показывает ЛИБО описание, ЛИБО списки — разделитель между ними
     // тогда лишний: без этого он висел пустой чертой у верхнего края листа
@@ -83,6 +83,16 @@
     '#hmbar button.on{color:#38e8ff;}',
     '#hmbar button.on svg{filter:drop-shadow(0 0 6px rgba(56,232,255,.55));}',
     '#hmbar button[hidden]{display:none;}',
+    /* Chrome рисует полосу прокрутки ПОВЕРХ содержимого (overlay-полосы), и
+       правый столбец характеристик обрезался ею по последним буквам. Полоса
+       сделана тонкой и в цвет панели, а текст отодвинут от края padding'ом. */
+    '[style*=\"--hm-scroll\"]::-webkit-scrollbar,[style*=\"--hm-info\"]::-webkit-scrollbar,',
+      '[style*=\"--hm-head\"]::-webkit-scrollbar{width:8px;height:8px;}',
+    '[style*=\"--hm-scroll\"]::-webkit-scrollbar-thumb,[style*=\"--hm-info\"]::-webkit-scrollbar-thumb,',
+      '[style*=\"--hm-head\"]::-webkit-scrollbar-thumb{background:rgba(56,232,255,.26);border-radius:8px;',
+      'border:2px solid transparent;background-clip:padding-box;}',
+    '[style*=\"--hm-scroll\"]::-webkit-scrollbar-track,[style*=\"--hm-info\"]::-webkit-scrollbar-track,',
+      '[style*=\"--hm-head\"]::-webkit-scrollbar-track{background:transparent;}',
     /* ── ДЕСКТОП: низкий кадр ─────────────────────────────────────────────
        В окне каталога кадр бывает 560-620px высотой, и длинный подзаголовок
        съедал левую колонку целиком: нижний ряд кнопок уходил под край и рубился

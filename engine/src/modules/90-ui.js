@@ -69,10 +69,10 @@
       specWrapStyle: `--hm-spec:1;display:${hasSpecs?'block':'none'};margin-top:15px;padding-top:14px;border-top:1px solid rgba(56,232,255,0.14);`,
       specTitle: (C.specs&&C.specs.title)||'ОБЩИЕ ХАРАКТЕРИСТИКИ',
       infoWrapStyle: `--hm-info:1;flex:0 1 auto;max-height:52vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;`+
-        `padding:11px 12px;border-radius:12px;background:${anySel?'rgba(56,232,255,0.10)':'rgba(56,232,255,0.045)'};`+
+        `padding:11px 15px 12px 13px;border-radius:12px;background:${anySel?'rgba(56,232,255,0.10)':'rgba(56,232,255,0.045)'};`+
         `border:1px solid ${anySel?'rgba(56,232,255,0.34)':'rgba(56,232,255,0.13)'};`,
       listWrapStyle: `--hm-scroll:1;display:${hasList?'block':'none'};flex:1 1 auto;min-height:110px;overflow-y:auto;overflow-x:hidden;`+
-        `scrollbar-width:thin;margin-top:12px;padding-top:12px;border-top:1px solid rgba(56,232,255,0.14);`,
+        `scrollbar-width:thin;margin-top:12px;padding:12px 10px 0 0;border-top:1px solid rgba(56,232,255,0.14);`,
       infoTag: curM? ('УЗЕЛ '+String(curM.n!=null?curM.n:selm+1).padStart(2,'0')) : (cur? cur.tag : (overview.tag||'ОБЗОР')),
       infoTitle: curM? curM.name : (cur? cur.name : (overview.title|| (whole? C.title : (this.PARTDEF.length+' основных систем')))),
       infoDesc: curM? (curM.desc||'') : (cur? cur.desc : (overview.desc||C.subtitle||'')),
