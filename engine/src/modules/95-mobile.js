@@ -57,7 +57,10 @@
       'border:0!important;border-radius:0!important;padding:0!important;}',
     '[style*=\"--hm-scroll\"]{overflow:visible!important;flex:none!important;margin-top:14px!important;',
       'padding-top:14px!important;border-top:1px solid rgba(56,232,255,.14)!important;}',
-    'html[data-hm=\"info\"] [style*=\"--hm-scroll\"]{margin-top:0!important;padding-top:0!important;border-top:0!important;}',
+    // вкладка показывает ЛИБО описание, ЛИБО списки — разделитель между ними
+    // тогда лишний: без этого он висел пустой чертой у верхнего края листа
+    'html[data-hm=\"info\"] [style*=\"--hm-scroll\"],html[data-hm=\"parts\"] [style*=\"--hm-scroll\"]',
+      '{margin-top:0!important;padding-top:0!important;border-top:0!important;}',
     /* пальцем в список попадать легче, чем мышью */
     '[style*=\"--hm-item\"]{padding:11px 12px!important;font-size:14px!important;}',
     '[style*=\"--hm-btn\"]{padding:11px 15px!important;font-size:13px!important;}',
