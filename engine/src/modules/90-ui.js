@@ -8,6 +8,7 @@
     const vign=root.children[3];   // inset box-shadow виньетка: canvas(0), labels(1), сканлайны(2), она(3)
     if(vign) vign.style.boxShadow=on?'inset 0 0 160px 20px rgba(0,0,0,0.35)':'inset 0 0 240px 50px rgba(0,0,0,0.7)';
   }
+  toggleMore=()=>{ this._moreOpen=!this._moreOpen; this.setState({more:this._moreOpen}); this.lastInteract=performance.now(); };
   renderVals(){
     this.hmSync();   // телефон: вкладки нижнего листа (95-mobile)
     const C=this.CONFIG, whole=this.wholeMode, sel=this.state.selected;
@@ -18,20 +19,28 @@
       "cursor:pointer;font:600 12px 'IBM Plex Sans',sans-serif;padding:9px 11px;border-radius:10px;transition:all .15s;backdrop-filter:blur(8px);";
     const ctrlN=ctrlBase+"color:#dff6ff;background:rgba(6,18,30,0.6);border:1px solid rgba(56,232,255,0.3);";
     const ctrlM=ctrlBase+"color:#9fc6d8;background:rgba(6,18,30,0.45);border:1px solid rgba(56,232,255,0.16);";
+    // Первый выбор — только смысловые действия (UX-ревью 05.09: «восемь действий,
+    // отдельный выбор плотности, среди первичных — калибровка»): разобрать,
+    // потоки, план/разрез. Вращение, сброс, настройка вида и калибровка — под
+    // «Ещё»; плотность каркаса живёт в «⚙ Вид», а не отдельной строкой.
     const controls=[];
     if(!whole) controls.push({label:this.state.exploded?'⊞  Собрать':'⊟  Разобрать', style:ctrlN, onClick:this.toggleExplode});
     if(this.hasFlows) controls.push({label:(this.state.flow!==false)?'⇢  Потоки: ВКЛ':'⇢  Потоки: ВЫКЛ', style:(this.state.flow!==false)?ctrlN:ctrlM, onClick:this.toggleFlow});
-    // «Рой» (36-particles) с кнопок снят 19.08.2026 — по замечанию пользователя
-    // эффект сейчас не нужен; модуль и конфиг-ключ particles остаются, включается
-    // только явно: particles:{on:true} в конфиге.
-    controls.push({label:this.state.spin?'↻  Вращение: ВКЛ':'↻  Вращение', style:this.state.spin?ctrlN:ctrlM, onClick:this.toggleSpin});
-    controls.push({label:this._tuneOpen?'⚙  Вид: настройка':'⚙  Вид', style:this._tuneOpen?ctrlN:ctrlM, onClick:this.toggleTune});
-    controls.push({label:'↺  Сбросить вид', style:ctrlM, onClick:this.resetView});
     if(this.planMode) controls.push({label:this.state.plan?'⊠  Выйти из плана':'▦  План этажа', style:ctrlN, onClick:this.togglePlan});
     if(this.state.plan){ controls.push({label:'▲ выше', style:ctrlM, onClick:()=>this.planStep(1)}); controls.push({label:'▼ ниже', style:ctrlM, onClick:()=>this.planStep(-1)}); }
     if(this.planMode) controls.push({label:this.state.cut?'⊠  Собрать фасад':'◫  Разрез фасада', style:ctrlN, onClick:this.toggleCut});
     if(this.state.cut){ controls.push({label:'⟩ глубже', style:ctrlM, onClick:()=>this.cutStep(1)}); controls.push({label:'⟨ меньше', style:ctrlM, onClick:()=>this.cutStep(-1)}); }
-    if((C.markers&&C.markers.length) && C.calibrate!==false && !this.state.plan && !this.state.cut) controls.push({label:this.state.calib?'⊙  калибровка: ВКЛ':'⊕  калибровка', style:ctrlM, onClick:this.toggleCalib});
+    const more=!!this._moreOpen;
+    controls.push({label:more?'▴  Скрыть':'▾  Ещё', style:more?ctrlN:ctrlM, onClick:this.toggleMore});
+    if(more){
+      // «Рой» (36-particles) с кнопок снят 19.08.2026 — по замечанию пользователя
+      // эффект сейчас не нужен; модуль и конфиг-ключ particles остаются, включается
+      // только явно: particles:{on:true} в конфиге.
+      controls.push({label:this.state.spin?'↻  Вращение: ВКЛ':'↻  Вращение', style:this.state.spin?ctrlN:ctrlM, onClick:this.toggleSpin});
+      controls.push({label:this._tuneOpen?'⚙  Вид: настройка':'⚙  Вид', style:this._tuneOpen?ctrlN:ctrlM, onClick:this.toggleTune});
+      controls.push({label:'↺  Сбросить вид', style:ctrlM, onClick:this.resetView});
+      if((C.markers&&C.markers.length) && C.calibrate!==false && !this.state.plan && !this.state.cut) controls.push({label:this.state.calib?'⊙  калибровка: ВКЛ':'⊕  калибровка', style:ctrlM, onClick:this.toggleCalib});
+    }
 
     const dBtn=(k,on)=>`cursor:pointer;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.06em;padding:5px 10px;border-radius:7px;border:none;transition:all .15s;${on?'background:rgba(56,232,255,0.9);color:#04141f;':'background:transparent;color:#7fb3c8;'}`;
     const densBtns=Object.keys(this.densMap).map(k=>({label:this.densMap[k].label, style:dBtn(k,this.state.density===k), onClick:()=>this.setDensity(k)}));
@@ -62,6 +71,7 @@
       subtitle: C.subtitle || '',
       loading:this.state.loading, loadingText:this.state.loadingText,
       controls, densBtns, parts, markersList, specRows,
+      densWrapStyle: `--hm-dens:1;display:${this._tuneOpen?'flex':'none'};align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;`,
       partsHeadStyle: `--hm-ph:1;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;margin-bottom:12px;${headHide}`,
       partsListStyle: `--hm-pl:1;display:${whole?'none':'flex'};flex-direction:column;gap:6px;`,
       legendHeadStyle: `--hm-lh:1;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#6fcfe6;margin-bottom:12px;display:${std?'block':'none'};`,
@@ -75,7 +85,9 @@
         `scrollbar-width:thin;margin-top:12px;padding:12px 10px 0 0;border-top:1px solid rgba(56,232,255,0.14);`,
       infoTag: curM? ('УЗЕЛ '+String(curM.n!=null?curM.n:selm+1).padStart(2,'0')) : (cur? cur.tag : (overview.tag||'ОБЗОР')),
       infoTitle: curM? curM.name : (cur? cur.name : (overview.title|| (whole? C.title : (this.PARTDEF.length+' основных систем')))),
-      infoDesc: curM? (curM.desc||'') : (cur? cur.desc : (overview.desc||C.subtitle||'')),
+      // Без выбора справа НЕ дублируем подзаголовок слева (UX-ревью 05.09:
+      // «название и описание повторяются слева и справа») — подсказка, что делать.
+      infoDesc: curM? (curM.desc||'') : (cur? cur.desc : (overview.desc||'Нажмите систему в списке или узел на модели — здесь появится описание.')),
       credits: C.credits||'',
       flowLegend: this.flowLegendRows(), flowLegendOn: this.flowLegendOn,
       counter: this.state.plan ? ('ПЛАН · ЭТАЖ '+(this.state.planFloor+1)+' / '+(this.planFloors||9))
