@@ -211,15 +211,19 @@ body.light #menubar{background:rgba(250,250,252,0.66)}
   box-shadow:inset 0 0 0 .5px rgba(0,0,0,.2)}
 .lights .c{background:#ff5f57} .lights .m{background:#febc2e} .lights .z{background:#28c840}
 /* Явная кнопка закрытия: macOS-светофоры многим незнакомы, а прятать выход за
-   12-пиксельным кружком без подписи — невежливо. Красная, с крестиком и словом,
-   справа в шапке окна, где её ждут пользователи Windows. */
-.xbtn{display:inline-flex; align-items:center; gap:6px; border:0; cursor:pointer; flex:none;
-  height:28px; padding:0 11px 0 9px; border-radius:9px; color:#fff; font:600 12.5px var(--sans);
-  background:#e5484d; box-shadow:0 1px 0 rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.22);
+   12-пиксельным кружком без подписи — невежливо. С крестиком и словом, справа
+   в шапке окна, где её ждут пользователи Windows. Была красной — и оказалась
+   самой яркой кнопкой экрана (UX-ревью 05.09: «Закрыть» конкурирует с
+   содержимым»); теперь нейтральная, красный только под курсором. */
+.xbtn{display:inline-flex; align-items:center; gap:6px; cursor:pointer; flex:none;
+  height:28px; padding:0 11px 0 9px; border-radius:9px; color:#e8eef5; font:600 12.5px var(--sans);
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16);
   transition:.15s}
-.xbtn:hover{background:#f25c60; transform:translateY(-1px)}
+.xbtn:hover{background:#e5484d; border-color:#e5484d; color:#fff; transform:translateY(-1px)}
 .xbtn:active{transform:none; background:#cf3e43}
-.xbtn svg{width:13px; height:13px; stroke:#fff; stroke-width:2.6; fill:none; stroke-linecap:round}
+.xbtn svg{width:13px; height:13px; stroke:currentColor; stroke-width:2.6; fill:none; stroke-linecap:round}
+body.light .xbtn{color:#1a2230; background:rgba(0,0,0,.05); border-color:rgba(0,0,0,.14)}
+body.light .xbtn:hover{color:#fff}
 .bar .tools{gap:8px}
 .title{flex:1; text-align:center; font:600 13.5px var(--sans); opacity:.92; pointer-events:none;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
@@ -439,7 +443,7 @@ body.objfull .hintbar{display:none}
       <rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/>
       <circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg></button>
 </div>
-<div class="hintbar">перетаскивайте окна за заголовок · «Закрыть» или Esc — закрыть окно · / — поиск · ← → — соседний объект</div>
+<div class="hintbar">Esc — закрыть · / — поиск · ← → — соседний объект</div>
 
 <script>
 const GROUPS = ${json(DATA)};
@@ -564,10 +568,14 @@ function openCatalog(group){
     finder.style.display = ''; finder.style.zIndex = ++zTop; renderSide(); renderGrid(); return finder;
   }
   const el = makeWin({ title: '${MUSEUM ? 'Каталог музея' : 'Каталог голограмм'}', w: Math.round(innerWidth * 0.74), h: Math.round(innerHeight * 0.78), cls: 'finder' });
+  // По умолчанию — во всю рабочую область (UX-ревью 05.09: оконная оболочка
+  // усложняла обзор); zoomWin запоминает исходную геометрию, и та же кнопка
+  // «Развернуть» возвращает окно. На телефоне окно и так полноэкранное.
+  if (!matchMedia(PHONE).matches) zoomWin(el);
   el.querySelector('.tools').innerHTML =
     '<div class="srch"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
     '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>' +
-    '<input id="q" type="search" placeholder="Поиск по системам и ТТХ" autocomplete="off"></div>';
+    '<input id="q" type="search" placeholder="Поиск: объект, система или деталь" autocomplete="off"></div>';
   el.querySelector('.wbody').innerHTML = '<div class="side"></div><div class="content"></div>';
   el.querySelector('#q').addEventListener('input', e => { query = e.target.value; renderGrid(); });
   finder = el; renderSide(); renderGrid(); syncDock();
