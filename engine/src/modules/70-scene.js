@@ -49,7 +49,16 @@
       this.tgtGoal={x:(c[0]+d[0]*e)*0.6, y:cy+((c[1]+d[1]*e)-cy)*0.6, z:(c[2]+d[2]*e)*0.6}; this.distTarget=Math.max(8, H*2.1); }
     else { this.tgtGoal={x:0,y:H*0.5,z:0}; this.distTarget=Math.max(8.5,H*2.4); }
     this.lastInteract=performance.now(); };
-  toggleExplode=()=>{ if(this.wholeMode) return; const ex=!this.state.exploded; this.explodeTarget=ex?1:0; if(ex){ this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(13,this.norm.height*3.4); this.setState({exploded:true,selected:-1}); } else { this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false}); } this.lastInteract=performance.now(); };
+  toggleExplode=()=>{
+    if(this.wholeMode) return;
+    if(this.CONFIG.floorStudy&&(this.state.plan||this.state.cut)){
+      this.setState({plan:false,cut:false}); this.uniforms.uCut.value=0; this.applyPlan();
+    }
+    const ex=!this.state.exploded; this.explodeTarget=ex?1:0;
+    if(ex){ this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(13,this.norm.height*3.4); this.setState({exploded:true,selected:-1}); }
+    else { this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false}); }
+    this.lastInteract=performance.now();
+  };
   resetView=()=>{ this.azTarget=this.azHome!=null?this.azHome:0.6; this.elTarget=this.elHome!=null?this.elHome:0.42; this.fovTarget=42; this.explodeTarget=0; this.selectedPart=-1; this.tgtGoal={x:0,y:this.norm.height*0.5,z:0}; this.distTarget=Math.max(8.5,this.norm.height*2.4); this.setState({exploded:false,selected:-1}); this.lastInteract=performance.now(); };
   toggleSpin=()=>{ this.setState({spin:!this.state.spin}); this.lastInteract=performance.now(); };
   setDensity=(d)=>{ if(d===this.state.density) return; this.setState({density:d}); this.buildEdges(this.THREE,this.angleFor(d)); this.lastInteract=performance.now(); };
@@ -166,9 +175,10 @@
     const THREE=this.THREE, w=this.canvas.clientWidth, h=this.canvas.clientHeight;
     const v=new THREE.Vector3();
     const showAll=this.explode>0.12;
+    const study=!!this.CONFIG.floorStudy,focus=this.hovered>=0?this.hovered:this.selectedPart;
     this.PARTDEF.forEach((p,i)=>{
       const L=this.labelEls[i]; if(!L) return;
-      const vis = showAll || this.selectedPart===i || this.hovered===i;
+      const vis = study ? (!this.state.plan&&i===focus) : (showAll || this.selectedPart===i || this.hovered===i);
       if(!vis){ L.line.style.opacity='0'; L.dot.style.opacity='0'; L.box.style.opacity='0'; return; }
       const c=this.partCents[i], d=this.partDirs[i], e=this.explode;
       v.set(c[0]+d[0]*e,c[1]+d[1]*e,c[2]+d[2]*e);
@@ -182,6 +192,28 @@
       const ang=Math.atan2(ly-sy, lx-sx)*180/Math.PI, dl=Math.hypot(lx-sx,ly-sy);
       L.line.style.left=sx+'px'; L.line.style.top=sy+'px'; L.line.style.width=dl+'px'; L.line.style.transform='rotate('+ang+'deg)'; L.line.style.opacity='0.9';
       L.box.style.left=(lx+side*6)+'px'; L.box.style.top=ly+'px'; L.box.style.transform=side<0?'translate(-100%,-50%)':'translateY(-50%)'; L.box.style.opacity='1';
+      if(study){
+        const cr=this.canvas.getBoundingClientRect();
+        const rect=sel=>{const e=document.querySelector(sel);return e&&e.getClientRects().length?e.getBoundingClientRect():null;};
+        let left=12,right=w-12,top=40,bottom=h-70;
+        if(this.hmOn){
+          const tab=document.documentElement.dataset.hm||'',sheet=tab?rect(tab==='view'?'[style*="--hm-tools"]':'aside'):null;
+          bottom=sheet?sheet.top-cr.top-12:h-this.HM_BAR-12;
+        }else{
+          const head=rect('[style*="--hm-head"]'),aside=rect('aside');
+          if(head)left=Math.max(left,head.right-cr.left+12);
+          if(aside)right=Math.min(right,aside.left-cr.left-12);
+        }
+        L.box.style.boxSizing='border-box';L.box.style.maxWidth=Math.max(40,right-left)+'px';
+        L.box.style.overflow='hidden';L.box.style.textOverflow='ellipsis';
+        const bw=L.box.offsetWidth,bh=L.box.offsetHeight;
+        const bx=Math.max(left,Math.min(right-bw,side<0?lx-6-bw:lx+6));
+        const by=Math.max(top,Math.min(bottom-bh,ly-bh/2));
+        L.box.style.left=bx+'px';L.box.style.top=by+'px';L.box.style.transform='none';
+        const endX=Math.max(bx,Math.min(bx+bw,sx)),endY=Math.max(by,Math.min(by+bh,sy));
+        L.line.style.width=Math.hypot(endX-sx,endY-sy)+'px';
+        L.line.style.transform='rotate('+(Math.atan2(endY-sy,endX-sx)*180/Math.PI)+'deg)';
+      }
       const seld=this.selectedPart===i;
       L.box.style.borderColor=seld?'rgba(238,255,255,0.95)':'rgba(56,232,255,0.4)';
       L.box.style.boxShadow=seld?'0 0 10px rgba(210,250,255,0.55)':'none';

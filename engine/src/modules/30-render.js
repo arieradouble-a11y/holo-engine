@@ -152,6 +152,14 @@
     const maxDim=Math.max(size.x,size.y,size.z)||1;
     const scl=5.5/maxDim;
     this.norm={ center, minY:box.min.y, scl, height:size.y*scl, size:size.clone() };
+    if(this.CONFIG.museumHouse && this.CONFIG.floorStudy){
+      const study=this.CONFIG.floorStudy, range=study.planFloorRange||[0,0];
+      const f=Math.floor((range[0]+range[1])/2), levels=study.floorLevels;
+      const fh=this.CONFIG.building.floorHeight;
+      const lo=levels?levels[f]:f*fh, hi=levels?levels[f+1]:(f+1)*fh;
+      this.uniforms.uDetailY.value=((lo+hi)/2-box.min.y)*scl;
+      this.uniforms.uDetailH.value=(hi-lo)*scl/2;
+    }
     this.uniforms.uGround.value=-0.05;
     this.scanMin=0; this.scanMax=size.y*scl+0.3;
     this.resolveHomeView(size);
@@ -208,6 +216,9 @@
     this.meshData.forEach(md=>{
       if(!md.geometry.attributes.normal){ md.geometry.computeVertexNormals(); }
       const pi=this.matToPart(md.mat);
+      // Detailed apartments retain their edges in plans/cuts/selection, but do
+      // not add another translucent surface over the engineering overview.
+      if((this.CONFIG.quietParts||[]).includes(this.CONFIG.parts?.[pi]?.key)) return;
       let b=bins.get(pi);
       if(!b){ b={ dir:(this.partDirs&&this.partDirs[pi])||[0,0,0], items:[] }; bins.set(pi,b); }
       b.items.push({ geo:md.geometry, m:new THREE.Matrix4().copy(N).multiply(md.matrixWorld) });

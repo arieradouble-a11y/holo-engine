@@ -1,9 +1,9 @@
   get vShader(){ return `
     uniform float uTime,uExplode,uProgress,uSelected;
     attribute float aSeed,aPart,aHot; attribute vec3 aExplode;
-    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX,vMY;
     void main(){
-      vSeed=aSeed; vPart=aPart; vHot=aHot; vMZ=position.z; vMX=position.x;
+      vSeed=aSeed; vPart=aPart; vHot=aHot; vMZ=position.z; vMX=position.x; vMY=position.y;
       vSel=(uSelected>=0.0 && abs(aPart-uSelected)<0.5)?1.0:0.0;
       vec3 formed=position+aExplode*uExplode;
       formed+=0.004*vec3(sin(uTime*1.3+aSeed*30.0),sin(uTime*1.7+aSeed*47.0),cos(uTime*1.1+aSeed*22.0));
@@ -16,11 +16,13 @@
       gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
     }`; }
   fShader(refl){ return `
-    uniform float uTime,uScan,uGround,uSelected,uExplode,uFill,uRefl,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uCut,uCutZ; uniform vec3 uColor,uColor2;
-    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
+    uniform float uTime,uScan,uGround,uSelected,uExplode,uFill,uRefl,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uPlanZ,uPlanD,uPlanStrict,uCut,uCutZ,uDetailY,uDetailH; uniform vec3 uColor,uColor2;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX,vMY;
     void main(){
       if(vHot>0.5) discard;   // hot/internal systems handled by the red inner pass
       if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
+      ${this.planClipShader}
+      ${this.houseDetailClipShader}
       float fl=0.88+0.12*sin(uTime*5.0+vSeed*40.0);
       float band=smoothstep(0.10,0.0,abs(vY-uScan));
       float sel = uSelected<0.0 ? 1.0 : (vSel>0.5?1.9:0.12);
@@ -28,17 +30,20 @@
       col=mix(col, vec3(0.90,1.0,1.0), vSel*0.85);   // выделенный узел — белым
       col*=1.0 + vSel*1.6;                            // мягкое свечение заливки выделенного узла
       float a=fl*(0.03*sel + band*0.07*sel)*uFill;
-      if(uPlan>0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
+      ${this.CONFIG.museumHouse?'if(uCut>0.5) a*=0.40;':''}
+      if(uPlan>0.5 && uPlanStrict<0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
                     *(1.0-0.95*smoothstep(uPlanW,uPlanW*1.25,abs(vMX-uPlanX)));  // соседние секции — в фон
       ${refl?'a*=uRefl*smoothstep(uGround-3.0,uGround,vWY)*(1.0-0.85*clamp(uExplode,0.0,1.0));':''}
       gl_FragColor=vec4(col,a);
     }`; }
   get fShaderBold(){ return `
-    uniform float uTime,uScan,uSelected,uBold,uBAmt,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uCut,uCutZ; uniform vec3 uColor,uBTint;
-    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
+    uniform float uTime,uScan,uSelected,uExplode,uBold,uBAmt,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uPlanZ,uPlanD,uPlanStrict,uCut,uCutZ,uDetailY,uDetailH; uniform vec3 uColor,uBTint;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX,vMY;
     void main(){
       if(vHot>0.5) discard;
       if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
+      ${this.planClipShader}
+      ${this.houseDetailClipShader}
       float fl=0.9+0.1*sin(uTime*5.0+vSeed*40.0);
       float band=smoothstep(0.10,0.0,abs(vY-uScan));
       float sel = uSelected<0.0 ? 1.0 : (vSel>0.5?2.0:0.10);
@@ -47,16 +52,19 @@
       col=mix(col, vec3(0.94,1.0,1.0), vSel*0.92);   // выделенный узел — яркий белый контур
       col*=1.0 + vSel*(2.6+0.45*sin(uTime*2.3));      // HDR-свечение выделенного контура (раздувается bloom)
       float a=fl*(0.30*sel + band*0.16*sel)*uBold;
-      if(uPlan>0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
+      ${this.CONFIG.museumHouse?'if(uCut>0.5) a*=0.40;':''}
+      if(uPlan>0.5 && uPlanStrict<0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
                     *(1.0-0.95*smoothstep(uPlanW,uPlanW*1.25,abs(vMX-uPlanX)));  // соседние секции — в фон
       gl_FragColor=vec4(col, a);
     }`; }
   get fShaderInner(){ return `
-    uniform float uTime,uScan,uSelected,uExplode,uHotInt,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uCut,uCutZ; uniform vec3 uColor2;
-    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX;
+    uniform float uTime,uScan,uSelected,uExplode,uHotInt,uPlan,uPlanY,uPlanH,uPlanX,uPlanW,uPlanZ,uPlanD,uPlanStrict,uCut,uCutZ,uDetailY,uDetailH; uniform vec3 uColor2;
+    varying float vSel,vSeed,vY,vWY,vPart,vHot,vMZ,vMX,vMY;
     void main(){
       if(vHot<0.5) discard;   // only the hot/internal systems (red)
       if(uCut>0.5 && vMZ>uCutZ) discard;   // facade cutaway
+      ${this.planClipShader}
+      ${this.houseDetailClipShader}
       float fl=0.85+0.15*sin(uTime*5.0+vSeed*40.0);
       float band=smoothstep(0.10,0.0,abs(vY-uScan));
       float sel = uSelected<0.0 ? 1.0 : (vSel>0.5?2.0:0.4);
@@ -64,10 +72,29 @@
       col=mix(col, vec3(1.0,0.98,0.94), vSel*0.92);  // выделенный горячий узел — белым
       col*=1.0 + vSel*(2.4+0.45*sin(uTime*2.3));      // HDR-свечение (раздувается bloom)
       float a=fl*(0.18*sel + band*0.12*sel)*uHotInt;
-      if(uPlan>0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
+      if(uPlan>0.5 && uPlanStrict<0.5) a*=(1.0-smoothstep(uPlanH,uPlanH*2.0,abs(vY-uPlanY)))
                     *(1.0-0.95*smoothstep(uPlanW,uPlanW*1.25,abs(vMX-uPlanX)));  // соседние секции — в фон
       gl_FragColor=vec4(col, a);
     }`; }
+  // Opt-in for traced apartments. Existing exhibits produce no extra shader
+  // branch. Detail returns in section, plan, system selection and explosion.
+  get houseDetailClipShader(){
+    const indices=(this.CONFIG.quietParts||[]).map(k=>this.CONFIG.parts.findIndex(p=>p.key===k)).filter(i=>i>=0);
+    if(!indices.length) return '';
+    const partTest=indices.map(i=>`abs(vPart-${i}.0)<0.5`).join(' || ');
+    const band=this.CONFIG.museumHouse?'if(abs(vMY-uDetailY)>=uDetailH) discard;':'';
+    return `if(uPlan<0.5 && (${partTest})) {
+      if(uCut<0.5 && vSel<0.5 && uExplode<0.01) discard;
+      ${band}
+    }`;
+  }
+  // План авторского дома: исходные координаты не дрожат с анимацией сборки.
+  // Верхняя граница открытая, чтобы не показывать основание следующего этажа.
+  get planClipShader(){ return `
+    if(uPlan>0.5 && uPlanStrict>0.5 &&
+      (vMY<uPlanY-uPlanH || vMY>=uPlanY+uPlanH ||
+       abs(vMX-uPlanX)>uPlanW || abs(vMZ-uPlanZ)>uPlanD)) discard;
+  `; }
   get vShellShader(){ return `
     varying vec4 vClip;
     varying vec3 vNw,vPw;

@@ -123,6 +123,27 @@ if (partsMode){
 // ---- config validation (ловим ошибки авторинга при сборке, а не в браузере) --
 function validateConfig(cfg){
   const errs = [], warns = [];
+  if (cfg.density != null && !['low','med','high'].includes(cfg.density))
+    errs.push('density: допустимы low, med, high');
+  if (cfg.floorStudy) {
+    const study=cfg.floorStudy, b=cfg.building||{};
+    if (cfg.source!=='procedural' || !Array.isArray(cfg.geometry) || !cfg.geometry.length)
+      errs.push('floorStudy: нужны source=procedural и непустая geometry');
+    if (!['floors','sections'].every(k=>Number.isInteger(b[k]) && b[k]>=1) || !['sectionWidth','depth','floorHeight'].every(k=>Number.isFinite(b[k]) && b[k]>0))
+      errs.push('floorStudy: building нужны целые floors/sections >= 1 и положительные sectionWidth/depth/floorHeight');
+    if (study.planBounds!=null && (!study.planBounds || !['x','z','width','depth'].every(k=>Number.isFinite(study.planBounds[k])) || study.planBounds.width<=0 || study.planBounds.depth<=0))
+      errs.push('floorStudy.planBounds: нужны конечные x/z центра и положительные width/depth в метрах');
+    if (study.planFloorRange!=null && (!Array.isArray(study.planFloorRange) || study.planFloorRange.length!==2 || !study.planFloorRange.every(Number.isInteger) || study.planFloorRange[0]<0 || study.planFloorRange[0]>study.planFloorRange[1] || study.planFloorRange[1]>=b.floors))
+      errs.push('floorStudy.planFloorRange: нужны включительные индексы [min,max] внутри 0..floors-1');
+    if (study.floorLevels!=null && (!Array.isArray(study.floorLevels) || study.floorLevels.length!==b.floors+1 || study.floorLevels.some((y,i,a)=>!Number.isFinite(y) || (i>0 && y<=a[i-1]))))
+      errs.push('floorStudy.floorLevels: нужны floors+1 строго возрастающих отметок границ этажей в метрах');
+    if (!Array.isArray(study.labels) || !study.labels.length || study.labels.some(r=>!Number.isFinite(r.x)||!Number.isFinite(r.z)||typeof r.name!=='string'))
+      errs.push('floorStudy.labels: нужны подписи name с конечными координатами x,z');
+    if (!study.accuracy || !Array.isArray(study.sources) || !study.sources.length)
+      errs.push('floorStudy: обязательны sources и описание accuracy');
+    else if(study.sources.some(s=>{try{return !s.title || new URL(s.url).protocol!=='https:';}catch{return true;}}))
+      errs.push('floorStudy.sources: нужны название и корректная HTTPS-ссылка');
+  }
   const parts = cfg.parts || [];
   const keys = new Set(parts.map(p => p.key));
   parts.forEach((p, i) => { if (!p.key || !p.name) errs.push('parts[' + i + ']: нужны key и name'); });
@@ -136,6 +157,7 @@ function validateConfig(cfg){
       errs.push('defaultPart=' + cfg.defaultPart + ' вне диапазона систем');
   }
   (cfg.hotParts || []).forEach(k => { if (!keys.has(k)) errs.push('hotParts: «' + k + '» нет среди parts.key'); });
+  (cfg.quietParts || []).forEach(k => { if (!keys.has(k)) errs.push('quietParts: «' + k + '» нет среди parts.key'); });
   if (cfg.innerPartKey && !keys.has(cfg.innerPartKey)) errs.push('innerPartKey: «' + cfg.innerPartKey + '» нет среди parts.key');
   Object.keys(cfg.explodeDirs || {}).forEach(k => { if (!keys.has(k)) warns.push('explodeDirs: «' + k + '» нет среди parts.key — будет проигнорирован'); });
   (cfg.markers || []).forEach((m, i) => {

@@ -56,6 +56,17 @@
       if(!this.CONFIG.building) return;
     }
 
+    // Авторская секция по опубликованному плану уже полностью описана geometry.
+    // Параметры building нужны только камере и режимам плана/разреза; добавлять
+    // сюда условный многоквартирный дом означало бы перекрыть реальные проёмы.
+    if(this.CONFIG.floorStudy){
+      this.planRooms=(this.CONFIG.floorStudy.labels||[])
+        .filter(r=>Number.isFinite(r.x)&&Number.isFinite(r.z)&&typeof r.name==='string')
+        .map(r=>({x:r.x,z:r.z,name:r.name,apt:!!r.apt}));
+      this.planFloors=floors; this.planFloorH=fh;
+      return;
+    }
+
     box(W*1.03, 0.5, D*1.04, 0, -0.25, 0, 'base');                                 // цоколь / плита
     box(W, HT, D, 0, HT/2, 0, 'shell');                                            // несущая оболочка
     if(b.slab==='wood'){

@@ -27,7 +27,11 @@
     if(!whole) controls.push({label:this.state.exploded?'⊞  Собрать':'⊟  Разобрать', style:ctrlN, onClick:this.toggleExplode});
     if(this.hasFlows) controls.push({label:(this.state.flow!==false)?'⇢  Потоки: ВКЛ':'⇢  Потоки: ВЫКЛ', style:(this.state.flow!==false)?ctrlN:ctrlM, onClick:this.toggleFlow});
     if(this.planMode) controls.push({label:this.state.plan?'⊠  Выйти из плана':'▦  План этажа', style:ctrlN, onClick:this.togglePlan});
-    if(this.state.plan){ controls.push({label:'▲ выше', style:ctrlM, onClick:()=>this.planStep(1)}); controls.push({label:'▼ ниже', style:ctrlM, onClick:()=>this.planStep(-1)}); }
+    if(this.state.plan){
+      const [min,max]=this.planRange;
+      if(!C.floorStudy||this.state.planFloor<max) controls.push({label:'▲ выше', style:ctrlM, onClick:()=>this.planStep(1)});
+      if(!C.floorStudy||this.state.planFloor>min) controls.push({label:'▼ ниже', style:ctrlM, onClick:()=>this.planStep(-1)});
+    }
     if(this.planMode) controls.push({label:this.state.cut?'⊠  Собрать фасад':'◫  Разрез фасада', style:ctrlN, onClick:this.toggleCut});
     if(this.state.cut){ controls.push({label:'⟩ глубже', style:ctrlM, onClick:()=>this.cutStep(1)}); controls.push({label:'⟨ меньше', style:ctrlM, onClick:()=>this.cutStep(-1)}); }
     const more=!!this._moreOpen;
@@ -62,13 +66,21 @@
     // узел или система, — тогда она читается как ответ на клик, а не как
     // постоянная шапка.
     const anySel = !!curM || !!cur;
+    const study=C.floorStudy;
+    const studySources=study?(study.sources||[]).flatMap(s=>{
+      try{
+        const u=new URL(s.url);
+        if(u.protocol!=='https:'||u.username||u.password) return [];
+        return [{title:String(s.title||u.hostname),url:u.href,note:String(s.note||'')}];
+      }catch(_){ return []; }
+    }):[];
     const hasList = (!whole && this.PARTDEF.length>0) || (std && hasMarkers) || hasSpecs || this.flowLegendOn || !!C.credits;
     return {
       onCanvas:this.onCanvas, onLabels:this.onLabels, onTuneSlot:this.onTuneSlot,
       badge: C.badge || 'ИНТЕРАКТИВНАЯ ГОЛОГРАММА',
       category: C.category || '',
       title: C.title || 'Объект',
-      subtitle: C.subtitle || '',
+      subtitle: this.state.plan&&study ? (study.wholeFloor?'План дома':study.sectionName||'План одной секции')+' · этаж '+(this.state.planFloor+1) : (C.subtitle || ''),
       loading:this.state.loading, loadingText:this.state.loadingText,
       controls, densBtns, parts, markersList, specRows,
       densWrapStyle: `--hm-dens:1;display:${this._tuneOpen?'flex':'none'};align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;`,
@@ -78,7 +90,7 @@
       legendListStyle: `--hm-ll:1;display:${std?'flex':'none'};flex-direction:column;gap:6px;`,
       specWrapStyle: `--hm-spec:1;display:${hasSpecs?'block':'none'};margin-top:15px;padding-top:14px;border-top:1px solid rgba(56,232,255,0.14);`,
       specTitle: (C.specs&&C.specs.title)||'ОБЩИЕ ХАРАКТЕРИСТИКИ',
-      infoWrapStyle: `--hm-info:1;flex:0 1 auto;max-height:52vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;`+
+      infoWrapStyle: `--hm-info:1;flex:0 ${C.museumHouse?'0':'1'} auto;max-height:52vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;`+
         `padding:11px 15px 12px 13px;border-radius:12px;background:${anySel?'rgba(56,232,255,0.10)':'rgba(56,232,255,0.045)'};`+
         `border:1px solid ${anySel?'rgba(56,232,255,0.34)':'rgba(56,232,255,0.13)'};`,
       listWrapStyle: `--hm-scroll:1;display:${hasList?'block':'none'};flex:1 1 auto;min-height:110px;overflow-y:auto;overflow-x:hidden;`+
@@ -88,6 +100,8 @@
       // Без выбора справа НЕ дублируем подзаголовок слева (UX-ревью 05.09:
       // «название и описание повторяются слева и справа») — подсказка, что делать.
       infoDesc: curM? (curM.desc||'') : (cur? cur.desc : (overview.desc||'Нажмите систему в списке или узел на модели — здесь появится описание.')),
+      studyOverview:!!study&&!anySel,
+      studyAccuracy:study?String(study.accuracy||''):'', studySources,
       credits: C.credits||'',
       flowLegend: this.flowLegendRows(), flowLegendOn: this.flowLegendOn,
       counter: this.state.plan ? ('ПЛАН · ЭТАЖ '+(this.state.planFloor+1)+' / '+(this.planFloors||9))
@@ -98,7 +112,7 @@
                : std ? ('Узлов: '+String(M.length).padStart(2,'0'))
                : whole ? (C.counter||'ГОЛОГРАММА') : ('Систем: '+String(this.PARTDEF.length).padStart(2,'0')),
       hint: this.state.cut ? 'разрез фасада · ⟨/⟩ — глубина среза · тяните — поворот'
-            : this.state.plan ? 'план типовой блок-секции · ▲/▼ — этаж · 1Б-2Б-3Б-3Б'
+            : this.state.plan ? (study?((study.planBounds&&!study.wholeFloor?'план одной секции':'план этажа')+' · ▲/▼ — этаж · колесо — масштаб'):'план типовой блок-секции · ▲/▼ — этаж · 1Б-2Б-3Б-3Б')
             : calib ? 'КАЛИБРОВКА: клик по модели → координаты узла (консоль + строка снизу)'
             : std ? 'клик по номеру или в списке — узел · тяните — поворот · колесо — масштаб'
             : whole ? 'тяните — поворот · колесо — масштаб'

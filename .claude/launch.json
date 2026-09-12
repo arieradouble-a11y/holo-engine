@@ -2,11 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "holo",
+      "name": "konstruktor",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["engine/serve.js"],
-      "port": 8777,
-      "autoPort": true
+      "runtimeArgs": ["C:/Users/rage2/Desktop/Макет дома/serve.mjs"],
+      "port": 8137
     }
   ]
 }

@@ -48,6 +48,20 @@
       <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#5fa9c0;margin-bottom:7px;">{{ infoTag }}</div>
       <div style="font:600 16px/1.25 'IBM Plex Sans';color:#eafaff;margin-bottom:7px;">{{ infoTitle }}</div>
       <div style="font:400 13.5px/1.5 'IBM Plex Sans';color:#a6cddd;text-wrap:pretty;">{{ infoDesc }}</div>
+      <sc-if value="{{ studyOverview }}">
+        <details style="margin:10px 0 4px;padding-top:9px;border-top:1px solid rgba(56,232,255,0.17);font:400 12px/1.45 'IBM Plex Sans',sans-serif;color:#a6cddd;">
+          <summary style="cursor:pointer;color:#b7dce9;">Чертежи и точность</summary>
+          <sc-for list="{{ studySources }}" as="s">
+            <div style="margin-top:7px;">
+              <a href="{{ s.url }}" target="_blank" rel="noopener noreferrer" style="color:#71dff4;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">{{ s.title }} ↗</a>
+            </div>
+          </sc-for>
+            <div style="margin-top:7px;text-wrap:pretty;">{{ studyAccuracy }}</div>
+            <sc-for list="{{ studySources }}" as="s">
+              <div style="font-size:11px;color:#85acbd;margin-top:6px;text-wrap:pretty;">{{ s.note }}</div>
+            </sc-for>
+        </details>
+      </sc-if>
     </div>
     <div style="{{ listWrapStyle }}">
     <div style="{{ partsHeadStyle }}">СИСТЕМЫ И УЗЛЫ</div>
@@ -217,7 +231,9 @@ class Component extends DCLogic {
         uHotInt:{value: this.CONFIG.hotIntensity!=null?this.CONFIG.hotIntensity:1.0 }, // red/hot systems brightness
         uShellOp:{value: this.CONFIG.shellOpacity!=null?this.CONFIG.shellOpacity:1.0 }, // body-shell opacity multiplier
         uPlan:{value:0}, uPlanY:{value:0}, uPlanH:{value:1}, // floor-plan isolation (band around uPlanY)
+        uDetailY:{value:0}, uDetailH:{value:1}, // one teaching floor in traced-house cutaways
         uPlanX:{value:0}, uPlanW:{value:1e9},                // и по X — приглушение соседних блок-секций
+        uPlanZ:{value:0}, uPlanD:{value:1e9}, uPlanStrict:{value:this.CONFIG.floorStudy?1:0}, // явная область плана авторского дома
         uCut:{value:0}, uCutZ:{value:0}, // facade cutaway (discard model-z beyond uCutZ)
         uBold:{value:1}, uFill:{value:1},   // contour brightness / interior-fill dimming
         uRefl:{value: this.CONFIG.reflect!=null?this.CONFIG.reflect:0.14 },  // яркость отражения под моделью
