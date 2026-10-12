@@ -1,0 +1,2110 @@
+[
+  {
+    "id": "plan-121",
+    "loadMs": 2075,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 7,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 11.13537205893073
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 28,
+      "detailObjects": 7,
+      "detailVisible": 7,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 28,
+      "detailObjects": 7,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 13
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 28,
+      "detailObjects": 7,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 13.00645001805719
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 28,
+      "detailObjects": 7,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 11.123962850217522
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 25,
+      "detailObjects": 7,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 18.619440501594298
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-228",
+    "loadMs": 1383,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.143103131992007
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 15.51408511670985
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 39.211482665270104
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 13.49480083097032
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 22.44184422978548
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-467",
+    "loadMs": 1514,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 10.571623194380509
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 13.52
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 6.579578778307876
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 10.623963604883663
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 17.661914462434513
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-85",
+    "loadMs": 1558,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 10.963788832541931
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 13.52
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 14.156228790672458
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 11.000062405135845
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 18.290182702069366
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-85-corner",
+    "loadMs": 2029,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.316366076973974
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 15.899707821706848
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 14.863486514192429
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 12.635877987352115
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 22.613775219304667
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-83",
+    "loadMs": 1592,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 11.075816899977767
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 13.52
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 14.15112190673247
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 11.111446799708554
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 18.464379232265415
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-brusnika-2019",
+    "loadMs": 2180,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.314202739601614
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 17.145336299687624
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 11.946116025446296
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 27,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 13.28818099754556
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 22.479523124025555
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-gp18",
+    "loadMs": 1695,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 24,
+      "detailObjects": 5,
+      "detailVisible": 3,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 11.80987625115532
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 26,
+      "detailObjects": 5,
+      "detailVisible": 5,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 7.15
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 26,
+      "detailObjects": 5,
+      "detailVisible": 3,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 17.411524870138187
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 26,
+      "detailObjects": 5,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 19.901725149700066
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 26,
+      "detailObjects": 5,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 11.004029033206555
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 24,
+      "detailObjects": 5,
+      "detailVisible": 3,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.11565148304644
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd",
+    "loadMs": 1526,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 22,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.2
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 24,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 7.15
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 24,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 17.295918161737138
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 24,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 10.320609920272062
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "economy",
+      "geometries": 24,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 12.649999999999999
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 22,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.851149994136652
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd-121",
+    "loadMs": 1535,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 24,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 8.5
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 26,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 26,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 13.75674192959676
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 26,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 9.363632520280303
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 26,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 8.5
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 24,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 16.696214638527774
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd-447",
+    "loadMs": 1606,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 31,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 8.5
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 31,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 31,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 15.605954377742178
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 31,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 10.635274098469834
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 31,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 8.5
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 29,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 17.95945535322019
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd-p44",
+    "loadMs": 1775,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 11.564103161395586
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 35,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 6.263889212422609
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 35,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 16.642181891243528
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 35,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 7.69888727213243
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 35,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 11.082265529670769
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 17.6909306899985
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd-stalin",
+    "loadMs": 1570,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 8.5
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 4.7
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 15.382637929399925
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 10.204799077079093
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 8.5
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 31,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 17.74316105887523
+      }
+    },
+    "pass": true
+  },
+  {
+    "id": "zhk",
+    "loadMs": 2016,
+    "overview": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 32,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.2
+      }
+    },
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 34,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 7.15
+      }
+    },
+    "exploded": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 34,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": true,
+        "plan": false,
+        "cut": false,
+        "distance": 18.580148399974092
+      }
+    },
+    "explodeConsistent": true,
+    "plan": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 34,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": true,
+        "cut": false,
+        "distance": 7.839320430417972
+      }
+    },
+    "cut": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 34,
+      "detailObjects": 6,
+      "detailVisible": 0,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": true,
+        "distance": 12.649999999999999
+      }
+    },
+    "mobile": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        780
+      ],
+      "profile": "economy",
+      "geometries": 32,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 15.888237695494544
+      }
+    },
+    "pass": true
+  }
+]

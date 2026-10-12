@@ -1,0 +1,22 @@
+/* The same atlas transform covers the scene and its legends, preserving their color correspondence. */
+body.light{--glass:rgba(248,246,239,.92);--glass2:#f8f6ef;--hair:#cbd3c7;--hi:#fffef8;--txt:#243f42;--dim:#4c6666;--dim2:#627773;--accent:#31766f;--shadow:0 10px 30px #324d4222,0 0 0 .5px #768d7433;background:#f3f1e8}
+body.light #wall{inset:0;transform:none;filter:none;background:#f3f1e8!important}
+body.light #wall::after{background:radial-gradient(ellipse at 70% 20%,#e4eadd80,transparent 65%),linear-gradient(#54746b08 1px,transparent 1px),linear-gradient(90deg,#54746b08 1px,transparent 1px);background-size:auto,32px 32px,32px 32px}
+body.light #menubar,body.light #dock{background:#f8f6efeb}
+body.light #menubar .logo i{box-shadow:none}
+body.light .side button[aria-pressed=true],body.light .tbtn.on{background:#dfe9dc;border-color:#90aaa0}
+body.light :is(.side button,.item):hover{background:#e7ece1}
+body.light .item .ic{border-radius:12px;isolation:isolate;background-color:#f8f6ef;background-image:linear-gradient(#54746b0c 1px,transparent 1px),linear-gradient(90deg,#54746b0c 1px,transparent 1px);background-size:24px 24px;box-shadow:0 4px 12px #324d4215,inset 0 0 0 1px #cbd3c7}
+body.light .item .ic img{filter:url('/metavselennaya/museum-atlas.svg?v=2#ink');mix-blend-mode:multiply}
+body.light .stage{background:#faf7ed}
+/* Keep iframe compositing and hit testing native, especially on mobile WebKit. */
+body.light .stage iframe{filter:none}
+body.light .stage{z-index:0}
+body.light .info{position:relative;z-index:1;background:#f8f6ef;color:#243f42}
+body.light .dapp em{color:#243f42}
+body.light .sleep{background:#f0f0e6!important}
+body.light .sleep::before{background:none}
+body.light :is(.load,.sleep p){color:#4c6666}
+body.light .hintbar{color:#536e67}
+body.light #menubar .encyclopedia-theme-control{min-height:26px;padding:0 7px;border-radius:6px}
+body.light #menubar .encyclopedia-theme-control select{min-height:26px}

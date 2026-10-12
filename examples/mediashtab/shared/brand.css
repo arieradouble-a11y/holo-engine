@@ -1,0 +1,82 @@
+/* Общий слой бренда «Штаб ЖКХ» для разделов вне Next-приложения:
+   энциклопедия, истории, туры, каталог музея. Подключается из
+   /metavselennaya/theme.css. Источник правды палитры — zhkh-map/src/app/globals.css
+   («Хроника» с логотипом заказчика, 08.10.2026); здесь копия основных значений —
+   меняя там, поменяйте и здесь. Цвета остальных файлов энциклопедии приведены к ней
+   скриптом style-test/meta/brand_recolor.py (09.10.2026).
+   Шрифт Rubik — вариативный файл сайта (300–900), один на кириллицу и один на латиницу. */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url(/shared/fonts/Rubik-cyrillic.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url(/shared/fonts/Rubik-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --shtab-font: 'Rubik', 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  /* день */
+  --shtab-paper: #ffffff;
+  --shtab-surface: #ffffff;
+  --shtab-ink: #12203b;
+  --shtab-ink-2: #4a5b70;
+  --shtab-ink-3: #5a6a7e;
+  --shtab-line: #dfe6ef;
+  --shtab-accent: #0a84ff;      /* знак, точки, рамка фокуса */
+  --shtab-accent-text: #0062da; /* «ЖКХ» в логотипе, текст и ссылки: 5.6:1 к бумаге */
+  --shtab-accent-fill: #0068d6; /* кнопки: белый на ней 5.4:1 */
+  --shtab-on-accent: #fff;
+  --shtab-sub: #223c5c;         /* «Тюменская область» под надписью */
+  /* ночь */
+  --shtab-night-paper: #0a1322;
+  --shtab-night-surface: #111d31;
+  --shtab-night-line: #1f2f48;
+  --shtab-night-ink: #eef3fa;
+  --shtab-night-ink-2: #a9b8cc;
+  --shtab-night-accent: #4da3ff;
+  --shtab-night-on-accent: #06182f;
+}
+
+/* Знак «Штаб ЖКХ» — тот же, что в шапке сайта (метка с домом, src/app/icon.svg);
+   ведёт на главную. Плашка остаётся: в турах знак стоит поверх иллюстрации. */
+.shtab-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 14px 4px 6px;
+  border-radius: 12px;
+  border: 1px solid var(--shtab-line);
+  background: var(--shtab-surface);
+  color: var(--shtab-ink);
+  font: 700 15px/1.15 var(--shtab-font);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.shtab-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+.shtab-brand-mark img { display: block; width: 32px; height: auto; }
+.shtab-brand-text { display: grid; }
+.shtab-brand b { font-weight: 700; }
+.shtab-brand b i { font-style: normal; color: var(--shtab-accent-text); }
+.shtab-brand small { display: block; font-size: 11px; font-weight: 500; color: var(--shtab-sub); }
+.shtab-brand:hover { border-color: var(--shtab-accent); }
+.shtab-brand:focus-visible { outline: 2px solid var(--shtab-accent); outline-offset: 3px; }
+@media (max-width: 560px) {
+  .shtab-brand small { display: none; }
+  .shtab-brand { padding-right: 12px; }
+}

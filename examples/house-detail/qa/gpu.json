@@ -1,0 +1,152 @@
+[
+  {
+    "name": "baseline",
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "canvas": [
+      1366,
+      800
+    ],
+    "detailMeshes": 0,
+    "visibleDetail": 0,
+    "shellMeshes": 9,
+    "geometryCount": 21,
+    "revision": "134",
+    "errors": [],
+    "initial": {
+      "frame": 6427,
+      "calls": 95,
+      "triangles": 337447,
+      "points": 0,
+      "lines": 614326,
+      "actualRenderedFPS": 165.1
+    }
+  },
+  {
+    "name": "pilot",
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "canvas": [
+      1366,
+      800
+    ],
+    "profile": "normal",
+    "detailMeshes": 7,
+    "fine": false,
+    "visibleDetail": 4,
+    "shellMeshes": 14,
+    "geometryCount": 25,
+    "revision": "134",
+    "errors": [],
+    "initial": {
+      "frame": 6733,
+      "calls": 106,
+      "triangles": 393931,
+      "points": 0,
+      "lines": 587722,
+      "actualRenderedFPS": 164.8
+    },
+    "economy": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "economy",
+      "detailMeshes": 7,
+      "fine": false,
+      "visibleDetail": 4,
+      "shellMeshes": 14,
+      "geometryCount": 25,
+      "revision": "134",
+      "frame": 15233,
+      "calls": 53,
+      "triangles": 261783,
+      "points": 0,
+      "lines": 240032,
+      "actualRenderedFPS": 30
+    },
+    "high": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "high",
+      "detailMeshes": 7,
+      "fine": false,
+      "visibleDetail": 4,
+      "shellMeshes": 14,
+      "geometryCount": 25,
+      "revision": "134",
+      "frame": 17764,
+      "calls": 106,
+      "triangles": 393931,
+      "points": 0,
+      "lines": 587722,
+      "actualRenderedFPS": 165
+    }
+  },
+  {
+    "name": "mobile",
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "canvas": [
+      390,
+      844
+    ],
+    "profile": "economy",
+    "detailMeshes": 7,
+    "fine": false,
+    "visibleDetail": 4,
+    "shellMeshes": 14,
+    "geometryCount": 25,
+    "revision": "134",
+    "errors": [],
+    "initial": {
+      "frame": 155,
+      "calls": 53,
+      "triangles": 261783,
+      "points": 0,
+      "lines": 240032,
+      "actualRenderedFPS": 30
+    },
+    "economy": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        390,
+        844
+      ],
+      "profile": "economy",
+      "detailMeshes": 7,
+      "fine": false,
+      "visibleDetail": 4,
+      "shellMeshes": 14,
+      "geometryCount": 25,
+      "revision": "134",
+      "frame": 386,
+      "calls": 53,
+      "triangles": 261783,
+      "points": 0,
+      "lines": 240032,
+      "actualRenderedFPS": 30.3
+    },
+    "high": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        682,
+        1477
+      ],
+      "profile": "high",
+      "detailMeshes": 7,
+      "fine": false,
+      "visibleDetail": 4,
+      "shellMeshes": 14,
+      "geometryCount": 25,
+      "revision": "134",
+      "frame": 2679,
+      "calls": 106,
+      "triangles": 393931,
+      "points": 0,
+      "lines": 587722,
+      "actualRenderedFPS": 165.5
+    }
+  }
+]

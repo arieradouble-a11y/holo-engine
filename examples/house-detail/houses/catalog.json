@@ -1,0 +1,100 @@
+[
+  {
+    "id": "plan-121",
+    "title": "Дом 121-014 — проект 1985 года",
+    "style": "panel",
+    "details": 3087,
+    "floors": 9
+  },
+  {
+    "id": "plan-228",
+    "title": "Дом 1-228-2 — 1950 год",
+    "style": "brick",
+    "details": 206,
+    "floors": 2
+  },
+  {
+    "id": "plan-467",
+    "title": "Дом 1-467А — проект 1966 года",
+    "style": "panel",
+    "details": 1086,
+    "floors": 5
+  },
+  {
+    "id": "plan-85",
+    "title": "Дом серии 85 — проект 1980 года",
+    "style": "brick",
+    "details": 2162,
+    "floors": 9
+  },
+  {
+    "id": "plan-85-corner",
+    "title": "Угловой дом серии 85 — сборка секций",
+    "style": "brick",
+    "details": 3873,
+    "floors": 9
+  },
+  {
+    "id": "plan-83",
+    "title": "Панельная девятиэтажка серии 83 — проект 1986 года",
+    "style": "panel",
+    "details": 1615,
+    "floors": 9
+  },
+  {
+    "id": "plan-brusnika-2019",
+    "title": "Дом Брусники — 2019 год",
+    "style": "monolith",
+    "details": 11841,
+    "floors": 14
+  },
+  {
+    "id": "plan-gp18",
+    "title": "Жилой дом ГП-18 — проект 2020 года",
+    "style": "monolith",
+    "details": 4639,
+    "floors": 18
+  },
+  {
+    "id": "mkd",
+    "title": "Жилой дом (МКД)",
+    "style": "panel",
+    "details": 960,
+    "floors": 9
+  },
+  {
+    "id": "mkd-121",
+    "title": "Панельная 9-этажка (серия 121)",
+    "style": "panel",
+    "details": 2472,
+    "floors": 9
+  },
+  {
+    "id": "mkd-447",
+    "title": "Кирпичная пятиэтажка (серия 1-447)",
+    "style": "brick",
+    "details": 844,
+    "floors": 5
+  },
+  {
+    "id": "mkd-p44",
+    "title": "Панельная 17-этажка (серия П-44)",
+    "style": "panel",
+    "details": 4336,
+    "floors": 17
+  },
+  {
+    "id": "mkd-stalin",
+    "title": "Кирпичный дом 1950-х («сталинка»)",
+    "style": "brick",
+    "details": 1084,
+    "floors": 5
+  },
+  {
+    "id": "zhk",
+    "title": "Жилой комплекс с крышной котельной",
+    "style": "monolith",
+    "details": 8709,
+    "floors": 24
+  }
+]

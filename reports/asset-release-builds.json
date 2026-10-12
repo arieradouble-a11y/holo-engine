@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-12",
+  "canonicalCatalog": {"passed": true, "models": 60, "systems": 504, "missingThumbnails": 0},
+  "detailedHouses": {"passed": true, "models": 14},
+  "glossaryTests": {"passed": true, "tests": 9},
+  "stagedTreeCatalog": {"passed": true, "models": 60, "missingThumbnails": 0, "sourceTree": "44765bd5a478dbe1044bd4f84deef7808a50a0cc", "method": "git archive of staged files, UTF-8 extraction, npm run build:catalog"},
+  "stagedTreeHouses": {"passed": true, "models": 14, "method": "Same staged snapshot; existing engine dependencies linked into the isolated checkout; npm run build:houses"},
+  "physicalPhonePerformance": "not measured",
+  "productionDeployment": "not performed"
+}

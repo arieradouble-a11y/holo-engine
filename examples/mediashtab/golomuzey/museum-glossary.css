@@ -1,0 +1,10 @@
+.museum-card{min-width:0}.museum-card:has(>.item.hidden){display:none}.museum-card>.item{width:100%}
+.museum-card-terms{display:flex;justify-content:center;flex-wrap:wrap;gap:7px 12px;padding:0 8px 8px;font:12px/1.6 var(--sans);color:var(--dim2)}
+.museum-object-terms{padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.museum-object-terms h4{margin-top:0}.museum-object-terms p{font-size:12px!important}
+.museum-term-list{display:flex;flex-wrap:wrap;gap:10px 16px;font:13px/1.6 var(--sans)}
+.museum-glossary-link{font:12px/1.4 var(--sans);color:inherit;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+[style*="--hm-sub"] button.gkh-term,[style*="--hm-info"] button.gkh-term{pointer-events:auto!important}
+@media(max-width:640px){.museum-glossary-link{font-size:11px}.museum-term-list{gap:12px 16px}}
+
+@media(max-width:640px){.museum-glossary-link{font-size:0}.museum-glossary-link span{font-size:12px}}

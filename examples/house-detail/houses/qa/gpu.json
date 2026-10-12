@@ -1,0 +1,631 @@
+[
+  {
+    "id": "plan-121",
+    "loadMs": 1529,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 7,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 11.13537205893073
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 106,
+      "triangles": 393931,
+      "lines": 587722
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 95,
+      "triangles": 337447,
+      "lines": 550066
+    },
+    "economy": {
+      "calls": 53,
+      "triangles": 261783,
+      "lines": 240032
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-228",
+    "loadMs": 1103,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.143103131992007
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 93,
+      "triangles": 39727,
+      "lines": 52674
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 77,
+      "triangles": 32311,
+      "lines": 47730
+    },
+    "economy": {
+      "calls": 47,
+      "triangles": 26047,
+      "lines": 21852
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-467",
+    "loadMs": 1306,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 10.571623194380509
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 106,
+      "triangles": 265555,
+      "lines": 408796
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 95,
+      "triangles": 244819,
+      "lines": 394972
+    },
+    "economy": {
+      "calls": 53,
+      "triangles": 176199,
+      "lines": 166370
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-85",
+    "loadMs": 1396,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 10.963788832541931
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 106,
+      "triangles": 328375,
+      "lines": 494842
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 95,
+      "triangles": 284743,
+      "lines": 465754
+    },
+    "economy": {
+      "calls": 53,
+      "triangles": 218079,
+      "lines": 202376
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-85-corner",
+    "loadMs": 1466,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.316366076973974
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 106,
+      "triangles": 473035,
+      "lines": 700780
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 95,
+      "triangles": 396787,
+      "lines": 649948
+    },
+    "economy": {
+      "calls": 53,
+      "triangles": 314519,
+      "lines": 287528
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-83",
+    "loadMs": 1335,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 11.075816899977767
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 106,
+      "triangles": 295867,
+      "lines": 449902
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 95,
+      "triangles": 261667,
+      "lines": 427102
+    },
+    "economy": {
+      "calls": 53,
+      "triangles": 196407,
+      "lines": 183752
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-brusnika-2019",
+    "loadMs": 1450,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 25,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.314202739601614
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 106,
+      "triangles": 600943,
+      "lines": 769268
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 95,
+      "triangles": 385807,
+      "lines": 625844
+    },
+    "economy": {
+      "calls": 53,
+      "triangles": 399791,
+      "lines": 322354
+    },
+    "pass": true
+  },
+  {
+    "id": "plan-gp18",
+    "loadMs": 1457,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 24,
+      "detailObjects": 5,
+      "detailVisible": 3,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 11.80987625115532
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 103,
+      "triangles": 431179,
+      "lines": 610682
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 95,
+      "triangles": 340459,
+      "lines": 550202
+    },
+    "economy": {
+      "calls": 51,
+      "triangles": 286615,
+      "lines": 250894
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd",
+    "loadMs": 1157,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 22,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.2
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 95,
+      "triangles": 122371,
+      "lines": 158048
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 84,
+      "triangles": 102067,
+      "lines": 144512
+    },
+    "economy": {
+      "calls": 46,
+      "triangles": 80113,
+      "lines": 64900
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd-121",
+    "loadMs": 1251,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 24,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 8.5
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 101,
+      "triangles": 181699,
+      "lines": 227120
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 90,
+      "triangles": 130291,
+      "lines": 192848
+    },
+    "economy": {
+      "calls": 50,
+      "triangles": 119665,
+      "lines": 94732
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd-447",
+    "loadMs": 1231,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 31,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 8.5
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 143,
+      "triangles": 220663,
+      "lines": 276756
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 127,
+      "triangles": 190279,
+      "lines": 256500
+    },
+    "economy": {
+      "calls": 73,
+      "triangles": 144991,
+      "lines": 112368
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd-p44",
+    "loadMs": 1411,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        2,
+        3
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 11.564103161395586
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 166,
+      "triangles": 437563,
+      "lines": 566692
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 155,
+      "triangles": 347131,
+      "lines": 506404
+    },
+    "economy": {
+      "calls": 85,
+      "triangles": 289251,
+      "lines": 232004
+    },
+    "pass": true
+  },
+  {
+    "id": "mkd-stalin",
+    "loadMs": 1208,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 33,
+      "detailObjects": 6,
+      "detailVisible": 6,
+      "fine": true,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 8.5
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 153,
+      "triangles": 189331,
+      "lines": 235228
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 137,
+      "triangles": 150307,
+      "lines": 209212
+    },
+    "economy": {
+      "calls": 78,
+      "triangles": 124023,
+      "lines": 96884
+    },
+    "pass": true
+  },
+  {
+    "id": "zhk",
+    "loadMs": 1527,
+    "overview": {
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "geometries": 32,
+      "detailObjects": 6,
+      "detailVisible": 4,
+      "fine": false,
+      "detailsPartIds": [
+        1,
+        3,
+        2
+      ],
+      "validDetails": true,
+      "view": {
+        "exploded": false,
+        "plan": false,
+        "cut": false,
+        "distance": 13.2
+      }
+    },
+    "errors": [],
+    "normal": {
+      "calls": 171,
+      "triangles": 658663,
+      "lines": 813558
+    },
+    "originalEffectsWithoutDetails": {
+      "calls": 160,
+      "triangles": 500227,
+      "lines": 707934
+    },
+    "economy": {
+      "calls": 87,
+      "triangles": 436731,
+      "lines": 332350
+    },
+    "pass": true
+  }
+]

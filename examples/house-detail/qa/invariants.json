@@ -1,0 +1,55 @@
+{
+  "pixelEquivalence": [
+    {
+      "mode": "overview",
+      "changedBytes": 0,
+      "maxChannelDifference": 0,
+      "nonblackChannels": 15233,
+      "pass": true,
+      "submittedVertices": 442408,
+      "fullVertices": 493816
+    },
+    {
+      "mode": "plan",
+      "changedBytes": 0,
+      "maxChannelDifference": 0,
+      "nonblackChannels": 19853,
+      "pass": true,
+      "submittedVertices": 493816,
+      "fullVertices": 493816
+    },
+    {
+      "mode": "cut",
+      "changedBytes": 0,
+      "maxChannelDifference": 0,
+      "nonblackChannels": 148399,
+      "pass": true,
+      "submittedVertices": 493816,
+      "fullVertices": 493816
+    },
+    {
+      "mode": "exploded",
+      "changedBytes": 0,
+      "maxChannelDifference": 0,
+      "nonblackChannels": 139955,
+      "pass": true,
+      "submittedVertices": 493816,
+      "fullVertices": 493816
+    },
+    {
+      "mode": "interior",
+      "changedBytes": 0,
+      "maxChannelDifference": 0,
+      "nonblackChannels": 550726,
+      "pass": true,
+      "submittedVertices": 493816,
+      "fullVertices": 493816
+    }
+  ],
+  "resourceStability": {
+    "before": 28,
+    "after": 28,
+    "pass": true
+  },
+  "pass": true
+}

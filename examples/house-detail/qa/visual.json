@@ -1,0 +1,95 @@
+[
+  {
+    "name": "baseline",
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "canvas": [
+      1366,
+      800
+    ],
+    "detailMeshes": 0,
+    "visibleDetail": 0,
+    "shellMeshes": 9,
+    "geometryCount": 21,
+    "revision": "134",
+    "errors": []
+  },
+  {
+    "name": "pilot",
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "canvas": [
+      1366,
+      800
+    ],
+    "profile": "normal",
+    "detailMeshes": 7,
+    "fine": false,
+    "visibleDetail": 4,
+    "shellMeshes": 14,
+    "geometryCount": 25,
+    "revision": "134",
+    "errors": [],
+    "close": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        1366,
+        800
+      ],
+      "profile": "normal",
+      "detailMeshes": 7,
+      "fine": true,
+      "visibleDetail": 7,
+      "shellMeshes": 14,
+      "geometryCount": 28,
+      "revision": "134"
+    },
+    "plan": {
+      "plan": true,
+      "details": 0
+    },
+    "cut": {
+      "cut": true,
+      "details": 0
+    },
+    "transitions": {
+      "exploded": true,
+      "detailVisible": 4,
+      "indices": 241020,
+      "fullVertices": 241020
+    }
+  },
+  {
+    "name": "mobile",
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "canvas": [
+      390,
+      712
+    ],
+    "profile": "economy",
+    "detailMeshes": 7,
+    "fine": false,
+    "visibleDetail": 4,
+    "shellMeshes": 14,
+    "geometryCount": 25,
+    "revision": "134",
+    "errors": [],
+    "before": false,
+    "after": {
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "canvas": [
+        390,
+        712
+      ],
+      "profile": "economy",
+      "detailMeshes": 7,
+      "fine": false,
+      "visibleDetail": 4,
+      "shellMeshes": 14,
+      "geometryCount": 25,
+      "revision": "134"
+    },
+    "reset": {
+      "close": false,
+      "flow": true
+    }
+  }
+]

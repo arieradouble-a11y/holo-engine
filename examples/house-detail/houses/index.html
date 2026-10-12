@@ -1,0 +1,35 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Жилые дома · детализация голограмм</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#02060d;color:#d7edf4;font:14px system-ui,sans-serif;height:100dvh;display:flex;flex-direction:column}
+header{padding:10px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #214453;background:#07111c;flex:none}
+.brand{font-weight:650;white-space:nowrap}.brand small{display:block;font-size:11px;font-weight:400;color:#84a2b1;margin-top:3px}.building{display:flex;gap:4px;align-items:center;flex:1;min-width:260px}.building select{width:100%;max-width:450px}.group{display:flex;gap:4px;padding:3px;border:1px solid #284551;border-radius:9px}
+button,select,a{font:inherit;color:#bad1dd;background:#0c202b;border:1px solid #284551;border-radius:6px;padding:8px 10px;cursor:pointer;text-decoration:none}button[aria-pressed=true]{color:#04151b;background:#68dce6;border-color:#68dce6}button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid #f7c87a;outline-offset:3px}
+#status{font-size:11px;color:#8eb7c8;min-width:90px}iframe{width:100%;flex:1;min-height:0;border:0}label{white-space:nowrap}
+@media(max-width:900px){.brand{display:none}.building{flex-basis:100%}.building select{max-width:none}#status{margin-left:auto}}
+@media(max-width:520px){header{padding:7px 10px;gap:6px;font-size:12px}button,select{padding:7px 8px}#status{display:none}.building{min-width:0}.building select{width:calc(100% - 72px)}.group{padding:2px;gap:2px}#quality{max-width:105px}}
+</style>
+<header><div class="brand">Жилые дома<small id="counter">14 голограмм</small></div>
+<div class="building"><button id="prev" aria-label="Предыдущее здание">←</button><select id="building" aria-label="Выбрать здание"></select><button id="next" aria-label="Следующее здание">→</button></div>
+<div class="group" aria-label="Сравнение детализации"><button id="before" aria-pressed="false">До</button><button id="after" aria-pressed="true">После</button></div>
+<label>Качество <select id="quality"><option value="auto">Авто</option><option value="economy">Экономный</option><option value="normal">Обычный</option><option value="high">Высокий</option></select></label>
+<button id="close">Детали</button><button id="reset">Общий вид</button><span id="status" role="status">Выберите здание</span></header>
+<iframe title="Интерактивная голограмма жилого дома"></iframe>
+<script>
+const frame=document.querySelector('iframe'),select=document.querySelector('#building');
+let catalog=[],current='',enabled=true,ready=false;
+const send=(action,value)=>frame.contentWindow.postMessage({pilot:true,action,value},location.origin==='null'?'*':location.origin);
+function load(){const id=decodeURIComponent(location.hash.slice(1));const item=catalog.find(x=>x.id===id)||catalog[0];if(!item||current===item.id)return;
+current=item.id;select.value=current;ready=false;document.querySelector('#status').textContent='Загрузка…';document.querySelector('#counter').textContent=(catalog.indexOf(item)+1)+' / '+catalog.length+' зданий';
+// One iframe: navigating unloads the previous WebGL context and model buffers.
+frame.src=item.id+'.html';}
+fetch('catalog.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json();}).then(items=>{catalog=items;for(const [i,x] of items.entries()){const o=document.createElement('option');o.value=x.id;o.textContent=(i+1)+'. '+x.title;select.appendChild(o);}load();}).catch(()=>document.querySelector('#status').textContent='Не удалось загрузить список зданий');
+select.onchange=()=>location.hash=select.value;addEventListener('hashchange',load);
+for(const [id,step] of [['prev',-1],['next',1]])document.querySelector('#'+id).onclick=()=>{if(catalog.length)location.hash=catalog[(catalog.findIndex(x=>x.id===current)+step+catalog.length)%catalog.length].id;};
+document.querySelector('#before').onclick=()=>{enabled=false;send('detail',false);};document.querySelector('#after').onclick=()=>{enabled=true;send('detail',true);};
+document.querySelector('#quality').onchange=e=>send('quality',e.target.value);document.querySelector('#close').onclick=()=>send('close');document.querySelector('#reset').onclick=()=>send('reset');
+addEventListener('message',e=>{if(e.source!==frame.contentWindow||!e.data?.pilot||e.data.event!=='status')return;
+const s=e.data;if(!ready){ready=true;send('detail',enabled);send('quality',document.querySelector('#quality').value);return;}
+document.querySelector('#before').setAttribute('aria-pressed',!s.enabled);document.querySelector('#after').setAttribute('aria-pressed',s.enabled);
+document.querySelector('#status').textContent=({economy:'Экономный',normal:'Обычный',high:'Высокий'}[s.profile]||'Авто')+(s.fps?' · '+s.fps+' кадр/с':'');});
+</script></html>

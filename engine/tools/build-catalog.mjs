@@ -16,6 +16,7 @@ import { execFileSync } from 'node:child_process';
 const argv = process.argv.slice(2);
 const opt = (n, d) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : d; };
 const OUT = path.resolve(opt('--out', '..'));
+fs.mkdirSync(OUT, {recursive: true});
 const ONLY = (opt('--only', '') || '').split(',').map(s => s.trim()).filter(Boolean);
 
 // id конфига → [человеческое имя файла, папка parts (или null = процедурный)]

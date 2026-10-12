@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- Map luminous cyan/amber previews to teal/ochre ink without changing geometry. -->
+  <filter id="ink" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+    <feComponentTransfer>
+      <feFuncR type="gamma" amplitude="1" exponent="1.5" offset="0"/>
+      <feFuncG type="gamma" amplitude="1" exponent="1.5" offset="0"/>
+      <feFuncB type="gamma" amplitude="1" exponent="1.5" offset="0"/>
+    </feComponentTransfer>
+    <feColorMatrix type="matrix" values="-.02 -.20 -.90 0 .98  -.30 -.20 -.55 0 .97  -.78 -.12 -.26 0 .95  0 0 0 1 0"/>
+  </filter>
+  <!-- Live wireframes are thinner than thumbnail renders; keep low-intensity edges visible. -->
+  <filter id="live-ink" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+    <feComponentTransfer>
+      <feFuncR type="gamma" amplitude="1" exponent=".85" offset="0"/>
+      <feFuncG type="gamma" amplitude="1" exponent=".85" offset="0"/>
+      <feFuncB type="gamma" amplitude="1" exponent=".85" offset="0"/>
+    </feComponentTransfer>
+    <feColorMatrix type="matrix" values="-.02 -.20 -.90 0 .98  -.30 -.20 -.55 0 .97  -.78 -.12 -.26 0 .95  0 0 0 1 0"/>
+  </filter>
+</svg>

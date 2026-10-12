@@ -1,0 +1,208 @@
+@import url('./model-theme.css?v=brand-20261009');
+@import url('/shared/brand.css?v=brand-20261009');
+/* Shared surfaces; light model controls are derived from the authored palette. */
+/* A direct way back to the main site, available in every encyclopedia section. */
+.header-inner:has(.staff-return){display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px 18px;padding-top:16px;padding-bottom:10px}
+.header-inner:has(.staff-return)>.brand{grid-column:1;grid-row:1}
+.header-inner:has(.staff-return)>.staff-return{grid-column:2;grid-row:1}
+.header-inner:has(.staff-return)>.theme-in-portal{grid-column:3;grid-row:1;margin:0}
+.header-inner:has(.staff-return)>nav{grid-column:1/-1;grid-row:2;justify-content:flex-end;margin:0}
+.staff-return{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 16px;border:1px solid #4da3ff;border-radius:10px;background:#4da3ff;color:#17212d;font:600 14px/1.3 'Segoe UI',system-ui,sans-serif;white-space:nowrap;box-shadow:0 3px 10px #00000022}
+.staff-return svg{width:19px;height:19px;flex:none;fill:none;stroke:currentColor;stroke-width:2}
+.staff-return:hover{background:#fbd0aa;box-shadow:0 4px 14px #00000033}
+.staff-return:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+html[data-encyclopedia-theme=light] .staff-return{background:#0062da;border-color:#0062da;color:#ffffff}
+html[data-encyclopedia-theme=light] .staff-return:hover{background:#0052b8}
+@media(max-width:760px){
+.header-inner:has(.staff-return){grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:16px 18px 0}
+.header-inner:has(.staff-return)>.brand{grid-column:1/-1;grid-row:1}
+.header-inner:has(.staff-return)>.staff-return{grid-column:1;grid-row:2;justify-self:start}
+.header-inner:has(.staff-return)>.theme-in-portal{grid-column:2;grid-row:2;min-height:44px}
+.header-inner:has(.staff-return)>nav{grid-column:1/-1;grid-row:3;justify-content:space-between}
+}
+.encyclopedia-theme-control{display:inline-flex;align-items:center;gap:7px;flex-shrink:0;padding:0 10px;border:1px solid #717c8a66;border-radius:9px;background:#0f1f33;color:#e6eaee;min-height:40px;font:12px/1.4 'Segoe UI',system-ui,sans-serif;white-space:nowrap}
+.encyclopedia-theme-control svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5;flex-shrink:0}.encyclopedia-theme-control select{font:inherit;color:inherit;background:transparent;border:0;min-height:40px;padding:0 1px;max-width:110px;cursor:pointer}.encyclopedia-theme-control option{background:#0f1f33;color:#e6eaee}.encyclopedia-theme-control:focus-within{outline:2px solid #4da3ff;outline-offset:3px}.theme-in-portal{margin-left:auto}.theme-in-story{margin-left:auto;margin-right:22px}.theme-floating{position:fixed;right:18px;top:18px;z-index:20}
+html[data-encyclopedia-theme=light]{color-scheme:light;--bg:#ffffff;--surface:#ffffff;--ink:#12203b;--muted:#4a5b70;--line:#cbd0d5;--gold:#0062da;--cyan:#0062da;--amber:#0062da;--acc:#0062da;--warm:#0062da;--card:rgba(251,252,253,.96);--glass:rgba(251,252,253,.94);background:#ffffff;color:#12203b}
+html[data-encyclopedia-theme=light] .encyclopedia-theme-control{background:#ffffff;color:#25364a;border-color:#b6bec7}html[data-encyclopedia-theme=light] .encyclopedia-theme-control option{background:#ffffff;color:#25364a}
+/* Portal */
+html[data-encyclopedia-theme=light] .header{background:#fffffff5}html[data-encyclopedia-theme=light] .header nav a:hover{background:#e3e7ec}html[data-encyclopedia-theme=light] .header nav a[aria-current=page]{background:#e3e8ed;color:#0062da}html[data-encyclopedia-theme=light] .brand-icon{border-color:#9eabba}html[data-encyclopedia-theme=light] .door:nth-child(3) .door-link{color:#595c89}html[data-encyclopedia-theme=light] .solar-entry>a{background:linear-gradient(110deg,#e4e8ed,#ffffff);border-color:#bbc4cf}html[data-encyclopedia-theme=light] .filterbar [aria-current=true],html[data-encyclopedia-theme=light] .filterbar [aria-pressed=true],html[data-encyclopedia-theme=light] .search-form button,html[data-encyclopedia-theme=light] .primary{background:#0062da;color:#ffffff;border-color:#0062da}html[data-encyclopedia-theme=light] .solar-planet>span{color:#2c415b;text-shadow:0 1px 4px #ffffff,0 0 6px #ffffff}html[data-encyclopedia-theme=light] .solar-orbit{border-color:#74808e77}html[data-encyclopedia-theme=light] .presentation,html[data-encyclopedia-theme=light] .warmbar{background:#e5eaf0;color:#303e4f}
+/* Story prose and navigation. */
+html[data-encyclopedia-theme=light] :is(.maintenance-app,.app){background:#ffffff;color:#12203b}
+html[data-encyclopedia-theme=light] :is(.m-story,.story-section,.m-footer,.page-footer,.encyclopedia-related){background:#ffffff;color:#12203b}
+html[data-encyclopedia-theme=light] :is(.m-story-top,.story-topbar,.m-story-foot,.story-utilities,.m-next,.chapter-bottom,.m-chapters,.chapter-nav){color:#4a5665;border-color:#cbd0d5}
+html[data-encyclopedia-theme=light] :is(.m-copy,.chapter-copy){color:#12203b;--amber:#0062da;--muted:#4a5b70}
+html[data-encyclopedia-theme=light] :is(.m-copy,.chapter-copy) :is(h2,h3){color:#12203b}
+html[data-encyclopedia-theme=light] :is(.m-lead,.chapter-copy .lead){color:#304054}
+html[data-encyclopedia-theme=light] :is(.m-detail,.chapter-copy .detail){color:#525d6b}
+html[data-encyclopedia-theme=light] :is(.m-question,.owner-question){border-color:#b9c0c8;background:#e5eaf0}
+html[data-encyclopedia-theme=light] :is(.m-question,.owner-question) p{color:#304054}
+html[data-encyclopedia-theme=light] :is(.m-question,.owner-question) span{color:#0062da}
+html[data-encyclopedia-theme=light] :is(.m-source,.source-link,.m-copy .eyebrow,.chapter-copy .eyebrow,.m-next .text-button,.chapter-bottom .text-button,.m-footer a,.m-footer button,.page-footer a,.page-footer button,.encyclopedia-related a,.encyclopedia-related-heading p,.encyclopedia-related-links i){color:#0062da}
+html[data-encyclopedia-theme=light] :is(.m-chapters,.chapter-nav) button{color:#4a5b70;border-color:transparent}
+html[data-encyclopedia-theme=light] :is(.m-chapters,.chapter-nav) button[aria-current=step]{color:#0062da;border-color:#0062da}
+html[data-encyclopedia-theme=light] :is(.m-chapters,.chapter-nav) :is(small,span){color:#656e7a}
+html[data-encyclopedia-theme=light] .encyclopedia-related :is(small,h2,span){color:#304054}
+html[data-encyclopedia-theme=light] :is(.encyclopedia-related,.encyclopedia-related-links>a){border-color:#cbd0d5}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual){--amber:#0062da;--cyan:#0a6fc4;--muted:#525e6c;--line:#c7ccd3;--surface:#e9eef4;color:#293647;color-scheme:light}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .primary{background:#0062da;color:#ffffff;border-color:#0062da}
+/* Covers are illustrated plates, with a light reading margin and original art. */
+html[data-encyclopedia-theme=light] :is(.e-hero,.m-hero,.hero){background:#e5e9ee;isolation:isolate}
+html[data-encyclopedia-theme=light] :is(.e-hero,.m-hero,.hero)::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#ffffff 0%,#fffffff5 26%,#ffffff00 60%)}
+html[data-encyclopedia-theme=light] :is(.e-hero-art,.m-hero-art,.hero-art){background:transparent;border-radius:0}
+html[data-encyclopedia-theme=light] :is(.e-hero-copy,.m-hero-copy,.hero-title,.season-story){z-index:3}
+html[data-encyclopedia-theme=light] :is(.e-hero h1,.m-hero h1,.hero-title h1,.season-story h2){color:#12203b;text-shadow:none}
+html[data-encyclopedia-theme=light] :is(.e-hero h1 em,.m-hero h1 em,.hero-title h1 em,.season-story .eyebrow){color:#0062da}
+html[data-encyclopedia-theme=light] :is(.e-hero-copy,.m-hero-copy,.season-story)>p:not(.eyebrow){color:#455263;text-shadow:none}
+html[data-encyclopedia-theme=light] :is(.m-reading,.reading-time){color:#525d6b}
+html[data-encyclopedia-theme=light] :is(.site-header,.m-header){background:#ffffffed;z-index:5;color:#12203b;position:relative}
+html[data-encyclopedia-theme=light] :is(.site-header,.m-header) :is(a,button,small,svg){color:#0062da}
+html[data-encyclopedia-theme=light] :is(.e-hero-bottom,.m-hero-bottom,.hero-footer){background:#ffffffee;color:#455263;z-index:4;border-radius:8px;padding:5px 12px}
+html[data-encyclopedia-theme=light] :is(.e-hero-bottom,.m-hero-bottom,.hero-footer) :is(button,span){color:#455263}
+html[data-encyclopedia-theme=light] .season-nav{background:#ffffffed;z-index:4;border-radius:9px;color:#304054}
+html[data-encyclopedia-theme=light] .season-nav button{color:#525d6b}html[data-encyclopedia-theme=light] .season-nav button.selected{color:#0062da}
+html[data-encyclopedia-theme=light] .sheet{background:#ffffff;color:#12203b;border-color:#cbd0d5}
+html[data-encyclopedia-theme=light] .sheet :is(h2,h3,strong,button,a){color:#304054}
+html[data-encyclopedia-theme=light] .sheet :is(p,span,small){color:#525d6b}
+html[data-encyclopedia-theme=light] .sheet :is(.m-chapter-list button,.chapter-list button,.m-sources a,.sources-list a){background:#e5eaf0;border-color:#cbd0d5}
+/* Video tours: light cards and reading layers, untouched video frames. */
+html[data-encyclopedia-theme=light] .encyclopedia-tour{--bg:#ffffff;--ink:#12203b;--muted:#4a5b70;--acc:#0062da;--warm:#0062da;--acc-warm:#0062da;--card:rgba(251,252,253,.96);--line:#cbd0d5;--glass:rgba(251,252,253,.96)}
+html[data-encyclopedia-theme=light] .encyclopedia-tour :is(.pcard,.kpi,.backhub,.mini,.card,.step,.side,.src-card){background:rgba(251,252,253,.96)!important;color:#12203b;box-shadow:0 8px 30px #232f3e20}
+html[data-encyclopedia-theme=light] .encyclopedia-tour .step.on{background:#e3e8ed!important}
+html[data-encyclopedia-theme=light] .encyclopedia-tour .intro{background:linear-gradient(90deg,#fffffffa,#fffffff0 52%,#ffffff00 95%)}
+html[data-encyclopedia-theme=light] .encyclopedia-tour .intro :is(h1,.lead){color:#12203b;text-shadow:none}
+html[data-encyclopedia-theme=light] .encyclopedia-tour .board{--ink:#eef0f3;--muted:#a8b5c6;--warm:#4da3ff;--acc:#3783e0;color:#eef0f3}
+html[data-encyclopedia-theme=light] .encyclopedia-tour .loading{background:#ffffff;color:#304054}
+@media(max-width:1000px){.theme-in-portal{order:0}.header nav{order:2;width:100%;justify-content:space-between}}
+@media(max-width:760px){.theme-in-story{margin-right:0}.site-header,.m-header{flex-wrap:wrap;gap:12px}.theme-in-story{order:3;margin:0}.m-header>.text-button,.site-header>.all-stories{margin-left:auto}.theme-floating{right:12px;top:12px}.encyclopedia-theme-control{font-size:11px;padding:0 7px}.theme-in-portal svg{display:none}html[data-encyclopedia-theme=light] :is(.e-hero,.m-hero,.hero)::before{background:linear-gradient(#ffffff 0%,#ffffff 40%,transparent 63%)}html[data-encyclopedia-theme=light] :is(.e-hero-art,.m-hero-art,.hero-art){border-radius:18px}}
+
+html[data-encyclopedia-theme=light] :is(.e-hero-copy,.m-hero-copy,.hero-title) .eyebrow{color:#0062da}html[data-encyclopedia-theme=light] :is(.e-hero-copy,.m-hero-copy,.season-story) :is(.m-reading,.reading-time){color:#525d6b;opacity:1}html[data-encyclopedia-theme=light] .hero-art .hero-caption{color:#b6bec8}
+
+html[data-encyclopedia-theme=light] .hero-title{background:#ffffffef;padding:14px 22px;border:1px solid #cbd0d5;border-radius:14px;box-shadow:0 10px 25px #08152518}html[data-encyclopedia-theme=light] .heat-callout{color:#dce1e7;z-index:3}html[data-encyclopedia-theme=light] .heat-callout .callout-title{color:#fbd4b1}
+@media(max-width:900px){html[data-encyclopedia-theme=light] .season-story{background:#ffffff;box-shadow:0 0 0 12px #ffffff;border-radius:8px}}
+html[data-encyclopedia-theme=light] .heat-callout strong{color:#70a8ec}
+/* Studio surround for live models and illustrations inside chapters. */
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) :is(.m-panel,.common-viewer,.process-card){background:#e9eef4;border-color:#c7ccd3;box-shadow:0 14px 34px #313d4c10;color:#293647}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) :is(.common-model.detailed-model,.thermal-model,.service-art,.network-diagram svg.physical-network-scene){background:radial-gradient(ellipse at 48% 40%,#ffffff,#dee3e9);border-color:#c7ccd3}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) :is(img,image,.real-diorama,.meter-art,.l-bathroom-realistic){mix-blend-mode:normal}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .real-inspection{stroke:#324966;fill:#31455e12}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) :is(.real-water,.meter-flow,.r-water-flow){stroke:#244e81}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .model-leaders path{stroke:#525f6f}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .common-label{background:#ffffffed;color:#2d4665;border-color:#6b809a;box-shadow:0 3px 10px #28374a17}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .common-label.personal{color:#0062da;border-color:#4da3ff}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .common-label.unknown{color:#565e68;border-color:#9198a1}
+html[data-encyclopedia-theme=light] :is(.maintenance-app,.app){--amber:#0062da;--muted:#4a5b70}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) :is(.w-supply,.w-experiment,.w-glass,.v-diagram,.k-diagram,.g-diagram,.d-diagram,.lift-door-diagram) text{fill:#35475c}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .g-sensor text{fill:#cddbec}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) #w-stone rect{fill:#d8dee5}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) #w-stone path{stroke:#626e7d}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .w-experiment>rect:first-of-type{fill:#d8dee5}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) :is(.k-route,.k-appliances,.k-device,.lift-shaft,.v-channel,.v-hood) text{fill:#35475c}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) .v-plan>text{fill:#35475c}
+html[data-encyclopedia-theme=light] :is(.m-stage,.chapter-visual) :is(.k-route,.k-appliances,.v-channel,.v-hood)>rect:first-of-type{fill:#d8dee5}
+html[data-encyclopedia-theme=light] .chapter-visual .house-detail{background:#e9eef4}
+html[data-encyclopedia-theme=light] .chapter-visual :is(.image-caption,.visual-tag){background:#e9eef4ed;color:#35475c;text-shadow:none;border-radius:6px;padding:6px 10px}
+html[data-encyclopedia-theme=light] .l-emergency{border-color:#c7ccd3}
+html[data-encyclopedia-theme=light] .l-emergency :is(span,strong){color:#0062da}
+html[data-encyclopedia-theme=light] .l-emergency p{color:#525d6b}
+
+/* Light covers and story previews share the same studio palette as chapters. */
+html[data-encyclopedia-theme=light] .card.story .card-art{background:transparent;border-color:#cbd0d5}
+html[data-encyclopedia-theme=light] .card.story .card-art img{background:transparent;mix-blend-mode:normal;filter:none}
+html[data-encyclopedia-theme=light] :is(.maintenance-app,.app) :is(.hero,.m-hero,.e-hero,.l-hero,.cold-hero,.o-hero,.r-hero,.k-hero,.g-hero){background:radial-gradient(ellipse at 74% 46%,#dee3ea,transparent 64%),#ffffff;color:#12203b;--amber:#0062da;--cyan:#0062da;--muted:#4a5b70}
+html[data-encyclopedia-theme=light] :is(.maintenance-app,.app) :is(.hero-art,.m-hero-art,.e-hero-art,.l-hero-art,.cold-hero-art,.o-hero-art,.r-hero-art,.k-hero-art,.g-hero-art){background:transparent;border-radius:0}
+html[data-encyclopedia-theme=light] :is(.hero,.m-hero,.e-hero,.l-hero,.cold-hero,.o-hero,.r-hero,.k-hero,.g-hero) :is(img,image,.real-diorama,.l-bathroom-realistic){mix-blend-mode:normal}
+html[data-encyclopedia-theme=light] :is(.hero-art,.m-hero-art,.e-hero-art,.l-hero-art,.cold-hero-art,.o-hero-art,.k-hero-art,.g-hero-art)>img{filter:none}
+html[data-encyclopedia-theme=light] :is(.l-hero,.cold-hero,.o-hero,.r-hero,.k-hero,.g-hero) h1{color:#12203b;text-shadow:none}
+html[data-encyclopedia-theme=light] :is(.l-hero,.cold-hero,.o-hero,.r-hero,.k-hero,.g-hero) h1 em{color:#0062da;text-shadow:none}
+html[data-encyclopedia-theme=light] :is(.l-hero-copy,.cold-hero-copy,.o-hero-copy,.r-hero-copy,.k-hero-copy,.g-hero-copy)>p:not(.eyebrow){color:#455263}
+html[data-encyclopedia-theme=light] :is(.l-hero-copy,.cold-hero-copy,.o-hero-copy,.r-hero-copy,.k-hero-copy,.g-hero-copy) :is(.eyebrow,.m-reading){color:#0062da}
+html[data-encyclopedia-theme=light] :is(.e-hero-card,.cold-hero-card,.g-hero-card,.l-hero-ticket,.k-hero-ticket,.o-hero-note,.r-hero .r-callout){background:linear-gradient(120deg,#fffffff5,#dfe5eced);color:#29384a;border-color:#a4acb5;box-shadow:0 12px 32px #4b556218}
+html[data-encyclopedia-theme=light] :is(.e-hero-card,.cold-hero-card,.g-hero-card,.l-hero-ticket,.k-hero-ticket,.o-hero-note,.r-hero .r-callout) :is(small,svg,span,b,strong,em){color:#3c4c60}
+html[data-encyclopedia-theme=light] :is(.l-hero-bottom,.cold-hero-bottom,.o-hero-bottom,.r-hero-bottom,.k-hero-bottom,.g-hero-bottom){border-color:#cbd0d5;color:#455263}
+html[data-encyclopedia-theme=light] :is(.l-hero-bottom,.cold-hero-bottom,.o-hero-bottom,.r-hero-bottom,.k-hero-bottom,.g-hero-bottom) :is(span,button){color:#455263}
+html[data-encyclopedia-theme=light] :is(.e-hero-caption,.cold-hero-caption,.g-hero-caption,.l-hero-label,.l-hero-room>span,.hero-art .hero-caption){color:#535e6b;text-shadow:none}
+html[data-encyclopedia-theme=light] .l-hero-label b{color:#535e6b}
+html[data-encyclopedia-theme=light] .l-hero-room>.l-bathroom-realistic{filter:none}
+html[data-encyclopedia-theme=light] .l-hero-house{opacity:.55}
+html[data-encyclopedia-theme=light] .home-hero .hero-art{background:transparent}
+html[data-encyclopedia-theme=light] .meters-app .e-hero-art>.meter-art{mix-blend-mode:normal}
+html[data-encyclopedia-theme=light] .l-hero-room>.l-bathroom-realistic{mask-image:linear-gradient(90deg,transparent,#000000 5%,#000000 95%,transparent),linear-gradient(transparent,#000000 5%,#000000 95%,transparent);mask-composite:intersect}
+html[data-encyclopedia-theme=light] .k-hero-study{background:linear-gradient(135deg,#e9eef4,#dee3ea);border-color:#a4acb5;box-shadow:0 15px 35px #4b556225}
+html[data-encyclopedia-theme=light] .k-hero-study :is(b,span,div:first-child){color:#465363}
+
+html[data-encyclopedia-theme=light] .hero-art .orbit-art{mix-blend-mode:screen}
+html[data-encyclopedia-theme=light] .hero .heat-callout{background:#ffffffef;color:#35465b;border-radius:12px;padding:12px}
+html[data-encyclopedia-theme=light] .hero .heat-callout :is(span,strong,b){color:#35465b}
+
+/* Museum preview frames preserve the original dark layout and image geometry. */
+.museum-visual>.museum-atlas-frame{display:block;min-width:0;aspect-ratio:1.35;border-radius:12px;overflow:hidden}
+/* Daylight tour artwork is separate from the original night illustrations. */
+html[data-encyclopedia-theme=light] .card.tour .card-art{background:#ffffff;border:1px solid #d5dadf}
+html[data-encyclopedia-theme=light] .card.tour .card-art>img{object-fit:contain;background:transparent;filter:none}
+.museum-visual>.museum-atlas-frame:nth-child(even){transform:translateY(24px)}
+.museum-row>.museum-atlas-frame{display:block;flex:0 0 100px;width:100px;height:85px;margin-left:0;border-radius:8px;overflow:hidden}
+:is(.museum-visual,.museum-row) .museum-atlas-frame>img{display:block;width:100%;height:100%;transform:none}
+html[data-encyclopedia-theme=light] :is(.museum-atlas-frame,.card.museum .card-art){position:relative;isolation:isolate;background-color:#eff3f8;background-image:linear-gradient(#5462740c 1px,transparent 1px),linear-gradient(90deg,#5462740c 1px,transparent 1px);background-size:24px 24px;border:1px solid #c7ccd1;box-shadow:0 5px 15px #343f4c0b}
+html[data-encyclopedia-theme=light] :is(.museum-atlas-frame,.card.museum .card-art)>img{filter:url('/metavselennaya/museum-atlas.svg?v=1#ink');mix-blend-mode:multiply;background:transparent;border:0}
+html[data-encyclopedia-theme=light] .museum-visual .museum-atlas-frame::after{content:'3D';position:absolute;top:12px;right:12px;padding:2px 5px;border:1px solid #8f98a4;border-radius:4px;background:#eff3f8e8;color:#35465b;font:10px/1.3 'Segoe UI',sans-serif;letter-spacing:.08em}
+
+
+/* ─── Единый стиль с сайтом «Штаб ЖКХ» (03.10.2026; фирстиль логотипа — 09.10.2026) ───────────────────────
+   Шрифт сайта (Rubik из /shared/brand.css) во всех разделах энциклопедии,
+   историях, турах и каталоге музея. Моноширинный — только для кода. */
+html body, html body *:not(code):not(pre):not(kbd):not(samp) { font-family: var(--shtab-font) !important; }
+
+/* Знак «Штаб ЖКХ» вместо кнопки «В Медиаштаб»: тот же вид, что в шапке сайта */
+.header-inner:has(.shtab-brand){display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px 18px;padding-top:16px;padding-bottom:10px;align-items:center}
+.header-inner:has(.shtab-brand)>.shtab-brand{grid-column:1;grid-row:1}
+.header-inner:has(.shtab-brand)>.brand{grid-column:2;grid-row:1}
+.header-inner:has(.shtab-brand)>.theme-in-portal{grid-column:3;grid-row:1;margin:0}
+.header-inner:has(.shtab-brand)>nav{grid-column:1/-1;grid-row:2;justify-content:flex-end;margin:0}
+@media(max-width:760px){
+ .header-inner:has(.shtab-brand){grid-template-columns:minmax(0,1fr) auto;padding:16px 18px 0}
+ .header-inner:has(.shtab-brand)>.shtab-brand{grid-column:1;grid-row:1;justify-self:start}
+ .header-inner:has(.shtab-brand)>.theme-in-portal{grid-column:2;grid-row:1}
+ .header-inner:has(.shtab-brand)>.brand{grid-column:1/-1;grid-row:2}
+ .header-inner:has(.shtab-brand)>nav{grid-column:1/-1;grid-row:3;justify-content:space-between}
+}
+html[data-encyclopedia-theme=dark] .shtab-brand{background:var(--shtab-night-surface);color:var(--shtab-night-ink);border-color:var(--shtab-night-line)}
+html[data-encyclopedia-theme=dark] .shtab-brand small{color:var(--shtab-night-ink-2)}
+html[data-encyclopedia-theme=dark] .shtab-brand b i{color:var(--shtab-night-accent)}
+/* Шапки историй красят все ссылки и значки акцентом — знак держит свои цвета */
+html[data-encyclopedia-theme=light] body a.shtab-brand{color:var(--shtab-ink)}
+html[data-encyclopedia-theme=light] body a.shtab-brand small{color:var(--shtab-sub)}
+html[data-encyclopedia-theme=light] body a.shtab-brand b i{color:var(--shtab-accent-text)}
+html[data-encyclopedia-theme=dark] body a.shtab-brand{color:var(--shtab-night-ink)}
+html[data-encyclopedia-theme=dark] body a.shtab-brand small{color:var(--shtab-night-ink-2)}
+html[data-encyclopedia-theme=dark] body a.shtab-brand b i{color:var(--shtab-night-accent)}
+.shtab-brand-story{margin-left:auto;margin-right:10px}
+.shtab-brand-story+.theme-in-story{margin-left:0}
+.shtab-brand-menubar{min-height:24px;padding:1px 10px 1px 3px;border-radius:8px;font-size:13px;gap:6px}
+.shtab-brand-menubar .shtab-brand-mark,.shtab-brand-menubar .shtab-brand-mark img{width:20px;height:20px}
+.shtab-brand-menubar small{display:none}
+.shtab-floating{display:flex;align-items:center;gap:10px}
+@media(max-width:560px){.shtab-brand-story>span:last-child{display:none}.shtab-brand-story{padding-right:4px}}
+
+/* ─── Тёмная тема в синем сайта (09.10.2026) ──────────────────────────────
+   Хаб берёт акцент из переменных, истории — из --amber и пары своих правил.
+   Туры в тёмной теме сохраняют свою неоновую палитру: это их характер. */
+html[data-encyclopedia-theme=dark]:has(.header-inner){--bg:#0a1322;--surface:#111d31;--ink:#eef3fa;--muted:#a9b8cc;--line:#1f2f48;--gold:#4da3ff;--cyan:#8fbfff}
+html[data-encyclopedia-theme=dark] :is(.app,.maintenance-app){--amber:#4da3ff}
+html[data-encyclopedia-theme=dark] :is(.app,.maintenance-app) .primary{background:#4da3ff;border-color:#4da3ff;color:#06182f}
+html[data-encyclopedia-theme=dark] :is(.app,.maintenance-app) .primary:hover{background:#7ab9ff;color:#06182f}
+html[data-encyclopedia-theme=dark] :is(.encyclopedia-related-heading>a,.encyclopedia-related-links i){color:#4da3ff}
+html[data-encyclopedia-theme=dark] .encyclopedia-related a:focus-visible{outline-color:#4da3ff}
+html[data-encyclopedia-theme=dark] .encyclopedia-related-heading p{color:#a9b8cc}
+html[data-encyclopedia-theme=dark] :is(.e-hero h1 em,.m-hero h1 em,.hero-title h1 em,.l-hero h1 em,.cold-hero h1 em,.o-hero h1 em,.r-hero h1 em,.k-hero h1 em,.g-hero h1 em,.season-story .eyebrow){color:#4da3ff}
+html[data-encyclopedia-theme=dark] :is(.e-hero-copy,.m-hero-copy,.hero-title,.l-hero-copy,.cold-hero-copy,.o-hero-copy,.r-hero-copy,.k-hero-copy,.g-hero-copy) .eyebrow{color:#4da3ff}
+/* Подсказка про отопление остаётся тёплой: здесь цвет означает тепло, а не акцент */
+html[data-encyclopedia-theme=light] .heat-callout strong{color:#c25e00}
+html[data-encyclopedia-theme=dark] .heat-callout strong{color:#ff9a2e}
+/* Подписи, которые на белой бумаге не дотягивали до 4.5:1 */
+html[data-encyclopedia-theme=light] .page-footer :is(span,small){color:#5a6a7e}
+html[data-encyclopedia-theme=light] :is(.m-next,.chapter-bottom)>span{color:#5a6a7e}
+html[data-encyclopedia-theme=light] .encyclopedia-tour .foot{color:#5a6a7e}
+html[data-encyclopedia-theme=light] .side button>span{color:#4a5b70}
+/* Панель меню музея приглушает содержимое (opacity .86) — «ЖКХ» в знаке насыщеннее */
+html[data-encyclopedia-theme=light] body a.shtab-brand.shtab-brand-menubar b i{color:#0052b8}
+html[data-encyclopedia-theme=dark] body a.shtab-brand.shtab-brand-menubar b i{color:#8fc2ff}

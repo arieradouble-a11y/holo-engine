@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Словарь музея ЖКХ</title><link rel="stylesheet" href="theme.css"><link rel="stylesheet" href="glossary.css">
+<body style="max-width:1100px;margin:30px auto;padding:20px"><nav><a href="/golomuzey/">Музей ЖКХ</a> · <a href="/houses/">14 детализированных домов</a> · <a href="https://медиаштабжкх.рф/metavselennaya/">Полная энциклопедия на сайте</a></nav><main></main>
+<script type="module">
+import {glossaryPage,mountGlossary} from './glossary-page.js';
+let cleanup;function show(){cleanup?.();const params=new URLSearchParams(location.hash.split('?')[1]||'');document.querySelector('main').innerHTML=glossaryPage(params);cleanup=mountGlossary(params);document.querySelectorAll('a[href^="#owners"]').forEach(a=>a.href='https://медиаштабжкх.рф/metavselennaya/'+a.getAttribute('href'));}
+addEventListener('hashchange',show);show();
+</script></body></html>

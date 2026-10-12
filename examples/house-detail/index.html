@@ -1,0 +1,27 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Дом 121 · пилот детализации</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#02060d;color:#d7edf4;font:14px system-ui,sans-serif;height:100dvh;display:flex;flex-direction:column}
+header{padding:12px 20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #214453;background:#07111c;flex:none}
+strong{font-size:16px}small{color:#84a2b1;display:block;margin-top:3px}.group{display:flex;gap:4px;padding:3px;border:1px solid #284551;border-radius:9px}
+button,select{font:inherit;color:#bad1dd;background:#0c202b;border:1px solid #284551;border-radius:6px;padding:8px 12px;cursor:pointer}button[aria-pressed=true]{color:#04151b;background:#68dce6;border-color:#68dce6}button:focus-visible,select:focus-visible{outline:2px solid #f7c87a;outline-offset:3px}
+select{max-width:180px}#status{font-size:12px;color:#8eb7c8;margin-left:auto}iframe{width:100%;flex:1;min-height:0;border:0}
+@media(max-width:650px){header{padding:9px 12px;gap:8px}header>div:first-child{width:100%}strong{font-size:14px}small{display:none}button,select{padding:7px 9px}#status{display:none}.group{gap:2px}}
+</style>
+<header><div><strong>Дом 121 · детализация</strong><small>Пилот · девять этажей · три подъезда · <a href="houses/" style="color:#68dce6">Все 14 зданий →</a></small></div>
+<div class="group" aria-label="Сравнение фасада"><button id="before" aria-pressed="false">До</button><button id="after" aria-pressed="true">После</button></div>
+<label>Качество <select id="quality"><option value="auto">Авто</option><option value="economy">Экономный</option><option value="normal">Обычный</option><option value="high">Высокий</option></select></label>
+<button id="close">Детали</button><button id="reset">Общий вид</button><span id="status" role="status">Загрузка…</span></header>
+<iframe title="Интерактивная голограмма дома 121" src="pilot.html"></iframe>
+<script>
+const frame=document.querySelector('iframe');
+const send=(action,value)=>frame.contentWindow.postMessage({pilot:true,action,value},location.origin==='null'?'*':location.origin);
+document.querySelector('#before').onclick=()=>send('detail',false);
+document.querySelector('#after').onclick=()=>send('detail',true);
+document.querySelector('#quality').onchange=e=>send('quality',e.target.value);
+document.querySelector('#reset').onclick=()=>send('reset');
+document.querySelector('#close').onclick=()=>send('close');
+addEventListener('message',e=>{if(e.source!==frame.contentWindow||!e.data?.pilot||e.data.event!=='status')return;const s=e.data;
+document.querySelector('#before').setAttribute('aria-pressed',!s.enabled);document.querySelector('#after').setAttribute('aria-pressed',s.enabled);
+document.querySelector('#status').textContent=({economy:'Экономный',normal:'Обычный',high:'Высокий'}[s.profile]||'Авто')+(s.fps?' · '+s.fps+' кадр/с':'');});
+</script></html>

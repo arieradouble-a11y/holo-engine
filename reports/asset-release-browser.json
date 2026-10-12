@@ -1,0 +1,755 @@
+{
+  "date": "2026-10-12",
+  "renderer": "SwiftShader; functionality only, not physical-device performance",
+  "pass": true,
+  "checks": [
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Илосос КО-560 (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Каналопромывочная КО-512 (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 7,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Мусоровоз с задней загрузкой (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/КДМ — комбинированная дорожная (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Поливомоечная машина (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 7,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Автовышка АГП-22 (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Бункеровоз-мультилифт (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 6,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Аварийная летучка (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 0.9905882352941177,
+      "systems": 7,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Автоцистерна питьевой воды (КамАЗ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 6,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Экскаватор-погрузчик на раскопке (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 7,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Коммунальный трактор (отвал и щётка) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Автокран на аварийной раскопке (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Тяжёлый трактор на полигоне ТКО (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 6,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Насосный агрегат (центробежный) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Шкаф управления насосной станцией (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Тепловой пункт (ИТП) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Задвижка с электроприводом (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Пожарный гидрант с колонкой (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Узел учёта воды (ОДПУ) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Лифтовая лебёдка (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Канализационная насосная станция (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/ВРУ жилого дома (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Этажный щит и квартирная электрика (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Радиаторный узел квартиры (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Регулирующий клапан (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/ГРПШ — газорегуляторный пункт (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/КТП — трансформаторная подстанция (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Пассажирский лифт в шахте (голограмма).html",
+      "pass": true,
+      "loaded": 0.996000000001753,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Контейнерная площадка ТКО (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 6,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Мусоропровод в разрезе (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 6,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Приточная вентустановка (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Теплотрасса в разрезе (голограмма).html",
+      "pass": true,
+      "loaded": 0.993999999998247,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/ВЛ 0,4 кВ и уличное освещение (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Канализационный колодец в разрезе (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Дом 1-228-2 — 1950 год (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Дом 1-467А — проект 1966 года (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Дом 121-014 — проект 1985 года (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Дом серии 85 — проект 1980 года (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Угловой дом серии 85 — сборка секций (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Панельная девятиэтажка серии 83 — проект 1986 года (голограмма).html",
+      "pass": true,
+      "loaded": 0.995647058824406,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Дом Брусники — 2019 год (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Жилой дом ГП-18 — проект 2020 года (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Кирпичный дом 1950-х (сталинка) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 11,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Кирпичная пятиэтажка (серия 1-447) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 11,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Жилой дом (МКД) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 6,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Панельная 9-этажка (121 серия) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Панельная 17-этажка (серия П-44) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 13,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Жилой комплекс с крышной котельной (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 12,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Котельная (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 7,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Крышная котельная (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Электростанция ТЭЦ (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/ЦТП (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 7,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Насосная станция (ВНС II подъёма) (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 6,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Речной водозабор (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Подземный водозабор (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Очистные сооружения канализации (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Полигон и сортировка ТКО (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Водонапорная башня и скважина (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/Подстанция 110-10 кВ (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 9,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "museum",
+      "file": "examples/mediashtab/golomuzey/ГРС — газораспределительная станция (голограмма).html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 0,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/plan-121.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 7,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/plan-228.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/plan-467.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/plan-85.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/plan-85-corner.html",
+      "pass": true,
+      "loaded": 0.9964705882352941,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/plan-83.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/plan-brusnika-2019.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/plan-gp18.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 10,
+      "webgl": true,
+      "detailObjects": 5,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/mkd.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 6,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/mkd-121.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 8,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/mkd-447.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 11,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/mkd-p44.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 13,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/mkd-stalin.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 11,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "houses",
+      "file": "examples/house-detail/houses/zhk.html",
+      "pass": true,
+      "loaded": 1,
+      "systems": 12,
+      "webgl": true,
+      "detailObjects": 6,
+      "errors": []
+    },
+    {
+      "kind": "web-integration",
+      "pass": true,
+      "cards": 60,
+      "dictionary": true,
+      "errors": [],
+      "missing": []
+    }
+  ]
+}

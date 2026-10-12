@@ -1,0 +1,27 @@
+<!-- Знак «Штаб ЖКХ» (логотип заказчика, 08.10.2026) — тот же, что components/BrandMark.tsx -->
+<svg width="48" height="47" xmlns="http://www.w3.org/2000/svg" viewBox="-73.47 -63.62 146.93 143.08"><defs>
+        <mask id="mkp" maskUnits="userSpaceOnUse" x="-73.47" y="-63.62" width="146.93" height="143.08">
+          <rect x="-73.47" y="-63.62" width="146.93" height="143.08" fill="#fff" />
+          <path d="M25.16-43.25A31.75 31.75 0 0 1 49.61-16.96" fill="none" stroke="#000" stroke-width="20.36" stroke-linecap="round" />
+        </mask>
+        <mask id="mkm" maskUnits="userSpaceOnUse" x="-73.47" y="-63.62" width="146.93" height="143.08">
+          <rect x="-73.47" y="-63.62" width="146.93" height="143.08" fill="#fff" />
+          <path d="M-2.83 66.17A4 4 0 0 0 2.83 66.17L26.31 42.69A6 6 0 0 1 27.28 41.9A50 50 0 1 0-27.28 41.9A6 6 0 0 1-26.31 42.69Z" fill="#000" stroke="#000" stroke-width="7.39" stroke-linejoin="round" />
+          <path d="M-90.7 66.08L18.2 44.33M-61.57 109.89L12.54 27.18M-1.44 19.23L62.35 110.14" stroke="#000" stroke-width="3.38" />
+        </mask>
+      </defs>
+      <path mask="url(#mkm)" fill="#00C2D6" stroke="#00C2D6" stroke-width="6.11" stroke-linejoin="round" d="M-38.52 46.59H38.52L65.43 75.4H-65.43Z" />
+      <path mask="url(#mkp)" fill="#0A84FF" d="M-2.83 66.17A4 4 0 0 0 2.83 66.17L26.31 42.69A6 6 0 0 1 27.28 41.9A50 50 0 1 0-27.28 41.9A6 6 0 0 1-26.31 42.69Z" />
+      <path fill="#fff" stroke="#fff" stroke-width="3.05" stroke-linejoin="round"
+        d="M0-27.57L18.79-11.82V-21.14H25.37V-6.31L34.66 1.48L26.18 1.63L26.15 21.77L0 41.61L-26.15 21.77L-26.18 1.63L-34.66 1.48Z" />
+      <g fill="#12203B">
+        <rect x="-12.31" y="-2.26" width="11.11" height="10.69" rx="1.8" />
+        <rect x="-12.31" y="10.65" width="11.11" height="10.69" rx="1.8" />
+        <rect x="1.71" y="-2.26" width="11.11" height="10.69" rx="1.8" />
+        <rect x="1.71" y="10.65" width="11.11" height="10.69" rx="1.8" />
+      </g>
+      <g fill="none" stroke-linecap="round">
+        <path d="M25.16-43.25A31.75 31.75 0 0 1 49.61-16.96" stroke="#FF8A00" stroke-width="9.43" />
+        <path d="M27.49-57.41A43.27 43.27 0 0 1 63.34-16.01" stroke="#0A84FF" stroke-width="9.15" />
+      </g>
+    </svg>

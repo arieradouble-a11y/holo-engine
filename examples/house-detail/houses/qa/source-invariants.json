@@ -1,0 +1,61 @@
+{
+  "houses": [
+    {
+      "id": "mkd-121",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "mkd-447",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "mkd-p44",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "mkd-stalin",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "mkd",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "plan-121",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "plan-228",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "plan-467",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "plan-83",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "plan-85-corner",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "plan-85",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "plan-brusnika-2019",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "plan-gp18",
+      "originalStructurePreserved": true
+    },
+    {
+      "id": "zhk",
+      "originalStructurePreserved": true
+    }
+  ],
+  "acceptedPilotDetailsUnchanged": true
+}
