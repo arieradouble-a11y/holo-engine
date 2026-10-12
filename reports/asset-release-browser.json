@@ -747,7 +747,8 @@
       "kind": "web-integration",
       "pass": true,
       "cards": 60,
-      "dictionary": true,
+      "dictionaryReferences": false,
+      "modelLoaded": true,
       "errors": [],
       "missing": []
     }

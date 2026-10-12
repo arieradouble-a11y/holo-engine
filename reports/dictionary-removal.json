@@ -1,0 +1,265 @@
+{
+  "pass": true,
+  "removedFiles": [
+    "examples/mediashtab/golomuzey/build-glossary.mjs",
+    "examples/mediashtab/golomuzey/glossary.test.mjs",
+    "examples/mediashtab/golomuzey/integrate-glossary.mjs",
+    "examples/mediashtab/golomuzey/museum-glossary-bootstrap.js",
+    "examples/mediashtab/golomuzey/museum-glossary-frame.js",
+    "examples/mediashtab/golomuzey/museum-glossary-index.json",
+    "examples/mediashtab/golomuzey/museum-glossary.css",
+    "examples/mediashtab/golomuzey/museum-glossary.js",
+    "examples/mediashtab/meta/glossary-data.js",
+    "examples/mediashtab/meta/glossary-engine.js",
+    "examples/mediashtab/meta/glossary-museum-data.js",
+    "examples/mediashtab/meta/glossary-museum-links.js",
+    "examples/mediashtab/meta/glossary-museum-search.js",
+    "examples/mediashtab/meta/glossary-page.js",
+    "examples/mediashtab/meta/glossary.css",
+    "examples/mediashtab/meta/glossary.js",
+    "examples/mediashtab/meta/glossary.test.mjs",
+    "examples/mediashtab/meta/index.html"
+  ],
+  "checks": [
+    {
+      "file": "examples/mediashtab/golomuzey/Аварийная летучка (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Автовышка АГП-22 (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Автокран на аварийной раскопке (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Автоцистерна питьевой воды (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Бункеровоз-мультилифт (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ВЛ 0,4 кВ и уличное освещение (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ВРУ жилого дома (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Водонапорная башня и скважина (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ГРПШ — газорегуляторный пункт (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ГРС — газораспределительная станция (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Дом 1-228-2 — 1950 год (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Дом 1-467А — проект 1966 года (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Дом 121-014 — проект 1985 года (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Дом Брусники — 2019 год (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Дом серии 85 — проект 1980 года (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Жилой дом (МКД) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Жилой дом ГП-18 — проект 2020 года (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Жилой комплекс с крышной котельной (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Задвижка с электроприводом (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Илосос КО-560 (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/КДМ — комбинированная дорожная (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/КТП — трансформаторная подстанция (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Канализационная насосная станция (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Канализационный колодец в разрезе (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Каналопромывочная КО-512 (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Кирпичная пятиэтажка (серия 1-447) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Кирпичный дом 1950-х (сталинка) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Коммунальный трактор (отвал и щётка) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Контейнерная площадка ТКО (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Котельная (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Крышная котельная (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Лифтовая лебёдка (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Мусоровоз с задней загрузкой (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Мусоропровод в разрезе (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Насосная станция (ВНС II подъёма) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Насосный агрегат (центробежный) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Очистные сооружения канализации (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Панельная 17-этажка (серия П-44) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Панельная 9-этажка (121 серия) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Панельная девятиэтажка серии 83 — проект 1986 года (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Пассажирский лифт в шахте (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Подземный водозабор (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Подстанция 110-10 кВ (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Пожарный гидрант с колонкой (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Поливомоечная машина (КамАЗ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Полигон и сортировка ТКО (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Приточная вентустановка (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Радиаторный узел квартиры (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Регулирующий клапан (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Речной водозабор (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Тепловой пункт (ИТП) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Теплотрасса в разрезе (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Тяжёлый трактор на полигоне ТКО (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Угловой дом серии 85 — сборка секций (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Узел учёта воды (ОДПУ) (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ЦТП (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Шкаф управления насосной станцией (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Экскаватор-погрузчик на раскопке (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Электростанция ТЭЦ (голограмма).html",
+      "modelPayloadUnchanged": true
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Этажный щит и квартирная электрика (голограмма).html",
+      "modelPayloadUnchanged": true
+    }
+  ]
+}

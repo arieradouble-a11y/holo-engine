@@ -34,15 +34,6 @@ html[data-museum-atlas=light] [style*="--hm-info"]{background:transparent!import
     state.observer.observe(doc,{childList:true,subtree:true,attributes:true,attributeFilter:['data-hm']});
    }
    if(!doc.head)return;
-   if(!doc.getElementById('museum-glossary-css')){
-    const link=doc.createElement('link');link.id='museum-glossary-css';link.rel='stylesheet';link.href='/metavselennaya/glossary.css?v=20260916-2';doc.head.append(link);
-   }
-   if(!doc.getElementById('museum-glossary-local-css')){
-    const local=doc.createElement('link');local.id='museum-glossary-local-css';local.rel='stylesheet';local.href='/golomuzey/museum-glossary.css?v=20260916-1';doc.head.append(local);
-   }
-   if(doc.querySelector('[style*="--hm-info"]')&&!doc.getElementById('museum-glossary-runtime')){
-    const script=doc.createElement('script');script.id='museum-glossary-runtime';script.type='module';script.src='/golomuzey/museum-glossary-frame.js?v=20260916-1';doc.head.append(script);
-   }
    if(!doc.getElementById('museum-atlas-controls')){
     const style=doc.createElement('style');style.id='museum-atlas-controls';style.textContent=css;doc.head.append(style);
    }

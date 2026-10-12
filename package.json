@@ -4,7 +4,6 @@
   "scripts": {
     "build:catalog": "cd engine && node tools/build-catalog.mjs --out out/catalog && node tools/gen-catalog.mjs --root out/catalog --thumbs ../catalog-thumbs --out out/catalog/index.html",
     "build:houses": "node examples/house-detail/build-pilot.cjs && node examples/house-detail/houses/build.mjs",
-    "test:glossary": "node --test examples/mediashtab/golomuzey/glossary.test.mjs examples/mediashtab/meta/glossary.test.mjs",
     "preview": "node engine/tools/serve-examples.mjs"
   }
 }

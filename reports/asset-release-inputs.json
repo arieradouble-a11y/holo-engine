@@ -1,2831 +1,371 @@
 {
   "date": "2026-10-12",
   "pass": true,
-  "files": 564,
-  "bytes": 349643917,
+  "files": 72,
+  "bytes": 99052541,
   "catalogPartSets": 13,
   "credentialScan": "Known private-key/token patterns and sensitive filenames; not a general security audit",
   "failures": [],
   "inventory": [
     {
-      "file": ".agents/skills/build-hybrid-game-assets/SKILL.md",
-      "bytes": 2992,
-      "sha256": "bb64cbecfd06fdc3376323d4f5b4ef2c6e987442f8adcc3b9ddd7015a79cabf6"
-    },
-    {
-      "file": ".agents/skills/optimize-threejs-games/SKILL.md",
-      "bytes": 1682,
-      "sha256": "d50e8c26ae8130b5cb37da32835024ab281090f107bd52caa476b80a60f2e2b5"
-    },
-    {
-      "file": ".agents/skills/threejs/SKILL.md",
-      "bytes": 3476,
-      "sha256": "e6ebd6e0354b7d05fbfb87a63403b6c2a8c62450f86ff7a9316d55283d586813"
-    },
-    {
-      "file": ".agents/skills/webgl-3d-object/SKILL.md",
-      "bytes": 6603,
-      "sha256": "8b4c8fca568309a6156389bb21b7077a27abe24213789d7f1b2c7d5ab79f3e45"
-    },
-    {
-      "file": ".gitignore",
-      "bytes": 1998,
-      "sha256": "2711de9fc2cecda690e938bd3207498436633029043ca8419bfb1a0b5f01ea8e"
-    },
-    {
       "file": "README.md",
-      "bytes": 3677,
-      "sha256": "102f07b6a8973aadcd69e32788a14a3143561a4ceed133fb18a728e55b06b111"
-    },
-    {
-      "file": "agp-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "agp-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "agp-parts/part02.glb",
-      "bytes": 84196,
-      "sha256": "feae134e9aef56d2566ea2318a9dd7983d9bd67141b2bc2be0b287d3194ed691"
-    },
-    {
-      "file": "agp-parts/part03.glb",
-      "bytes": 76992,
-      "sha256": "d467c622279095d01df907386cd40525e6ff50892c5cf018b8610fd31d9143fa"
-    },
-    {
-      "file": "agp-parts/part04.glb",
-      "bytes": 25264,
-      "sha256": "8dc2116f6a5cf01b3a005af5f381982e4a6ccac8cfa9edb645121bda441c238f"
-    },
-    {
-      "file": "agp-parts/part05.glb",
-      "bytes": 110092,
-      "sha256": "2595a3aa80a1bd8b8de96d82b15b15b7823690542aa215860e57df46d9e064e6"
-    },
-    {
-      "file": "agp-parts/part06.glb",
-      "bytes": 43696,
-      "sha256": "4242a78a84d32deb58bc6c184b8b8fb22ed3341192f5cb7e729f6fbe752974b6"
-    },
-    {
-      "file": "agp-parts/part07.glb",
-      "bytes": 76364,
-      "sha256": "febd173aea411ee5160fe44a08b8756f40fb7e51ebebf4aff7edc5f60b750917"
-    },
-    {
-      "file": "assets/housing-evidence/1-228-plan.jpg",
-      "bytes": 1139900,
-      "sha256": "5057b060004b9558454bd649c08007958584be1156d6fa2995888b88adfad4da"
-    },
-    {
-      "file": "assets/housing-evidence/1-228-provenance.md",
-      "bytes": 4091,
-      "sha256": "89644995466f5c585440dc58a65bb2a2d1b1caff37fd9a88364d3a3064a3aae0"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-contents.png",
-      "bytes": 575592,
-      "sha256": "e575cf2ec2d11d235a6fe8a4405496c54b4a385f0e1f0fcefa8081e098eafde9"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-middle.png",
-      "bytes": 546730,
-      "sha256": "0ad2bd903cf26d50cf5c8ae695307c1a02093234e068c9de1172123f54c07603"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-p11.png",
-      "bytes": 491008,
-      "sha256": "92e07144b4f5d23608295105dbe183f7e835f8f71ecbd5617a449437cfd172b1"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-p12.png",
-      "bytes": 429195,
-      "sha256": "6f83c6b31855fbc9c40e02f5669ca5174f99430e721392e3656108202a1bbd1e"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-p13.png",
-      "bytes": 455640,
-      "sha256": "ba4e71a65e5af36824618cdea011bda41e95f76dcb624b42242469c2dc1554a1"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-p14.png",
-      "bytes": 539226,
-      "sha256": "08b6abf037a9611dffcdfdc206175851f8e4d5aef5e91066d10891225284ce05"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-p2.png",
-      "bytes": 291851,
-      "sha256": "cc73be03df18897c24096f73cf37ee636fd3aa8ec638fa1b5185caac0f2e8c9d"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-p8.png",
-      "bytes": 576503,
-      "sha256": "28016b08698bc214c90074d0f2f71746e8f5dac15beb82ae8db93a38968fcbc2"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-p9.png",
-      "bytes": 500844,
-      "sha256": "df6fcd5b02f379e466bbc2f7bdf1ad1438990864ef0140767f47bb95cc6ac770"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-plan.png",
-      "bytes": 846350,
-      "sha256": "1f313bce68bcd8ab28b8fb179734398432b92edb90c7b9a297a9b6a0f6687fbe"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-plan2.png",
-      "bytes": 1144248,
-      "sha256": "ff5a18e7115aa5a7b6a91b75c4f1073daa2e132c2506e9c3b65279a51fa27738"
-    },
-    {
-      "file": "assets/housing-evidence/1-467-plan3.png",
-      "bytes": 903675,
-      "sha256": "1ededb7890d612b2ae0e41db4ad68ae469f7946f9622145f047eeaeb07657856"
-    },
-    {
-      "file": "assets/housing-evidence/1-467a-17.pdf",
-      "bytes": 7543805,
-      "sha256": "5f169605746a195f22b31719920a39287813acb3675e944efc4e300a82bbd501"
-    },
-    {
-      "file": "assets/housing-evidence/121-original.pdf",
-      "bytes": 6953181,
-      "sha256": "2bf0b5a2d3fb56989291000d156364cc262ae50e44a3e14ae7aaa2b756931e4f"
-    },
-    {
-      "file": "assets/housing-evidence/121-plan.png",
-      "bytes": 546653,
-      "sha256": "ad08890aa0d0958ceed3cfbf9f8029dedf5887e6d465774663db51d80efb1a86"
-    },
-    {
-      "file": "assets/housing-evidence/RECONSTRUCTION.md",
-      "bytes": 14311,
-      "sha256": "7324bcd30f8a2a7a17959fe38f14574034c5aa75951d0c861d9e9883d7794264"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-02-01-17-ar1.pdf",
-      "bytes": 9483758,
-      "sha256": "8073c452792f4820c9e488b9ae1d9cfcdda794d364b815c169f14cecfd4fe93c"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-2019-provenance.md",
-      "bytes": 4909,
-      "sha256": "afcb17b786218060f38cf666d300b78bcf6bbda4471b3bad7676e8217420a803"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section1-plan.png",
-      "bytes": 1496578,
-      "sha256": "26329e9d6e2ca327939bb7a0638f110decbc698b706c166fbb7726dd13d9674e"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section1-whole-study.png",
-      "bytes": 907320,
-      "sha256": "32b476d6b9cccbcf1ead264c29103b941d592cf42da9fd9fa1c18ca921325876"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section2-whole-study.png",
-      "bytes": 791458,
-      "sha256": "cf211713de39a059b6c6e404c12a65bb87e414cb19ab2d8dd28821a8f9a9509e"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section3-whole-study.png",
-      "bytes": 1279405,
-      "sha256": "910e17c330f17238afe9a0c311d2ca55f47256d384f81125e919760eac3d7705"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section4-whole-study.png",
-      "bytes": 759004,
-      "sha256": "18c40f0f5a7340248a90b25a5a717d57f044eef48ce53c02110bc81a3e653eab"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section5-whole-study.png",
-      "bytes": 840881,
-      "sha256": "2cafa3d7648edab3d6c4f8d66915b5fec5e78b6a497447187d9f4321b6539bfd"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section6-whole-study.png",
-      "bytes": 973969,
-      "sha256": "692939e7adeb1a8be3e9939bfef254c1bc091d58e9973ac6328614afef8efa90"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section7-whole-study.png",
-      "bytes": 710847,
-      "sha256": "0a816cfedc09fc12c28d2575565a5abeda86b0c719676196e1cc37db7b734a54"
-    },
-    {
-      "file": "assets/housing-evidence/modern/brusnika-section8-whole-study.png",
-      "bytes": 864365,
-      "sha256": "7f2226a6bec7992a44c20f750c1944fa9a46d5c1c3edca1f76959a83da7b7a20"
-    },
-    {
-      "file": "assets/housing-evidence/modern/check-gp18-connectivity.cjs",
-      "bytes": 2744,
-      "sha256": "bdf05e75a4c30919973ce47d6aac619fe6e6d3cb42b14790b330a506e9fe9b71"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-2020.pdf",
-      "bytes": 5362469,
-      "sha256": "bf5da0391a895413a3cf1ec549f4ccf40d1dd0c839914e0e9139b86a9be40e13"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-connectivity.json",
-      "bytes": 90308,
-      "sha256": "bda1f33b732b66c8f87c3f8779ee9ad0c732e50bfeda1b7f84dbc620ad8be40b"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-page-1.png",
-      "bytes": 96055,
-      "sha256": "a36d3b6dc11b472051b22b3a08c8cb3616adf14def7c2eef637a565a5e765c2c"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-page-4.png",
-      "bytes": 524217,
-      "sha256": "f0506cba6518fa6dee06cd07c2c8107c767813387ab74849e0970b21c22875bd"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-page-6.png",
-      "bytes": 1688669,
-      "sha256": "af1d755cd68719e936bbdd23ed96227a4a13acec7857ea4193ddaf3a094f0db6"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-page-7.png",
-      "bytes": 990198,
-      "sha256": "29b9ef8edc7d4bd4b43a083838459b4126cf329b4738a0412f1beca302412b87"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-page-8.png",
-      "bytes": 1623298,
-      "sha256": "d29d9aa59a159e0b0d518290b887d1d222c183f1b22210aa155b4c66e32ba84a"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-provenance.md",
-      "bytes": 5781,
-      "sha256": "da34dc2fef971b0cf3e5ef0ea1e86e3e84de9c8e4cb64ab56e93c1fc0c32aac1"
-    },
-    {
-      "file": "assets/housing-evidence/modern/gp18-text.txt",
-      "bytes": 18510,
-      "sha256": "c36b26af7565601b718e25246abfb349d65571e3d4ee399043456eb6efad942f"
-    },
-    {
-      "file": "assets/housing-evidence/modern/plan-gp18-prims.json",
-      "bytes": 51435,
-      "sha256": "76c5e3e966ff9a2b6d2d85fe4efdf0e322d516927db3e6e385a0510366904493"
-    },
-    {
-      "file": "assets/housing-evidence/modern/plan-gp18-whole-prims.json",
-      "bytes": 960630,
-      "sha256": "04bf7124c8d3dd58d458bf7a0f559ca65800330dc1c3be6a11ecb378d21646f2"
-    },
-    {
-      "file": "assets/housing-evidence/plan-121-prims.json",
-      "bytes": 39380,
-      "sha256": "174a0e4686ffa7fa710d5d01890883e6749fa273a201646445212a92d0f311ed"
-    },
-    {
-      "file": "assets/housing-evidence/plan-228-prims.json",
-      "bytes": 33807,
-      "sha256": "8928b4268a26ef1ea1e1dcaa2c4283ef178b10d5b430315cb1bdb59f8ffa3d2f"
-    },
-    {
-      "file": "assets/housing-evidence/plan-467-prims.json",
-      "bytes": 20283,
-      "sha256": "698511a8b38ccf9017467087850486f24d799cef916f8a886a13009402628e55"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/1-467a-17-p10.png",
-      "bytes": 626670,
-      "sha256": "934c6b961c367478406928fe717fd84eb683cde67e527ba3fd80e2f3d04accc1"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/1-467a-17-p11.png",
-      "bytes": 589023,
-      "sha256": "ad2a34e56e692e1ca2703ffc26e9250158c012d02b849d02ca361d9a96c5439f"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/1-467a-17-p12.png",
-      "bytes": 509579,
-      "sha256": "6d06d65cf2319e74518fa8e9198adf1c0987734c6ea7d2886d456d465ed8d31c"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/1-467a-17-p13.png",
-      "bytes": 544914,
-      "sha256": "35286af9a9b17a09cb19c3532e3e16fcdcf2cbc97e1dc2c4b0d7be1cf05c65f6"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/1-467a-17-p14.png",
-      "bytes": 645698,
-      "sha256": "82be36deef9bc4b8e2f962edc828050511b6f46a77f6ea9710e71b5b1b0c71bc"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/1-467a-17-p2.png",
-      "bytes": 343609,
-      "sha256": "91f8e2b0c20c87bd62867892675500faf4448bd6bd892206fe8820d2e4055937"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/1-467a-17.pdf.txt",
-      "bytes": 71160,
-      "sha256": "51e639ca5293c0206cf039e32c200176aed915716a07560b495d52516e1e4a9a"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/121-original-p15.png",
-      "bytes": 205169,
-      "sha256": "08ac03f2cc4dd6ba11bf4ad666cd16b6796236579f41d3044e36356a6cd61712"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/121-original-p16.png",
-      "bytes": 329955,
-      "sha256": "32df948a7fa10e41a73cbc08d1aae47f1a9ca7b5decbdd09153fef808994fd7a"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/121-original-p2.png",
-      "bytes": 512813,
-      "sha256": "a88f35f9ab01b1aa74ffe8e9e68d3abdfebfb41c85470a735bb90ce2fce1b1b2"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/121-original-p4.png",
-      "bytes": 406893,
-      "sha256": "c5e348a8eaacc52d62337ef9a6daa1873573fec41be85e444e56db1bee043b68"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/121-original-p5.png",
-      "bytes": 411798,
-      "sha256": "a210f8f29228d9cef6ef79ca322cede13cb48f800a51a298fe65ff13053e8f30"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/121-original-p6.png",
-      "bytes": 429832,
-      "sha256": "a5ddb47ed161aa6355857777ca3f49da4865b8fcde3e245e778db729422de95d"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/121-original-p7.png",
-      "bytes": 383707,
-      "sha256": "259fb80d2be540a3560c1e54626a0a8e853338dae1ed34472de36823553831db"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/121-original.pdf.txt",
-      "bytes": 23639,
-      "sha256": "ed59c4513dc76d77086caea59f37acc887d23db5427c55777dec37017554b556"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/467-contact.png",
-      "bytes": 812980,
-      "sha256": "4c579dc2f05481ffafff9b3b5c24c3dc072a209895d95e4d31ac6390b1c91606"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/467-p14.png",
-      "bytes": 908904,
-      "sha256": "dd5e18afbca22b7b0d28364b8b8f796988b778a5201798879aff6a52972f4988"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/467-p15.png",
-      "bytes": 794823,
-      "sha256": "e1e564a023813fc4f80aabffaf2d107e736d982b63d8a58c40ee4e197b3e26f6"
-    },
-    {
-      "file": "assets/housing-evidence/whole-houses/467-p16.png",
-      "bytes": 846350,
-      "sha256": "1f313bce68bcd8ab28b8fb179734398432b92edb90c7b9a297a9b6a0f6687fbe"
-    },
-    {
-      "file": "avtokran-parts2/part00.glb",
-      "bytes": 621440,
-      "sha256": "4bf41f5c0bf46107ce53724c826a310c4c5092520f4a9deeb5a9d70df0fff82a"
-    },
-    {
-      "file": "avtokran-parts2/part01.glb",
-      "bytes": 276312,
-      "sha256": "29f63dac8b570d30ad9e1f8fce3ee86b0f2fef518efcfc29ce6ca6f91e3d1ed5"
-    },
-    {
-      "file": "avtokran-parts2/part02.glb",
-      "bytes": 610288,
-      "sha256": "2001dbbf9ec87f181c4f1dfd3790a231bdd4a0558330c607f0ca4de14408b59d"
-    },
-    {
-      "file": "avtokran-parts2/part03.glb",
-      "bytes": 174404,
-      "sha256": "3063fd6c9eb90030bd72637290de35d467aef9018ce875b9b72539f7f62dffc5"
-    },
-    {
-      "file": "avtokran-parts2/part04.glb",
-      "bytes": 263716,
-      "sha256": "d3cdc1fc2e0dfbe78d0fd8f30afbf59a6e95554c76ef92b7888c786a4dc60ef8"
-    },
-    {
-      "file": "avtokran-parts2/part05.glb",
-      "bytes": 155740,
-      "sha256": "663c62f3b0fe66cd5f5a126bce82007b3c993452e70b6fc0b61d1bef2d787433"
-    },
-    {
-      "file": "avtokran-parts2/part06.glb",
-      "bytes": 117112,
-      "sha256": "6dbadc30b2a9d3ec0f8f4c1c689eb497940162986f09555eeb18d7f4f2c0a0a7"
-    },
-    {
-      "file": "avtokran-parts2/part07.glb",
-      "bytes": 101620,
-      "sha256": "0350b7d301af42708f3c2c58430912d52b96665f6411e74bc2c44686ba1d4599"
-    },
-    {
-      "file": "bunkervoz-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "bunkervoz-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "bunkervoz-parts/part02.glb",
-      "bytes": 204364,
-      "sha256": "a099d307c740f208129b4f76cdb07df61d2e4ca56b1915c547a411b4797c0488"
-    },
-    {
-      "file": "bunkervoz-parts/part03.glb",
-      "bytes": 118548,
-      "sha256": "83b0a6cc86298431bc28160609bafec1dc01fb3501cf7b4e53325a91c2b38100"
-    },
-    {
-      "file": "bunkervoz-parts/part04.glb",
-      "bytes": 48664,
-      "sha256": "95bcdc77bf56b12dd8e820adb24ef4e538ec92f866dd71a61fdea82b882c9c44"
-    },
-    {
-      "file": "bunkervoz-parts/part05.glb",
-      "bytes": 40496,
-      "sha256": "2b00c636574d2ab3890a2ab467a4336324ee36f23b25b1833747b7531f4a72e0"
-    },
-    {
-      "file": "catalog-thumbs/Аварийная летучка (КамАЗ).jpg",
-      "bytes": 58749,
-      "sha256": "3eb857e8af4954239b7c0665cdf74c890b0c0763e5c35bb37dab0230faf5460e"
-    },
-    {
-      "file": "catalog-thumbs/Автовышка АГП-22 (КамАЗ).jpg",
-      "bytes": 57569,
-      "sha256": "907f3c31864069731a9dc48dad815e3a5ed2c9e96de26f370b465122f90afbef"
-    },
-    {
-      "file": "catalog-thumbs/Автокран на аварийной раскопке.jpg",
-      "bytes": 47672,
-      "sha256": "a9bee24fd876234cefc8f0514495e4e6daca7068c09f5f999a8f15a39252b991"
-    },
-    {
-      "file": "catalog-thumbs/Автоцистерна питьевой воды (КамАЗ).jpg",
-      "bytes": 52798,
-      "sha256": "a7eb1dfedc137a36ddc87186f9d6bb23ecfcb1b797aad1409887019110995a9f"
-    },
-    {
-      "file": "catalog-thumbs/Бункеровоз-мультилифт (КамАЗ).jpg",
-      "bytes": 51732,
-      "sha256": "4e35731984266101ba0466831400a8d40e3a43654e8c47122c7674ce98022784"
-    },
-    {
-      "file": "catalog-thumbs/ВЛ 0,4 кВ и уличное освещение.jpg",
-      "bytes": 39159,
-      "sha256": "27c2b0d8026f14823b13af261e1cd9804797772e94ed5877e1f57a5731e2238c"
-    },
-    {
-      "file": "catalog-thumbs/ВРУ жилого дома.jpg",
-      "bytes": 50866,
-      "sha256": "7af54bd8d8b230d54189813b3b73dc048fd1fec057be7a1d4a5e41f61bfba312"
-    },
-    {
-      "file": "catalog-thumbs/Водонапорная башня и скважина.jpg",
-      "bytes": 49619,
-      "sha256": "334bce1d3a09052d08a1ac08fefb13a23c3ac59075b42b2618018a10c408dbe5"
-    },
-    {
-      "file": "catalog-thumbs/ГРПШ — газорегуляторный пункт.jpg",
-      "bytes": 39466,
-      "sha256": "afd4ae8ddf2256244c96addad3cc827c48969d5f4d8a96e26f01c256f0b109d8"
-    },
-    {
-      "file": "catalog-thumbs/ГРС — газораспределительная станция.jpg",
-      "bytes": 45564,
-      "sha256": "a676b9aad20c305851b55b227209ea30a4172e34e39a2b02ee83d953a6f1f9fa"
-    },
-    {
-      "file": "catalog-thumbs/Дом 1-228-2 — 1950 год.jpg",
-      "bytes": 39177,
-      "sha256": "79584300b054e8406c5bfac3b84b553f316d90371f99c26fc77554ac7e3a8982"
-    },
-    {
-      "file": "catalog-thumbs/Дом 1-467А — проект 1966 года.jpg",
-      "bytes": 34451,
-      "sha256": "4666d6db168e31840b6e7e3b86880f7fac212eaafb6779883b3789e9845c83bc"
-    },
-    {
-      "file": "catalog-thumbs/Дом 121-014 — проект 1985 года.jpg",
-      "bytes": 47883,
-      "sha256": "ecf89a7cd7452acc0d00ad684871a1c668a065b519e3e5f8f17c730f299b6761"
-    },
-    {
-      "file": "catalog-thumbs/Дом Брусники — 2019 год.jpg",
-      "bytes": 42930,
-      "sha256": "dce7bc10c310a4782bda64d0a6fbdf11ad542d542d9e4c6ba74eed4ac91ece1a"
-    },
-    {
-      "file": "catalog-thumbs/Дом серии 85 — проект 1980 года.jpg",
-      "bytes": 45283,
-      "sha256": "9b53cd3f2dc31e239c4ef9f8bd52c9f5c721c7fcd1a76dbcae53fcae57255d8e"
-    },
-    {
-      "file": "catalog-thumbs/Жилой дом (МКД).jpg",
-      "bytes": 51683,
-      "sha256": "62b6cfbad640a0585df0d33e72c4f8bac589477831dff128460f3f3f0d5064cb"
-    },
-    {
-      "file": "catalog-thumbs/Жилой дом ГП-18 — проект 2020 года.jpg",
-      "bytes": 52378,
-      "sha256": "3c2b76a5fceac31660fab02a7a739efe896ee77dd261f5ae2925598c24585779"
-    },
-    {
-      "file": "catalog-thumbs/Жилой комплекс с крышной котельной.jpg",
-      "bytes": 52558,
-      "sha256": "ee1d1e43c18b7e6a064217d969401901b28e3513e41cd58553245ad940e7e640"
-    },
-    {
-      "file": "catalog-thumbs/Задвижка с электроприводом.jpg",
-      "bytes": 31159,
-      "sha256": "df8fd51f22d8f68ef7147c9801c6a50a6d0746e1ce19c0ef7e26a955523d41bf"
-    },
-    {
-      "file": "catalog-thumbs/Илосос КО-560 (КамАЗ).jpg",
-      "bytes": 53903,
-      "sha256": "f4725e9bbb77fc49d2b6f42678b2a94886ab66b961e0a819482790883f807914"
-    },
-    {
-      "file": "catalog-thumbs/КДМ — комбинированная дорожная (КамАЗ).jpg",
-      "bytes": 46357,
-      "sha256": "2deec3fa002212d625da980d44793cdf549e7cee1ea0be6ad1a03e5c31eafebe"
-    },
-    {
-      "file": "catalog-thumbs/КТП — трансформаторная подстанция.jpg",
-      "bytes": 41161,
-      "sha256": "5443954da1deadfc70e94923fe8c6a6f80c42a9558358ebab223464f86d53200"
-    },
-    {
-      "file": "catalog-thumbs/Канализационная насосная станция.jpg",
-      "bytes": 32605,
-      "sha256": "711bf2cb766298447dc8dfad97d17d4d1cb9055ab751dc4ff15012e58b538d84"
-    },
-    {
-      "file": "catalog-thumbs/Канализационный колодец в разрезе.jpg",
-      "bytes": 40965,
-      "sha256": "ab79ba2e25eb4f104d2b0169aca667335d139d23b882e2ff9aea4906796af1fa"
-    },
-    {
-      "file": "catalog-thumbs/Каналопромывочная КО-512 (КамАЗ).jpg",
-      "bytes": 51253,
-      "sha256": "971750e6fd59c7c294a66ddbb50404022f237e8a5144fa731b477cc6e4eb5666"
-    },
-    {
-      "file": "catalog-thumbs/Кирпичная пятиэтажка (серия 1-447).jpg",
-      "bytes": 79728,
-      "sha256": "8f6e335654ac004e9f11ae0de3b3edee7ea13f9cd1b809834611f0e36cd30ddc"
-    },
-    {
-      "file": "catalog-thumbs/Кирпичный дом 1950-х (сталинка).jpg",
-      "bytes": 83246,
-      "sha256": "0a8f290168d9f463ea9273520557acd71c1bf7f2436b72729ae088c793e00ee5"
-    },
-    {
-      "file": "catalog-thumbs/Коммунальный трактор (отвал и щётка).jpg",
-      "bytes": 56186,
-      "sha256": "577c0060f4abd46f17be9d8e3463d13d89640d178c28df7985f4bd5f5b06478b"
-    },
-    {
-      "file": "catalog-thumbs/Контейнерная площадка ТКО.jpg",
-      "bytes": 50397,
-      "sha256": "9113afbc8b8a530dbaf8cb666fd9cef9bde99b306d1f00fa1f98ca3b83ecac07"
-    },
-    {
-      "file": "catalog-thumbs/Котельная.jpg",
-      "bytes": 62572,
-      "sha256": "aaf3b922cfbb8628213c90cabcf631b00dcf70bef43d135c95cbeb87ad62ab9b"
-    },
-    {
-      "file": "catalog-thumbs/Крышная котельная.jpg",
-      "bytes": 62113,
-      "sha256": "e84ecad1fa888c17bcedaa2aa0497d38072ba6b3425b35bdf43e4ea743ea30e0"
-    },
-    {
-      "file": "catalog-thumbs/Лифтовая лебёдка.jpg",
-      "bytes": 54414,
-      "sha256": "3155eb1891d487f574766a368351b7e32b40b02c24f2a16139a54e05772bcf90"
-    },
-    {
-      "file": "catalog-thumbs/Мусоровоз с задней загрузкой (КамАЗ).jpg",
-      "bytes": 53849,
-      "sha256": "bc0cda15da806ba35ccd3a69820e960a9955fa5d8ec27f5538c80c03badf4dd6"
-    },
-    {
-      "file": "catalog-thumbs/Мусоропровод в разрезе.jpg",
-      "bytes": 32730,
-      "sha256": "0b46d60509b76afcde0151a628787cd25f03faad2e6ed72346a1cba8fcaa775e"
-    },
-    {
-      "file": "catalog-thumbs/Насосная станция (ВНС II подъёма).jpg",
-      "bytes": 45470,
-      "sha256": "ca83844b587309bd707eadcc071df27546133ab38ff8a8120d0ca9632574bc42"
-    },
-    {
-      "file": "catalog-thumbs/Насосный агрегат (центробежный).jpg",
-      "bytes": 48225,
-      "sha256": "58c9b131a11c6d1e898654899cc212cd33b9801bf4644eda8499898305d4ccaa"
-    },
-    {
-      "file": "catalog-thumbs/Очистные сооружения канализации.jpg",
-      "bytes": 43997,
-      "sha256": "3c530d134f4c047863ffc979ec3f83b5c16fadd146e23f2270a1adbce969f864"
-    },
-    {
-      "file": "catalog-thumbs/Панельная 17-этажка (серия П-44).jpg",
-      "bytes": 73525,
-      "sha256": "ffb806df01d783520231d2bcb7eaf28128d33912ac81a5c7299623751db40ba8"
-    },
-    {
-      "file": "catalog-thumbs/Панельная 9-этажка (121 серия).jpg",
-      "bytes": 74461,
-      "sha256": "8d28da50adb204d514e5c6ddec32d6747869ae5a46baa1a691bbf68d6d120ff4"
-    },
-    {
-      "file": "catalog-thumbs/Панельная девятиэтажка серии 83 — проект 1986 года.jpg",
-      "bytes": 52065,
-      "sha256": "4777895af659466f74076fda392bdde865c89856d8bd4513f3c3008b26a990c9"
-    },
-    {
-      "file": "catalog-thumbs/Пассажирский лифт в шахте.jpg",
-      "bytes": 30413,
-      "sha256": "22bb746e8a3e0c43147755b9c80d02db40e4632d9d8e5dc70fdf6384bb27721e"
-    },
-    {
-      "file": "catalog-thumbs/Подземный водозабор.jpg",
-      "bytes": 43897,
-      "sha256": "38152d7fa7a8ff8a6746fa5422c325e1eebefeb14ac0ab47fdee3f774c05b867"
-    },
-    {
-      "file": "catalog-thumbs/Подстанция 110-10 кВ.jpg",
-      "bytes": 48678,
-      "sha256": "2588674220edf2851375711618372ea69533bf0c84fd7c66bff09cc19f11c38c"
-    },
-    {
-      "file": "catalog-thumbs/Пожарный гидрант с колонкой.jpg",
-      "bytes": 33859,
-      "sha256": "25b9c970d899c544aa2cf9851a319e4f7b9de463fbcfa40627f49c3d5f51f9b9"
-    },
-    {
-      "file": "catalog-thumbs/Поливомоечная машина (КамАЗ).jpg",
-      "bytes": 53389,
-      "sha256": "bfe47af393ca9e750adb1e537a7f8a117286284ffbb6badfd9b3d123896d1652"
-    },
-    {
-      "file": "catalog-thumbs/Полигон и сортировка ТКО.jpg",
-      "bytes": 46454,
-      "sha256": "8d370f673f26d8658e2cf1d28efd88fbac4850afc2fdb00b6397b6e3a5d3b324"
-    },
-    {
-      "file": "catalog-thumbs/Приточная вентустановка.jpg",
-      "bytes": 43540,
-      "sha256": "a60d981b5b9a755b0a093b1c4d12afff0a3cd71e22a2a38bb0cab254afbf1f49"
-    },
-    {
-      "file": "catalog-thumbs/Радиаторный узел квартиры.jpg",
-      "bytes": 32131,
-      "sha256": "47ec307f09b9157648cec6b670fa6733829ab363037d5e2b6149f4b5937a0fb0"
-    },
-    {
-      "file": "catalog-thumbs/Регулирующий клапан.jpg",
-      "bytes": 28994,
-      "sha256": "24f1958c703490075e4c27134d7ff560f65c08b6a42d690ccd26888de2dd3589"
-    },
-    {
-      "file": "catalog-thumbs/Речной водозабор.jpg",
-      "bytes": 47413,
-      "sha256": "e4ccc9f7ba110023f1fcb92ff12b3270362c1383590c8e5d4e136250b7eac6dc"
-    },
-    {
-      "file": "catalog-thumbs/Тепловой пункт (ИТП).jpg",
-      "bytes": 61370,
-      "sha256": "83e44cf37f651f9862961d7f8c4316fe887dbf0c2f1f1702eaf5f0d694812c46"
-    },
-    {
-      "file": "catalog-thumbs/Теплотрасса в разрезе.jpg",
-      "bytes": 38297,
-      "sha256": "a87944e2372d5b4115fada1c40a6f04c68e5936c1bd741f38bdbefbb872e7649"
-    },
-    {
-      "file": "catalog-thumbs/Тяжёлый трактор на полигоне ТКО.jpg",
-      "bytes": 55655,
-      "sha256": "349d38123661763dc5c6d49e3e6b56d8ce8b0def8ff51cb189709330ff681ad3"
-    },
-    {
-      "file": "catalog-thumbs/Угловой дом серии 85 — сборка секций.jpg",
-      "bytes": 39890,
-      "sha256": "92e91d3a3f3427b511b221f6da1699bf9556bfb6acba3603c650f1d2b0559336"
-    },
-    {
-      "file": "catalog-thumbs/Узел учёта воды (ОДПУ).jpg",
-      "bytes": 41924,
-      "sha256": "dafee208fae0c619168c23ed7e94997c1da2a59873154fe30dc852123cfeef65"
-    },
-    {
-      "file": "catalog-thumbs/ЦТП.jpg",
-      "bytes": 54989,
-      "sha256": "343d562b91b3b954f3db01c18cace2530ae0bab1299701d9b9540fdcab748f70"
-    },
-    {
-      "file": "catalog-thumbs/Шкаф управления насосной станцией.jpg",
-      "bytes": 25900,
-      "sha256": "596f8369c0aa23e89f70d88cc659859c61b5aec697597a8f5783d1c4286c31d6"
-    },
-    {
-      "file": "catalog-thumbs/Экскаватор-погрузчик на раскопке.jpg",
-      "bytes": 43264,
-      "sha256": "be2c1173b8b13e771903a2fed1d1a54f32db586d6dcad43ab1931e3a21ab566e"
-    },
-    {
-      "file": "catalog-thumbs/Электростанция ТЭЦ.jpg",
-      "bytes": 62972,
-      "sha256": "faa52569a4df133c4b8fac6366ef78cc4fb60aeac533b23fce965c48bd2a8c57"
-    },
-    {
-      "file": "catalog-thumbs/Этажный щит и квартирная электрика.jpg",
-      "bytes": 44928,
-      "sha256": "2914be0bbae3f4603b9880db2ae9e75bc59867e7c65a27480faa574a364d582b"
-    },
-    {
-      "file": "cisterna-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "cisterna-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "cisterna-parts/part02.glb",
-      "bytes": 249028,
-      "sha256": "1ef78b39f139d890ff2bc8d938eff4260b5975907ce0f37bd7b80d80c7bcfbf7"
-    },
-    {
-      "file": "cisterna-parts/part03.glb",
-      "bytes": 60332,
-      "sha256": "5b7181b8e0370b9cb7c5adf5ab8f5826c3a08629d8be97c183365ea748c51de4"
-    },
-    {
-      "file": "cisterna-parts/part04.glb",
-      "bytes": 52680,
-      "sha256": "378755290819cbb2135df75799d4a3bdbc0927d142ebd1df6517bb2ee316d352"
-    },
-    {
-      "file": "cisterna-parts/part05.glb",
-      "bytes": 34908,
-      "sha256": "58868bcab973dcbdf5c39e5dae52ea12e97c7c165d9b6a0a3aa1d157ad48ac45"
+      "bytes": 3556,
+      "sha256": "517f57d1de25398e9e6f6fcc6399900d2009bf9b13e8906871f8da87e4cc4207"
     },
     {
       "file": "docs/asset-consolidation.md",
-      "bytes": 3289,
-      "sha256": "85985c827f40c97195894e3ce72cb05a7b75e54747d71555f628f050b90b6432"
+      "bytes": 3239,
+      "sha256": "11718c727686a66bd71564a4ce75546700414d9b2d438c60e11d306bf92b3d84"
     },
     {
       "file": "docs/mediashtab-import.json",
-      "bytes": 108923,
-      "sha256": "a467553a482224c21c88c9a7b14342017a1ff70ab07d007b1b953a1b978a3f50"
-    },
-    {
-      "file": "ekskavator-parts/part00.glb",
-      "bytes": 1266232,
-      "sha256": "bd6b3c7a73eba070334df7dc6d602c0fbd58dcf55da175bc7fbea0d663eb80b7"
-    },
-    {
-      "file": "ekskavator-parts/part01.glb",
-      "bytes": 1043948,
-      "sha256": "1ae1f6859ff8aa03521c914b073aed1e9ce2cfc2b43654628a79ddf2177a8656"
-    },
-    {
-      "file": "ekskavator-parts/part02.glb",
-      "bytes": 762176,
-      "sha256": "e16c8e2abfaf7bda9027cc9805eec8cfb96ed2ee98255139b30f2df2ef4d6850"
-    },
-    {
-      "file": "ekskavator-parts/part03.glb",
-      "bytes": 78060,
-      "sha256": "b6eefd11d6cb5987dd0d80052e422b74b971a5038e3f81b364077c7fe35b7c85"
-    },
-    {
-      "file": "ekskavator-parts/part04.glb",
-      "bytes": 248772,
-      "sha256": "6e861d8f3227664a0e8c364b3a1efa91640dddbcd93079d42321f81743b602af"
-    },
-    {
-      "file": "ekskavator-parts/part05.glb",
-      "bytes": 35628,
-      "sha256": "d336552c7486112418565696777901fe1c5df0cc271052d4fc9f0e86878bc3c1"
-    },
-    {
-      "file": "ekskavator-parts/part06.glb",
-      "bytes": 101836,
-      "sha256": "06612c30d1afeba8d5b30d89afd8ae5a87550dc5d94ee0233ec41741f2c8edc2"
-    },
-    {
-      "file": "engine/tools/build-catalog.mjs",
-      "bytes": 8337,
-      "sha256": "40c17749eb6d1448e45e9848be01e94da371bd3d7793617f37a6faeb5739777d"
+      "bytes": 116251,
+      "sha256": "3efaacde54caccd8126ff5879a7136cf6c037999ffe0bb8a5d45f48a8ee799a8"
     },
     {
       "file": "engine/tools/check-asset-release.mjs",
-      "bytes": 3969,
-      "sha256": "98f1341bb4ebe822b58c5a6fc3655457c977b7fb266bbb33f4d3bdabfb9385ae"
+      "bytes": 4057,
+      "sha256": "8992c221a220fb2a7fce1776ead2577ac71f593a3e355a4d728bee5dffb48783"
     },
     {
       "file": "engine/tools/collect-mediashtab.mjs",
-      "bytes": 2654,
-      "sha256": "45b98abd9e9445130df5bf40e5ab09a5fd9b2ed46aada3c21a932d016b1b639d"
+      "bytes": 2733,
+      "sha256": "edc111e520860491aa50f06a3ae04ba0f6d7aac4824cc3b75b9edfc5f387a2d0"
     },
     {
-      "file": "engine/tools/portable-house-detail.mjs",
-      "bytes": 1224,
-      "sha256": "7e0571d34362ebe6735edaacfd3f970169c4ec9cd451546caefd6ff22e757387"
+      "file": "engine/tools/museum-snapshot.mjs",
+      "bytes": 1263,
+      "sha256": "4b9a93307c68c804f33447cb07199ab0332d8df550ab6319e3254e1bb5d65317"
     },
     {
-      "file": "engine/tools/serve-examples.mjs",
-      "bytes": 2065,
-      "sha256": "2d1b8e089632878d05967f78d9e8a18cb77342ffd8ea5ad228ecaac8bb898aeb"
+      "file": "examples/mediashtab/golomuzey/atlas.js",
+      "bytes": 5021,
+      "sha256": "38a7140b2cc50ae2f0f8c2f2dde0de50d73f7174636801d7526d4496af944917"
     },
     {
-      "file": "engine/tools/verify-release-inputs.mjs",
-      "bytes": 2874,
-      "sha256": "29d6553fc859a5ebf540d85819b7a0ba1c689873403a6b6c20ce625ebc76ef68"
+      "file": "examples/mediashtab/golomuzey/index.html",
+      "bytes": 4470962,
+      "sha256": "763e4fd9ac862a1df2e15b39ebf70cc2739dddadb4b662aef83230de70f8de23"
     },
     {
-      "file": "examples/house-detail/96-pilot.js",
-      "bytes": 10415,
-      "sha256": "0e69b47d0b6234f45c3ace8adbdc34e3cd83d01bb7d4d7c2772f3dd49d6d31bb"
+      "file": "examples/mediashtab/golomuzey/Аварийная летучка (КамАЗ) (голограмма).html",
+      "bytes": 2881381,
+      "sha256": "eeaab44dcbc5423ff9dae9e75f83e5f10d30c9737ee41ee88b9fa58ac5822eb3"
     },
     {
-      "file": "examples/house-detail/README.md",
-      "bytes": 8480,
-      "sha256": "3b95de43a715ef5a8140b0c99e25783d38dfd28c3bf041a56f01915cf5782a6f"
+      "file": "examples/mediashtab/golomuzey/Автовышка АГП-22 (КамАЗ) (голограмма).html",
+      "bytes": 2906062,
+      "sha256": "9f7d6d521f33736f9c2169e14d85c087da7f8ff1792e3da3ea71a28ba755c4ae"
     },
     {
-      "file": "examples/house-detail/baseline.html",
+      "file": "examples/mediashtab/golomuzey/Автокран на аварийной раскопке (голограмма).html",
+      "bytes": 2147954,
+      "sha256": "79416b3719ee4c4c3eb88e194fc83a1bdef5a2deae055df04993aab34f65d063"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Автоцистерна питьевой воды (КамАЗ) (голограмма).html",
+      "bytes": 2856409,
+      "sha256": "f9b566a12ee64b66f9205454784c05a43152c535196bd7ca749d8c306de6ec3b"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Бункеровоз-мультилифт (КамАЗ) (голограмма).html",
+      "bytes": 2887717,
+      "sha256": "9eaec09a1d971d3ce7d1bfbe06fdb48c51ade058b0d4b0c1658ec7f50b01bd26"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ВЛ 0,4 кВ и уличное освещение (голограмма).html",
+      "bytes": 1212900,
+      "sha256": "bcf9f41f1f25f29ebe6fcc6ad735768f7c1e2983ebe4f99ba4f876c92a5c5504"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ВРУ жилого дома (голограмма).html",
+      "bytes": 1099764,
+      "sha256": "a8803af6012e0d21cef458b8572982f68ef02eaafacfe4729f87ab0506d6e901"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Водонапорная башня и скважина (голограмма).html",
+      "bytes": 1143663,
+      "sha256": "9673ee5fc8c44b1d70997686d4ac4c37d3fdb2fa37460b5cc53c2ddf8581b908"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ГРПШ — газорегуляторный пункт (голограмма).html",
+      "bytes": 1098698,
+      "sha256": "c21ad7f53f766da0fb3791187bb5cb27f30736011d02ccdce50dc90934ccc3aa"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/ГРС — газораспределительная станция (голограмма).html",
+      "bytes": 1131630,
+      "sha256": "e68bc79ba99a323a4e93b7a2388c9d8d121126318e7abb11b9fd4df8a8605106"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Дом 1-228-2 — 1950 год (голограмма).html",
+      "bytes": 1168933,
+      "sha256": "c7b5ff4aa265bd4aced6ae97c4d87ccd6ddb79161be9d68573463f4adb54bb78"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Дом 1-467А — проект 1966 года (голограмма).html",
+      "bytes": 1482078,
+      "sha256": "2c7a37b69f2c8a58d8532ecf87dcd6df44746f077ecd66896f29d7cbc44609eb"
+    },
+    {
+      "file": "examples/mediashtab/golomuzey/Дом 121-014 — проект 1985 года (голограмма).html",
       "bytes": 1682062,
       "sha256": "075438453ce217b0d4702d37674abdc14cd0b51672163f892a832d3d1cdd2236"
     },
     {
-      "file": "examples/house-detail/build-pilot.cjs",
-      "bytes": 5979,
-      "sha256": "fbd03857acf9a79596921bec2d3a5c4e71f66bba4a6e1951e19a8c25589aa43d"
-    },
-    {
-      "file": "examples/house-detail/engine/build.js",
-      "bytes": 23354,
-      "sha256": "8e049fb0d8612f8112262275ab4676e8e36d8486f851b756d685c4fd1f02a49a"
-    },
-    {
-      "file": "examples/house-detail/engine/configs/baseline.json",
-      "bytes": 1637075,
-      "sha256": "d8ef853ba62f269a8cc61f789596a9ab94c200ebf376e271c426c9553f443ec6"
-    },
-    {
-      "file": "examples/house-detail/engine/configs/pilot.json",
-      "bytes": 833645,
-      "sha256": "49c18bb9f48300a1151ce29970f7a5005274e9352e361686ef78289eacd6d06d"
-    },
-    {
-      "file": "examples/house-detail/engine/runtime.json",
-      "bytes": 905116,
-      "sha256": "0375f0cc1b5ae16b834e7b00bbb35914fd16c8a73a4962021616fb694cc75bf2"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/10-generators.js",
-      "bytes": 28937,
-      "sha256": "1d90657aa839fa64cdeed391d0056d5665ad014f36b4cd27b4a9588c94613840"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/20-model.js",
-      "bytes": 4773,
-      "sha256": "8c311c03a9972c1245715fa6189d7faf8961a4c7d8f5ee7128023cef199ac3d1"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/30-render.js",
-      "bytes": 25785,
-      "sha256": "53fc06467f3670f3b014f152555114617b1252c9d6625983ff3fbf7df13859b0"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/36-particles.js",
-      "bytes": 8945,
-      "sha256": "7eb346f7ea9dca48de410c693ea27eb9e4d2bd57b5debcb9609c6f77e27d7c50"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/40-markers.js",
-      "bytes": 7009,
-      "sha256": "5c0604df819be11420a8a705f94f5e649ceacb0a3b94a29ec57f22780531ec70"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/50-plans.js",
-      "bytes": 15889,
-      "sha256": "ee7b8b592b9887e496087f04a372ffd8ddde299330dc3ebaf8d926d7382f383e"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/60-flows.js",
-      "bytes": 5346,
-      "sha256": "130194a187682f23b8abcd27df8ee5f7ca090fb021ec9dcad9ead22c73fd9b36"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/70-scene.js",
-      "bytes": 17206,
-      "sha256": "a8bbeaf0c7e8f08055108b95af854d13de277b1d3a449c6ba43f330991abe51c"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/80-shaders.js",
-      "bytes": 8185,
-      "sha256": "95dc31d8d72d8b2ef307616a92c901857c7d7afde22c5871b3a03c6501a5d430"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/85-tune.js",
-      "bytes": 8820,
-      "sha256": "71ef806cdb1b0594cb3bdcc2798e71ba1ca6f15df856a51943495f8cc11eb88a"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/90-ui.js",
-      "bytes": 12968,
-      "sha256": "70ab5b2f258965a71c90ff2a43f73fc320a0559b1328ba21cbd9f3abb8c705b4"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/95-mobile.js",
-      "bytes": 15783,
-      "sha256": "15783c166ccb20cf5da2686d0c96462ffe707779fe327f7808eb9344c6b98ba3"
-    },
-    {
-      "file": "examples/house-detail/engine/src/modules/96-pilot.js",
-      "bytes": 10415,
-      "sha256": "0e69b47d0b6234f45c3ace8adbdc34e3cd83d01bb7d4d7c2772f3dd49d6d31bb"
-    },
-    {
-      "file": "examples/house-detail/engine/src/viewer.html",
-      "bytes": 26569,
-      "sha256": "4d6427257a01af5adbfa2b42acb9d84eb393256d39ea97356a8d5357b81e1df4"
-    },
-    {
-      "file": "examples/house-detail/houses/README.md",
-      "bytes": 6866,
-      "sha256": "c868d774dc739e54476026ca2092833e2e7ebc7a2646a439e0850661051f736b"
-    },
-    {
-      "file": "examples/house-detail/houses/author.mjs",
-      "bytes": 8591,
-      "sha256": "ddb178d194cf15791b9e2d8d0722e80edd0386a692e35a8d16b542328709c676"
-    },
-    {
-      "file": "examples/house-detail/houses/build.mjs",
-      "bytes": 6108,
-      "sha256": "5d250244ffe2df7f89d63724bc8df3d72fa9a9297a5f55d2a1b704bc11cf2835"
-    },
-    {
-      "file": "examples/house-detail/houses/catalog.json",
-      "bytes": 2241,
-      "sha256": "85f02aea5c7166cda536cdf7914541156867ef19f7350bfa7f5d681283caa198"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/build.js",
-      "bytes": 23354,
-      "sha256": "8e049fb0d8612f8112262275ab4676e8e36d8486f851b756d685c4fd1f02a49a"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/mkd-121.json",
-      "bytes": 314515,
-      "sha256": "b7de415b48c5f16c95370d960d4a610e4b20fdbe6b3e82034882726ba98843af"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/mkd-447.json",
-      "bytes": 176844,
-      "sha256": "6e57a33e8f52431a77c3afec845eb2e944782c850d04f1c50309629f8d0aadec"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/mkd-p44.json",
-      "bytes": 611116,
-      "sha256": "74ca3ebf38d865c8ad8b6dbd795d947f01ae3458d7b8a0901f2c6d8974f97053"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/mkd-stalin.json",
-      "bytes": 194954,
-      "sha256": "f6f691d6536ffd9af2cb2348c2b295b0356ce575718d3ffe0a8c8bb58b33009f"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/mkd.json",
-      "bytes": 136068,
-      "sha256": "5c7082737e69e7a5e73daa8137d2deb7772b36cfe6b510f6fb195b9f3675ec1c"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/plan-121.json",
-      "bytes": 833645,
-      "sha256": "49c18bb9f48300a1151ce29970f7a5005274e9352e361686ef78289eacd6d06d"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/plan-228.json",
-      "bytes": 93203,
-      "sha256": "47a0f8535f4d774570b9264654d4b6ba0fac46c3d5cea3b7bc1172992a8ac240"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/plan-467.json",
-      "bytes": 489176,
-      "sha256": "2dc62092e41694557af397bdb5edcef65b8ef0e0e22a8107723ebb9d51705c4f"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/plan-83.json",
-      "bytes": 538735,
-      "sha256": "31c44bc2f2e368c30ca70b8e7e2030ab03ae6b877801d017e14b298fc14d781a"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/plan-85-corner.json",
-      "bytes": 980828,
-      "sha256": "f3b3aa154b67c15f8d54fdbbe77c084fd5592a8d5b5da166886a058aea0965ed"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/plan-85.json",
-      "bytes": 648758,
-      "sha256": "ee096db012adca143352c28938f93b688cd7e496b580d0d1e4c1417a80b2246a"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/plan-brusnika-2019.json",
-      "bytes": 1767289,
-      "sha256": "257a9663f050a3d913cca13f48f72f1c43ce2eba145e340f15d6b7d8f0b8b39f"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/plan-gp18.json",
-      "bytes": 1153251,
-      "sha256": "0439b6788f9e3e71d66a2ea0ad513137c3774bd06e1c1229e64fb9ee411ff9e6"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/configs/zhk.json",
-      "bytes": 1049164,
-      "sha256": "1428116fec7205c053f3ae6faa877611abf0e98cb4cc10b4a1cddef9129cc20f"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/runtime.json",
-      "bytes": 905116,
-      "sha256": "0375f0cc1b5ae16b834e7b00bbb35914fd16c8a73a4962021616fb694cc75bf2"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/10-generators.js",
-      "bytes": 28937,
-      "sha256": "1d90657aa839fa64cdeed391d0056d5665ad014f36b4cd27b4a9588c94613840"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/20-model.js",
-      "bytes": 4773,
-      "sha256": "8c311c03a9972c1245715fa6189d7faf8961a4c7d8f5ee7128023cef199ac3d1"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/30-render.js",
-      "bytes": 25864,
-      "sha256": "623674927dc28c5bcccc37a79f4c1a1b1df05a6932ded7fd718ce2ccd5db25d1"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/36-particles.js",
-      "bytes": 8945,
-      "sha256": "7eb346f7ea9dca48de410c693ea27eb9e4d2bd57b5debcb9609c6f77e27d7c50"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/40-markers.js",
-      "bytes": 7009,
-      "sha256": "5c0604df819be11420a8a705f94f5e649ceacb0a3b94a29ec57f22780531ec70"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/50-plans.js",
-      "bytes": 15889,
-      "sha256": "ee7b8b592b9887e496087f04a372ffd8ddde299330dc3ebaf8d926d7382f383e"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/60-flows.js",
-      "bytes": 5346,
-      "sha256": "130194a187682f23b8abcd27df8ee5f7ca090fb021ec9dcad9ead22c73fd9b36"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/70-scene.js",
-      "bytes": 17269,
-      "sha256": "0729c7ea586df1bdc5f7b7226b573b29f2b9cdfdb1420f52a4d22b26f062af2b"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/80-shaders.js",
-      "bytes": 8185,
-      "sha256": "95dc31d8d72d8b2ef307616a92c901857c7d7afde22c5871b3a03c6501a5d430"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/85-tune.js",
-      "bytes": 8820,
-      "sha256": "71ef806cdb1b0594cb3bdcc2798e71ba1ca6f15df856a51943495f8cc11eb88a"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/90-ui.js",
-      "bytes": 12968,
-      "sha256": "70ab5b2f258965a71c90ff2a43f73fc320a0559b1328ba21cbd9f3abb8c705b4"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/95-mobile.js",
-      "bytes": 15783,
-      "sha256": "15783c166ccb20cf5da2686d0c96462ffe707779fe327f7808eb9344c6b98ba3"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/modules/96-pilot.js",
-      "bytes": 12648,
-      "sha256": "4ed07c96c2440255f78da427e8684abcefe05e3afb2ea33bf343f34731c1bec3"
-    },
-    {
-      "file": "examples/house-detail/houses/engine/src/viewer.html",
-      "bytes": 26569,
-      "sha256": "4d6427257a01af5adbfa2b42acb9d84eb393256d39ea97356a8d5357b81e1df4"
-    },
-    {
-      "file": "examples/house-detail/houses/index.html",
-      "bytes": 5143,
-      "sha256": "476b61b20400dde966d6425530ec95828e998f6a9478bd537ffb4807b111deee"
-    },
-    {
-      "file": "examples/house-detail/houses/mkd-121.html",
-      "bytes": 1445471,
-      "sha256": "51021243ff6c0965bc3c9f0c243e3a0d10bd0b8c46a2b68c8a61164ca7b652c8"
-    },
-    {
-      "file": "examples/house-detail/houses/mkd-447.html",
-      "bytes": 1297346,
-      "sha256": "cb8084d6c01089941151474d6a56f4229f5fb29f8fe02079ebc7d0948cf7a6cf"
-    },
-    {
-      "file": "examples/house-detail/houses/mkd-p44.html",
-      "bytes": 1761896,
-      "sha256": "795de0eca971f0853856dbe8f08867f02c6556e119f102807b62b73e6778a873"
-    },
-    {
-      "file": "examples/house-detail/houses/mkd-stalin.html",
-      "bytes": 1316785,
-      "sha256": "c4ea2427a7c3e30973dad838342ae01f40528394200ae0027eccb3e55329e1d8"
-    },
-    {
-      "file": "examples/house-detail/houses/mkd.html",
-      "bytes": 1254648,
-      "sha256": "75069452b54142dd84272b27364e6da3ef392eec675572b12d1a2a7b86ff63ae"
-    },
-    {
-      "file": "examples/house-detail/houses/plan-121.html",
-      "bytes": 2003017,
-      "sha256": "ab18e1d5a232b8ad95947de4d359cf7b463cd9348068045d333d4f8c850bab45"
-    },
-    {
-      "file": "examples/house-detail/houses/plan-228.html",
-      "bytes": 1208262,
-      "sha256": "3af1662bf49f129efff7824096393ccc54f6372d274326b4862f3df75f68bdfc"
-    },
-    {
-      "file": "examples/house-detail/houses/plan-467.html",
-      "bytes": 1627714,
-      "sha256": "cca544b39b989d0be943457360018688dc5e66f823b49ff2785f0526bf630226"
-    },
-    {
-      "file": "examples/house-detail/houses/plan-83.html",
-      "bytes": 1686016,
-      "sha256": "46dbf9fcd7a28acd1e371043e908043fdafce7ef0e888a2e60d431ffceb8ca5a"
-    },
-    {
-      "file": "examples/house-detail/houses/plan-85-corner.html",
-      "bytes": 2158764,
-      "sha256": "e330b55cee23837b662e8cf016ab300449e3de9d6ab1bfd6a08ac1fa7697e425"
-    },
-    {
-      "file": "examples/house-detail/houses/plan-85.html",
-      "bytes": 1803434,
-      "sha256": "c4e8bf06543a7ecc4f7fe2ff4f88b8f3903fcbaf8fd2a77395a5a97162e1f172"
-    },
-    {
-      "file": "examples/house-detail/houses/plan-brusnika-2019.html",
-      "bytes": 3003271,
-      "sha256": "44aa45b737f40e7e49e0893da874464bef5a51b170e222e8d9ce4c74c8b470b2"
-    },
-    {
-      "file": "examples/house-detail/houses/plan-gp18.html",
-      "bytes": 2340232,
-      "sha256": "40291d8fdf54f11717ab8988407b2602551e5ed8f3156f80d488b525919cbba3"
-    },
-    {
-      "file": "examples/house-detail/houses/qa-framing.mjs",
-      "bytes": 2117,
-      "sha256": "b5cc4a038224b6a5f9299ac33c846e1ff02e250345d47c80d5df23a2f84f349c"
-    },
-    {
-      "file": "examples/house-detail/houses/qa.mjs",
-      "bytes": 6525,
-      "sha256": "d29e221a17cad9e0901cb919410c0c90cd14a623d9c65f13ddd4bcce63ceadf6"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/authoring.json",
-      "bytes": 2026088,
-      "sha256": "6a0d4a4e858ff7f8aee89e347c949b39cdd83876396866a0b7d5fe9f2345bdb0"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/framing.json",
-      "bytes": 3380,
-      "sha256": "423b070c98fe59ed6ddaf30437e6d5aed94fe554ab080a6732e7829ead470320"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/gpu.json",
-      "bytes": 12747,
-      "sha256": "6c2101b38d580157ba5a69267352cc90b95d70d7c31fbbd16cc332783a245a8e"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-121-before.png",
-      "bytes": 1048890,
-      "sha256": "9768ff84cdbd9aa1950619b124fa5a14e425580079a3a519b2f8f30a2c54ee6f"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-121-close.png",
-      "bytes": 1117935,
-      "sha256": "28ee4839b3e130d5ad034554d3bcfa963cca6993f20168a1b57a2241a84fa7e0"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-121-explode.png",
-      "bytes": 459220,
-      "sha256": "b687be827e686764dc759c6776d98e67ab52a0aee55c61435aaf3dada7f4dd66"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-121-mobile.png",
-      "bytes": 405649,
-      "sha256": "43d62f4fd73bbe3cdf3128afe0656052fd3dc851ead2402b021aa3c5e6f5255f"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-121-overview.png",
-      "bytes": 600171,
-      "sha256": "e80c586403f2b0a78c0f6c3e6c768eb8af35902607170e53028bf4e15a454343"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-121-plan.png",
-      "bytes": 326239,
-      "sha256": "f8e8c86bcd73a8212efae4635dad5ae21a0310fdfda57494e03afbd30a6d9e76"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-447-before.png",
-      "bytes": 898936,
-      "sha256": "e9829f88748e4dded7f2fd9606b224fb722590ad7eba26270077c3f7a7461108"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-447-close.png",
-      "bytes": 929262,
-      "sha256": "ee7392be380e4a855e26c2fa12b73c9e4a9f5bedc50d1c6bf1510f07d4be7b0d"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-447-explode.png",
-      "bytes": 463327,
-      "sha256": "64aa228f7405791844184f215d0637ee05bda7130b7f80e98f138af3db536795"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-447-mobile.png",
-      "bytes": 434330,
-      "sha256": "f84ae0a97d5f6793b519b0e02aa6407042fbd4b289ed9d1996a16e6b4de1e1e3"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-447-overview.png",
-      "bytes": 687085,
-      "sha256": "2eba8d09ad92dd8d24f0d8855ea52d0866174eb0c90bdee9d9de938ac0a9ad07"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-447-plan.png",
-      "bytes": 312824,
-      "sha256": "377ecb9f0e41547b804db36552578f854f5da7f683f739ccbe7a6b832d4027f0"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-before.png",
-      "bytes": 817199,
-      "sha256": "8f8e00624a53a91a6fdf76b6a3a426311b224af291aea6a11d3853055440342c"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-close.png",
-      "bytes": 905038,
-      "sha256": "dad7bd4b2db2e9168b571f8c078ae9cf2f26e4b1420290253dcab243e90f8001"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-explode.png",
-      "bytes": 418258,
-      "sha256": "6f630eac0ad4dee3c8ae6b6629f2ce4792fb4be3bdca7c704520b1f28ef9c709"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-mobile.png",
-      "bytes": 768727,
-      "sha256": "376aa43e1fbfaa89004419a4a8aff7cceea6d3de38227d6d8f1bd4d253ab5a86"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-overview.png",
-      "bytes": 460841,
-      "sha256": "2b2e68331428372ccee4fa2de49b26345885fe32eff0bfa5cd6821650d0adf8d"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-p44-before.png",
-      "bytes": 1285117,
-      "sha256": "6084c3b3bce0f1d8f074a61d66a071414946b9d27f90136658cd291f28d7c055"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-p44-close.png",
-      "bytes": 1314172,
-      "sha256": "a5b18e8bf0cb664533fa42c149862e43dab4a9d2a03852b7ccb2b602200c500a"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-p44-explode.png",
-      "bytes": 622510,
-      "sha256": "da5dc136cfc37975c5be3debe8828c3db350d693251b07ae19d97a344cd05d79"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-p44-mobile.png",
-      "bytes": 636833,
-      "sha256": "c9cf712ada1c7c7094c4c7239d854210fbee109e460a76b81cb5407fd06a5f0c"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-p44-overview.png",
-      "bytes": 643644,
-      "sha256": "9c648057437cb0072c44f356379b1f5eeec4688a81faf1d49923026d3b4d6ee7"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-p44-plan.png",
-      "bytes": 346239,
-      "sha256": "463852b0f3c3985003b6a8cdc84b20caa187dc27e1a8c1a7b8d1c7bcdbd50390"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-plan.png",
-      "bytes": 342843,
-      "sha256": "709ba0812f7d36a1c420b8592c216bafb56293f24164a2f80659a7e4740322c7"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-stalin-before.png",
-      "bytes": 1014996,
-      "sha256": "ccec003475d256db1ada96114af71a6d2908f7e95392f3bdd0a3fb15e955a5f7"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-stalin-close.png",
-      "bytes": 1084306,
-      "sha256": "e239f996631a3f14c81a5d450e75eb9498f144d0e4071a1d64bd7e0bf32f226f"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-stalin-explode.png",
-      "bytes": 516553,
-      "sha256": "84f514d6a0e5ab946d73f2ffb46aa96c7170a4f08a48f896c2d856d993938fcd"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-stalin-mobile.png",
-      "bytes": 458364,
-      "sha256": "8833d4b900760a61e3a9eb2cc44833d2a1bc5de3d2b1ccabf12c3e13e98b1ccd"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-stalin-overview.png",
-      "bytes": 716195,
-      "sha256": "8b4786a86b9916ec7adfdaf95fbb960572367a27ec50865b2dc337d24dc0b7c3"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mkd-stalin-plan.png",
-      "bytes": 411921,
-      "sha256": "510dab0739ff0c046db9a544e411d97ecedf07955b289804ce1a121d69779b4b"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/mobile.json",
-      "bytes": 16224,
-      "sha256": "0dc7f6cc855d05b3f7f8de2a5c0ef2fc6de049351ddefaceb89d9ac48e11eadf"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-121-before.png",
-      "bytes": 1076158,
-      "sha256": "87b604ac777dffd94fb7a23901a07498d9e7fe851a8bd4ac708165a5daadab90"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-121-close.png",
-      "bytes": 1167267,
-      "sha256": "e367b1a6f3f4e1d2f8c0fa43ee75a16ce934e35b209aa137d8370ee71cd67841"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-121-explode.png",
-      "bytes": 402757,
-      "sha256": "af64d63fc97e8387cc661490b21cc41d3c80cea7919ad237b3fd0a1516443668"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-121-mobile.png",
-      "bytes": 381306,
-      "sha256": "b83c92cb146b6bcb9e99a4a8c1db3982809472338a35973596e92b152742dde6"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-121-overview.png",
-      "bytes": 447953,
-      "sha256": "28c03d0aeb0c00a7677048d1229834a39bfdf6b1bbe91969dd4941716a7fe2b2"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-121-plan.png",
-      "bytes": 374619,
-      "sha256": "c42249330001f89e93eaafe413be2252b50f90a74247c1b7640ae0c718c2deca"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-228-before.png",
-      "bytes": 840103,
-      "sha256": "c9bc2a3538fda7af05f0eb9c7575f1450538f909b933e1c973f4b091e1f2705b"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-228-close.png",
-      "bytes": 926023,
-      "sha256": "289c85f5ba2d19c3835a1cd71c9c624e39fc8ad8e3d621a9885ec1ee05aeafa5"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-228-explode.png",
-      "bytes": 221600,
-      "sha256": "27ee794a747284d27f79da671b4f7dc31227741d0951884e4b9444953b83cf08"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-228-mobile.png",
-      "bytes": 296655,
-      "sha256": "e4711b8f0851a80716366770ba9f04a22b53948234e69d9b8793dc79cfbc6351"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-228-overview.png",
-      "bytes": 348733,
-      "sha256": "fc4eaf3a0187e2f17f8877a5aae819c8786cc8ed70665dce2f43672b05727aa8"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-228-plan.png",
-      "bytes": 288697,
-      "sha256": "9d81187b6b307148f53cebfb50f26121e6be3966c97cc1da39f71d965c51b4a8"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-467-before.png",
-      "bytes": 618511,
-      "sha256": "a820727b0f08731554829be132af4d5d21cc5ad50ad580bc1ac3cb2f1bf75071"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-467-close.png",
-      "bytes": 651186,
-      "sha256": "1d83c8964315d0f318df919823f2c9fcc1961a6ba9abb898020e508159706f98"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-467-explode.png",
-      "bytes": 290630,
-      "sha256": "845b62f2bf97b16ada925319e99ffb4e43e0b7e713c91186a571969c43aae0d3"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-467-mobile.png",
-      "bytes": 226362,
-      "sha256": "cf5eff8617b92f29bc70480c627113dd1c6ce3d2fa10acd139e596f290d3f71f"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-467-overview.png",
-      "bytes": 323258,
-      "sha256": "8c7d74f4b6a6fd797d451829291fafaaaa8ae13157c04867ea4423136aaa88c8"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-467-plan.png",
-      "bytes": 311454,
-      "sha256": "7e4bd7919b30e1455445378ba3cd67c66dab443208577e6650adcc74ec7053da"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-83-before.png",
-      "bytes": 1078168,
-      "sha256": "3055da51aa481c7cd75d108d95eef0d9cda4e0b6915ad2b944798bcca45b34c9"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-83-close.png",
-      "bytes": 1159894,
-      "sha256": "4a3cf63eeaaa3217a2140b4bd64a80e5b6802f3424a0a8ebbaf6cebffbaa1d1f"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-83-explode.png",
-      "bytes": 388804,
-      "sha256": "242f427cbfef20154c314d94a7864604f41c4d88fcdac8ab9a2b92aa113c9b86"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-83-mobile.png",
-      "bytes": 370604,
-      "sha256": "fdacb49f6a58ea3f1cbb570bb346f8642dd79c27b27001a26ebeaa96046bd990"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-83-overview.png",
-      "bytes": 449512,
-      "sha256": "e2c078630e326deeb604f0ed164a7f95e74b880a373931738f5593e9882fd1b2"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-83-plan.png",
-      "bytes": 314649,
-      "sha256": "982883ba7ff0353343d8b852e22442b7cf6a056c2171e21150c5dcddcfae438b"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-before.png",
-      "bytes": 1025166,
-      "sha256": "e6b2024f0bf39bc04fb87c52e8dca3ee42a733de90434bc4a765801617581c0c"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-close.png",
-      "bytes": 1074742,
-      "sha256": "4acc42fbbeae3cafcdee4c182277ba5f395391d99eedabce676e9e3a4a79c458"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-corner-before.png",
-      "bytes": 955082,
-      "sha256": "d79e1dfdfb22567aca8774a5502d6362817b5982ca469b94d85abcd8a2b61e48"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-corner-close.png",
-      "bytes": 1019028,
-      "sha256": "229753bb68bcca97fb582d514f9b3cb1be7f17c43bbf04786354c9fd380abd61"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-corner-explode.png",
-      "bytes": 426924,
-      "sha256": "86e605b6331ccb8e5a8d44ed79b631589d4a83512c233c8d4a4650d9e6d8e30f"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-corner-mobile.png",
-      "bytes": 361380,
-      "sha256": "165c3a40ec8e86a7684bcfd201843d2f21702c2fbf3ca91fedd43a1e9bbe4262"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-corner-overview.png",
-      "bytes": 467949,
-      "sha256": "598215a51c2cabc24f528ba2fab06195fb2bb0b16cf2b45db3332f276fe87eff"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-corner-plan.png",
-      "bytes": 351663,
-      "sha256": "c426b562b3dff753a8f493be5ebd1faf17dffaec1dc2951c55176349fddfcfd5"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-explode.png",
-      "bytes": 381208,
-      "sha256": "09b04d39a107487ce73ecba22b977759a210455b7c0812dfea12351ef70b3f04"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-mobile.png",
-      "bytes": 346966,
-      "sha256": "cd16f559f0c6283308f021aa4a26675e91dd8ea505d3b1bd5a5902e0e9b00d61"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-overview.png",
-      "bytes": 417890,
-      "sha256": "30f711a7402cf84a3fca4c9002e592c41ec58407cd3b21f666e222fec4595407"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-85-plan.png",
-      "bytes": 280275,
-      "sha256": "3f13afbad029be90387d224c1b283b62546dd3e3e44ad401f0b70161dfacca93"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-brusnika-2019-before.png",
-      "bytes": 866421,
-      "sha256": "ecf1f41e9bd9c473a471771c4beada17c1d385ceea468e68f2bbee1107b65d4c"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-brusnika-2019-close.png",
-      "bytes": 992219,
-      "sha256": "73eb4236b300aad26c9d106734705a593ceba51b4f50c6b30ef374ccaa8b6223"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-brusnika-2019-explode.png",
-      "bytes": 549904,
-      "sha256": "b2f93f551bd1ed9b570968e37ddf2d052c5e0490b64ad83ea9bcf48bcf7e99fb"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-brusnika-2019-mobile.png",
-      "bytes": 393923,
-      "sha256": "895083fde858af3ab4f5d51f04c4df7b9b63e20140e2557b3f56f393feccd5f0"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-brusnika-2019-overview.png",
-      "bytes": 511358,
-      "sha256": "e7dbb130b50cc4c9bcd2269aa771f158b0a4778cb10597f3c28a6e05e6e92486"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-brusnika-2019-plan.png",
-      "bytes": 368137,
-      "sha256": "8fca50e411e922552af4bd238adb64f9e90de5af56a27418d2552e7f4068103b"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-gp18-before.png",
-      "bytes": 731734,
-      "sha256": "e64ab7f5702c596104f2c6c6f293872852781c1fb6ce367158709aed9f4c94d8"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-gp18-close.png",
-      "bytes": 772612,
-      "sha256": "df5094026dddae581c2d02b43747e7b0c57d03c58a1e876c3cffec5b89a82d10"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-gp18-explode.png",
-      "bytes": 344990,
-      "sha256": "8b6ac33b1c8b2d358ac4ce0309ffddfc20932cebfeabeabcc39dc3f82c165b74"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-gp18-mobile.png",
-      "bytes": 827670,
-      "sha256": "0c759c3e9cb3f320b672ebe54f7e24492a0befc097f9009e94daaf8ed84d26e2"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-gp18-overview.png",
-      "bytes": 533853,
-      "sha256": "eb55d6380b88bf4e663199c03b860753b15335f33f325bec491b3be116fb41a3"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/plan-gp18-plan.png",
-      "bytes": 427262,
-      "sha256": "15a9dfa0eb14dd5d34deb5cd855c91b5934fa9f469e0ff992c15af2e5aa2a726"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/source-invariants.json",
-      "bytes": 1217,
-      "sha256": "7c3f8b6faf0eb2f264ac8b15662942dcec4c38c61328a4f5074282defa91d531"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/visual.json",
-      "bytes": 48470,
-      "sha256": "ce4c737272ee6984a99784845c012c1cf97870897b61ea8092d2833b340d85f2"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/zhk-before.png",
-      "bytes": 1156550,
-      "sha256": "672dd2b306c026e9003320906fdb5d88b9b8e5eb82944d3ff9dbca302d7dbf34"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/zhk-close.png",
-      "bytes": 1189273,
-      "sha256": "49502269c9919cd8349f7ec3e918a4e446d5d18c128a4e9b51bf630c8d87dd46"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/zhk-explode.png",
-      "bytes": 535424,
-      "sha256": "af5e43a69dd1152006be453c32ea61a4d21fdfc80d407d31bc36e60e30518eb7"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/zhk-mobile.png",
-      "bytes": 673947,
-      "sha256": "69910d9abbf40bb71189085b3c3e1a6a02659d4044567c4c7010421911556ee0"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/zhk-overview.png",
-      "bytes": 524436,
-      "sha256": "29ee4b600b9d72b0916104f4469d8e5c9aaa7bd417644ef23bb52c7b276b35a9"
-    },
-    {
-      "file": "examples/house-detail/houses/qa/zhk-plan.png",
-      "bytes": 335458,
-      "sha256": "393a8f61d0985354e94a42a40d1a557c98bcfc3ae4ff963ae779f673601dfd16"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/mkd-121.json",
-      "bytes": 70711,
-      "sha256": "03866e99f770cb27fa6934bb78682add056efb30c3627e9525340ed29dae1714"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/mkd-447.json",
-      "bytes": 161987,
-      "sha256": "07a0ca3607e0a5b2e352f5bb4f4775dce081b8e5371a6ea06106fbf2a4c637db"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/mkd-p44.json",
-      "bytes": 248294,
-      "sha256": "cf8977b6d23498b79e06740ff61414d2a8372c375592af57d052b22f8a4dada5"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/mkd-stalin.json",
-      "bytes": 140643,
-      "sha256": "fdb0913ac9f6121246b056e5c458c1b1d794bb49682510345ec92f3825385177"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/mkd.json",
-      "bytes": 61080,
-      "sha256": "b60b17e65e81d685efd0f2314b5211dd6a8834d559f383670de725d869bcaa64"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/plan-121.json",
-      "bytes": 1637075,
-      "sha256": "d8ef853ba62f269a8cc61f789596a9ab94c200ebf376e271c426c9553f443ec6"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/plan-228.json",
-      "bytes": 181058,
-      "sha256": "dcfe3b47cd6734b67428ae8582e6a73e22af7d46db0b94c2d1f88f2c2f0357ee"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/plan-467.json",
-      "bytes": 947576,
-      "sha256": "86582c2cca43df123bcefd6038c13cddd7ae6302753daf3009bcc7e49252b1ff"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/plan-83.json",
-      "bytes": 1100430,
-      "sha256": "a46bb41f484933e6b127f7d4831bd71156a490b2a171dea74f9cc6305bda5a32"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/plan-85-corner.json",
-      "bytes": 1868517,
-      "sha256": "f4e927c033482c8945800d90eef93903081a5621368205c65ac4cc9216b686e8"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/plan-85.json",
-      "bytes": 1256222,
-      "sha256": "ee41485152f558f9c980b660d165566153df1b7688d7777f78a76886d4168cca"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/plan-brusnika-2019.json",
-      "bytes": 1195674,
-      "sha256": "5897b6a1bc9116e7e87e6b0ad08d972d732109b15a248d0dda953fc50398b4db"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/plan-gp18.json",
-      "bytes": 1497312,
-      "sha256": "253c037d898f47b42f69f36c4981a4525503a6d35583f232f40ff8f2cc525b67"
-    },
-    {
-      "file": "examples/house-detail/houses/source-configs/zhk.json",
-      "bytes": 196655,
-      "sha256": "1a904d9adad333a3542e53461fcbdb5657dac7aaea4715f58aed4cc83ba02478"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/10-generators.js",
-      "bytes": 28937,
-      "sha256": "1d90657aa839fa64cdeed391d0056d5665ad014f36b4cd27b4a9588c94613840"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/20-model.js",
-      "bytes": 4773,
-      "sha256": "8c311c03a9972c1245715fa6189d7faf8961a4c7d8f5ee7128023cef199ac3d1"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/30-render.js",
-      "bytes": 25785,
-      "sha256": "53fc06467f3670f3b014f152555114617b1252c9d6625983ff3fbf7df13859b0"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/36-particles.js",
-      "bytes": 8945,
-      "sha256": "7eb346f7ea9dca48de410c693ea27eb9e4d2bd57b5debcb9609c6f77e27d7c50"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/40-markers.js",
-      "bytes": 7009,
-      "sha256": "5c0604df819be11420a8a705f94f5e649ceacb0a3b94a29ec57f22780531ec70"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/50-plans.js",
-      "bytes": 15889,
-      "sha256": "ee7b8b592b9887e496087f04a372ffd8ddde299330dc3ebaf8d926d7382f383e"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/60-flows.js",
-      "bytes": 5346,
-      "sha256": "130194a187682f23b8abcd27df8ee5f7ca090fb021ec9dcad9ead22c73fd9b36"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/70-scene.js",
-      "bytes": 17206,
-      "sha256": "a8bbeaf0c7e8f08055108b95af854d13de277b1d3a449c6ba43f330991abe51c"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/80-shaders.js",
-      "bytes": 8185,
-      "sha256": "95dc31d8d72d8b2ef307616a92c901857c7d7afde22c5871b3a03c6501a5d430"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/85-tune.js",
-      "bytes": 8820,
-      "sha256": "71ef806cdb1b0594cb3bdcc2798e71ba1ca6f15df856a51943495f8cc11eb88a"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/90-ui.js",
-      "bytes": 12968,
-      "sha256": "70ab5b2f258965a71c90ff2a43f73fc320a0559b1328ba21cbd9f3abb8c705b4"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/95-mobile.js",
-      "bytes": 15783,
-      "sha256": "15783c166ccb20cf5da2686d0c96462ffe707779fe327f7808eb9344c6b98ba3"
-    },
-    {
-      "file": "examples/house-detail/houses/source/modules/96-pilot.js",
-      "bytes": 10415,
-      "sha256": "0e69b47d0b6234f45c3ace8adbdc34e3cd83d01bb7d4d7c2772f3dd49d6d31bb"
-    },
-    {
-      "file": "examples/house-detail/houses/source/viewer.html",
-      "bytes": 26569,
-      "sha256": "4d6427257a01af5adbfa2b42acb9d84eb393256d39ea97356a8d5357b81e1df4"
-    },
-    {
-      "file": "examples/house-detail/houses/zhk.html",
-      "bytes": 2233973,
-      "sha256": "177a694e4fc629721f2d764ae8f26efc69b014789915bcb33f35fab2eff000bf"
-    },
-    {
-      "file": "examples/house-detail/index.html",
-      "bytes": 3192,
-      "sha256": "0c22cb9125e8558cb58124d3b7b39463ed450b25ab355e56311eb7375eb8a94b"
-    },
-    {
-      "file": "examples/house-detail/pilot.html",
-      "bytes": 2000615,
-      "sha256": "823c37d3ff340ebcd6863546031e35791cd4c734d0d921d7eae73a91866df411"
-    },
-    {
-      "file": "examples/house-detail/qa-explode.cjs",
-      "bytes": 2496,
-      "sha256": "cc303991e2c09601e34d904ba5c2e0194a5c2c2ecd39ee97be81a0d1ede81aa4"
-    },
-    {
-      "file": "examples/house-detail/qa.cjs",
-      "bytes": 5585,
-      "sha256": "157b303f47499517f307376d5996fffa62bc942e9d5da473808fd176e6bfe09a"
-    },
-    {
-      "file": "examples/house-detail/qa/after-close.png",
-      "bytes": 1178209,
-      "sha256": "1d032f27d6294b33a2a3eeeefabee461b7290fbeb99a13da5ca968b05af8afb5"
-    },
-    {
-      "file": "examples/house-detail/qa/baseline-overview.png",
-      "bytes": 437910,
-      "sha256": "00cc8654312300651fcfc1b40489af0261812266765adcb3a0524ae305d1ea07"
-    },
-    {
-      "file": "examples/house-detail/qa/before-close.png",
-      "bytes": 1071247,
-      "sha256": "be4f6e5ec8b30252ee7186603dad89dc1f28f36213e3ae9af3779dfc7c9e719e"
-    },
-    {
-      "file": "examples/house-detail/qa/cut.png",
-      "bytes": 390405,
-      "sha256": "02a8790d2c169535023decc4e60aadaca9e56602c1f9b3a20f4b71b6de806836"
-    },
-    {
-      "file": "examples/house-detail/qa/explode-after.png",
-      "bytes": 558392,
-      "sha256": "8a36800c50ddfcdfeee0c238b315c7cfd17aab922fcd48d617e6c10bcd7a3fb7"
-    },
-    {
-      "file": "examples/house-detail/qa/explode-before.html",
-      "bytes": 1998222,
-      "sha256": "8f420b94ea55295e051d6507e9792bb42ce566b4b0f1a0f5db4eaf098c7de699"
-    },
-    {
-      "file": "examples/house-detail/qa/explode-before.png",
-      "bytes": 297604,
-      "sha256": "8dc849c464b9110553c1265b934cb48d7adf7ca3e0e2de0b82dde0e132052ba3"
-    },
-    {
-      "file": "examples/house-detail/qa/explode-comparison.json",
-      "bytes": 4248,
-      "sha256": "f11a7e3a64ca4c1d6b78912616b0205dc5062250d0dfc8152d63b1a14def8e66"
-    },
-    {
-      "file": "examples/house-detail/qa/explode-from-close.png",
-      "bytes": 559879,
-      "sha256": "5e90f47508f441a2d70329ed7003ae17847eaae37a12ee8cb5653841c943dc16"
-    },
-    {
-      "file": "examples/house-detail/qa/explode-mobile.png",
-      "bytes": 99790,
-      "sha256": "31160daaaeb423f91220be94c96d1794caf48d65c45ab4b56f6fd951770575e2"
-    },
-    {
-      "file": "examples/house-detail/qa/explode-reference.png",
-      "bytes": 433592,
-      "sha256": "7ad8a0a597a2568bbcb8f1b85c5d412ee826d9aa3a67d4be834032b12dad7693"
-    },
-    {
-      "file": "examples/house-detail/qa/explode.png",
-      "bytes": 296840,
-      "sha256": "4e3fc57d3f157e81a190c4699c03f4c132281c87904ac011df7cf4147c65bec8"
-    },
-    {
-      "file": "examples/house-detail/qa/gpu.json",
-      "bytes": 3487,
-      "sha256": "543edbfcbd534dac65f187ad78d106fc491cead956da8818c43e54b343113c65"
-    },
-    {
-      "file": "examples/house-detail/qa/invariants.json",
-      "bytes": 1192,
-      "sha256": "67b00fd7a3b8a47e536669ea9134afd9c553fe2a755daf80b7bcea9b03a82276"
-    },
-    {
-      "file": "examples/house-detail/qa/mobile-close.png",
-      "bytes": 264875,
-      "sha256": "2e264a312df9dc88de6acd82927f7d4e2b1193f298ca962e244b9a6ceb260d18"
-    },
-    {
-      "file": "examples/house-detail/qa/mobile-overview.png",
-      "bytes": 117883,
-      "sha256": "1468598a18eb3853f3733635df990047ecc92c3010833a0f1bf15c1b36f442bd"
-    },
-    {
-      "file": "examples/house-detail/qa/pilot-overview.png",
-      "bytes": 450750,
-      "sha256": "b674579238e875e663b2a865fe622d53c7a008ac48663084f651985f346a79fd"
-    },
-    {
-      "file": "examples/house-detail/qa/plan.png",
-      "bytes": 376864,
-      "sha256": "94be94bb614776215436f4e0b31c780cf8c6830157ab840be81f074d1cd3f16b"
-    },
-    {
-      "file": "examples/house-detail/qa/visual.json",
-      "bytes": 2095,
-      "sha256": "4c61e887161a8df3b24808fe2452c803ecb4c91d1ff4ba088874e1ab614fcdea"
-    },
-    {
-      "file": "examples/house-detail/source/modules/10-generators.js",
-      "bytes": 28937,
-      "sha256": "1d90657aa839fa64cdeed391d0056d5665ad014f36b4cd27b4a9588c94613840"
-    },
-    {
-      "file": "examples/house-detail/source/modules/20-model.js",
-      "bytes": 4773,
-      "sha256": "8c311c03a9972c1245715fa6189d7faf8961a4c7d8f5ee7128023cef199ac3d1"
-    },
-    {
-      "file": "examples/house-detail/source/modules/30-render.js",
-      "bytes": 25680,
-      "sha256": "5bc2bec44b56e1027818a8bf426bdc36e876982beed2d3586bf4208d438582a0"
-    },
-    {
-      "file": "examples/house-detail/source/modules/36-particles.js",
-      "bytes": 8945,
-      "sha256": "7eb346f7ea9dca48de410c693ea27eb9e4d2bd57b5debcb9609c6f77e27d7c50"
-    },
-    {
-      "file": "examples/house-detail/source/modules/40-markers.js",
-      "bytes": 7009,
-      "sha256": "5c0604df819be11420a8a705f94f5e649ceacb0a3b94a29ec57f22780531ec70"
-    },
-    {
-      "file": "examples/house-detail/source/modules/50-plans.js",
-      "bytes": 15775,
-      "sha256": "225139edcce93fdeb0b47d2b8443c85c24fc4477e253d4836425a7c0b8a8bd38"
-    },
-    {
-      "file": "examples/house-detail/source/modules/60-flows.js",
-      "bytes": 5346,
-      "sha256": "130194a187682f23b8abcd27df8ee5f7ca090fb021ec9dcad9ead22c73fd9b36"
-    },
-    {
-      "file": "examples/house-detail/source/modules/70-scene.js",
-      "bytes": 16820,
-      "sha256": "77c62ea61f92261fd7a34fe7861757b2b077c5fb1fed7222aae204148bf7a9c1"
-    },
-    {
-      "file": "examples/house-detail/source/modules/80-shaders.js",
-      "bytes": 8185,
-      "sha256": "95dc31d8d72d8b2ef307616a92c901857c7d7afde22c5871b3a03c6501a5d430"
-    },
-    {
-      "file": "examples/house-detail/source/modules/85-tune.js",
-      "bytes": 8820,
-      "sha256": "71ef806cdb1b0594cb3bdcc2798e71ba1ca6f15df856a51943495f8cc11eb88a"
-    },
-    {
-      "file": "examples/house-detail/source/modules/90-ui.js",
-      "bytes": 12968,
-      "sha256": "70ab5b2f258965a71c90ff2a43f73fc320a0559b1328ba21cbd9f3abb8c705b4"
-    },
-    {
-      "file": "examples/house-detail/source/modules/95-mobile.js",
-      "bytes": 15783,
-      "sha256": "15783c166ccb20cf5da2686d0c96462ffe707779fe327f7808eb9344c6b98ba3"
-    },
-    {
-      "file": "examples/house-detail/source/viewer.html",
-      "bytes": 26509,
-      "sha256": "feb68839b2e3caa4baff7b806127e085ee1ee391f075b125193e9e7a39fb0ca0"
-    },
-    {
-      "file": "examples/house-detail/verify.cjs",
-      "bytes": 3312,
-      "sha256": "7af39b5d2606aacf85acefd52d02db9da46fdf7e5041f56a7d6e00140a89fac6"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/atlas.css",
-      "bytes": 1943,
-      "sha256": "001d274ca31a446a78a2b63b7f49761f4fc47871c78313dedd78f04b1bfa521f"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/atlas.js",
-      "bytes": 5784,
-      "sha256": "be8e8cfe1b183ae4cf135feb2cc6fab7cb7b81fe4323bf49e16c92ba04338b8d"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/build-glossary.mjs",
-      "bytes": 1336,
-      "sha256": "6955168a94d829ebed4857ea5827d4672eeb345aeb2e12b0c791424ab064f0cd"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/glossary.test.mjs",
-      "bytes": 3652,
-      "sha256": "cd70ddc49290337fa8615fca7066f9b6be143f97416a0cdf3a32352d1fad35b4"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/index.html",
-      "bytes": 4471552,
-      "sha256": "4614e111784da1084597257713954250e0f8f0f23321e274083fd010bbef04b8"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/integrate-glossary.mjs",
-      "bytes": 2525,
-      "sha256": "45e08cc0c924ed86abf30397b646fe1be9de30233e5e987f5d4a3a118911eefe"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/museum-glossary-bootstrap.js",
-      "bytes": 1098,
-      "sha256": "6495e4f3603351351be48f94fd65537e8a188c8590178a433bc320c544f3e1c2"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/museum-glossary-frame.js",
-      "bytes": 797,
-      "sha256": "1b67d82cb63f4b30bface88ff5e0cb31140c48b24762391032199ce222c85787"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/museum-glossary-index.json",
-      "bytes": 29776,
-      "sha256": "5cb7c8545fa02548a2e5afcdf5765fb36512b5cfa3c8a0bc918ffd06aaeddacc"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/museum-glossary.css",
-      "bytes": 963,
-      "sha256": "7c534f0263ce5e5aa2d8434bae3999539470d98103584458696985bc49b40bdc"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/museum-glossary.js",
-      "bytes": 3013,
-      "sha256": "1a4a64c34cf79d647f681122da4a4105e64f48cdda1407e3ce8c6030875c73a6"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/poster/hero.jpg",
-      "bytes": 150443,
-      "sha256": "b0a296da5ac767375caf6937d29096d3da9622fc63513af1c1c8c7a43046fcb6"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/thumbs/ilosos.jpg",
-      "bytes": 18702,
-      "sha256": "46841a1f420208f3711d400e4e780ee7b0350c9fdec723b364c250f859c3029f"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/thumbs/itp.jpg",
-      "bytes": 21687,
-      "sha256": "b99aa70f01d7f45da1b9f90ca488de0ddea80cff89d5ee58583843bbb9108fdf"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/thumbs/kdm.jpg",
-      "bytes": 15764,
-      "sha256": "b463dc1e1f79b5e25141b97c8f111c459d303301fcb15b84c0b6b0d855a2331f"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/thumbs/lift.jpg",
-      "bytes": 21948,
-      "sha256": "a369dd69ff26afd341010cf13d17be49cca72f5f74e4aeb94470fd2fa1b98291"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/thumbs/mkd.jpg",
-      "bytes": 18318,
-      "sha256": "e6be48ec6276c70087c15665285eedff5abdc0cf7f651f52d4bad311065a995f"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/thumbs/tec.jpg",
-      "bytes": 22196,
-      "sha256": "555e8690c6cf6ab08580ef2a2a241270cfbc1aefc80c46523422e546fcfb313c"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Аварийная летучка (КамАЗ) (голограмма).html",
-      "bytes": 2882528,
-      "sha256": "9ceec5248ff62e24e744c3cb59c32dad4bea26377bc3e6088edb103355850f3f"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Автовышка АГП-22 (КамАЗ) (голограмма).html",
-      "bytes": 2907209,
-      "sha256": "0228c312b014b72f8e83d1a3495cbe206ff076e00160ca7dac889a6957611c9f"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Автокран на аварийной раскопке (голограмма).html",
-      "bytes": 2149101,
-      "sha256": "4cc0a7d25d2894447bf53e9304b23fc1175680e6680a5b44016f85b533c6cc84"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Автоцистерна питьевой воды (КамАЗ) (голограмма).html",
-      "bytes": 2857556,
-      "sha256": "61fca6a0040ee473cdad97f10b0d87be0923f8c1f89afc196c77b18b3218289c"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Бункеровоз-мультилифт (КамАЗ) (голограмма).html",
-      "bytes": 2888864,
-      "sha256": "6875789057d00b8cf84d0408fd9de58a1c24afce478cd5f73fce4ee6ee276e34"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/ВЛ 0,4 кВ и уличное освещение (голограмма).html",
-      "bytes": 1214047,
-      "sha256": "3f56710b03602b00f006220f2251ffdd413587445fec41a40a48c96014d4ef31"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/ВРУ жилого дома (голограмма).html",
-      "bytes": 1100911,
-      "sha256": "0d0c2bc196ea84770e4b763e624ddddc3faff22cca2994f62a69acada57759af"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Водонапорная башня и скважина (голограмма).html",
-      "bytes": 1144810,
-      "sha256": "e34fd3f040ea8e1fbcce9162ca3a8ac7cb805e5e76c46f8cde8bda31247158c7"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/ГРПШ — газорегуляторный пункт (голограмма).html",
-      "bytes": 1099845,
-      "sha256": "78228bbd67d976652399de3cf7de0d69a9279b70056b3aea3c0c998730d7808d"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/ГРС — газораспределительная станция (голограмма).html",
-      "bytes": 1132777,
-      "sha256": "1341f237a8891530fbe6db4611746f79bf90248bac58bbd3f8cf32c8b58cd81c"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Дом 1-228-2 — 1950 год (голограмма).html",
-      "bytes": 1170080,
-      "sha256": "3f0200390f58a08ab1b8d6f37a313ccb39165edd422e8bb111405f2bb8421100"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Дом 1-467А — проект 1966 года (голограмма).html",
-      "bytes": 1483225,
-      "sha256": "df5c8a68bf8b0914c385a8659e0186f9a29d13eea97a724ad584435a6dd1fa31"
-    },
-    {
-      "file": "examples/mediashtab/golomuzey/Дом 121-014 — проект 1985 года (голограмма).html",
-      "bytes": 1683209,
-      "sha256": "17e2382706ba499e96c0059647ca55ff3bc6faa6df8973e5b85b32f9ad021c1c"
-    },
-    {
       "file": "examples/mediashtab/golomuzey/Дом Брусники — 2019 год (голограмма).html",
-      "bytes": 1615382,
-      "sha256": "91874b5c914b770153a5717977a483553086d3adb56a9e3da87bfccc5b9b2792"
+      "bytes": 1614235,
+      "sha256": "f0bd771d7d9afc574fc49e2548aa6f12ecea00cff3c6d3ccca80d050eb15d830"
     },
     {
       "file": "examples/mediashtab/golomuzey/Дом серии 85 — проект 1980 года (голограмма).html",
-      "bytes": 1535510,
-      "sha256": "86ce220d298b121865cea2c889777d30105751d0ddaca3317f19ce034bd4f6c9"
+      "bytes": 1534363,
+      "sha256": "2fdaebf31f21bac625f6160c7cfa2cc30e727baf37afdb93b90f6c53fca05613"
     },
     {
       "file": "examples/mediashtab/golomuzey/Жилой дом (МКД) (голограмма).html",
-      "bytes": 1114046,
-      "sha256": "4e27a3ed5a848314e12415c5a2116f47b1aa88cd5087a218a24c98b9ffdff53d"
+      "bytes": 1112899,
+      "sha256": "58c006f7b6177488b276bce6825c741148c52998cf45b856946a2e9d38265cce"
     },
     {
       "file": "examples/mediashtab/golomuzey/Жилой дом ГП-18 — проект 2020 года (голограмма).html",
-      "bytes": 1758028,
-      "sha256": "27f2ce2f990ae8890d22522ed406610482b74772a6f5b38d0f0b4ee50695a1fe"
+      "bytes": 1756881,
+      "sha256": "d816d306b18c53fd6a4e06302d2363482b4c4f71bdba98c4cf6470fef626a838"
     },
     {
       "file": "examples/mediashtab/golomuzey/Жилой комплекс с крышной котельной (голограмма).html",
-      "bytes": 1176175,
-      "sha256": "cc61492762425f83aa96be42a4f9a8d86619a33bfbc734594c7bf068ec80e8d4"
+      "bytes": 1175028,
+      "sha256": "dd63c5b6da54cab2e304a8d58d4164ebcfbced5103171fb572bfc936e6cd9509"
     },
     {
       "file": "examples/mediashtab/golomuzey/Задвижка с электроприводом (голограмма).html",
-      "bytes": 1101085,
-      "sha256": "0f143ed5bc2e14910f631e9808f08690aa0f8e06a3d8774368c5ec4847ea8aed"
+      "bytes": 1099938,
+      "sha256": "ee05a3d176a22ebf6ea41d1afe0015b038c9ef8b71af25b78c3f776a8919df06"
     },
     {
       "file": "examples/mediashtab/golomuzey/Илосос КО-560 (КамАЗ) (голограмма).html",
-      "bytes": 2957454,
-      "sha256": "e6ee71ebdbc36d97c7102f2d9df40c0d07df2b840fbeb32bc17214e73504a470"
+      "bytes": 2956307,
+      "sha256": "c9f1061c2e56bb424912ba3fe213bde4bbcc6cfbcf0818b2b05fff547431a2cf"
     },
     {
       "file": "examples/mediashtab/golomuzey/КДМ — комбинированная дорожная (КамАЗ) (голограмма).html",
-      "bytes": 2921298,
-      "sha256": "90fc243ee9209e438b5aff5b96ea824f7ffe12df59ed2dac0b6b424325a8315c"
+      "bytes": 2920151,
+      "sha256": "256d2321075c15917397d27c17d1e51693f0127432849884587eb25ab3195624"
     },
     {
       "file": "examples/mediashtab/golomuzey/КТП — трансформаторная подстанция (голограмма).html",
-      "bytes": 1139259,
-      "sha256": "6e3bfa828dbab1f12c7ebc6c8f13bc6f2fd7bd4b29f70b5b004522b20250421b"
+      "bytes": 1138112,
+      "sha256": "7c33d365dbfd514f1bcdfd720823b32b14eddf8d0c0c9ad638ed3644908049cd"
     },
     {
       "file": "examples/mediashtab/golomuzey/Канализационная насосная станция (голограмма).html",
-      "bytes": 1103339,
-      "sha256": "dab1b55cfdf4c0845ec49de84aeb895fbe5e0bcd84799e00535f5fc540b540ad"
+      "bytes": 1102192,
+      "sha256": "91e34e4e940d6097dbd851cd1fabc7917ef0ce9a9c7fdf607632d8482e2e7889"
     },
     {
       "file": "examples/mediashtab/golomuzey/Канализационный колодец в разрезе (голограмма).html",
-      "bytes": 1122841,
-      "sha256": "9677cae1d05fa240955e1be1cb427ccfdbcacf42df910449ea1c59fca1274fd9"
+      "bytes": 1121694,
+      "sha256": "2c7858558299ad37a2f677e12e5a798d1a32ca3d61820c3ea2e8be9287579f6f"
     },
     {
       "file": "examples/mediashtab/golomuzey/Каналопромывочная КО-512 (КамАЗ) (голограмма).html",
-      "bytes": 2952520,
-      "sha256": "7e48e2d196797de26c373aa693ef156c4408c30aaa29fc4197ec6a5d4c800f8e"
+      "bytes": 2951373,
+      "sha256": "438d156b608f7c4247405a5dd5e3024c7c93148ade1aa994d75b02a02f12dbe9"
     },
     {
       "file": "examples/mediashtab/golomuzey/Кирпичная пятиэтажка (серия 1-447) (голограмма).html",
-      "bytes": 1168290,
-      "sha256": "8bb264ca0d8b3007357ed9a22bd72ff6b5880b62b7e59d1a22e28b2883cda305"
+      "bytes": 1167143,
+      "sha256": "dca90796470d1edafc39e178a23660d7d9c8a1fcf865bbfe793c170673d82af5"
     },
     {
       "file": "examples/mediashtab/golomuzey/Кирпичный дом 1950-х (сталинка) (голограмма).html",
-      "bytes": 1153796,
-      "sha256": "b778889d8e30a4cfed7c15380dc03dabad5049a222ff7d218a294e574f61238f"
+      "bytes": 1152649,
+      "sha256": "208c8ace7805c58e7f7b61779e87c977365e0aec348fcca12c08bc471865ea6a"
     },
     {
       "file": "examples/mediashtab/golomuzey/Коммунальный трактор (отвал и щётка) (голограмма).html",
-      "bytes": 4452962,
-      "sha256": "927c3a4140d2d8c250c2de3d41b5a8ab4ced1980000c8587cd6e0dcee226415f"
+      "bytes": 4451815,
+      "sha256": "f65c78a26a34c90c8d5c4a985a2febfd2d63a7a390297ac2044a142e65adb4ca"
     },
     {
       "file": "examples/mediashtab/golomuzey/Контейнерная площадка ТКО (голограмма).html",
-      "bytes": 1105472,
-      "sha256": "89be849db0b93d7d07cd8020e7c26a1bdfea0229f55837368a073c7267697659"
+      "bytes": 1104325,
+      "sha256": "6d45edf7a6d95a7b2ab8f22b9181e58fe3fa1b2c0f2fefd06be90d458b172b87"
     },
     {
       "file": "examples/mediashtab/golomuzey/Котельная (голограмма).html",
-      "bytes": 1165999,
-      "sha256": "48985b26dad21fa7af9e6b09f0f024927b2140732be3352bc97f668fc47f5eb4"
+      "bytes": 1164852,
+      "sha256": "cf51afaeb18d6dab74e1136ba1710a2216bc9c0ebb4b6df1366b14c2cd5f1d0f"
     },
     {
       "file": "examples/mediashtab/golomuzey/Крышная котельная (голограмма).html",
-      "bytes": 1172106,
-      "sha256": "24a63b04c700dfa84c86b9fcd1deb330a75ad4c732025eb2ea1946b028f17890"
+      "bytes": 1170959,
+      "sha256": "869400e576f8e02b9bf8209943f3c4a8c20bb79a798fc3725cd71bcff6081cd9"
     },
     {
       "file": "examples/mediashtab/golomuzey/Лифтовая лебёдка (голограмма).html",
-      "bytes": 1103579,
-      "sha256": "83d1511b10ba228cc6043fe6f9309d7a6010dea22a1792e74947fb412d1b2d36"
+      "bytes": 1102432,
+      "sha256": "7d1c2e7ac7187fc03e4093a49db7eb8cfb9417cd2c65074363d20302896ea03e"
     },
     {
       "file": "examples/mediashtab/golomuzey/Мусоровоз с задней загрузкой (КамАЗ) (голограмма).html",
-      "bytes": 2872886,
-      "sha256": "74f0970e3c466c158c7bcd34feff724ed280d82d7a6fc199efc7755d0984d768"
+      "bytes": 2871739,
+      "sha256": "94c56ef0724645ab69bf004130e9ba1f1169fbc4b0875acc2e3df1c5b45ec226"
     },
     {
       "file": "examples/mediashtab/golomuzey/Мусоропровод в разрезе (голограмма).html",
-      "bytes": 1101183,
-      "sha256": "bbdc8ce5f44d2d2e6a1b8b7465a41ab979b075a964bc97862fd1f07e3c7d6b93"
+      "bytes": 1100036,
+      "sha256": "390f6902d6701cd6e1d5f4b8cad140ead83ccf5a04a694ee8810f33e979f0d3f"
     },
     {
       "file": "examples/mediashtab/golomuzey/Насосная станция (ВНС II подъёма) (голограмма).html",
-      "bytes": 1118207,
-      "sha256": "8bab229040244f87d238a0b78ed1937fd323e0bb1be1f2f31db1620af2cc2862"
+      "bytes": 1117060,
+      "sha256": "759ea4489915d73e1342f2a4339b5945c20d0a06ee97ef718d98141ef83a3013"
     },
     {
       "file": "examples/mediashtab/golomuzey/Насосный агрегат (центробежный) (голограмма).html",
-      "bytes": 1096477,
-      "sha256": "08403f1a3a086b9ff658e2f6137585a21bea088365608d48387c6e4a1a4de6ee"
+      "bytes": 1095330,
+      "sha256": "90577f277ef5f9886ade665ab589be2275cf3b57478b8ffa1dffadacbd6a8331"
     },
     {
       "file": "examples/mediashtab/golomuzey/Очистные сооружения канализации (голограмма).html",
-      "bytes": 1149110,
-      "sha256": "98157f14088508bfa040f4f367e762324dd0314bf53ce33f95c604b81ec8e8ab"
+      "bytes": 1147963,
+      "sha256": "5cd5f7a9bccb91cce542da5cb696b52db5862bb19391e48961a8e64b5cc628ea"
     },
     {
       "file": "examples/mediashtab/golomuzey/Панельная 17-этажка (серия П-44) (голограмма).html",
-      "bytes": 1204274,
-      "sha256": "cfe4f9c714bb7c5d20e9c22289168cb6f3d0208e67997044f8e19ec9f36abe61"
+      "bytes": 1203127,
+      "sha256": "b0a7cfaadbfc10485398f3b1607c2cd53989bc90e1069b179932c785e4c20d1d"
     },
     {
       "file": "examples/mediashtab/golomuzey/Панельная 9-этажка (121 серия) (голограмма).html",
-      "bytes": 1119133,
-      "sha256": "395659fac4b22d6e9a77931fc4228c3dac830df2ab97606b36d7468d38424a07"
+      "bytes": 1117986,
+      "sha256": "cbe88e993fb2fbd52fa725c9c2f95b53dc26b91aa13d2dd919bea5e218f20232"
     },
     {
       "file": "examples/mediashtab/golomuzey/Панельная девятиэтажка серии 83 — проект 1986 года (голограмма).html",
-      "bytes": 1476195,
-      "sha256": "492d102f73c4b9229f45a84ff7d1fb22c0d74161931c331c73b3ae2d82f7bb4f"
+      "bytes": 1475048,
+      "sha256": "b82b734b79c1d60f5acb67fc64f5418eddbf73935c84450f57066560e483dc42"
     },
     {
       "file": "examples/mediashtab/golomuzey/Пассажирский лифт в шахте (голограмма).html",
-      "bytes": 1120692,
-      "sha256": "56dc2a581a2edce0cbb7f135d3f22b28c14bcccc52e1a9eabf0781242ac92ba4"
+      "bytes": 1119545,
+      "sha256": "0ea272bd3a174cd959213408ffa34e9216467d02592ea0b3352fae4a62da66f0"
     },
     {
       "file": "examples/mediashtab/golomuzey/Подземный водозабор (голограмма).html",
-      "bytes": 1169923,
-      "sha256": "0a220e0f3184583d5531c6b25f3872726addcf2f41c378cbaec1f35266eadce1"
+      "bytes": 1168776,
+      "sha256": "37fce46753ec051701d87378cbc93755eadf062b39f724ae5f1e5f2467db5571"
     },
     {
       "file": "examples/mediashtab/golomuzey/Подстанция 110-10 кВ (голограмма).html",
-      "bytes": 1185016,
-      "sha256": "6176a205eda2cad9fb3e1d11a632ce215cc2a5b381858e32a7b2aed74a6a6f5d"
+      "bytes": 1183869,
+      "sha256": "501ae383911c702a06f4f737d03654a1c782b81990ed7faaa0c00dbe8232e192"
     },
     {
       "file": "examples/mediashtab/golomuzey/Пожарный гидрант с колонкой (голограмма).html",
-      "bytes": 1100084,
-      "sha256": "f85fbe1f570d8c6607cd28e1c8655228a5e4c817c068573555faf1b21773560e"
+      "bytes": 1098937,
+      "sha256": "646a9e37dea6db057bf7115d1b8dd4fea71f86defcb598ea25f1a83a16a274df"
     },
     {
       "file": "examples/mediashtab/golomuzey/Поливомоечная машина (КамАЗ) (голограмма).html",
-      "bytes": 2904001,
-      "sha256": "c26781f2f964d6955d93dd49cc9ededacd5f42b70a77266e0faa9b0ff3e32e4f"
+      "bytes": 2902854,
+      "sha256": "2eb1bb4995c8a083193775ba9df86d2e9029caab392c6d33e09a6549cfb5e51b"
     },
     {
       "file": "examples/mediashtab/golomuzey/Полигон и сортировка ТКО (голограмма).html",
-      "bytes": 1155324,
-      "sha256": "920dc5fef34f047f0308399990cade8410f745a8f6976e2c503d0558239457c3"
+      "bytes": 1154177,
+      "sha256": "5b7c91a8341d3420b4087815b7a08dfc7c552c93343cee6c4c15b28beecad1fe"
     },
     {
       "file": "examples/mediashtab/golomuzey/Приточная вентустановка (голограмма).html",
-      "bytes": 1100251,
-      "sha256": "e2c3bd38ebd524e9f68285fc903f8e9758c194dc8a1c790fb65d355e34fb8068"
+      "bytes": 1099104,
+      "sha256": "a59d11023a6f95399663481f174da7b87edb3018f928b0a2a4ce3dd130a63cd3"
     },
     {
       "file": "examples/mediashtab/golomuzey/Радиаторный узел квартиры (голограмма).html",
-      "bytes": 1098349,
-      "sha256": "776dd825ec24510861fbe0d27660eca3861e273a2dc915b3f1f6fdb396571eea"
+      "bytes": 1097202,
+      "sha256": "7a958491a8c8772ef684bc4b15cccf26bc7849c6b4442d4a569039f003dc3ced"
     },
     {
       "file": "examples/mediashtab/golomuzey/Регулирующий клапан (голограмма).html",
-      "bytes": 1098949,
-      "sha256": "d997aa99532424c3901e4da5fe3d2d2a6e445e363dd3de7d46d72a73d0cb98f4"
+      "bytes": 1097802,
+      "sha256": "56744c3ecec74999016d456b79accafb5799f7ab29542613efa53d12b3bc30a4"
     },
     {
       "file": "examples/mediashtab/golomuzey/Речной водозабор (голограмма).html",
-      "bytes": 1163886,
-      "sha256": "c01a88981128d456de4ceb3212631189f8d1c7fd87d61e121f40a4bfea3dcde7"
+      "bytes": 1162739,
+      "sha256": "959835ef53d442ac0018718f944e3cf13eb7cd70fcae3c19eb80eea8527d0c79"
     },
     {
       "file": "examples/mediashtab/golomuzey/Тепловой пункт (ИТП) (голограмма).html",
-      "bytes": 1115306,
-      "sha256": "0f49e232f6924ca77e8b6eb636def20eaaf08180ab716ed09ed25a941e76fcdb"
+      "bytes": 1114159,
+      "sha256": "ec5898a602e74a04074ce8346e345f08415561875a85bed48b5c19420f6b99a8"
     },
     {
       "file": "examples/mediashtab/golomuzey/Теплотрасса в разрезе (голограмма).html",
-      "bytes": 1117573,
-      "sha256": "eb5f2c6bfad820591d17bac6dc612995ea85e8c963b4723cfd48e8ea4f5c4a4b"
+      "bytes": 1116426,
+      "sha256": "abcf0257830bb5f7f0601dc7f226a28ba01f553c8bc32e578416711350203ace"
     },
     {
       "file": "examples/mediashtab/golomuzey/Тяжёлый трактор на полигоне ТКО (голограмма).html",
-      "bytes": 2034537,
-      "sha256": "301a51d6759367cde3f14be2371a6f3d5a2a416d8a86ea676f093281ade04a41"
+      "bytes": 2033390,
+      "sha256": "67cdf1e0d0dfcee260f5021b54cbc38a0982d66f0ddafdf36bbd4e9f82de6f12"
     },
     {
       "file": "examples/mediashtab/golomuzey/Угловой дом серии 85 — сборка секций (голограмма).html",
-      "bytes": 1687527,
-      "sha256": "a2ed31baa44718029b5c9a9d0d5e11e3412d62344a35f2601474f48e68d89e5e"
+      "bytes": 1686380,
+      "sha256": "36768dee64da3d7632ac195739cff227dbec3a38c03317982fda1edde3b67b9f"
     },
     {
       "file": "examples/mediashtab/golomuzey/Узел учёта воды (ОДПУ) (голограмма).html",
-      "bytes": 1102161,
-      "sha256": "0ae276b005e80a04942991c9cc56ba9413b5f49f337d361a28d2b6b387dbce29"
+      "bytes": 1101014,
+      "sha256": "ff845d99118044c30ae0f800067ca6aca15252c2171e1804ea9b7a255ab6a3b5"
     },
     {
       "file": "examples/mediashtab/golomuzey/ЦТП (голограмма).html",
-      "bytes": 1165708,
-      "sha256": "7884d05c49ff1ea76b05424993c1b22df2b63ef392b8bdec12112d8ec08991d4"
+      "bytes": 1164561,
+      "sha256": "f6a25b4467f63de595d5ab6da360c6a7a5c843d98b2cd68fb32c0d15a87f2cc4"
     },
     {
       "file": "examples/mediashtab/golomuzey/Шкаф управления насосной станцией (голограмма).html",
-      "bytes": 1097410,
-      "sha256": "5161165d41279f2a65f3aa400d2a31e6162bdad45bc19d004fb4a091a9d289e5"
+      "bytes": 1096263,
+      "sha256": "a54326dc1a68bdcafe1c8e3421384dfd2df633cb2a9c6cf1cab94db0dbbfa864"
     },
     {
       "file": "examples/mediashtab/golomuzey/Экскаватор-погрузчик на раскопке (голограмма).html",
-      "bytes": 3082788,
-      "sha256": "10486b6b6e74d9b7362d509b5b3a1878ef24d86b7f94b25474cef79289c27ef2"
+      "bytes": 3081641,
+      "sha256": "4c6bdf86c9f2d591f5d2f43f82b9230b2b0b6384501b661011923bf3c7eb78c6"
     },
     {
       "file": "examples/mediashtab/golomuzey/Электростанция ТЭЦ (голограмма).html",
-      "bytes": 1199027,
-      "sha256": "b027989fbd376b0827fc655cd9622a9c67d3a1cf6fb5b3c482046084fbbf7f12"
+      "bytes": 1197880,
+      "sha256": "2467affa5d7d75e43d98ae0281ec3d35c325319677d3abbd14d353f8c4c91706"
     },
     {
       "file": "examples/mediashtab/golomuzey/Этажный щит и квартирная электрика (голограмма).html",
-      "bytes": 1111575,
-      "sha256": "78173a0a5d3d6a259d0a600893bee0221a537ff26724b71991b66f45b1103700"
-    },
-    {
-      "file": "examples/mediashtab/icon.svg",
-      "bytes": 2276,
-      "sha256": "05e9469526c85ccc15d54cfe594e48f477bfd6d567ffbf451ed073696dda0404"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary-data.js",
-      "bytes": 36410,
-      "sha256": "b509a20eda0856346b214d6657e5076ad16f251875c0916205a0d080c9461c8e"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary-engine.js",
-      "bytes": 2166,
-      "sha256": "89fc71a6806aaa8b07dc6ac72623fb15ecdec1e99185df7241a178c4d6f778d8"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary-museum-data.js",
-      "bytes": 35692,
-      "sha256": "389abbc0bef136e547ee7671fba1e8e288a46bed696b5211951e27b4df5bb557"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary-museum-links.js",
-      "bytes": 6048,
-      "sha256": "6ddfd7c6b96de4d0802842659c9c926bb1d9bbb9525f2f92135c66683216e5f8"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary-museum-search.js",
-      "bytes": 296,
-      "sha256": "231cf852920f2ddc0da57720dbd07e33c9e052b330a06624a094a1ef236ff152"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary-page.js",
-      "bytes": 6799,
-      "sha256": "a07aea340ee45f5eb5f2fac8d4cfda27115cc151c61e6c182c0c41cbd09742c0"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary.css",
-      "bytes": 6379,
-      "sha256": "cbdf41099a85ef20853abe62758b08f28ec46c62034eada713a80229b9a31790"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary.js",
-      "bytes": 6792,
-      "sha256": "f7d39ae1965077668b30954f5d62a0be932e0fc51ff488c250fccffb6ac11a1a"
-    },
-    {
-      "file": "examples/mediashtab/meta/glossary.test.mjs",
-      "bytes": 2336,
-      "sha256": "7d02f51405693deae381e7d5a2e1eda354763fb75038256a8d9c0cd8f7ddacd2"
-    },
-    {
-      "file": "examples/mediashtab/meta/index.html",
-      "bytes": 1080,
-      "sha256": "2038d749d5e26b760ffe5910f41de8508eec4902f789959ee33c3a132f66e820"
-    },
-    {
-      "file": "examples/mediashtab/meta/model-theme.css",
-      "bytes": 132291,
-      "sha256": "e2878786084cd30905fd93ed52f5829fd2cd96bd06bcfc36be3e755fc91f19f5"
-    },
-    {
-      "file": "examples/mediashtab/meta/museum-atlas.svg",
-      "bytes": 1217,
-      "sha256": "8d736b5ddc64a400fa70aebf7ea10c93a3ec693faeee8d1c497ff76540817181"
-    },
-    {
-      "file": "examples/mediashtab/meta/theme.css",
-      "bytes": 25863,
-      "sha256": "8ace7f3335bb80addb296d3f90e3d016495c2e516a917dc5d9591b0fb044e3c4"
-    },
-    {
-      "file": "examples/mediashtab/meta/theme.js",
-      "bytes": 7630,
-      "sha256": "29652513f37ec6a05916cf8f374e78333d58efa3ffb4ea4e91b2c7336b7aee3e"
-    },
-    {
-      "file": "examples/mediashtab/shared/brand.css",
-      "bytes": 3654,
-      "sha256": "e9c444d94444de6997e3ac7be5a702c5d52f6724d517606efe7d27e90bad0119"
-    },
-    {
-      "file": "examples/mediashtab/shared/fonts/Onest-cyrillic.woff2",
-      "bytes": 14228,
-      "sha256": "37bc16874135c16134679b1db25b87fe80eb9fcd4ef3666af7c531bfde204fe2"
-    },
-    {
-      "file": "examples/mediashtab/shared/fonts/Onest-latin.woff2",
-      "bytes": 32236,
-      "sha256": "67849bcc11e02177442da14ad954bfe1cc709553dad137b5003449b303e83fc3"
-    },
-    {
-      "file": "examples/mediashtab/shared/fonts/Rubik-cyrillic.woff2",
-      "bytes": 15112,
-      "sha256": "bdb2b33ab916e9e7b42edb61f8aea5f5dd83ad773d6ee4e9b55665daf8954ce8"
-    },
-    {
-      "file": "examples/mediashtab/shared/fonts/Rubik-latin.woff2",
-      "bytes": 35348,
-      "sha256": "691cd1d9b4c0cdf31a1dcf04259c86f92c85e69f6622abab7964d81e36890691"
-    },
-    {
-      "file": "examples/mediashtab/shared/pulse.svg",
-      "bytes": 209,
-      "sha256": "17d651594836b2771445e2d927ae0f5d3469f1c007bc4a20bcb81a9f3f16550e"
-    },
-    {
-      "file": "ilosos-kamaz-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "ilosos-kamaz-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "ilosos-kamaz-parts/part02.glb",
-      "bytes": 291908,
-      "sha256": "d96dd33a57d9264c547a6fedd38dd3c9cd869d1371a89d6d293f5ca429eb48e9"
-    },
-    {
-      "file": "ilosos-kamaz-parts/part03.glb",
-      "bytes": 73976,
-      "sha256": "c066d3904008d80a7267cfb74f00be46d875694ebd2d8d63f650ed303d2b152c"
-    },
-    {
-      "file": "ilosos-kamaz-parts/part04.glb",
-      "bytes": 164308,
-      "sha256": "ccf767f2294b2d2d483f4a7101108790822a724609999050667fc205a211055f"
-    },
-    {
-      "file": "ilosos-kamaz-parts/part05.glb",
-      "bytes": 103836,
-      "sha256": "d66ea35a9789d1fdf724cf23815cb45d36d00ff499c22768cb961eb868ced82a"
-    },
-    {
-      "file": "ilosos-kamaz-parts/part06.glb",
-      "bytes": 66696,
-      "sha256": "41a3bfce9c83b76d6c9d635806ee235551810d9f2c63830d10200aaaea24c4fc"
-    },
-    {
-      "file": "ilosos-kamaz-parts/part07.glb",
-      "bytes": 120068,
-      "sha256": "e3fcd214d785cfe108a661e748cb3ec0e7c96e53b05a5619fff3b9c482858e6c"
-    },
-    {
-      "file": "k700-parts/part00.glb",
-      "bytes": 960760,
-      "sha256": "65841c00de9eaa910c7972cbbf8d7135679cb1bcaf778db9bd922008e7c5dd5c"
-    },
-    {
-      "file": "k700-parts/part01.glb",
-      "bytes": 368032,
-      "sha256": "3b8966eb6d690f5f9d16235fc116187d1cd0a55274cf657a1ab8ad0c019e8f6b"
-    },
-    {
-      "file": "k700-parts/part02.glb",
-      "bytes": 22700,
-      "sha256": "97f9a267945ece67b4e2673d64d9610b0696c50932f5b6c2540cbbe7155fa9ac"
-    },
-    {
-      "file": "k700-parts/part03.glb",
-      "bytes": 131084,
-      "sha256": "0fc8494a732be5248bb5d9de84335386ca577d6907925090f01a3e0fa7237de2"
-    },
-    {
-      "file": "k700-parts/part04.glb",
-      "bytes": 75080,
-      "sha256": "ca59dc90bc00e229090f947289e513a988675b41c1906e024e9c9fb08b3c8f0a"
-    },
-    {
-      "file": "k700-parts/part05.glb",
-      "bytes": 32312,
-      "sha256": "7e909b40c27cd553b88d97aee71f4899827c6adc31ecbb7f3c722aedcca1be65"
-    },
-    {
-      "file": "kamaz-cab-donor.glb",
-      "bytes": 12354660,
-      "sha256": "c9f90c89ca989d37a1ba31eeac2b4a6316492dcbc0f88d2dcc3805d5995e486c"
-    },
-    {
-      "file": "kamaz-wheel-donor.glb",
-      "bytes": 1514360,
-      "sha256": "081ac18eafb8d5da3740d2255cf69afca368f23289d0071095935e2db0566bcd"
-    },
-    {
-      "file": "kamaz-wheel-lite.glb",
-      "bytes": 534380,
-      "sha256": "3dff81742b8d382dcb4c7af53f9c555bee298e9823067d12618c3656d2d68fa0"
-    },
-    {
-      "file": "kdm-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "kdm-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "kdm-parts/part02.glb",
-      "bytes": 78296,
-      "sha256": "8a0c68b3ac6101fa90913303bcc5ab048b8bd744d55455f5a3895ea772cac056"
-    },
-    {
-      "file": "kdm-parts/part03.glb",
-      "bytes": 69692,
-      "sha256": "271a18329e42a99de779d3f78e94f432840d80a0fd03a32a04c0f4f3d8b48d6d"
-    },
-    {
-      "file": "kdm-parts/part04.glb",
-      "bytes": 72756,
-      "sha256": "d0a2f7cd45447c5353f2e2393474f71cc584b7763bd393e1edfde1b6744f36b9"
-    },
-    {
-      "file": "kdm-parts/part05.glb",
-      "bytes": 202776,
-      "sha256": "0a03f02380b56d89ff1a69a32135ad085c450b748f092cb89a5d708bc50d4ffd"
-    },
-    {
-      "file": "kdm-parts/part06.glb",
-      "bytes": 142956,
-      "sha256": "cfc438432eb224a9896735c437a58c4fcd61e554c11424a41fa88d0bc18f607e"
-    },
-    {
-      "file": "kdm-parts/part07.glb",
-      "bytes": 67004,
-      "sha256": "91a11e034da0cdee7a5fe52483868fbdcc73d3aea5421e1833f4135e007fba99"
-    },
-    {
-      "file": "ko512-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "ko512-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "ko512-parts/part02.glb",
-      "bytes": 180480,
-      "sha256": "07619fe57b6c8e65f3b5cdd0ebcae73fd0bfe0a7890719bd22839f16fa221a30"
-    },
-    {
-      "file": "ko512-parts/part03.glb",
-      "bytes": 153800,
-      "sha256": "b810dd48a1ffb2e51385127e967dd75a00c94a4e795e74ba1344aa86411f3e81"
-    },
-    {
-      "file": "ko512-parts/part04.glb",
-      "bytes": 202476,
-      "sha256": "825131d66d9911096440b94e48e98355830181498261e9a214e2b926ef4ad153"
-    },
-    {
-      "file": "ko512-parts/part05.glb",
-      "bytes": 58560,
-      "sha256": "4c976c4613aa59c06ae3741a73f623827a8b828e63384d32006168de89e0820c"
-    },
-    {
-      "file": "ko512-parts/part06.glb",
-      "bytes": 79964,
-      "sha256": "9bbec94250e67c1a0c4a3b573900b15c412076f60be007eb0927f852d8e31aa6"
-    },
-    {
-      "file": "letuchka-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "letuchka-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "letuchka-parts/part02.glb",
-      "bytes": 178640,
-      "sha256": "b627cc7f028450828f19a66be986b3d9135e84736c2a961ea09957ce684772d4"
-    },
-    {
-      "file": "letuchka-parts/part03.glb",
-      "bytes": 81680,
-      "sha256": "0a662c892c6b14580b69b8661f70880979dd9074cfcd5e38208a53da5d85b0b8"
-    },
-    {
-      "file": "letuchka-parts/part04.glb",
-      "bytes": 94864,
-      "sha256": "95e31c788c13f72ab57314f353f859f01a5214b1d3f0c77ae9058f49117116bb"
-    },
-    {
-      "file": "letuchka-parts/part05.glb",
-      "bytes": 97936,
-      "sha256": "c4bad3a0548259dbfbe0da4fd5e4810a04cdb7004b4e34520be6b8a4b309a4c5"
-    },
-    {
-      "file": "letuchka-parts/part06.glb",
-      "bytes": 69756,
-      "sha256": "18977c9b406c8b5394f4238aa0011940a2869e7e27f044aa21b4a67c6b4088b0"
-    },
-    {
-      "file": "musorovoz-cad-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "musorovoz-cad-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "musorovoz-cad-parts/part02.glb",
-      "bytes": 81300,
-      "sha256": "f047dda80330d5ed3cc85f2703eb026560f220b49573ad3e3bd10e44dbf189ad"
-    },
-    {
-      "file": "musorovoz-cad-parts/part03.glb",
-      "bytes": 53020,
-      "sha256": "da5e35df263710b8b9d1b58b024c8f3144d0931f65a3d3640da44d3b0bdb1e9c"
-    },
-    {
-      "file": "musorovoz-cad-parts/part04.glb",
-      "bytes": 29888,
-      "sha256": "83c1bb39b57f5c470ee7513ee1711f15ad57f2e2edcb49d2803db9185a7329a6"
-    },
-    {
-      "file": "musorovoz-cad-parts/part05.glb",
-      "bytes": 23156,
-      "sha256": "5eaae140b4c2058178e51f079f2a258e4796352b2ed6fec144f116e564517d3a"
-    },
-    {
-      "file": "musorovoz-cad-parts/part06.glb",
-      "bytes": 65124,
-      "sha256": "beca7061c44f0e9d34c4a40040a9f50c3af1e103aef5adf221fa59ef73ea886b"
-    },
-    {
-      "file": "musorovoz-cad-parts/part07.glb",
-      "bytes": 68820,
-      "sha256": "b6ecc98a73b22c790c10109fe4842966d6a04d77a4f497eb257f7556421da163"
+      "bytes": 1110428,
+      "sha256": "f0c718f898fb1b3f76b91516cb06e31650755d1ce2f700737b22443eac8fb6a2"
     },
     {
       "file": "package.json",
-      "bytes": 560,
-      "sha256": "a72f2855803550f3605a6babcade3ab6bbdaa4bd238059dfdb90ec7ba9a3424a"
-    },
-    {
-      "file": "polivomoika-parts/part00.glb",
-      "bytes": 1110844,
-      "sha256": "af7977b1f056acb2ad298cf4f57502a56414b82c3051f6b991b74bfa1cc9f132"
-    },
-    {
-      "file": "polivomoika-parts/part01.glb",
-      "bytes": 3002364,
-      "sha256": "9f9e6e8d5dc5b6bd11b524d4444860055e7846ca15cdc93e5f77096cb6b1a1cf"
-    },
-    {
-      "file": "polivomoika-parts/part02.glb",
-      "bytes": 204464,
-      "sha256": "1a2b9540504fd103b994d68ab779fc3371eefddd0b217b3f3b888314d9dbd3d6"
-    },
-    {
-      "file": "polivomoika-parts/part03.glb",
-      "bytes": 83996,
-      "sha256": "e26bd1b114914cc5f8c7cc618ba6507c2c07d2f01d2842d70d6ce35cd67e0ed7"
-    },
-    {
-      "file": "polivomoika-parts/part04.glb",
-      "bytes": 123748,
-      "sha256": "73b30e047734d1dbe690c26dcea9ac20d3469c290bd2fa03e9076cbd49c51865"
-    },
-    {
-      "file": "polivomoika-parts/part05.glb",
-      "bytes": 137196,
-      "sha256": "7511f3f14d1be1dda5ad401816380623724d61cdcc34556d708569317b791b10"
-    },
-    {
-      "file": "polivomoika-parts/part06.glb",
-      "bytes": 57508,
-      "sha256": "6b02611ea944711c415eca0c380d777da56728fdf39f537880f50bac822673a0"
+      "bytes": 433,
+      "sha256": "b0b769806bf63c07c09d4af9c477fee77bfaf787e1539ed5ad92e5ad065e3d5d"
     },
     {
       "file": "reports/asset-release-browser.json",
-      "bytes": 20740,
-      "sha256": "82551d81072916a9780c9435ae22b2c5921085a39e482c5c886f4b995221aaef"
+      "bytes": 20778,
+      "sha256": "a140e8495bb886cc60b146083a9695b4cb671e7d330b14a1836c21619a37dcdd"
     },
     {
       "file": "reports/asset-release-builds.json",
-      "bytes": 704,
-      "sha256": "e324ab10d4bab6d80798e1178b134c71f92e5a7c02b05bb7933da7712236642d"
+      "bytes": 727,
+      "sha256": "c462c4094f1ceaaa4487d96bfd3597fa1ccaded42988aa9a10cf9628988b37fc"
     },
     {
-      "file": "traktor-parts/part00.glb",
-      "bytes": 2614304,
-      "sha256": "483cffe016717aa898162632430c4a28c900821d7c0d90fcc29b82c7274b5236"
-    },
-    {
-      "file": "traktor-parts/part01.glb",
-      "bytes": 426072,
-      "sha256": "51ef872ba3b7daedfa40c915d8f9d7e7fc2d337f323b3096549263067c5910f1"
-    },
-    {
-      "file": "traktor-parts/part02.glb",
-      "bytes": 616500,
-      "sha256": "ad50808f8b73174d83f4389f112e5e81c8cdd2384ed94f714d58ba0a8e83a64a"
-    },
-    {
-      "file": "traktor-parts/part03.glb",
-      "bytes": 51148,
-      "sha256": "05f5d773dee20b499e3b5f199315f89131daabd15cd9d1486e8abed6df53f2cf"
-    },
-    {
-      "file": "traktor-parts/part04.glb",
-      "bytes": 156756,
-      "sha256": "502fc3f036282b0c68f06faf90f310575e51a183d3189c4bb0439c238d8c9397"
-    },
-    {
-      "file": "traktor-parts/part05.glb",
-      "bytes": 159232,
-      "sha256": "17f9faa0564d2d9db6d2fe07130c58d69b5174427215057123caec6552e75b55"
-    },
-    {
-      "file": "traktor-parts/part06.glb",
-      "bytes": 216520,
-      "sha256": "c22c9b6b635d3de60f8504322efcef018ddde5a052fe4e29bc2cef0042995914"
-    },
-    {
-      "file": "traktor-parts/part07.glb",
-      "bytes": 22544,
-      "sha256": "58bee545cb0e262d1a7863dfc3f1672544ae5f67f3a0e810917068215ea68589"
+      "file": "reports/dictionary-removal.json",
+      "bytes": 11486,
+      "sha256": "31681b7d1afa478082c4988fb645699b4c0fcf301281992ee476754cfe1112d2"
     }
   ]
 }

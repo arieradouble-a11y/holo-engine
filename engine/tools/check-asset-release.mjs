@@ -5,7 +5,7 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 import puppeteer from 'puppeteer-core';
 import {fork} from 'node:child_process';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
-const museum=JSON.parse(fs.readFileSync(path.join(root,'examples/mediashtab/golomuzey/museum-glossary-index.json')));
+const museum=fs.readdirSync(path.join(root,'examples/mediashtab/golomuzey')).filter(file=>file.endsWith('(голограмма).html')).map(file=>({file}));
 const houses=JSON.parse(fs.readFileSync(path.join(root,'examples/house-detail/houses/catalog.json')));
 const browser=await puppeteer.launch({executablePath:process.env.CHROME||'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--allow-file-access-from-files','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
 fs.mkdirSync(path.join(root,'reports/local'),{recursive:true});
@@ -40,11 +40,11 @@ try {
   await page.evaluate(()=>[...document.querySelectorAll('.dapp')].find(e=>/Каталог/.test(e.textContent))?.click());
   await page.waitForFunction('document.querySelectorAll(".item").length===60');
   const cards=await page.evaluate(()=>document.querySelectorAll('.item').length);
-  await page.goto(base+'/metavselennaya/#glossary?q=КНС');
-  await page.waitForSelector('#glossary-query');
-  const dictionary=await page.$eval('#glossary-results',e=>e.textContent.includes('Канализационная насосная станция'));
-  rows.push({kind:'web-integration',pass:cards===60&&dictionary&&!errors.length&&!missing.length,cards,dictionary,errors,missing});
-  await page.screenshot({path:path.join(root,'reports/local/glossary.png')});
+  const dictionaryReferences=await page.evaluate(()=>/glossary|словар/i.test(document.documentElement.outerHTML));
+  await page.goto(base+'/golomuzey/'+encodeURIComponent(museum[0].file));
+  await page.waitForFunction('window.__holo?.progress > .99',{timeout:45000});
+  rows.push({kind:'web-integration',pass:cards===60&&!dictionaryReferences&&!errors.length&&!missing.length,cards,dictionaryReferences,modelLoaded:true,errors,missing});
+  await page.screenshot({path:path.join(root,'reports/local/museum.png')});
 } finally {
   server.kill();
   await browser.close();
